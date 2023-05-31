@@ -22,6 +22,7 @@ import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";
 import withModulesManager from "../../helpers/modules";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
+import DetailsTable from "./DetailsTable";
 
 const styles = (theme) => ({
   table: theme.table,
@@ -260,42 +261,43 @@ class Table extends Component {
             {items &&
               items.length > 0 &&
               items.map((i, iidx) => (
-                <TableRow
-                  key={iidx}
-                  selected={this.isSelected(i)}
-                  onClick={() => this.select(i)}
-                  onDoubleClick={onDoubleClick ? () => onDoubleClick(i) : undefined}
-                  className={clsx(
-                    classes.tableRow,
-                    !!rowLocked && rowLocked(i) ? classes.tableLockedRow : null,
-                    !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedRow : null,
-                    !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltRow : null,
-                    !!rowDisabled && rowDisabled(i) ? classes.tableDisabledRow : null,
-                    !!onDoubleClick && classes.clickable,
-                  )}
-                >
-                  {localItemFormatters &&
-                    localItemFormatters.map((f, fidx) => {
-                      if (colSpans.length > fidx && !colSpans[fidx]) return null;
-                      return (
-                        <TableCell
-                          colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
-                          className={clsx(
-                            !!rowLocked && rowLocked(i) ? classes.tableLockedCell : null,
-                            !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null,
-                            !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null,
-                            !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null,
-                            aligns.length > fidx && classes[aligns[fidx]],
-                          )}
-                          key={`v-${iidx}-${fidx}`}
-                        >
-                          {f(i, iidx)}
-                        </TableCell>
-                      );
-                    })}
-                </TableRow>
+                    <TableRow
+                      key={iidx}
+                      selected={this.isSelected(i)}
+                      onClick={() => this.select(i)}
+                      onDoubleClick={onDoubleClick ? () => onDoubleClick(i) : undefined}
+                      className={clsx(
+                        classes.tableRow,
+                        !!rowLocked && rowLocked(i) ? classes.tableLockedRow : null,
+                        !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedRow : null,
+                        !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltRow : null,
+                        !!rowDisabled && rowDisabled(i) ? classes.tableDisabledRow : null,
+                        !!onDoubleClick && classes.clickable,
+                      )}
+                    >
+                      {localItemFormatters &&
+                        localItemFormatters.map((f, fidx) => {
+                          if (colSpans.length > fidx && !colSpans[fidx]) return null;
+                          return (
+                            <TableCell
+                              colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
+                              className={clsx(
+                                !!rowLocked && rowLocked(i) ? classes.tableLockedCell : null,
+                                !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null,
+                                !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null,
+                                !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null,
+                                aligns.length > fidx && classes[aligns[fidx]],
+                              )}
+                              key={`v-${iidx}-${fidx}`}
+                            >
+                              {f(i, iidx)}
+                            </TableCell>
+                          );
+                        })}
+                    </TableRow>
               ))}
           </TableBody>
+
           {!!withPagination && !!count && (
             <TableFooter className={classes.tableFooter}>
               <TableRow>
