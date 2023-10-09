@@ -18,6 +18,7 @@ import PagedDataHandler from "./components/generics/PagedDataHandler";
 import SelectInput from "./components/inputs/SelectInput";
 import TextInput from "./components/inputs/TextInput";
 import ValidatedTextInput from "./components/inputs/ValidatedTextInput";
+import ValidatedTextAreaInput from "./components/inputs/ValidatedTextAreaInput";
 import TextAreaInput from "./components/inputs/TextAreaInput";
 import AmountInput from "./components/inputs/AmountInput";
 import NumberInput from "./components/inputs/NumberInput";
@@ -27,6 +28,8 @@ import ProgressOrError from "./components/generics/ProgressOrError";
 import ProxyPage from "./components/generics/ProxyPage";
 import PublishedComponent from "./components/generics/PublishedComponent";
 import Table from "./components/generics/Table";
+import TableService from "./components/generics/TableService";
+import TableServiceReview from "./components/generics/TableServiceReview";
 import SearcherExport from "./components/generics/SearcherExport";
 import Searcher from "./components/generics/Searcher";
 import SearcherPane from "./components/generics/SearcherPane";
@@ -225,6 +228,7 @@ export {
   SelectInput,
   TextInput,
   ValidatedTextInput,
+  ValidatedTextAreaInput,
   TextAreaInput,
   AmountInput,
   FakeInput,
@@ -242,6 +246,8 @@ export {
   ProxyPage,
   PublishedComponent,
   Table,
+  TableService,
+  TableServiceReview,
   SearcherExport,
   Searcher,
   SearcherPane,
