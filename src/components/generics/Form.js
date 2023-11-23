@@ -45,7 +45,11 @@ class Form extends Component {
   };
 
   save = (data) => {
-    this.setState({ saving: true }, this.props.save(data));
+    let savingprops = this.props?.saving
+    if(savingprops === null || savingprops == false ){
+      savingprops = false
+    }
+    this.setState({ saving: savingprops == false ? savingprops  : true  }, this.props.save(data));
   };
 
   render() {
@@ -156,7 +160,7 @@ class Form extends Component {
           )}
         </form>
         {!this.state.dirty &&
-          !!add && !save && 
+          !!add && !save &&
           withTooltip(
             <div className={classes.fab}>
               <Fab color="primary" onClick={add}>
