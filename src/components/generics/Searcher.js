@@ -249,7 +249,13 @@ class Searcher extends Component {
         filters[filter.id] = { value: filter.value, filter: filter.filter };
       }
     });
-    this.setState({ filters }, (e) => this.applyFilters());
+    if(this.props.canFetch == false ){
+    this.setState({ filters });
+    }
+    else if(this.props.canFetch == undefined || this.state.canFetch == true ){
+      this.setState({ filters }, (e) => this.applyFilters())
+    }
+
   };
 
   _cacheAndApply = () => {
