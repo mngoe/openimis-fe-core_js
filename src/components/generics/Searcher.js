@@ -191,6 +191,7 @@ class Searcher extends Component {
     selectAll: 0,
     clearAll: 0,
     menuAnchor: null,
+    enter: false
   };
 
   componentDidMount() {
@@ -257,6 +258,16 @@ class Searcher extends Component {
     }
 
   };
+
+  handleEnter = (event) =>{
+    if (event.key == "Enter"){
+      this.setState(() =>({ 
+        enter:true
+      }),
+      
+      () => this.applyFilters())
+    }
+  }
 
   _cacheAndApply = () => {
     var filters = this.filtersToQueryParams();
@@ -431,6 +442,7 @@ class Searcher extends Component {
                 onChangeFilters={this.onChangeFilters}
                 FilterExt={FilterExt}
                 filterPaneContributionsKey={filterPaneContributionsKey}
+                handleEnter={this.handleEnter}
               />
             }
           />
