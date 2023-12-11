@@ -261,11 +261,8 @@ class Searcher extends Component {
 
   handleEnter = (event) =>{
     if (event.key == "Enter"){
-      this.setState(() =>({ 
-        enter:true
-      }),
-      
-      () => this.applyFilters())
+      let filters = { ...this.state.filters };
+      this.setState({ filters }, (e) => this.applyFilters())
     }
   }
 
