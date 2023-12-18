@@ -39,6 +39,7 @@ import Picker from "./components/generics/Picker";
 import ConstantBasedPicker from "./components/generics/ConstantBasedPicker";
 import YearPicker from "./pickers/YearPicker";
 import MonthPicker from "./pickers/MonthPicker";
+import MonthYearPicker from "./pickers/MonthYearPicker"
 import LanguagePicker from "./pickers/LanguagePicker";
 import Helmet from "./helpers/Helmet";
 import AccountBox from "@material-ui/icons/AccountBox";
@@ -129,6 +130,7 @@ const DEFAULT_CONFIG = {
     { key: "core.KeepLegacyAlive.pollInterval", ref: 300000 },
     { key: "core.YearPicker", ref: YearPicker },
     { key: "core.MonthPicker", ref: MonthPicker },
+    { key: "core.MonthYearPicker", ref: MonthYearPicker},
     { key: "core.LanguagePicker", ref: LanguagePicker },
     { key: "core.route.role", ref: ROUTE_ROLE },
   ],
@@ -234,6 +236,7 @@ export {
   FakeInput,
   YearPicker,
   MonthPicker,
+  MonthYearPicker,
   LanguagePicker,
   PagedDataHandler,
   Form,
