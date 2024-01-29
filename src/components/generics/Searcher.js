@@ -498,7 +498,7 @@ class Searcher extends Component {
                     onDoubleClick={onDoubleClick}
                     page={this.state.page}
                     pageSize={this.state.pageSize}
-                    count={!!itemsPageInfo.totalCount ? itemsPageInfo.totalCount : 1000000}
+                    count={itemsPageInfo.totalCount}
                     onChangePage={this.onChangePage}
                     rowsPerPageOptions={rowsPerPageOptions}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}
