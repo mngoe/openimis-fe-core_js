@@ -191,6 +191,7 @@ class Searcher extends Component {
     selectAll: 0,
     clearAll: 0,
     menuAnchor: null,
+    enter: false
   };
 
   componentDidMount() {
@@ -249,8 +250,20 @@ class Searcher extends Component {
         filters[filter.id] = { value: filter.value, filter: filter.filter };
       }
     });
-    this.setState({ filters }, (e) => this.applyFilters());
+    if (this.props.canFetch == false) {
+      this.setState({ filters });
+    }
+    else if (this.props.canFetch == undefined || this.state.canFetch == true) {
+      this.setState({ filters }, (e) => this.applyFilters())
+    }
   };
+
+  handleEnter = (event) => {
+    if (event.key == "Enter") {
+      let filters = { ...this.state.filters };
+      this.setState({ filters }, (e) => this.applyFilters())
+    }
+  }
 
   _cacheAndApply = () => {
     var filters = this.filtersToQueryParams();
@@ -425,6 +438,7 @@ class Searcher extends Component {
                 onChangeFilters={this.onChangeFilters}
                 FilterExt={FilterExt}
                 filterPaneContributionsKey={filterPaneContributionsKey}
+                handleEnter={this.handleEnter}
               />
             }
           />
