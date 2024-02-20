@@ -169,7 +169,7 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2 || (this.props.exportable && entries.length>=1)) {
+    if (entries.length > 2 || (this.props.exportable && entries.length >= 1)) {
       return this.renderMenu(entries, actionsContributionKey);
     } else {
       return this.renderButtons(entries, actionsContributionKey);
@@ -191,6 +191,7 @@ class Searcher extends Component {
     selectAll: 0,
     clearAll: 0,
     menuAnchor: null,
+    enter: false
   };
 
   componentDidMount() {
@@ -249,8 +250,20 @@ class Searcher extends Component {
         filters[filter.id] = { value: filter.value, filter: filter.filter };
       }
     });
-    this.setState({ filters }, (e) => this.applyFilters());
+    if (this.props.canFetch == false) {
+      this.setState({ filters });
+    }
+    else if (this.props.canFetch == undefined || this.state.canFetch == true) {
+      this.setState({ filters }, (e) => this.applyFilters())
+    }
   };
+
+  handleEnter = (event) => {
+    if (event.key == "Enter") {
+      let filters = { ...this.state.filters };
+      this.setState({ filters }, (e) => this.applyFilters())
+    }
+  }
 
   _cacheAndApply = () => {
     var filters = this.filtersToQueryParams();
@@ -359,13 +372,13 @@ class Searcher extends Component {
       return this.props.sorts(filters).map((s) =>
         !!s
           ? [
-              () =>
-                this.setState(
-                  (state, props) => ({ orderBy: sort(state.orderBy, s[0], s[1]) }),
-                  (e) => this.props.fetch(this.filtersToQueryParams())
-                ),
-              () => formatSorter(this.state.orderBy, s[0], s[1]),
-            ]
+            () =>
+              this.setState(
+                (state, props) => ({ orderBy: sort(state.orderBy, s[0], s[1]) }),
+                (e) => this.props.fetch(this.filtersToQueryParams())
+              ),
+            () => formatSorter(this.state.orderBy, s[0], s[1]),
+          ]
           : [null, () => null]
       );
     }
@@ -425,6 +438,7 @@ class Searcher extends Component {
                 onChangeFilters={this.onChangeFilters}
                 FilterExt={FilterExt}
                 filterPaneContributionsKey={filterPaneContributionsKey}
+                handleEnter={this.handleEnter}
               />
             }
           />
