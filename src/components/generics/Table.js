@@ -102,7 +102,12 @@ class Table extends Component {
     if (!!this.props.itemIdentifier) {
       return this.props.itemIdentifier(i);
     } else {
-      return i.uuid;
+      if(i.uuid){
+        return i.uuid;
+      }else{
+        return i.lastName
+      }
+      
     }
   };
 
