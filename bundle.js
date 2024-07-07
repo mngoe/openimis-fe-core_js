@@ -11,12 +11,12 @@ var reactRedux = require('react-redux');
 var reactIntl = require('react-intl');
 var reactRouterDom = require('react-router-dom');
 var core = require('@material-ui/core');
-var styles$v = require('@material-ui/core/styles');
+var styles$w = require('@material-ui/core/styles');
 var _classCallCheck = require('@babel/runtime/helpers/classCallCheck');
 var _createClass = require('@babel/runtime/helpers/createClass');
-var _inherits = require('@babel/runtime/helpers/inherits');
 var _possibleConstructorReturn = require('@babel/runtime/helpers/possibleConstructorReturn');
 var _getPrototypeOf = require('@babel/runtime/helpers/getPrototypeOf');
+var _inherits = require('@babel/runtime/helpers/inherits');
 var PropTypes = require('prop-types');
 var _Helmet = require('react-helmet');
 var withWidth = require('@material-ui/core/withWidth');
@@ -36,7 +36,6 @@ var NepaliDate = require('nepali-date-converter');
 var feCore = require('@openimis/fe-core');
 var clsx = require('clsx');
 var MenuIcon = require('@material-ui/icons/Menu');
-var _assertThisInitialized = require('@babel/runtime/helpers/assertThisInitialized');
 var redux = require('redux');
 var ChevronLeftIcon = require('@material-ui/icons/ChevronLeft');
 var ChevronRightIcon = require('@material-ui/icons/ChevronRight');
@@ -44,18 +43,15 @@ var MoreIcon = require('@material-ui/icons/KeyboardArrowDown');
 var CheckIcon = require('@material-ui/icons/CheckCircleOutline');
 var ErrorIcon = require('@material-ui/icons/ErrorOutline');
 var FormControlLabel = require('@material-ui/core/FormControlLabel');
-var ArrowBackIcon = require('@material-ui/icons/ArrowBack');
+var withStyles = require('@material-ui/core/styles/withStyles');
 var ArrowDropDownIcon = require('@material-ui/icons/ArrowDropDown');
 var ArrowRightIcon = require('@material-ui/icons/ArrowRight');
-var styles$w = require('@material-ui/styles');
-var zxcvbn = require('zxcvbn');
-var VisibilityIcon = require('@material-ui/icons/Visibility');
-var VisibilityOffIcon = require('@material-ui/icons/VisibilityOff');
-var ClearIcon = require('@material-ui/icons/Clear');
+var styles$x = require('@material-ui/styles');
+var ArrowBackIcon = require('@material-ui/icons/ArrowBack');
 var Autosuggest = require('react-autosuggest');
+var ClearIcon = require('@material-ui/icons/Clear');
 var SearchIcon = require('@material-ui/icons/Search');
 var lab = require('@material-ui/lab');
-var withStyles = require('@material-ui/core/styles/withStyles');
 var AddIcon = require('@material-ui/icons/Add');
 var SaveIcon = require('@material-ui/icons/SaveAlt');
 var CheckOutlinedIcon = require('@material-ui/icons/CheckOutlined');
@@ -116,9 +112,9 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var React__namespace = /*#__PURE__*/_interopNamespace(React);
 var _classCallCheck__default = /*#__PURE__*/_interopDefaultLegacy(_classCallCheck);
 var _createClass__default = /*#__PURE__*/_interopDefaultLegacy(_createClass);
-var _inherits__default = /*#__PURE__*/_interopDefaultLegacy(_inherits);
 var _possibleConstructorReturn__default = /*#__PURE__*/_interopDefaultLegacy(_possibleConstructorReturn);
 var _getPrototypeOf__default = /*#__PURE__*/_interopDefaultLegacy(_getPrototypeOf);
+var _inherits__default = /*#__PURE__*/_interopDefaultLegacy(_inherits);
 var PropTypes__default = /*#__PURE__*/_interopDefaultLegacy(PropTypes);
 var _Helmet__default = /*#__PURE__*/_interopDefaultLegacy(_Helmet);
 var withWidth__default = /*#__PURE__*/_interopDefaultLegacy(withWidth);
@@ -134,23 +130,19 @@ var _toConsumableArray__default = /*#__PURE__*/_interopDefaultLegacy(_toConsumab
 var NepaliDate__default = /*#__PURE__*/_interopDefaultLegacy(NepaliDate);
 var clsx__default = /*#__PURE__*/_interopDefaultLegacy(clsx);
 var MenuIcon__default = /*#__PURE__*/_interopDefaultLegacy(MenuIcon);
-var _assertThisInitialized__default = /*#__PURE__*/_interopDefaultLegacy(_assertThisInitialized);
 var ChevronLeftIcon__default = /*#__PURE__*/_interopDefaultLegacy(ChevronLeftIcon);
 var ChevronRightIcon__default = /*#__PURE__*/_interopDefaultLegacy(ChevronRightIcon);
 var MoreIcon__default = /*#__PURE__*/_interopDefaultLegacy(MoreIcon);
 var CheckIcon__default = /*#__PURE__*/_interopDefaultLegacy(CheckIcon);
 var ErrorIcon__default = /*#__PURE__*/_interopDefaultLegacy(ErrorIcon);
 var FormControlLabel__default = /*#__PURE__*/_interopDefaultLegacy(FormControlLabel);
-var ArrowBackIcon__default = /*#__PURE__*/_interopDefaultLegacy(ArrowBackIcon);
+var withStyles__default = /*#__PURE__*/_interopDefaultLegacy(withStyles);
 var ArrowDropDownIcon__default = /*#__PURE__*/_interopDefaultLegacy(ArrowDropDownIcon);
 var ArrowRightIcon__default = /*#__PURE__*/_interopDefaultLegacy(ArrowRightIcon);
-var zxcvbn__default = /*#__PURE__*/_interopDefaultLegacy(zxcvbn);
-var VisibilityIcon__default = /*#__PURE__*/_interopDefaultLegacy(VisibilityIcon);
-var VisibilityOffIcon__default = /*#__PURE__*/_interopDefaultLegacy(VisibilityOffIcon);
-var ClearIcon__default = /*#__PURE__*/_interopDefaultLegacy(ClearIcon);
+var ArrowBackIcon__default = /*#__PURE__*/_interopDefaultLegacy(ArrowBackIcon);
 var Autosuggest__default = /*#__PURE__*/_interopDefaultLegacy(Autosuggest);
+var ClearIcon__default = /*#__PURE__*/_interopDefaultLegacy(ClearIcon);
 var SearchIcon__default = /*#__PURE__*/_interopDefaultLegacy(SearchIcon);
-var withStyles__default = /*#__PURE__*/_interopDefaultLegacy(withStyles);
 var AddIcon__default = /*#__PURE__*/_interopDefaultLegacy(AddIcon);
 var SaveIcon__default = /*#__PURE__*/_interopDefaultLegacy(SaveIcon);
 var CheckOutlinedIcon__default = /*#__PURE__*/_interopDefaultLegacy(CheckOutlinedIcon);
@@ -182,8 +174,8 @@ var ArrowForwardIcon__default = /*#__PURE__*/_interopDefaultLegacy(ArrowForwardI
 var DoubleArrowIcon__default = /*#__PURE__*/_interopDefaultLegacy(DoubleArrowIcon);
 var _typeof__default = /*#__PURE__*/_interopDefaultLegacy(_typeof);
 
-function _createSuper$B(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$B(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$B() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$B(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$B() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$B() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$B = function _isNativeReflectConstruct() { return !!t; })(); }
 var modulesManagerCtx = /*#__PURE__*/React__default["default"].createContext(null);
 // Since we can't reach the frontend package we have to rely on the old context API to get
 // the modules manager and propagate it using the new API
@@ -193,15 +185,14 @@ var useModulesManager = function useModulesManager() {
   return value;
 };
 function withModulesManager(C) {
-  var _class;
-  return _class = /*#__PURE__*/function (_Component) {
-    _inherits__default["default"](ManagedComponent, _Component);
-    var _super = _createSuper$B(ManagedComponent);
+  var _ManagedComponent;
+  return _ManagedComponent = /*#__PURE__*/function (_Component) {
     function ManagedComponent() {
       _classCallCheck__default["default"](this, ManagedComponent);
-      return _super.apply(this, arguments);
+      return _callSuper$B(this, ManagedComponent, arguments);
     }
-    _createClass__default["default"](ManagedComponent, [{
+    _inherits__default["default"](ManagedComponent, _Component);
+    return _createClass__default["default"](ManagedComponent, [{
       key: "render",
       value: function render() {
         var modulesManager = this.context.modulesManager;
@@ -210,10 +201,9 @@ function withModulesManager(C) {
         }));
       }
     }]);
-    return ManagedComponent;
-  }(React.Component), _defineProperty__default["default"](_class, "contextTypes", {
+  }(React.Component), _defineProperty__default["default"](_ManagedComponent, "contextTypes", {
     modulesManager: PropTypes__default["default"].object.isRequired
-  }), _class;
+  }), _ManagedComponent;
 }
 
 function withHistory(C) {
@@ -332,8 +322,8 @@ var DEFAULT = {
   IS_WORKER: false
 };
 
-function ownKeys$p(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$p(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$p(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$p(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$p(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$p(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$p(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$p(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _entityAndFilters(entity, filters) {
   return "".concat(entity).concat(!!filters && filters.length ? "(".concat(filters.join(","), ")") : "");
 }
@@ -470,8 +460,8 @@ function formatSorter(orderBy, attr, asc) {
   }
 }
 
-function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$o(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$o(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$o(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$o(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$o(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var ROLE_FULL_PROJECTION = function ROLE_FULL_PROJECTION() {
   return ["id", "uuid", "name", "altLanguage", "isSystem", "isBlocked", "validityFrom", "validityTo"];
 };
@@ -673,7 +663,7 @@ function prepareMutation(operation, input) {
 function waitForMutation(clientMutationId) {
   return /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3(dispatch) {
-      var attempts, res, _response$payload$dat, _response$payload$dat2, response;
+      var attempts, res, _response$payload$dat, response;
       return _regeneratorRuntime__default["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
@@ -700,7 +690,7 @@ function waitForMutation(clientMutationId) {
             }
             return _context3.abrupt("return", null);
           case 9:
-            res = (_response$payload$dat = response.payload.data.mutationLogs) === null || _response$payload$dat === void 0 ? void 0 : (_response$payload$dat2 = _response$payload$dat.edges[0]) === null || _response$payload$dat2 === void 0 ? void 0 : _response$payload$dat2.node;
+            res = (_response$payload$dat = response.payload.data.mutationLogs) === null || _response$payload$dat === void 0 || (_response$payload$dat = _response$payload$dat.edges[0]) === null || _response$payload$dat === void 0 ? void 0 : _response$payload$dat.node;
           case 10:
             if ((!res || res.status === 0) && attempts++ < 10) {
               _context3.next = 1;
@@ -753,7 +743,7 @@ function graphqlMutation(mutation, variables) {
             }
             return _context4.abrupt("return", dispatch(waitForMutation(clientMutationId)));
           case 9:
-            return _context4.abrupt("return", response === null || response === void 0 ? void 0 : (_response$payload = response.payload) === null || _response$payload === void 0 ? void 0 : _response$payload.data);
+            return _context4.abrupt("return", response === null || response === void 0 || (_response$payload = response.payload) === null || _response$payload === void 0 ? void 0 : _response$payload.data);
           case 10:
             return _context4.abrupt("return", response);
           case 11:
@@ -799,7 +789,7 @@ function loadUser() {
 function login(credentials) {
   return /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee6(dispatch) {
-      var mutation, csrfToken, _response$payload2, _response$payload2$er, _action$payload$respo, _action$payload, _action$payload$respo2, response, errorMessage, action, _action$payload$respo3, _action$payload2, _action$payload2$resp, _action;
+      var mutation, csrfToken, _response$payload2, _action$payload$respo, _action$payload, response, errorMessage, action, _action$payload$respo2, _action$payload2, _action;
       return _regeneratorRuntime__default["default"].wrap(function _callee6$(_context6) {
         while (1) switch (_context6.prev = _context6.next) {
           case 0:
@@ -816,7 +806,7 @@ function login(credentials) {
             }));
           case 6:
             response = _context6.sent;
-            if (!(((_response$payload2 = response.payload) === null || _response$payload2 === void 0 ? void 0 : (_response$payload2$er = _response$payload2.errors) === null || _response$payload2$er === void 0 ? void 0 : _response$payload2$er.length) > 0)) {
+            if (!(((_response$payload2 = response.payload) === null || _response$payload2 === void 0 || (_response$payload2 = _response$payload2.errors) === null || _response$payload2 === void 0 ? void 0 : _response$payload2.length) > 0)) {
               _context6.next = 11;
               break;
             }
@@ -835,7 +825,7 @@ function login(credentials) {
             action = _context6.sent;
             return _context6.abrupt("return", {
               loginStatus: action.type,
-              message: (_action$payload$respo = action === null || action === void 0 ? void 0 : (_action$payload = action.payload) === null || _action$payload === void 0 ? void 0 : (_action$payload$respo2 = _action$payload.response) === null || _action$payload$respo2 === void 0 ? void 0 : _action$payload$respo2.detail) !== null && _action$payload$respo !== void 0 ? _action$payload$respo : ""
+              message: (_action$payload$respo = action === null || action === void 0 || (_action$payload = action.payload) === null || _action$payload === void 0 || (_action$payload = _action$payload.response) === null || _action$payload === void 0 ? void 0 : _action$payload.detail) !== null && _action$payload$respo !== void 0 ? _action$payload$respo : ""
             });
           case 17:
             _context6.prev = 17;
@@ -860,7 +850,7 @@ function login(credentials) {
             _action = _context6.sent;
             return _context6.abrupt("return", {
               loginStatus: _action.type,
-              message: (_action$payload$respo3 = _action === null || _action === void 0 ? void 0 : (_action$payload2 = _action.payload) === null || _action$payload2 === void 0 ? void 0 : (_action$payload2$resp = _action$payload2.response) === null || _action$payload2$resp === void 0 ? void 0 : _action$payload2$resp.detail) !== null && _action$payload$respo3 !== void 0 ? _action$payload$respo3 : "Error occurred while loading user."
+              message: (_action$payload$respo2 = _action === null || _action === void 0 || (_action$payload2 = _action.payload) === null || _action$payload2 === void 0 || (_action$payload2 = _action$payload2.response) === null || _action$payload2 === void 0 ? void 0 : _action$payload2.detail) !== null && _action$payload$respo2 !== void 0 ? _action$payload$respo2 : "Error occurred while loading user."
             });
           case 29:
           case "end":
@@ -933,12 +923,10 @@ function logout() {
     };
   }();
 }
-function fetchPasswordPolicy() {
-  var payload = "query {\n    passwordPolicy\n  }";
-  return graphql(payload, "PASSWORD_POLICY_FIELDS");
-}
 function fetchMutation(clientMutationId) {
-  var payload = formatPageQuery("mutationLogs", ["clientMutationId: \"".concat(clientMutationId, "\"")], ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime", "jsonExt", "autogeneratedCode"]);
+  var payload = formatPageQuery("mutationLogs", ["clientMutationId: \"".concat(clientMutationId, "\"")], ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime",
+  // "jsonExt",
+  "autogeneratedCode"]);
   return graphql(payload, "CORE_MUTATION");
 }
 function fetchHistoricalMutations(pageSize, afterCursor) {
@@ -947,7 +935,9 @@ function fetchHistoricalMutations(pageSize, afterCursor) {
     filters.push("after: \"".concat(afterCursor, "\""));
   }
   filters.push("orderBy: \"-request_date_time\"");
-  var payload = formatPageQuery("mutationLogs", filters, ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime", "jsonExt"]);
+  var payload = formatPageQuery("mutationLogs", filters, ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime"
+  // "jsonExt",
+  ]);
   return graphql(payload, "CORE_HISTORICAL_MUTATIONS");
 }
 function coreAlert(titleOrObject, message, detail) {
@@ -1091,8 +1081,8 @@ function toggleCurrentCalendarType(isSecondaryCalendarEnabled) {
   };
 }
 
-function ownKeys$n(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$n(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$n(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$n(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$n(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$n(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$n(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$n(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var ensureArray = function ensureArray(maybeArray) {
   if (Array.isArray(maybeArray)) {
     return maybeArray;
@@ -1252,7 +1242,7 @@ function useTranslations(moduleName, modulesManager) {
   };
 }
 
-var useStyles$6 = styles$v.makeStyles(function (theme) {
+var useStyles$6 = styles$w.makeStyles(function (theme) {
   return {
     button: {
       margin: theme.spacing(2),
@@ -1320,7 +1310,7 @@ var LogoutButton = function LogoutButton() {
   }, /*#__PURE__*/React__default["default"].createElement(icons.ExitToApp, null)));
 };
 
-var styles$u = function styles(theme) {
+var styles$v = function styles(theme) {
   return {
     button: {
       margin: theme.spacing(2),
@@ -1345,7 +1335,7 @@ var Help = function Help(_ref) {
     onClick: onClick
   }, /*#__PURE__*/React__default["default"].createElement(icons.HelpOutline, null)));
 };
-var Help$1 = styles$v.withStyles(styles$u)(Help);
+var Help$1 = styles$w.withStyles(styles$v)(Help);
 
 var _excluded$d = ["children", "contributionKey", "reverse"];
 function getComponents(modulesManager, key) {
@@ -1377,16 +1367,15 @@ var Contributions = function Contributions(_ref) {
   }));
 };
 
-function _createSuper$A(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$A(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$A() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$A(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$A() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$A() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$A = function _isNativeReflectConstruct() { return !!t; })(); }
 var FormattedMessage = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](FormattedMessage, _Component);
-  var _super = _createSuper$A(FormattedMessage);
   function FormattedMessage() {
     _classCallCheck__default["default"](this, FormattedMessage);
-    return _super.apply(this, arguments);
+    return _callSuper$A(this, FormattedMessage, arguments);
   }
-  _createClass__default["default"](FormattedMessage, [{
+  _inherits__default["default"](FormattedMessage, _Component);
+  return _createClass__default["default"](FormattedMessage, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -1407,15 +1396,14 @@ var FormattedMessage = /*#__PURE__*/function (_Component) {
       }
     }
   }]);
-  return FormattedMessage;
 }(React.Component);
 var FormattedMessage$1 = reactIntl.injectIntl(FormattedMessage);
 
-function _createSuper$z(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$z(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$z() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$m(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$m(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$m(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var styles$t = function styles(theme) {
+function _callSuper$z(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$z() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$z() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$z = function _isNativeReflectConstruct() { return !!t; })(); }
+function ownKeys$m(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$m(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$m(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$m(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+var styles$u = function styles(theme) {
   return {
     toolbar: {
       minHeight: 80
@@ -1489,20 +1477,18 @@ var styles$t = function styles(theme) {
   };
 };
 var Messages = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Messages, _Component);
-  var _super = _createSuper$z(Messages);
   function Messages() {
     var _this;
     _classCallCheck__default["default"](this, Messages);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$z(this, Messages, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       groupExpanded: false,
       expanded: false
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "handleGroupChange", function (panel) {
+    _defineProperty__default["default"](_this, "handleGroupChange", function (panel) {
       return function (event, newExpanded) {
         event.stopPropagation();
         _this.setState({
@@ -1510,7 +1496,7 @@ var Messages = /*#__PURE__*/function (_Component) {
         });
       };
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "handleChange", function (panel) {
+    _defineProperty__default["default"](_this, "handleChange", function (panel) {
       return function (event, newExpanded) {
         event.stopPropagation();
         _this.setState({
@@ -1518,7 +1504,7 @@ var Messages = /*#__PURE__*/function (_Component) {
         });
       };
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "formatSingleMessage", function (message, idx) {
+    _defineProperty__default["default"](_this, "formatSingleMessage", function (message, idx) {
       if (message.hasOwnProperty("message")) {
         return /*#__PURE__*/React__default["default"].createElement(core.Accordion, {
           key: "message-".concat(idx, "-panel"),
@@ -1546,7 +1532,7 @@ var Messages = /*#__PURE__*/function (_Component) {
         }, JSON.stringify(message));
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "formatMessage", function (message, idx) {
+    _defineProperty__default["default"](_this, "formatMessage", function (message, idx) {
       if (message.hasOwnProperty("title")) {
         return /*#__PURE__*/React__default["default"].createElement(core.Accordion, {
           key: "groupMessage-".concat(idx, "-panel"),
@@ -1575,7 +1561,8 @@ var Messages = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](Messages, [{
+  _inherits__default["default"](Messages, _Component);
+  return _createClass__default["default"](Messages, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -1626,17 +1613,14 @@ var Messages = /*#__PURE__*/function (_Component) {
       }))));
     }
   }]);
-  return Messages;
 }(React.Component);
-var StyledMessages = styles$v.withTheme(styles$v.withStyles(styles$t)(Messages));
+var StyledMessages = styles$w.withTheme(styles$w.withStyles(styles$u)(Messages));
 var JournalDrawer = /*#__PURE__*/function (_Component2) {
-  _inherits__default["default"](JournalDrawer, _Component2);
-  var _super2 = _createSuper$z(JournalDrawer);
   function JournalDrawer(props) {
     var _this3;
     _classCallCheck__default["default"](this, JournalDrawer);
-    _this3 = _super2.call(this, props);
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "checkProcessing", function () {
+    _this3 = _callSuper$z(this, JournalDrawer, [props]);
+    _defineProperty__default["default"](_this3, "checkProcessing", function () {
       var clientMutationIds = _this3.state.displayedMutations.filter(function (m) {
         return m.status === 0;
       }).map(function (m) {
@@ -1647,10 +1631,10 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
         return _this3.props.fetchMutation(id);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "more", function (e) {
+    _defineProperty__default["default"](_this3, "more", function (e) {
       _this3.props.fetchHistoricalMutations(_this3.state.pageSize, _this3.state.afterCursor);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "showMessages", function (e, m) {
+    _defineProperty__default["default"](_this3, "showMessages", function (e, m) {
       if (_this3.props.open) {
         return;
       }
@@ -1659,13 +1643,13 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
         messages: m
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "hideMessages", function (e) {
+    _defineProperty__default["default"](_this3, "hideMessages", function (e) {
       _this3.setState({
         messagesAnchor: null,
         messages: null
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "handleChange", function (event, newExpanded) {
+    _defineProperty__default["default"](_this3, "handleChange", function (event, newExpanded) {
       event.stopPropagation();
       _this3.setState({
         expanded: newExpanded
@@ -1681,7 +1665,8 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
     };
     return _this3;
   }
-  _createClass__default["default"](JournalDrawer, [{
+  _inherits__default["default"](JournalDrawer, _Component2);
+  return _createClass__default["default"](JournalDrawer, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this4 = this;
@@ -1720,9 +1705,7 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
   }, {
     key: "render",
     value: function render() {
-      var _clsx,
-        _clsx2,
-        _this5 = this;
+      var _this5 = this;
       var _this$props2 = this.props,
         theme = _this$props2.theme,
         classes = _this$props2.classes,
@@ -1741,9 +1724,9 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
       }), /*#__PURE__*/React__default["default"].createElement(core.Drawer, {
         variant: "permanent",
         anchor: "right",
-        className: clsx__default["default"](classes.drawer, (_clsx = {}, _defineProperty__default["default"](_clsx, classes.drawerOpen, open), _defineProperty__default["default"](_clsx, classes.drawerClose, !open), _clsx)),
+        className: clsx__default["default"](classes.drawer, _defineProperty__default["default"](_defineProperty__default["default"]({}, classes.drawerOpen, open), classes.drawerClose, !open)),
         classes: {
-          paper: clsx__default["default"]((_clsx2 = {}, _defineProperty__default["default"](_clsx2, classes.drawerOpen, open), _defineProperty__default["default"](_clsx2, classes.drawerClose, !open), _clsx2))
+          paper: clsx__default["default"](_defineProperty__default["default"](_defineProperty__default["default"]({}, classes.drawerOpen, open), classes.drawerClose, !open))
         },
         open: open
       }, /*#__PURE__*/React__default["default"].createElement(core.Grid, {
@@ -1822,9 +1805,8 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
       }, /*#__PURE__*/React__default["default"].createElement(MoreIcon__default["default"], null)))))));
     }
   }]);
-  return JournalDrawer;
 }(React.Component);
-var mapStateToProps$9 = function mapStateToProps(state, props) {
+var mapStateToProps$8 = function mapStateToProps(state, props) {
   return {
     fetchingMutations: state.core.fetchingMutations,
     fetchingHistoricalMutations: state.core.fetchingHistoricalMutations,
@@ -1833,16 +1815,16 @@ var mapStateToProps$9 = function mapStateToProps(state, props) {
     mutationsPageInfo: state.core.mutationsPageInfo
   };
 };
-var mapDispatchToProps$a = function mapDispatchToProps(dispatch) {
+var mapDispatchToProps$9 = function mapDispatchToProps(dispatch) {
   return redux.bindActionCreators({
     fetchMutation: fetchMutation,
     fetchHistoricalMutations: fetchHistoricalMutations
   }, dispatch);
 };
-var JournalDrawer$1 = withModulesManager(styles$v.withTheme(styles$v.withStyles(styles$t)(reactRedux.connect(mapStateToProps$9, mapDispatchToProps$a)(JournalDrawer))));
+var JournalDrawer$1 = withModulesManager(styles$w.withTheme(styles$w.withStyles(styles$u)(reactRedux.connect(mapStateToProps$8, mapDispatchToProps$9)(JournalDrawer))));
 
-function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$l(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$l(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$l(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$l(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$l(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$l(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$l(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var useDebounceCb = function useDebounceCb(cb) {
   var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var _useState = React.useState(),
@@ -2020,7 +2002,7 @@ var useGraphqlMutation = function useGraphqlMutation(operation, config) {
             case 4:
               result = _context2.sent;
               // Handle graphql errors
-              error = result === null || result === void 0 ? void 0 : (_result$error = result.error) === null || _result$error === void 0 ? void 0 : _result$error.map(function (err) {
+              error = result === null || result === void 0 || (_result$error = result.error) === null || _result$error === void 0 ? void 0 : _result$error.map(function (err) {
                 return err.detail;
               }).join("; ");
               if (!error) {
@@ -2147,14 +2129,13 @@ var useBoolean = function useBoolean() {
 };
 
 var _excluded$c = ["children", "logo", "whiteLogo", "redirectTo", "isSecondaryCalendar", "setSecondaryCalendar", "onEconomicDialogOpen"];
-function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$k(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$k(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$k(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$k(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$k(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$k(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 var MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
 var ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY = "policyholder.EconomicUnitChangeButton";
-var useStyles$5 = styles$v.makeStyles(function (theme) {
-  var _drawer, _ref;
-  return _ref = {
+var useStyles$5 = styles$w.makeStyles(function (theme) {
+  return _defineProperty__default["default"](_defineProperty__default["default"](_defineProperty__default["default"](_defineProperty__default["default"]({
     root: {
       display: "flex"
     },
@@ -2208,10 +2189,10 @@ var useStyles$5 = styles$v.makeStyles(function (theme) {
     toolbar: _objectSpread$k(_objectSpread$k({}, theme.mixins.toolbar), {}, {
       marginTop: theme.spacing(2)
     }),
-    drawer: (_drawer = {}, _defineProperty__default["default"](_drawer, theme.breakpoints.up("sm"), {
+    drawer: _defineProperty__default["default"](_defineProperty__default["default"]({}, theme.breakpoints.up("sm"), {
       width: theme.menu.drawer.width,
       flexShrink: 0
-    }), _defineProperty__default["default"](_drawer, "backgroundColor", theme.menu.drawer.backgroundColor), _drawer),
+    }), "backgroundColor", theme.menu.drawer.backgroundColor),
     drawerHeader: _objectSpread$k(_objectSpread$k({}, theme.mixins.toolbar), {}, {
       margin: theme.spacing(1, 0, 1, 0),
       backgroundColor: theme.menu.drawer.backgroundColor
@@ -2254,9 +2235,9 @@ var useStyles$5 = styles$v.makeStyles(function (theme) {
     search: _defineProperty__default["default"]({
       position: "relative",
       borderRadius: theme.shape.borderRadius,
-      backgroundColor: styles$v.alpha(theme.palette.common.white, 0.15),
+      backgroundColor: styles$w.alpha(theme.palette.common.white, 0.15),
       "&:hover": {
-        backgroundColor: styles$v.alpha(theme.palette.common.white, 0.25)
+        backgroundColor: styles$w.alpha(theme.palette.common.white, 0.25)
       },
       marginLeft: 0,
       width: "100%"
@@ -2287,22 +2268,22 @@ var useStyles$5 = styles$v.makeStyles(function (theme) {
         width: 200
       }
     })
-  }, _defineProperty__default["default"](_ref, "drawer", _objectSpread$k(_objectSpread$k({}, theme.mixins.toolbar), {}, {
+  }, "drawer", _objectSpread$k(_objectSpread$k({}, theme.mixins.toolbar), {}, {
     width: theme.menu.drawer.width,
     flexShrink: 0
-  })), _defineProperty__default["default"](_ref, "drawerPaper", {
+  })), "drawerPaper", {
     width: theme.menu.drawer.width,
     backgroundColor: theme.menu.drawer.backgroundColor
-  }), _defineProperty__default["default"](_ref, "drawerContainer", {
+  }), "drawerContainer", {
     overflow: 'auto'
-  }), _defineProperty__default["default"](_ref, "contentShiftLeftSideMenu", {
+  }), "contentShiftLeftSideMenu", {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: theme.menu.drawer.width,
     marginRight: theme.jrnlDrawer.close.width
-  }), _ref;
+  });
 });
 var RequireAuth = function RequireAuth(props) {
   var _cfg$openimisFeCore;
@@ -2322,7 +2303,7 @@ var RequireAuth = function RequireAuth(props) {
     _useBoolean4 = _slicedToArray__default["default"](_useBoolean3, 2),
     isDrawerOpen = _useBoolean4[0],
     setDrawerOpen = _useBoolean4[1];
-  var theme = styles$v.useTheme();
+  var theme = styles$w.useTheme();
   var classes = useStyles$5();
   var history = reactRouter.useHistory();
   var modulesManager = useModulesManager();
@@ -2481,112 +2462,63 @@ var RequireAuth = function RequireAuth(props) {
 };
 var RequireAuth$1 = withWidth__default["default"]()(RequireAuth);
 
-var useStyles$4 = styles$v.makeStyles(function (theme) {
+var styles$t = function styles(theme) {
   return {
-    container: {
-      textAlign: "center",
-      height: "70vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center"
+    fatal: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%,-50%)",
+      borderStyle: "solid",
+      borderWidth: "thin",
+      borderColor: theme.palette.error.secondary,
+      padding: theme.spacing(2)
     },
-    logo: {
-      verticalAlign: "middle",
-      margin: theme.spacing(2),
-      maxHeight: theme.spacing(16)
+    fatalHeader: {
+      color: theme.palette.error.main
     },
-    title: {
-      margin: theme.spacing(2),
-      textTransform: "uppercase",
-      fontWeight: "bold"
-    },
-    description: {
-      margin: theme.spacing(2),
-      fontSize: "18px"
-    },
-    button: {
-      marginTop: theme.spacing(2)
+    fatalDetail: {
+      color: theme.palette.error.main
     }
   };
-});
-var ErrorPage = function ErrorPage(_ref) {
-  var status = _ref.status,
-    title = _ref.title,
-    description = _ref.description,
-    logo = _ref.logo,
-    back = _ref.back;
-  var history = reactRouter.useHistory();
-  var classes = useStyles$4();
+};
+function FatalError(props) {
+  var classes = props.classes,
+    error = props.error;
   return /*#__PURE__*/React__default["default"].createElement("div", {
-    className: classes.container
-  }, logo && /*#__PURE__*/React__default["default"].createElement("img", {
-    className: classes.logo,
-    src: logo,
-    alt: "Logo of openIMIS"
-  }), status && /*#__PURE__*/React__default["default"].createElement(core.Typography, {
-    variant: "h1",
-    className: classes.title
-  }, status), /*#__PURE__*/React__default["default"].createElement(core.Typography, {
-    variant: "h2",
-    className: classes.title
-  }, title), /*#__PURE__*/React__default["default"].createElement(core.Typography, {
+    className: classes.fatal
+  }, /*#__PURE__*/React__default["default"].createElement(core.Typography, {
+    variant: "h6",
+    className: classes.fatalHeader
+  }, error.code, ": ", error.message), !!error.detail && /*#__PURE__*/React__default["default"].createElement(React.Fragment, null, /*#__PURE__*/React__default["default"].createElement(core.Divider, null), /*#__PURE__*/React__default["default"].createElement(core.Typography, {
     variant: "body1",
-    className: classes.description
-  }, description), back && /*#__PURE__*/React__default["default"].createElement(core.Button, {
-    variant: "contained",
-    color: "primary",
-    size: "large",
-    className: classes.button,
-    startIcon: /*#__PURE__*/React__default["default"].createElement(ArrowBackIcon__default["default"], null),
-    onClick: function onClick() {
-      return history.push("/");
-    }
-  }, back));
-};
+    className: classes.fatalCode
+  }, error.detail)));
+}
+var FatalError$1 = withStyles__default["default"](styles$t)(FatalError);
 
-var FatalErrorPage = function FatalErrorPage(props) {
-  var _useTranslations = useTranslations(MODULE_NAME),
-    formatMessage = _useTranslations.formatMessage;
-  var error = props.error;
-  var title, description;
-  if (error && error.code === 429) {
-    title = formatMessage("core.FatalError.RateLimitExceeded.title");
-    description = formatMessage("core.FatalError.RateLimitExceeded.description");
-  } else {
-    title = formatMessage("core.FatalError.GenericError.title");
-    description = error && error.message || formatMessage("core.FatalError.GenericError.description");
-  }
-  return /*#__PURE__*/React__default["default"].createElement(ErrorPage, _extends__default["default"]({
-    status: (error === null || error === void 0 ? void 0 : error.code) || "Unknown",
-    title: title,
-    description: description
-  }, props));
-};
-
-function _createSuper$y(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$y(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$y() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$y(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$y() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$y() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$y = function _isNativeReflectConstruct() { return !!t; })(); }
 var AlertDialog = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](AlertDialog, _Component);
-  var _super = _createSuper$y(AlertDialog);
   function AlertDialog() {
     var _this;
     _classCallCheck__default["default"](this, AlertDialog);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$y(this, AlertDialog, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       expanded: false
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "toggleOpen", function () {
+    _defineProperty__default["default"](_this, "toggleOpen", function () {
       _this.setState({
         expanded: !_this.state.expanded
       });
     });
     return _this;
   }
-  _createClass__default["default"](AlertDialog, [{
+  _inherits__default["default"](AlertDialog, _Component);
+  return _createClass__default["default"](AlertDialog, [{
     key: "render",
     value: function render() {
       var _alert$title, _alert$message;
@@ -2627,9 +2559,8 @@ var AlertDialog = /*#__PURE__*/function (_Component) {
       }, formatMessage(intl, "core", "close"))));
     }
   }]);
-  return AlertDialog;
 }(React.Component);
-var mapDispatchToProps$9 = function mapDispatchToProps(dispatch) {
+var mapDispatchToProps$8 = function mapDispatchToProps(dispatch) {
   return redux.bindActionCreators({
     clearAlert: clearAlert
   }, dispatch);
@@ -2638,7 +2569,7 @@ var AlertDialog$1 = reactIntl.injectIntl(reactRedux.connect(function (state) {
   return {
     alert: state.core.alert
   };
-}, mapDispatchToProps$9)(AlertDialog));
+}, mapDispatchToProps$8)(AlertDialog));
 
 var styles$s = function styles(theme) {
   return {
@@ -2669,11 +2600,11 @@ var ConfirmDialog = function ConfirmDialog(props) {
     className: classes.secondaryButton
   }, formatMessage(intl, "core", "cancel")))));
 };
-var ConfirmDialog$1 = styles$v.withTheme(styles$v.withStyles(styles$s)(reactIntl.injectIntl(ConfirmDialog)));
+var ConfirmDialog$1 = styles$w.withTheme(styles$w.withStyles(styles$s)(reactIntl.injectIntl(ConfirmDialog)));
 
 var _excluded$b = ["intl", "classes", "module", "label", "readOnly", "error", "startAdornment", "endAdornment", "inputProps", "formatInput", "helperText"];
-function _createSuper$x(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$x(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$x() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$x(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$x() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$x() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$x = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$r = function styles(theme) {
   return {
     label: {
@@ -2696,19 +2627,17 @@ var styles$r = function styles(theme) {
   };
 };
 var TextInput = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](TextInput, _Component);
-  var _super = _createSuper$x(TextInput);
   function TextInput() {
     var _this;
     _classCallCheck__default["default"](this, TextInput);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$x(this, TextInput, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       value: ""
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onChange", function (e) {
+    _defineProperty__default["default"](_this, "_onChange", function (e) {
       var value = e.target.value;
       if (_this.props.formatInput) {
         value = _this.props.formatInput(value);
@@ -2723,7 +2652,8 @@ var TextInput = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](TextInput, [{
+  _inherits__default["default"](TextInput, _Component);
+  return _createClass__default["default"](TextInput, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var value = this.props.value;
@@ -2792,12 +2722,11 @@ var TextInput = /*#__PURE__*/function (_Component) {
       }));
     }
   }]);
-  return TextInput;
 }(React.Component);
-var TextInput$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$r)(TextInput)));
+var TextInput$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$r)(TextInput)));
 
 var _g;
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 var SvgMPassLogoColor = function SvgMPassLogoColor(props) {
   return /*#__PURE__*/React__namespace.createElement("svg", _extends({
     xmlns: "http://www.w3.org/2000/svg",
@@ -2834,9 +2763,9 @@ var SvgMPassLogoColor = function SvgMPassLogoColor(props) {
   })))));
 };
 
-function ownKeys$j(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$j(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$j(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$j(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var useStyles$3 = styles$w.makeStyles(function (theme) {
+function ownKeys$j(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$j(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$j(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$j(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+var useStyles$4 = styles$x.makeStyles(function (theme) {
   return {
     container: {
       position: "absolute",
@@ -2859,7 +2788,7 @@ var useStyles$3 = styles$w.makeStyles(function (theme) {
 var LOGIN_PAGE_CONTRIBUTION_KEY = "core.LoginPage";
 var LoginPage = function LoginPage(_ref) {
   var logo = _ref.logo;
-  var classes = useStyles$3();
+  var classes = useStyles$4();
   var history = reactRouter.useHistory();
   var modulesManager = useModulesManager();
   var _useTranslations = useTranslations("core.LoginPage", modulesManager),
@@ -2900,7 +2829,7 @@ var LoginPage = function LoginPage(_ref) {
   };
   var onSubmit = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
-      var _response$payload, _response$payload$err, response, loginStatus, message;
+      var _response$payload, response, loginStatus, message;
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
@@ -2911,7 +2840,7 @@ var LoginPage = function LoginPage(_ref) {
             return auth.login(credentials);
           case 5:
             response = _context.sent;
-            if (!((_response$payload = response.payload) !== null && _response$payload !== void 0 && (_response$payload$err = _response$payload.errors) !== null && _response$payload$err !== void 0 && _response$payload$err.length)) {
+            if (!((_response$payload = response.payload) !== null && _response$payload !== void 0 && (_response$payload = _response$payload.errors) !== null && _response$payload !== void 0 && _response$payload.length)) {
               _context.next = 9;
               break;
             }
@@ -3056,7 +2985,7 @@ var LoginPage = function LoginPage(_ref) {
   })))))))));
 };
 
-var useStyles$2 = styles$w.makeStyles(function (theme) {
+var useStyles$3 = styles$x.makeStyles(function (theme) {
   return {
     container: {
       position: "absolute",
@@ -3074,7 +3003,7 @@ var useStyles$2 = styles$w.makeStyles(function (theme) {
   };
 });
 var ForgotPasswordPage = function ForgotPasswordPage(props) {
-  var classes = useStyles$2();
+  var classes = useStyles$3();
   var modulesManager = useModulesManager();
   var _useTranslations = useTranslations("core.ForgotPasswordPage", modulesManager),
     formatMessage = _useTranslations.formatMessage;
@@ -3158,128 +3087,9 @@ var ForgotPasswordPage = function ForgotPasswordPage(props) {
   }, formatMessage("submitBtn")))), isDone && /*#__PURE__*/React__default["default"].createElement("h1", null, formatMessage("done")))))));
 };
 
-var addSuggestion = function addSuggestion(suggestions, condition, message) {
-  if (condition) {
-    suggestions.push(message);
-  }
-};
-var generateFeedback = function generateFeedback(suggestions, formatMessageWithValues) {
-  if (suggestions.length > 0) {
-    var requirements = suggestions.join(', ');
-    var formattedMessage = formatMessageWithValues("admin.password.requirements", {
-      requirements: requirements
-    });
-    return {
-      feedback: formattedMessage,
-      score: 0
-    };
-  }
-  return null;
-};
-var validatePassword = function validatePassword(password, passwordPolicy, formatMessage, formatMessageWithValues) {
-  if (!passwordPolicy || !password) {
-    return {
-      feedback: "",
-      score: 0
-    };
-  }
-  var jsonPasswordPolicy = JSON.parse(passwordPolicy);
-  var suggestions = [];
-  var _ref = jsonPasswordPolicy || {},
-    min_length = _ref.min_length,
-    require_lower_case = _ref.require_lower_case,
-    require_upper_case = _ref.require_upper_case,
-    require_numbers = _ref.require_numbers,
-    require_special_characters = _ref.require_special_characters;
-  addSuggestion(suggestions, password.length < min_length, formatMessageWithValues("admin.password.minLength", {
-    count: min_length
-  }));
-  addSuggestion(suggestions, require_lower_case && !/[a-z]/.test(password), formatMessageWithValues("admin.password.lowerCase", {
-    count: require_lower_case
-  }));
-  addSuggestion(suggestions, require_upper_case && !/[A-Z]/.test(password), formatMessageWithValues("admin.password.upperCase", {
-    count: require_upper_case
-  }));
-  addSuggestion(suggestions, require_numbers && !/\d/.test(password), formatMessageWithValues("admin.password.numbers", {
-    count: require_numbers
-  }));
-  addSuggestion(suggestions, require_special_characters && !/[^a-zA-Z0-9]/.test(password), formatMessageWithValues("admin.password.specialCharacters", {
-    count: require_special_characters
-  }));
-  var feedbackResult = generateFeedback(suggestions, formatMessageWithValues);
-  if (feedbackResult) {
-    return feedbackResult;
-  }
-  var result = zxcvbn__default["default"](password);
-  var feedback = result.feedback.suggestions.join(" ") || formatMessage("admin.password.strong");
-  var score = result.score;
-  var scoreDescription;
-  switch (score) {
-    case 1:
-      scoreDescription = "".concat(formatMessage("admin.password.weak"), ". ").concat(feedback);
-      break;
-    case 2:
-      scoreDescription = "".concat(formatMessage("admin.password.medium"), ". ").concat(feedback);
-      break;
-    case 3:
-      scoreDescription = "".concat(formatMessage("admin.password.strong"));
-      break;
-    case 4:
-      scoreDescription = "".concat(formatMessage("admin.password.veryStrong"));
-      break;
-    default:
-      scoreDescription = formatMessage("admin.password.unknownScore");
-  }
-  return {
-    feedback: scoreDescription,
-    score: score
-  };
-};
-
-var passwordGenerator = function passwordGenerator(options) {
-  var _options$length, _options$isNumberRequ, _options$isLowerCaseR, _options$isUpperCaseR, _options$isSpecialSym;
-  // This method should not be used to create safe/permament passwords for users
-  // Passwords should be generated by browsers or password managers
-  // Only justifiable use-case is creating temporary passwords valid until first login
-  var uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var lowercase = uppercase.toLowerCase();
-  var numbers = "0123456789";
-  var specialCharacters = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-  var length = (_options$length = options === null || options === void 0 ? void 0 : options.length) !== null && _options$length !== void 0 ? _options$length : 10;
-  var isNumberRequired = (_options$isNumberRequ = options === null || options === void 0 ? void 0 : options.isNumberRequired) !== null && _options$isNumberRequ !== void 0 ? _options$isNumberRequ : true;
-  var isLowerCaseRequired = (_options$isLowerCaseR = options === null || options === void 0 ? void 0 : options.isLowerCaseRequired) !== null && _options$isLowerCaseR !== void 0 ? _options$isLowerCaseR : true;
-  var isUpperCaseRequired = (_options$isUpperCaseR = options === null || options === void 0 ? void 0 : options.isUpperCaseRequired) !== null && _options$isUpperCaseR !== void 0 ? _options$isUpperCaseR : true;
-  var isSpecialSymbolRequired = (_options$isSpecialSym = options === null || options === void 0 ? void 0 : options.isSpecialSymbolRequired) !== null && _options$isSpecialSym !== void 0 ? _options$isSpecialSym : true;
-  var password = "";
-  var getCategoriesArray = function getCategoriesArray() {
-    var availableCategories = [];
-    if (isLowerCaseRequired) availableCategories.push(lowercase);
-    if (isUpperCaseRequired) availableCategories.push(uppercase);
-    if (isNumberRequired) availableCategories.push(numbers);
-    if (isSpecialSymbolRequired) availableCategories.push(specialCharacters);
-    return availableCategories;
-  };
-  var categoriesArray = getCategoriesArray();
-  getSafeRandomNumberArray(length, categoriesArray.length).forEach(function (category) {
-    password += getRandomOfType(categoriesArray[category]);
-  });
-  return password;
-};
-function getSafeRandomNumberArray(length, modulo) {
-  // crypto.getRandomValues is coded in a way that is cryptographically secure
-  // do not use Math.Random to generate password
-  var seedArray = self.crypto.getRandomValues(new Uint32Array(length));
-  return Array.from(seedArray, function (value) {
-    return value % modulo;
-  });
-}
-function getRandomOfType(charset) {
-  return charset.charAt(getSafeRandomNumberArray(1, charset.length));
-}
-
-function ownKeys$i(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$i(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$i(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$i(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var useStyles$1 = styles$w.makeStyles(function (theme) {
+function ownKeys$i(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$i(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$i(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$i(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+var useStyles$2 = styles$x.makeStyles(function (theme) {
   return {
     container: {
       position: "absolute",
@@ -3293,25 +3103,15 @@ var useStyles$1 = styles$w.makeStyles(function (theme) {
     paper: theme.paper.paper,
     logo: {
       maxHeight: 100
-    },
-    passwordFeedback: {
-      marginTop: theme.spacing(1)
-    },
-    buttonGroup: {
-      display: "flex",
-      justifyContent: "space-between"
     }
   };
 });
-var SetPasswordPage = function SetPasswordPage(_ref) {
-  var fetchPasswordPolicy = _ref.fetchPasswordPolicy,
-    passwordPolicy = _ref.passwordPolicy;
-  var classes = useStyles$1();
+var SetPasswordPage = function SetPasswordPage() {
+  var classes = useStyles$2();
   var history = reactRouter.useHistory();
   var modulesManager = useModulesManager();
   var _useTranslations = useTranslations("core.SetPasswordPage", modulesManager),
-    formatMessage = _useTranslations.formatMessage,
-    formatMessageWithValues = _useTranslations.formatMessageWithValues;
+    formatMessage = _useTranslations.formatMessage;
   var _useState = React.useState({}),
     _useState2 = _slicedToArray__default["default"](_useState, 2),
     credentials = _useState2[0],
@@ -3320,69 +3120,18 @@ var SetPasswordPage = function SetPasswordPage(_ref) {
     _useState4 = _slicedToArray__default["default"](_useState3, 2),
     error = _useState4[0],
     setError = _useState4[1];
-  var _useState5 = React.useState(false),
-    _useState6 = _slicedToArray__default["default"](_useState5, 2),
-    showPassword = _useState6[0],
-    setShowPassword = _useState6[1];
-  var _useGraphqlMutation = useGraphqlMutation("\n      mutation setPassword($input: SetPasswordMutationInput!) {\n        setPassword(input: $input) {\n          clientMutationId\n          success\n          error\n        }\n      }\n    ", {
+  var _useGraphqlMutation = useGraphqlMutation("\n      mutation setPassword ($input: SetPasswordMutationInput!) {\n        setPassword(input: $input) {\n          clientMutationId\n          success\n          error\n        }\n      }\n    ", {
       wait: false
     }),
     mutate = _useGraphqlMutation.mutate;
-  var _useState7 = React.useState(""),
-    _useState8 = _slicedToArray__default["default"](_useState7, 2),
-    passwordFeedback = _useState8[0],
-    setPasswordFeedback = _useState8[1];
-  var _useState9 = React.useState(0),
-    _useState10 = _slicedToArray__default["default"](_useState9, 2),
-    passwordScore = _useState10[0],
-    setPasswordScore = _useState10[1];
-  var IS_PASSWORD_SECURED = passwordScore >= 2;
   React.useEffect(function () {
     var search = new URLSearchParams(location.search);
     setCredentials({
       token: search.get("token")
     });
-    fetchPasswordPolicy();
-  }, [fetchPasswordPolicy]);
-  var handlePasswordChange = function handlePasswordChange(password) {
-    var _validatePassword = validatePassword(password, passwordPolicy, formatMessage, formatMessageWithValues),
-      feedback = _validatePassword.feedback,
-      score = _validatePassword.score;
-    setPasswordFeedback(feedback);
-    setPasswordScore(score);
-    setCredentials(_objectSpread$i(_objectSpread$i({}, credentials), {}, {
-      password: password
-    }));
-  };
-  var handleSetPasswordError = function handleSetPasswordError(errorMessage) {
-    setError(errorMessage);
-  };
-  var generatePassword = function generatePassword() {
-    var newPassword = passwordGenerator({
-      length: 12,
-      isNumberRequired: true,
-      isLowerCaseRequired: true,
-      isUpperCaseRequired: true,
-      isSpecialSymbolRequired: true
-    });
-    handlePasswordChange(newPassword);
-    setCredentials(_objectSpread$i(_objectSpread$i({}, credentials), {}, {
-      password: newPassword,
-      confirmPassword: newPassword
-    }));
-  };
-  var togglePasswordVisibility = function togglePasswordVisibility() {
-    setShowPassword(!showPassword);
-  };
-  var clearPassword = function clearPassword() {
-    handlePasswordChange("");
-    setCredentials(_objectSpread$i(_objectSpread$i({}, credentials), {}, {
-      password: "",
-      confirmPassword: ""
-    }));
-  };
+  }, []);
   var onSubmit = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
+    var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
       var result;
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
@@ -3403,7 +3152,7 @@ var SetPasswordPage = function SetPasswordPage(_ref) {
             if (result !== null && result !== void 0 && result.setPassword.success) {
               history.push("/");
             } else {
-              handleSetPasswordError((result === null || result === void 0 ? void 0 : result.setPassword.error) || formatMessage("error"));
+              setError((result === null || result === void 0 ? void 0 : result.setPassword.error) || formatMessage("error"));
             }
           case 6:
           case "end":
@@ -3412,7 +3161,7 @@ var SetPasswordPage = function SetPasswordPage(_ref) {
       }, _callee);
     }));
     return function onSubmit(_x) {
-      return _ref2.apply(this, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
   var isValid = React.useMemo(function () {
@@ -3451,47 +3200,27 @@ var SetPasswordPage = function SetPasswordPage(_ref) {
     item: true
   }, /*#__PURE__*/React__default["default"].createElement(TextInput$1, {
     required: true,
-    type: showPassword ? "text" : "password",
+    type: "password",
     label: formatMessage("password.label"),
     fullWidth: true,
     onChange: function onChange(password) {
-      return handlePasswordChange(password);
-    },
-    value: credentials.password || "",
-    endAdornment: /*#__PURE__*/React__default["default"].createElement(core.InputAdornment, {
-      position: "end"
-    }, /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
-      onClick: togglePasswordVisibility,
-      edge: "end"
-    }, showPassword ? /*#__PURE__*/React__default["default"].createElement(VisibilityOffIcon__default["default"], null) : /*#__PURE__*/React__default["default"].createElement(VisibilityIcon__default["default"], null)), /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
-      onClick: clearPassword,
-      edge: "end"
-    }, /*#__PURE__*/React__default["default"].createElement(ClearIcon__default["default"], null)))
+      return setCredentials(_objectSpread$i(_objectSpread$i({}, credentials), {}, {
+        password: password
+      }));
+    }
   })), /*#__PURE__*/React__default["default"].createElement(core.Grid, {
     item: true
   }, /*#__PURE__*/React__default["default"].createElement(TextInput$1, {
     required: true,
-    type: showPassword ? "text" : "password",
+    type: "password",
     label: formatMessage("confirmPassword.label"),
     fullWidth: true,
     onChange: function onChange(confirmPassword) {
       return setCredentials(_objectSpread$i(_objectSpread$i({}, credentials), {}, {
         confirmPassword: confirmPassword
       }));
-    },
-    value: credentials.confirmPassword || ""
-  })), /*#__PURE__*/React__default["default"].createElement(core.Grid, {
-    item: true,
-    className: classes.buttonGroup
-  }, /*#__PURE__*/React__default["default"].createElement(core.Button, {
-    onClick: generatePassword,
-    variant: "contained"
-  }, formatMessage("core.SetPasswordPage.generatePassword"))), passwordFeedback && /*#__PURE__*/React__default["default"].createElement(core.Grid, {
-    item: true
-  }, /*#__PURE__*/React__default["default"].createElement(core.Typography, {
-    color: IS_PASSWORD_SECURED ? "primary" : "error",
-    className: classes.passwordFeedback
-  }, passwordFeedback)), error && /*#__PURE__*/React__default["default"].createElement(core.Grid, {
+    }
+  })), error && /*#__PURE__*/React__default["default"].createElement(core.Grid, {
     item: true
   }, /*#__PURE__*/React__default["default"].createElement(core.Box, {
     color: "error.main"
@@ -3505,18 +3234,70 @@ var SetPasswordPage = function SetPasswordPage(_ref) {
     variant: "contained"
   }, formatMessage("submitBtn")))))))));
 };
-var mapStateToProps$8 = function mapStateToProps(state) {
-  return {
-    passwordPolicy: state.core.passwordPolicy // Adjust based on your state structure
-  };
-};
 
-var mapDispatchToProps$8 = function mapDispatchToProps(dispatch) {
-  return redux.bindActionCreators({
-    fetchPasswordPolicy: fetchPasswordPolicy
-  }, dispatch);
+var useStyles$1 = styles$w.makeStyles(function (theme) {
+  return {
+    container: {
+      textAlign: "center",
+      height: "70vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center"
+    },
+    logo: {
+      verticalAlign: "middle",
+      margin: theme.spacing(2),
+      maxHeight: theme.spacing(16)
+    },
+    title: {
+      margin: theme.spacing(2),
+      textTransform: "uppercase",
+      fontWeight: "bold"
+    },
+    description: {
+      margin: theme.spacing(2),
+      fontSize: "18px"
+    },
+    button: {
+      marginTop: theme.spacing(2)
+    }
+  };
+});
+var ErrorPage = function ErrorPage(_ref) {
+  var status = _ref.status,
+    title = _ref.title,
+    description = _ref.description,
+    logo = _ref.logo,
+    back = _ref.back;
+  var history = reactRouter.useHistory();
+  var classes = useStyles$1();
+  return /*#__PURE__*/React__default["default"].createElement("div", {
+    className: classes.container
+  }, logo && /*#__PURE__*/React__default["default"].createElement("img", {
+    className: classes.logo,
+    src: logo,
+    alt: "Logo of openIMIS"
+  }), status && /*#__PURE__*/React__default["default"].createElement(core.Typography, {
+    variant: "h1",
+    className: classes.title
+  }, status), /*#__PURE__*/React__default["default"].createElement(core.Typography, {
+    variant: "h2",
+    className: classes.title
+  }, title), /*#__PURE__*/React__default["default"].createElement(core.Typography, {
+    variant: "body1",
+    className: classes.description
+  }, description), back && /*#__PURE__*/React__default["default"].createElement(core.Button, {
+    variant: "contained",
+    color: "primary",
+    size: "large",
+    className: classes.button,
+    startIcon: /*#__PURE__*/React__default["default"].createElement(ArrowBackIcon__default["default"], null),
+    onClick: function onClick() {
+      return history.push("/");
+    }
+  }, back));
 };
-var SetPasswordPage$1 = reactRedux.connect(mapStateToProps$8, mapDispatchToProps$8)(SetPasswordPage);
 
 var NotFoundPage = function NotFoundPage(props) {
   var _useTranslations = useTranslations(MODULE_NAME),
@@ -3567,16 +3348,15 @@ var PermissionCheck = function PermissionCheck(_ref) {
 };
 
 var _excluded$9 = ["modulesManager", "id", "pubRef"];
-function _createSuper$w(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$w(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$w() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$w(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$w() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$w() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$w = function _isNativeReflectConstruct() { return !!t; })(); }
 var PublishedComponent = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](PublishedComponent, _Component);
-  var _super = _createSuper$w(PublishedComponent);
   function PublishedComponent() {
     _classCallCheck__default["default"](this, PublishedComponent);
-    return _super.apply(this, arguments);
+    return _callSuper$w(this, PublishedComponent, arguments);
   }
-  _createClass__default["default"](PublishedComponent, [{
+  _inherits__default["default"](PublishedComponent, _Component);
+  return _createClass__default["default"](PublishedComponent, [{
     key: "render",
     value: function render() {
       // id kept for backward (< 1.2) compatibility,
@@ -3590,13 +3370,12 @@ var PublishedComponent = /*#__PURE__*/function (_Component) {
       return !!C ? /*#__PURE__*/React__default["default"].createElement(C, others) : null;
     }
   }]);
-  return PublishedComponent;
 }(React.Component);
 var PublishedComponent$1 = withModulesManager(PublishedComponent);
 
 var _excluded$8 = ["history", "classes", "error", "confirm", "user", "messages", "clearConfirm", "localesManager", "modulesManager", "basename", "toggleCurrentCalendarType", "rights"];
-function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$h(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$h(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$h(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$h(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$h(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var ROUTER_CONTRIBUTION_KEY = "core.Router";
 var APP_BOOT_CONTRIBUTION_KEY = "core.Boot";
 var TRANSLATION_CONTRIBUTION_KEY = "translations";
@@ -3684,12 +3463,9 @@ var App = function App(props) {
     toggleCurrentCalendarType(!isSecondaryCalendar);
   }, [isSecondaryCalendar]);
   if (error) {
-    return /*#__PURE__*/React__default["default"].createElement(reactIntl.IntlProvider, {
-      locale: locale,
-      messages: allMessages
-    }, /*#__PURE__*/React__default["default"].createElement(FatalErrorPage, {
+    return /*#__PURE__*/React__default["default"].createElement(FatalError$1, {
       error: error
-    }));
+    });
   }
   if (!auth.isInitialized) return null;
   return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(_Helmet__default["default"], {
@@ -3738,7 +3514,7 @@ var App = function App(props) {
   }), /*#__PURE__*/React__default["default"].createElement(reactRouterDom.Route, {
     path: "/set_password",
     render: function render() {
-      return /*#__PURE__*/React__default["default"].createElement(SetPasswordPage$1, others);
+      return /*#__PURE__*/React__default["default"].createElement(SetPasswordPage, others);
     }
   }), routes.map(function (route) {
     return /*#__PURE__*/React__default["default"].createElement(reactRouterDom.Route, {
@@ -3769,9 +3545,9 @@ var App = function App(props) {
   })))))));
 };
 var mapStateToProps$7 = function mapStateToProps(state) {
-  var _state$core$user$i_us, _state$core$user, _state$core$user$i_us2, _state$core$user2;
+  var _state$core$user$i_us, _state$core$user, _state$core$user2;
   return {
-    rights: (_state$core$user$i_us = (_state$core$user = state.core.user) === null || _state$core$user === void 0 ? void 0 : (_state$core$user$i_us2 = _state$core$user.i_user) === null || _state$core$user$i_us2 === void 0 ? void 0 : _state$core$user$i_us2.rights) !== null && _state$core$user$i_us !== void 0 ? _state$core$user$i_us : [],
+    rights: (_state$core$user$i_us = (_state$core$user = state.core.user) === null || _state$core$user === void 0 || (_state$core$user = _state$core$user.i_user) === null || _state$core$user === void 0 ? void 0 : _state$core$user.rights) !== null && _state$core$user$i_us !== void 0 ? _state$core$user$i_us : [],
     user: (_state$core$user2 = state.core.user) === null || _state$core$user2 === void 0 ? void 0 : _state$core$user2.i_user,
     error: state.core.error,
     confirm: state.core.confirm
@@ -3783,7 +3559,7 @@ var mapDispatchToProps$7 = function mapDispatchToProps(dispatch) {
     toggleCurrentCalendarType: toggleCurrentCalendarType
   }, dispatch);
 };
-var App$1 = reactRedux.connect(mapStateToProps$7, mapDispatchToProps$7)(styles$v.withTheme(styles$v.withStyles(styles$q)(withModulesManager(App))));
+var App$1 = reactRedux.connect(mapStateToProps$7, mapDispatchToProps$7)(styles$w.withTheme(styles$w.withStyles(styles$q)(withModulesManager(App))));
 
 var messages_en = {
 	"core.roleManagement.label": "Roles Management",
@@ -3848,10 +3624,6 @@ var messages_en = {
 	"core.SetPasswordPage.confirmPassword.label": "Confirm Password",
 	"core.SetPasswordPage.error": "Unknown error",
 	"core.SetPasswordPage.submitBtn": "Submit",
-	"core.SetPasswordPage.generatePassword": "Generate Password",
-	"core.SetPasswordPage.clearPassword": "Clear Password",
-	"core.SetPasswordPage.showPassword": "Show Passowrd",
-	"core.SetPasswordPage.hidePassword": "Show Passowrd",
 	"core.table.resultsLoading": "Loading...",
 	"core.exportSearchResult": "Export search result",
 	"core.exportSearchResult.tooltip": "Export result",
@@ -3860,27 +3632,95 @@ var messages_en = {
 	"claim.edit.services.code": "Code",
 	"claim.edit.services.name": "Name",
 	"claim.edit.services.priceAppro": "Price Appro.",
-	"core.NumberInput.notApplicable": "N/A"
+	"core.NumberInput.notApplicable": "N/A",
+	"core.UserActivityReport.dateFrom": "From",
+	"core.UserActivityReport.dateTo": "To",
+	"core.UserActivityReport.action": "Action",
+	"core.UserActivityReport.action.null": "All actions",
+	"core.UserActivityReport.action.I": "Insert",
+	"core.UserActivityReport.action.U": "Update",
+	"core.UserActivityReport.action.D": "Delete",
+	"core.UserActivityReport.entity": "Entity",
+	"core.UserActivityReport.entity.null": "All entities",
+	"core.UserActivityReport.entity.Claim": "Claim",
+	"core.UserActivityReport.entity.BatchRun": "Batch Run",
+	"core.UserActivityReport.entity.ClaimAdmin": "Claim Admin",
+	"core.UserActivityReport.entity.Location": "Location",
+	"core.UserActivityReport.entity.Extract": "Extract",
+	"core.UserActivityReport.entity.Family": "Family",
+	"core.UserActivityReport.entity.Feedback": "Feedback",
+	"core.UserActivityReport.entity.HealthFacility": "Health Facility",
+	"core.UserActivityReport.entity.Insuree": "Insuree",
+	"core.UserActivityReport.entity.Item": "Item",
+	"core.UserActivityReport.entity.Officer": "Officer",
+	"core.UserActivityReport.entity.Payer": "Payer",
+	"core.UserActivityReport.entity.InsureePhoto": "Insuree Photo",
+	"core.UserActivityReport.entity.ItemsPricelist": "Items Pricelist",
+	"core.UserActivityReport.entity.ServicesPricelist": "Services Pricelist",
+	"core.UserActivityReport.entity.ItemsPricelistDetail": "Items Pricelist Detail",
+	"core.UserActivityReport.entity.ServicesPricelistDetail": "Services Pricelist Detail",
+	"core.UserActivityReport.entity.Policy": "Policy",
+	"core.UserActivityReport.entity.Premium": "Premium",
+	"core.UserActivityReport.entity.Product": "Product",
+	"core.UserActivityReport.entity.ProductItem": "Product Item",
+	"core.UserActivityReport.entity.ProductService": "Product Service",
+	"core.UserActivityReport.entity.RelativeDistribution": "Relative Distribution",
+	"core.UserActivityReport.entity.Service": "Service",
+	"core.UserActivityReport.entity.InteractiveUser": "User",
+	"core.UserActivityReport.entity.UserDistrict": "User District",
+	"core.UserActivityReport.user": "User",
+	"core.UserActivityReport.user.null": "All users",
+	"core.advancedFilters": "Advanced Filters",
+	"core.advancedFilters.field": "Field",
+	"core.advancedFilters.filter": "Filter",
+	"core.advancedFilters.value": "Value",
+	"core.advancedFilters.button.AdvancedFilters": "Advanced Filters",
+	"core.advancedFilters.button.addFilters": "Add filter",
+	"core.advancedFilters.button.clearAllFilters": "Clear All Filters",
+	"core.advancedFilters.button.cancel": "Cancel",
+	"core.advancedFilters.button.filter": "Filter",
+	"core.RegistersStatusReport.region": "Region",
+	"core.RegistersStatusReport.district": "District",
+	"core.Table.ordinalNumberHeader": "Number",
+	"core.calendarSwitcher": "BS/AD",
+	"core.calendar.clearButton": "Clear date",
+	"core.calendar.okButton": "Accept",
+	"core.calendar.cancelButton": "Cancel",
+	"core.exportColumnsDialog.confirmButton": "Ok",
+	"core.exportColumnsDialog.cancelButton": "Cancel",
+	"core.exportColumnsDialog.clearAllButton": "Clear All",
+	"core.exportColumnsDialog.title": "Select columns.",
+	"core.NotFoundPage.title": "Page not found",
+	"core.NotFoundPage.description": "The requested URL was not found on this server.",
+	"core.ErrorPage.back": "Move back to the home page",
+	"core.ForbiddenPage.title": "Access Denied",
+	"core.ForbiddenPage.description": "Sorry, you are not authorized to access this page.",
+	"core.InternalServerErrorPage.title": "Internal Server Error",
+	"core.InternalServerErrorPage.description": "The server encountered an internal error or misconfiguration and was unable to complete your request.",
+	"core.tooltip.logout": "Log out",
+	"core.tooltip.help": "Documentation",
+	"core.NeDateFormatter.dateOutOfRange": "DATE_OUT_OF_RANGE",
+	"core.AuthorityPicker.label": "Authority",
+	"core.AuthorityPicker.placeholder": "Search..."
 };
 
-function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$v() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$v(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$v() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$v() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$v = function _isNativeReflectConstruct() { return !!t; })(); }
 var KeepLegacyAlive = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](KeepLegacyAlive, _Component);
-  var _super = _createSuper$v(KeepLegacyAlive);
   function KeepLegacyAlive() {
     var _this;
     _classCallCheck__default["default"](this, KeepLegacyAlive);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "keepLegacyAlive", function () {
+    _this = _callSuper$v(this, KeepLegacyAlive, [].concat(args));
+    _defineProperty__default["default"](_this, "keepLegacyAlive", function () {
       fetch("".concat(window.location.origin, "/keepLegacyAlive"));
     });
     return _this;
   }
-  _createClass__default["default"](KeepLegacyAlive, [{
+  _inherits__default["default"](KeepLegacyAlive, _Component);
+  return _createClass__default["default"](KeepLegacyAlive, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -3903,12 +3743,11 @@ var KeepLegacyAlive = /*#__PURE__*/function (_Component) {
       return null;
     }
   }]);
-  return KeepLegacyAlive;
 }(React.Component);
 var KeepLegacyAlive$1 = withModulesManager(KeepLegacyAlive);
 
-function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$u(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$u() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$u() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$u = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$p = function styles(theme) {
   return {
     label: {
@@ -3928,31 +3767,29 @@ function EmptyComponent() {
   return /*#__PURE__*/React__default["default"].createElement("div", null);
 }
 var SelectInput = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](SelectInput, _Component);
-  var _super = _createSuper$u(SelectInput);
   function SelectInput() {
     var _this;
     _classCallCheck__default["default"](this, SelectInput);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onChange", function (e) {
+    _this = _callSuper$u(this, SelectInput, [].concat(args));
+    _defineProperty__default["default"](_this, "_onChange", function (e) {
       if (_this.props.value !== e.target.value) {
         _this.props.onChange(JSON.parse(e.target.value));
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "handleClear", function () {
+    _defineProperty__default["default"](_this, "handleClear", function () {
       _this.props.onChange("");
     });
     // When there is a value, we pass a dummy div to effectively hide the default dropdown icon.
     // This allows us to make room for the clear icon without having two icons visible at the same time.
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "renderIconComponent", function () {
+    _defineProperty__default["default"](_this, "renderIconComponent", function () {
       var value = _this.props.value;
       return value ? EmptyComponent : undefined;
     });
     // If there's a value, we render the clear icon. Clicking it calls handleClear, which resets the Select's value.
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "renderEndAdornment", function () {
+    _defineProperty__default["default"](_this, "renderEndAdornment", function () {
       var _this$props = _this.props,
         value = _this$props.value,
         classes = _this$props.classes;
@@ -3963,7 +3800,8 @@ var SelectInput = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](SelectInput, [{
+  _inherits__default["default"](SelectInput, _Component);
+  return _createClass__default["default"](SelectInput, [{
     key: "render",
     value: function render() {
       var _this$props2 = this.props,
@@ -4043,12 +3881,11 @@ var SelectInput = /*#__PURE__*/function (_Component) {
       })));
     }
   }]);
-  return SelectInput;
 }(React.Component);
-var SelectInput$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$p)(SelectInput)));
+var SelectInput$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$p)(SelectInput)));
 
-function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$t(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$t() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$t() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$t = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$o = function styles(theme) {
   return {
     paper: {
@@ -4106,20 +3943,18 @@ var INIT_STATE$1 = {
 };
 var MORE = "__THE_MORE_FAKE_OPTION__";
 var AutoSuggestion = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](AutoSuggestion, _Component);
-  var _super = _createSuper$t(AutoSuggestion);
   function AutoSuggestion(_props) {
     var _this;
     _classCallCheck__default["default"](this, AutoSuggestion);
-    _this = _super.call(this, _props);
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", INIT_STATE$1);
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_allItems", function () {
+    _this = _callSuper$t(this, AutoSuggestion, [_props]);
+    _defineProperty__default["default"](_this, "state", INIT_STATE$1);
+    _defineProperty__default["default"](_this, "_allItems", function () {
       var _this$props = _this.props,
         preValues = _this$props.preValues,
         items = _this$props.items;
       return [].concat(_toConsumableArray__default["default"](preValues !== null && preValues !== void 0 ? preValues : []), _toConsumableArray__default["default"](items !== null && items !== void 0 ? items : []));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onClear", function (e) {
+    _defineProperty__default["default"](_this, "onClear", function (e) {
       _this.setState({
         value: null,
         selected: null
@@ -4127,14 +3962,14 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
         return !!_this.props.onClear ? _this.props.onClear() : _this.props.onSuggestionSelected(null);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onAutoselectChange", function (event, _ref) {
+    _defineProperty__default["default"](_this, "_onAutoselectChange", function (event, _ref) {
       var newValue = _ref.newValue;
         _ref.method;
       _this.setState({
         value: newValue
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onSuggestionsFetchRequested", function (_ref2) {
+    _defineProperty__default["default"](_this, "onSuggestionsFetchRequested", function (_ref2) {
       var value = _ref2.value;
       if (!!_this.props.getSuggestions) {
         _this.props.getSuggestions(value);
@@ -4144,19 +3979,19 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
         });
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onSuggestionsClearRequested", function () {
+    _defineProperty__default["default"](_this, "onSuggestionsClearRequested", function () {
       _this.setState({
         suggestions: _this._truncate(_this._allItems())
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_truncate", function (suggestions) {
+    _defineProperty__default["default"](_this, "_truncate", function (suggestions) {
       if (_this.limitDisplay > 0 && suggestions.length > _this.limitDisplay) {
         suggestions = suggestions.slice(0, _this.limitDisplay);
         suggestions.push(MORE);
       }
       return suggestions;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_getSuggestions", function (value) {
+    _defineProperty__default["default"](_this, "_getSuggestions", function (value) {
       if (!value || !value.trim()) {
         return _this._truncate(_this._allItems());
       }
@@ -4175,7 +4010,7 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
         return regex.test(lookup(i));
       }));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "renderInputComponent", function (inputProps) {
+    _defineProperty__default["default"](_this, "renderInputComponent", function (inputProps) {
       var classes = _this.props.classes;
       return /*#__PURE__*/React__default["default"].createElement(core.FormControl, {
         fullWidth: true
@@ -4196,10 +4031,10 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
         }
       })));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_shouldRenderSuggestions", function () {
+    _defineProperty__default["default"](_this, "_shouldRenderSuggestions", function () {
       return _this.state.value !== _this.state.selected;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onSuggestionSelected", function (e, i) {
+    _defineProperty__default["default"](_this, "_onSuggestionSelected", function (e, i) {
       _this.setState(function (state, props) {
         return {
           selected: props.getSuggestionValue(i.suggestion)
@@ -4208,14 +4043,14 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
         return _this.props.onSuggestionSelected(i.suggestion);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onOptionSelected", function (selected) {
+    _defineProperty__default["default"](_this, "_onOptionSelected", function (selected) {
       _this.setState({
         selected: selected
       }, function (e) {
         return _this.props.onSuggestionSelected(selected);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_render", function (s) {
+    _defineProperty__default["default"](_this, "_render", function (s) {
       var styleCover = {
         marginTop: "-10px",
         marginBottom: "-10px",
@@ -4251,7 +4086,7 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
       }
       return render(s);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "renderSelect", function () {
+    _defineProperty__default["default"](_this, "renderSelect", function () {
       var _this$props2 = _this.props,
         module = _this$props2.module,
         withNull = _this$props2.withNull,
@@ -4284,7 +4119,7 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
         required: required
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "renderAutoselect", function () {
+    _defineProperty__default["default"](_this, "renderAutoselect", function () {
       var _this$props3 = _this.props,
         classes = _this$props3.classes,
         label = _this$props3.label,
@@ -4329,7 +4164,8 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
     _this.limitDisplay = _props.modulesManager.getConf("fe-core", "AutoSuggestion.limitDisplay", 10);
     return _this;
   }
-  _createClass__default["default"](AutoSuggestion, [{
+  _inherits__default["default"](AutoSuggestion, _Component);
+  return _createClass__default["default"](AutoSuggestion, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -4404,9 +4240,8 @@ var AutoSuggestion = /*#__PURE__*/function (_Component) {
       }
     }
   }]);
-  return AutoSuggestion;
 }(React.Component);
-var AutoSuggestion$1 = reactIntl.injectIntl(withModulesManager(styles$v.withTheme(styles$v.withStyles(styles$o)(AutoSuggestion))));
+var AutoSuggestion$1 = reactIntl.injectIntl(withModulesManager(styles$w.withTheme(styles$w.withStyles(styles$o)(AutoSuggestion))));
 
 var styles$n = function styles(theme) {
   return {
@@ -4532,11 +4367,11 @@ var Autocomplete = function Autocomplete(props) {
     }
   });
 };
-var Autocomplete$1 = styles$v.withTheme(styles$v.withStyles(styles$n)(Autocomplete));
+var Autocomplete$1 = styles$w.withTheme(styles$w.withStyles(styles$n)(Autocomplete));
 
-function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$g(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var useBlockStyles = styles$w.makeStyles(function (theme) {
+function ownKeys$g(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$g(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$g(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$g(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+var useBlockStyles = styles$x.makeStyles(function (theme) {
   return {
     block: _objectSpread$g(_objectSpread$g({}, theme.paper.paper), {}, {
       margin: 0
@@ -4564,16 +4399,15 @@ var Block = function Block(props) {
   }, children)));
 };
 
-function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$s(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$s() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$s() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$s = function _isNativeReflectConstruct() { return !!t; })(); }
 var ControlledField = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](ControlledField, _Component);
-  var _super = _createSuper$s(ControlledField);
   function ControlledField() {
     _classCallCheck__default["default"](this, ControlledField);
-    return _super.apply(this, arguments);
+    return _callSuper$s(this, ControlledField, arguments);
   }
-  _createClass__default["default"](ControlledField, [{
+  _inherits__default["default"](ControlledField, _Component);
+  return _createClass__default["default"](ControlledField, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -4587,7 +4421,6 @@ var ControlledField = /*#__PURE__*/function (_Component) {
       return field;
     }
   }]);
-  return ControlledField;
 }(React.Component);
 var ControlledField$1 = withModulesManager(ControlledField);
 
@@ -4619,16 +4452,15 @@ function Error$1(props) {
 }
 var Error$2 = withStyles__default["default"](styles$m)(Error$1);
 
-function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$r(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$r() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$r() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$r = function _isNativeReflectConstruct() { return !!t; })(); }
 var AlertForwarder = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](AlertForwarder, _Component);
-  var _super = _createSuper$r(AlertForwarder);
   function AlertForwarder() {
     _classCallCheck__default["default"](this, AlertForwarder);
-    return _super.apply(this, arguments);
+    return _callSuper$r(this, AlertForwarder, arguments);
   }
-  _createClass__default["default"](AlertForwarder, [{
+  _inherits__default["default"](AlertForwarder, _Component);
+  return _createClass__default["default"](AlertForwarder, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState, snapshot) {
       if (prevProps.alert !== this.props.alert && !!this.props.alert) {
@@ -4641,7 +4473,6 @@ var AlertForwarder = /*#__PURE__*/function (_Component) {
       return null;
     }
   }]);
-  return AlertForwarder;
 }(React.Component);
 var mapDispatchToProps$6 = function mapDispatchToProps(dispatch) {
   return redux.bindActionCreators({
@@ -4650,21 +4481,20 @@ var mapDispatchToProps$6 = function mapDispatchToProps(dispatch) {
 };
 var AlertForwarder$1 = reactIntl.injectIntl(reactRedux.connect(null, mapDispatchToProps$6)(AlertForwarder));
 
-function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$q(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$q() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$q() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$q = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$l = function styles(theme) {
   return {
     label: theme.typography.label
   };
 };
 var FieldLabel = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](FieldLabel, _Component);
-  var _super = _createSuper$q(FieldLabel);
   function FieldLabel() {
     _classCallCheck__default["default"](this, FieldLabel);
-    return _super.apply(this, arguments);
+    return _callSuper$q(this, FieldLabel, arguments);
   }
-  _createClass__default["default"](FieldLabel, [{
+  _inherits__default["default"](FieldLabel, _Component);
+  return _createClass__default["default"](FieldLabel, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -4680,13 +4510,12 @@ var FieldLabel = /*#__PURE__*/function (_Component) {
       }));
     }
   }]);
-  return FieldLabel;
 }(React.Component);
-var FieldLabel$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$l)(FieldLabel)));
+var FieldLabel$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$l)(FieldLabel)));
 
 var _excluded$7 = ["classes", "module", "back", "add", "addTooltip", "openDirty", "save", "canSave", "saveTooltip", "actions", "fab", "fabAction", "fabTooltip", "title", "titleParams", "HeadPanel", "headPanelContributionsKey", "Panels", "contributedPanelsKey", "additionalTooltips"];
-function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$p(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$p() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$p() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$p = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$k = function styles(theme) {
   return {
     paper: theme.paper.paper,
@@ -4697,27 +4526,25 @@ var styles$k = function styles(theme) {
   };
 };
 var Form = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Form, _Component);
-  var _super = _createSuper$p(Form);
   function Form() {
     var _this;
     _classCallCheck__default["default"](this, Form);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$p(this, Form, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       dirty: false,
       saving: false
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onEditedChanged", function (data) {
+    _defineProperty__default["default"](_this, "onEditedChanged", function (data) {
       _this.setState({
         dirty: true
       }, function (e) {
         return _this.props.onEditedChanged(data);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "save", function (data) {
+    _defineProperty__default["default"](_this, "save", function (data) {
       var _this$props;
       var savingprops = (_this$props = _this.props) === null || _this$props === void 0 ? void 0 : _this$props.saving;
       if (savingprops === null || savingprops == false) {
@@ -4729,7 +4556,8 @@ var Form = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](Form, [{
+  _inherits__default["default"](Form, _Component);
+  return _createClass__default["default"](Form, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       if (!!this.props.forcedDirty) {
@@ -4910,48 +4738,45 @@ var Form = /*#__PURE__*/function (_Component) {
       })));
     }
   }]);
-  return Form;
 }(React.Component);
-var Form$1 = withHistory(reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$k)(Form))));
+var Form$1 = withHistory(reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$k)(Form))));
 
-function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$f(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$f(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function ownKeys$f(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$f(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$f(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$f(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _callSuper$o(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$o() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$o() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$o = function _isNativeReflectConstruct() { return !!t; })(); }
 var FormPanel = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](FormPanel, _Component);
-  var _super = _createSuper$o(FormPanel);
   function FormPanel() {
     var _this;
     _classCallCheck__default["default"](this, FormPanel);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$o(this, FormPanel, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       data: {}
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "updateAttributes", function (updates) {
+    _defineProperty__default["default"](_this, "updateAttributes", function (updates) {
       var data = _objectSpread$f(_objectSpread$f({}, _this.state.data), updates);
       _this.props.onEditedChanged(data);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "updateAttribute", function (attr, v) {
+    _defineProperty__default["default"](_this, "updateAttribute", function (attr, v) {
       return _this.updateAttributes(_defineProperty__default["default"]({}, attr, v));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "getAttributes", function () {
+    _defineProperty__default["default"](_this, "getAttributes", function () {
       return _this.state.data;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "getAttribute", function (attr) {
+    _defineProperty__default["default"](_this, "getAttribute", function (attr) {
       return !!_this.state.data[attr] ? _this.state.data[attr] : null;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "updateExts", function (updates) {
+    _defineProperty__default["default"](_this, "updateExts", function (updates) {
       var data = _objectSpread$f({}, _this.state.data);
       updates.forEach(function (update) {
         data["jsonExt"][update.attr] = update.v;
       });
       _this.props.onEditedChanged(data);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "updateExt", function (attr, v) {
+    _defineProperty__default["default"](_this, "updateExt", function (attr, v) {
       return _this.updateExts([{
         attr: [attr],
         v: v
@@ -4959,7 +4784,8 @@ var FormPanel = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](FormPanel, [{
+  _inherits__default["default"](FormPanel, _Component);
+  return _createClass__default["default"](FormPanel, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState(function (state, props) {
@@ -4987,28 +4813,25 @@ var FormPanel = /*#__PURE__*/function (_Component) {
       this._componentDidUpdate(prevProps, prevState, snapshot);
     }
   }]);
-  return FormPanel;
 }(React.Component);
 
-function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$n() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$n(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$n() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$n() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$n = function _isNativeReflectConstruct() { return !!t; })(); }
 var PagedDataHandler = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](PagedDataHandler, _Component);
-  var _super = _createSuper$n(PagedDataHandler);
   function PagedDataHandler() {
     var _this;
     _classCallCheck__default["default"](this, PagedDataHandler);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$n(this, PagedDataHandler, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       page: 0,
       pageSize: _this.props.modulesManager.getConf("fe-core", "core.defaultPageSize", 5),
       afterCursor: null,
       beforeCursor: null
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "query", function () {
+    _defineProperty__default["default"](_this, "query", function () {
       var prms = _this.queryPrms();
       if (!_this.state.pageSize || !prms) return;
       prms.push("first: ".concat(_this.state.pageSize));
@@ -5020,13 +4843,13 @@ var PagedDataHandler = /*#__PURE__*/function (_Component) {
       }
       _this.props.fetch(_this.props.modulesManager, prms);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "currentPage", function () {
+    _defineProperty__default["default"](_this, "currentPage", function () {
       return _this.state.page;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "currentPageSize", function () {
+    _defineProperty__default["default"](_this, "currentPageSize", function () {
       return _this.state.pageSize;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onChangeRowsPerPage", function (cnt) {
+    _defineProperty__default["default"](_this, "onChangeRowsPerPage", function (cnt) {
       _this.setState({
         pageSize: cnt,
         page: 0,
@@ -5036,7 +4859,7 @@ var PagedDataHandler = /*#__PURE__*/function (_Component) {
         return _this.query();
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onChangePage", function (page, nbr) {
+    _defineProperty__default["default"](_this, "onChangePage", function (page, nbr) {
       if (nbr > _this.state.page) {
         _this.setState(function (state, props) {
           return {
@@ -5061,16 +4884,16 @@ var PagedDataHandler = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](PagedDataHandler, [{
+  _inherits__default["default"](PagedDataHandler, _Component);
+  return _createClass__default["default"](PagedDataHandler, [{
     key: "render",
     value: function render() {
       return null;
     }
   }]);
-  return PagedDataHandler;
 }(React.Component);
 
-var useStyles = styles$w.makeStyles(function (theme) {
+var useStyles = styles$x.makeStyles(function (theme) {
   return {
     validIcon: {
       color: "green"
@@ -5305,16 +5128,15 @@ var ValidatedTextAreaInput = function ValidatedTextAreaInput(_ref) {
   }));
 };
 
-function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$m() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$m(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$m() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$m() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$m = function _isNativeReflectConstruct() { return !!t; })(); }
 var TextAreaInput = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](TextAreaInput, _Component);
-  var _super = _createSuper$m(TextAreaInput);
   function TextAreaInput() {
     _classCallCheck__default["default"](this, TextAreaInput);
-    return _super.apply(this, arguments);
+    return _callSuper$m(this, TextAreaInput, arguments);
   }
-  _createClass__default["default"](TextAreaInput, [{
+  _inherits__default["default"](TextAreaInput, _Component);
+  return _createClass__default["default"](TextAreaInput, [{
     key: "render",
     value: function render() {
       return /*#__PURE__*/React__default["default"].createElement(TextInput$1, _extends__default["default"]({
@@ -5322,32 +5144,57 @@ var TextAreaInput = /*#__PURE__*/function (_Component) {
       }, this.props));
     }
   }]);
-  return TextAreaInput;
 }(React.Component);
 
-var _excluded$6 = ["intl", "module", "min", "max", "value", "error", "displayZero"];
-function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$e(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+var _excluded$6 = ["intl", "module", "min", "max", "value", "error", "displayZero", "displayNa", "allowDecimals"];
+function ownKeys$e(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$e(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _callSuper$l(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$l() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$l() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$l = function _isNativeReflectConstruct() { return !!t; })(); }
 var NumberInput = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](NumberInput, _Component);
-  var _super = _createSuper$l(NumberInput);
-  function NumberInput() {
+  function NumberInput(props) {
     var _this;
     _classCallCheck__default["default"](this, NumberInput);
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "formatInput", function (v, displayZero) {
-      if (v == 0 && displayZero) return 0;
-      if (!v) return "";
-      return parseFloat(v);
+    _this = _callSuper$l(this, NumberInput, [props]);
+    _defineProperty__default["default"](_this, "handleKeyPress", function (event) {
+      var _this$props$allowDeci = _this.props.allowDecimals,
+        allowDecimals = _this$props$allowDeci === void 0 ? true : _this$props$allowDeci;
+      if (event.key === "." && !allowDecimals) {
+        event.preventDefault();
+      }
     });
+    _defineProperty__default["default"](_this, "formatInput", function (value, displayZero, displayNa, decimal) {
+      if (!value) {
+        if (displayNa && !_this.state.isEdited) {
+          return formatMessage(_this.props.intl, _this.props.module, "core.NumberInput.notApplicable");
+        }
+        return displayZero && value === 0 ? "0" : "";
+      }
+      var numericValue = Number(value);
+      if (isNaN(numericValue)) return "";
+      if (decimal) {
+        if (typeof value === "string" && value.includes(".") && value.split(".")[1].length > 2) {
+          return parseFloat(value).toFixed(2);
+        }
+        return value;
+      }
+      return parseFloat(value);
+    });
+    _defineProperty__default["default"](_this, "handleNaBlur", function () {
+      if ((isNaN(_this.props.value) || _this.props.value === "") && _this.state.isEdited) {
+        _this.props.onChange(undefined);
+      }
+      _this.setState({
+        isEdited: false
+      });
+    });
+    _this.state = {
+      isEdited: false
+    };
     return _this;
   }
-  _createClass__default["default"](NumberInput, [{
+  _inherits__default["default"](NumberInput, _Component);
+  return _createClass__default["default"](NumberInput, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -5363,10 +5210,15 @@ var NumberInput = /*#__PURE__*/function (_Component) {
         error = _this$props.error,
         _this$props$displayZe = _this$props.displayZero,
         displayZero = _this$props$displayZe === void 0 ? false : _this$props$displayZe,
+        _this$props$displayNa = _this$props.displayNa,
+        displayNa = _this$props$displayNa === void 0 ? false : _this$props$displayNa,
+        _this$props$allowDeci2 = _this$props.allowDecimals,
+        allowDecimals = _this$props$allowDeci2 === void 0 ? true : _this$props$allowDeci2,
         others = _objectWithoutProperties__default["default"](_this$props, _excluded$6);
       var inputProps = _objectSpread$e(_objectSpread$e({}, this.props.inputProps), {}, {
-        type: "tel"
-      }); // We use "tel" instead of "number" to hide up/down arrows
+        type: "number",
+        onKeyPress: this.handleKeyPress
+      });
       var err = error;
       if (min !== null) {
         inputProps.min = min;
@@ -5388,18 +5240,24 @@ var NumberInput = /*#__PURE__*/function (_Component) {
         error: err,
         inputProps: inputProps,
         formatInput: function formatInput(v) {
-          return _this2.formatInput(v, displayZero);
+          return _this2.formatInput(v, displayZero, displayNa, allowDecimals);
+        },
+        onFocus: function onFocus() {
+          return _this2.setState({
+            isEdited: true
+          });
+        },
+        onBlur: function onBlur() {
+          return _this2.handleNaBlur();
         }
       }));
     }
   }]);
-  return NumberInput;
 }(React.Component);
 var NumberInput$1 = reactIntl.injectIntl(NumberInput);
 
 var _excluded$5 = ["intl", "inputMinValue"];
 var AmountInput = function AmountInput(_ref) {
-  var _extraProps;
   var intl = _ref.intl,
     _ref$inputMinValue = _ref.inputMinValue,
     inputMinValue = _ref$inputMinValue === void 0 ? 0 : _ref$inputMinValue,
@@ -5409,34 +5267,32 @@ var AmountInput = function AmountInput(_ref) {
   if (!["start", "end"].includes(position)) {
     throw new Error("Position ".concat(position, " is not accepted. Only 'start' and 'end' are valid options."));
   }
-  var extraProps = (_extraProps = {}, _defineProperty__default["default"](_extraProps, "".concat(position, "Adornment"), /*#__PURE__*/React__default["default"].createElement(core.InputAdornment, {
+  var extraProps = _defineProperty__default["default"](_defineProperty__default["default"]({}, "".concat(position, "Adornment"), /*#__PURE__*/React__default["default"].createElement(core.InputAdornment, {
     position: position
   }, intl.formatMessage({
     id: "currency"
-  }))), _defineProperty__default["default"](_extraProps, "min", inputMinValue), _extraProps);
+  }))), "min", inputMinValue);
   return /*#__PURE__*/React__default["default"].createElement(NumberInput$1, _extends__default["default"]({}, props, extraProps));
 };
 var AmountInput$1 = reactIntl.injectIntl(AmountInput);
 
 var _excluded$4 = ["classes", "onSelect"];
-function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$k(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$k() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$k() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$k = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$j = function styles(theme) {
   return {
     fakeInput: theme.fakeInput
   };
 };
 var FakeInput = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](FakeInput, _Component);
-  var _super = _createSuper$k(FakeInput);
   function FakeInput() {
     var _this;
     _classCallCheck__default["default"](this, FakeInput);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onKeyDown", function (e) {
+    _this = _callSuper$k(this, FakeInput, [].concat(args));
+    _defineProperty__default["default"](_this, "_onKeyDown", function (e) {
       if (e.keyCode === 13 && !!_this.props.onSelect) {
         _this.props.onSelect();
         e.stopPropagation();
@@ -5444,7 +5300,8 @@ var FakeInput = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](FakeInput, [{
+  _inherits__default["default"](FakeInput, _Component);
+  return _createClass__default["default"](FakeInput, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -5463,12 +5320,11 @@ var FakeInput = /*#__PURE__*/function (_Component) {
       }, others)));
     }
   }]);
-  return FakeInput;
 }(React.Component);
-var FakeInput$1 = styles$v.withTheme(styles$v.withStyles(styles$j)(FakeInput));
+var FakeInput$1 = styles$w.withTheme(styles$w.withStyles(styles$j)(FakeInput));
 
-function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$j(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$j() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$j() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$j = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$i = function styles(theme) {
   return {
     panel: {
@@ -5497,7 +5353,7 @@ var styles$i = function styles(theme) {
     }
   };
 };
-var Accordion = styles$v.withStyles({
+var Accordion = styles$w.withStyles({
   root: {
     boxShadow: "none",
     "&:not(:last-child)": {
@@ -5512,7 +5368,7 @@ var Accordion = styles$v.withStyles({
   },
   expanded: {}
 })(MuiAccordion__default["default"]);
-var AccordionSummary = styles$v.withStyles(function (theme) {
+var AccordionSummary = styles$w.withStyles(function (theme) {
   return {
     root: {
       backgroundColor: theme.palette.primary.main,
@@ -5535,7 +5391,7 @@ var AccordionSummary = styles$v.withStyles(function (theme) {
     expanded: {}
   };
 })(MuiAccordionSummary__default["default"]);
-var AccordionDetails = styles$v.withStyles(function (theme) {
+var AccordionDetails = styles$w.withStyles(function (theme) {
   return {
     root: {
       padding: theme.spacing(2),
@@ -5544,31 +5400,29 @@ var AccordionDetails = styles$v.withStyles(function (theme) {
   };
 })(MuiAccordionDetails__default["default"]);
 var MainMenuContribution = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](MainMenuContribution, _Component);
-  var _super = _createSuper$j(MainMenuContribution);
   function MainMenuContribution() {
     var _this;
     _classCallCheck__default["default"](this, MainMenuContribution);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$j(this, MainMenuContribution, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       expanded: false,
       anchorRef: /*#__PURE__*/React__default["default"].createRef()
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "toggleExpanded", function (event) {
+    _defineProperty__default["default"](_this, "toggleExpanded", function (event) {
       _this.setState({
         expanded: !_this.state.expanded
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "handleMenuClose", function (event) {
+    _defineProperty__default["default"](_this, "handleMenuClose", function (event) {
       if (_this.state.anchorRef.current && _this.state.anchorRef.current.contains(event.target)) {
         return;
       }
       _this.toggleExpanded(event);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "handleMenuSelect", function (e, route) {
+    _defineProperty__default["default"](_this, "handleMenuSelect", function (e, route) {
       // block normal href only for left click
       if (e.type === 'click') {
         e.stopPropagation();
@@ -5577,7 +5431,7 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
       _this.toggleExpanded(e);
       _this.redirect(route);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "appBarMenu", function () {
+    _defineProperty__default["default"](_this, "appBarMenu", function () {
       return /*#__PURE__*/React__default["default"].createElement(React.Fragment, null, /*#__PURE__*/React__default["default"].createElement(core.Button, {
         ref: _this.state.anchorRef,
         onClick: _this.toggleExpanded,
@@ -5618,7 +5472,7 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
         })))));
       }));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "drawerMenu", function () {
+    _defineProperty__default["default"](_this, "drawerMenu", function () {
       return /*#__PURE__*/React__default["default"].createElement(Accordion, {
         className: _this.props.classes.panel,
         expanded: _this.state.expanded,
@@ -5649,7 +5503,8 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](MainMenuContribution, [{
+  _inherits__default["default"](MainMenuContribution, _Component);
+  return _createClass__default["default"](MainMenuContribution, [{
     key: "redirect",
     value: function redirect(route) {
       var _this$props = this.props,
@@ -5668,17 +5523,16 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
       }
     }
   }]);
-  return MainMenuContribution;
 }(React.Component);
 MainMenuContribution.propTypes = {
   header: PropTypes__default["default"].string.isRequired,
   entries: PropTypes__default["default"].array.isRequired,
   history: PropTypes__default["default"].object.isRequired
 };
-var MainMenuContribution$1 = withModulesManager(styles$v.withTheme(styles$v.withStyles(styles$i)(MainMenuContribution)));
+var MainMenuContribution$1 = withModulesManager(styles$w.withTheme(styles$w.withStyles(styles$i)(MainMenuContribution)));
 
-function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$i(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$i() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$i() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$i = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$h = function styles(theme) {
   return {
     progress: {
@@ -5692,13 +5546,12 @@ var styles$h = function styles(theme) {
   };
 };
 var ProgressOrError = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](ProgressOrError, _Component);
-  var _super = _createSuper$i(ProgressOrError);
   function ProgressOrError() {
     _classCallCheck__default["default"](this, ProgressOrError);
-    return _super.apply(this, arguments);
+    return _callSuper$i(this, ProgressOrError, arguments);
   }
-  _createClass__default["default"](ProgressOrError, [{
+  _inherits__default["default"](ProgressOrError, _Component);
+  return _createClass__default["default"](ProgressOrError, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -5714,20 +5567,18 @@ var ProgressOrError = /*#__PURE__*/function (_Component) {
       }));
     }
   }]);
-  return ProgressOrError;
 }(React.Component);
-var ProgressOrError$1 = styles$v.withTheme(styles$v.withStyles(styles$h)(ProgressOrError));
+var ProgressOrError$1 = styles$w.withTheme(styles$w.withStyles(styles$h)(ProgressOrError));
 
-function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$h(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$h() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$h() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$h = function _isNativeReflectConstruct() { return !!t; })(); }
 var ProxyPage = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](ProxyPage, _Component);
-  var _super = _createSuper$h(ProxyPage);
   function ProxyPage() {
     _classCallCheck__default["default"](this, ProxyPage);
-    return _super.apply(this, arguments);
+    return _callSuper$h(this, ProxyPage, arguments);
   }
-  _createClass__default["default"](ProxyPage, [{
+  _inherits__default["default"](ProxyPage, _Component);
+  return _createClass__default["default"](ProxyPage, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -5752,11 +5603,10 @@ var ProxyPage = /*#__PURE__*/function (_Component) {
       }));
     }
   }]);
-  return ProxyPage;
 }(React.Component);
 
-function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$g(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$g() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$g() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$g = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$g = function styles(theme) {
   return {
     table: theme.table,
@@ -5798,36 +5648,34 @@ var styles$g = function styles(theme) {
   };
 };
 var Table$2 = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Table, _Component);
-  var _super = _createSuper$g(Table);
   function Table() {
     var _this;
     _classCallCheck__default["default"](this, Table);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$g(this, Table, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       selection: {},
       ordinalNumberFrom: null
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_atom", function (a) {
+    _defineProperty__default["default"](_this, "_atom", function (a) {
       return !!a && a.reduce(function (m, i) {
         m[_this.itemIdentifier(i)] = i;
         return m;
       }, {});
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "itemIdentifier", function (i) {
+    _defineProperty__default["default"](_this, "itemIdentifier", function (i) {
       if (!!_this.props.itemIdentifier) {
         return _this.props.itemIdentifier(i);
       } else {
         return i.uuid;
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "isSelected", function (i) {
+    _defineProperty__default["default"](_this, "isSelected", function (i) {
       return !!_this.props.withSelection && !!_this.state.selection[_this.itemIdentifier(i)];
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "select", function (i, e) {
+    _defineProperty__default["default"](_this, "select", function (i, e) {
       // block normal href only for left click
       if (e.type === "click") {
         if (!_this.props.withSelection) return;
@@ -5847,7 +5695,7 @@ var Table$2 = /*#__PURE__*/function (_Component) {
         });
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "headerAction", function (a) {
+    _defineProperty__default["default"](_this, "headerAction", function (a) {
       return /*#__PURE__*/React__default["default"].createElement(core.Box, {
         flexGrow: 1
       }, /*#__PURE__*/React__default["default"].createElement(core.Box, {
@@ -5855,7 +5703,7 @@ var Table$2 = /*#__PURE__*/function (_Component) {
         justifyContent: "flex-end"
       }, a()));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "calculateOrdinalNumber", function (iidx, isPaginationEnabled, arrayLength) {
+    _defineProperty__default["default"](_this, "calculateOrdinalNumber", function (iidx, isPaginationEnabled, arrayLength) {
       var ordinalNumberFrom = _this.state.ordinalNumberFrom;
       var currentIndex = 0;
       if (isPaginationEnabled) {
@@ -5870,7 +5718,8 @@ var Table$2 = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](Table, [{
+  _inherits__default["default"](Table, _Component);
+  return _createClass__default["default"](Table, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -6109,12 +5958,11 @@ var Table$2 = /*#__PURE__*/function (_Component) {
       }), " "));
     }
   }]);
-  return Table;
 }(React.Component);
-var Table$3 = withModulesManager(reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$g)(Table$2))));
+var Table$3 = withModulesManager(reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$g)(Table$2))));
 
-function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$f() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$f(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$f() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$f() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$f = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$f = function styles(theme) {
   return {
     table: theme.table,
@@ -6154,35 +6002,33 @@ var styles$f = function styles(theme) {
   };
 };
 var Table$1 = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Table, _Component);
-  var _super = _createSuper$f(Table);
   function Table() {
     var _this;
     _classCallCheck__default["default"](this, Table);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$f(this, Table, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       selection: {}
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_atom", function (a) {
+    _defineProperty__default["default"](_this, "_atom", function (a) {
       return !!a && a.reduce(function (m, i) {
         m[_this.itemIdentifier(i)] = i;
         return m;
       }, {});
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "itemIdentifier", function (i) {
+    _defineProperty__default["default"](_this, "itemIdentifier", function (i) {
       if (!!_this.props.itemIdentifier) {
         return _this.props.itemIdentifier(i);
       } else {
         return i.uuid;
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "isSelected", function (i) {
+    _defineProperty__default["default"](_this, "isSelected", function (i) {
       return !!_this.props.withSelection && !!_this.state.selection[_this.itemIdentifier(i)];
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "select", function (i) {
+    _defineProperty__default["default"](_this, "select", function (i) {
       if (!_this.props.withSelection) return;
       var s = _this.state.selection;
       var id = _this.itemIdentifier(i);
@@ -6199,7 +6045,7 @@ var Table$1 = /*#__PURE__*/function (_Component) {
         return !!_this.props.onChangeSelection && _this.props.onChangeSelection(Object.values(_this.state.selection));
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "headerAction", function (a) {
+    _defineProperty__default["default"](_this, "headerAction", function (a) {
       return /*#__PURE__*/React__default["default"].createElement(core.Box, {
         flexGrow: 1
       }, /*#__PURE__*/React__default["default"].createElement(core.Box, {
@@ -6209,7 +6055,8 @@ var Table$1 = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](Table, [{
+  _inherits__default["default"](Table, _Component);
+  return _createClass__default["default"](Table, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -6472,12 +6319,11 @@ var Table$1 = /*#__PURE__*/function (_Component) {
       }), " "));
     }
   }]);
-  return Table;
 }(React.Component);
-var TableService = withModulesManager(reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$f)(Table$1))));
+var TableService = withModulesManager(reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$f)(Table$1))));
 
-function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$e(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$e() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$e() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$e = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$e = function styles(theme) {
   return {
     table: theme.table,
@@ -6517,35 +6363,33 @@ var styles$e = function styles(theme) {
   };
 };
 var Table = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Table, _Component);
-  var _super = _createSuper$e(Table);
   function Table() {
     var _this;
     _classCallCheck__default["default"](this, Table);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$e(this, Table, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       selection: {}
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_atom", function (a) {
+    _defineProperty__default["default"](_this, "_atom", function (a) {
       return !!a && a.reduce(function (m, i) {
         m[_this.itemIdentifier(i)] = i;
         return m;
       }, {});
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "itemIdentifier", function (i) {
+    _defineProperty__default["default"](_this, "itemIdentifier", function (i) {
       if (!!_this.props.itemIdentifier) {
         return _this.props.itemIdentifier(i);
       } else {
         return i.uuid;
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "isSelected", function (i) {
+    _defineProperty__default["default"](_this, "isSelected", function (i) {
       return !!_this.props.withSelection && !!_this.state.selection[_this.itemIdentifier(i)];
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "select", function (i) {
+    _defineProperty__default["default"](_this, "select", function (i) {
       if (!_this.props.withSelection) return;
       var s = _this.state.selection;
       var id = _this.itemIdentifier(i);
@@ -6562,7 +6406,7 @@ var Table = /*#__PURE__*/function (_Component) {
         return !!_this.props.onChangeSelection && _this.props.onChangeSelection(Object.values(_this.state.selection));
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "headerAction", function (a) {
+    _defineProperty__default["default"](_this, "headerAction", function (a) {
       return /*#__PURE__*/React__default["default"].createElement(core.Box, {
         flexGrow: 1
       }, /*#__PURE__*/React__default["default"].createElement(core.Box, {
@@ -6572,7 +6416,8 @@ var Table = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](Table, [{
+  _inherits__default["default"](Table, _Component);
+  return _createClass__default["default"](Table, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -6815,12 +6660,11 @@ var Table = /*#__PURE__*/function (_Component) {
       }), " "));
     }
   }]);
-  return Table;
 }(React.Component);
-var TableServiceReview = withModulesManager(reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$e)(Table))));
+var TableServiceReview = withModulesManager(reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$e)(Table))));
 
-function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$d(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$d(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$d(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$d(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$d(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$d(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var styles$d = function styles(theme) {
   return {
     primaryButton: theme.dialog.primaryButton,
@@ -6914,10 +6758,10 @@ var ExportColumnsDialog = function ExportColumnsDialog(_ref) {
     className: classes.secondaryButton
   }, formatMessage('exportColumnsDialog.cancelButton'))));
 };
-var ExportColumnsDialog$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$d)(ExportColumnsDialog)));
+var ExportColumnsDialog$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$d)(ExportColumnsDialog)));
 
-function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$c(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$c(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$c(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$c(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$c(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$c(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$c(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var styles$c = function styles(theme) {
   return {
     error: {
@@ -7108,8 +6952,8 @@ var CustomFilterTypeStatusPicker = function CustomFilterTypeStatusPicker(_ref) {
 };
 var CustomFilterTypeStatusPicker$1 = reactIntl.injectIntl(CustomFilterTypeStatusPicker);
 
-function ownKeys$b(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$b(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$b(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$b(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$b(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$b(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$b(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var styles$b = function styles(theme) {
   return {
     item: theme.paper.item
@@ -7230,10 +7074,10 @@ var AdvancedFilterRowValue = function AdvancedFilterRowValue(_ref) {
     className: classes.item
   }, renderInputBasedOnType(currentFilter.type)) : /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null));
 };
-var AdvancedFilterRowValue$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$b)(reactRedux.connect(null, null)(AdvancedFilterRowValue))));
+var AdvancedFilterRowValue$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$b)(reactRedux.connect(null, null)(AdvancedFilterRowValue))));
 
-function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$a(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$a(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$a(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$a(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$a(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var styles$a = function styles(theme) {
   return {
     item: theme.paper.item,
@@ -7503,12 +7347,12 @@ var mapDispatchToProps$5 = function mapDispatchToProps(dispatch) {
     fetchCustomFilter: fetchCustomFilter
   }, dispatch);
 };
-var AdvancedFiltersDialog$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$a)(reactRedux.connect(mapStateToProps$6, mapDispatchToProps$5)(AdvancedFiltersDialog))));
+var AdvancedFiltersDialog$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$a)(reactRedux.connect(mapStateToProps$6, mapDispatchToProps$5)(AdvancedFiltersDialog))));
 
-function _createSuper$d(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$d(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$d() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _callSuper$d(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$d() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$d() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$d = function _isNativeReflectConstruct() { return !!t; })(); }
+function ownKeys$9(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$9(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$9(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$9(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var styles$9 = function styles(theme) {
   return {
     paper: theme.paper.body,
@@ -7527,13 +7371,11 @@ var styles$9 = function styles(theme) {
   };
 };
 var SearcherPane = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](SearcherPane, _Component);
-  var _super = _createSuper$d(SearcherPane);
   function SearcherPane(props) {
     var _this;
     _classCallCheck__default["default"](this, SearcherPane);
-    _this = _super.call(this, props);
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "handleKeyDown", function (event) {
+    _this = _callSuper$d(this, SearcherPane, [props]);
+    _defineProperty__default["default"](_this, "handleKeyDown", function (event) {
       if (event.key === ENTER_KEY) {
         _this.debouncedRefresh();
       }
@@ -7547,7 +7389,8 @@ var SearcherPane = /*#__PURE__*/function (_Component) {
     _this.debouncedReset = _debounce__default["default"](reset, DEFAULT_DEBOUNCE_TIME);
     return _this;
   }
-  _createClass__default["default"](SearcherPane, [{
+  _inherits__default["default"](SearcherPane, _Component);
+  return _createClass__default["default"](SearcherPane, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       document.addEventListener("keydown", this.handleKeyDown);
@@ -7664,14 +7507,13 @@ var SearcherPane = /*#__PURE__*/function (_Component) {
       }, resultsPane))));
     }
   }]);
-  return SearcherPane;
 }(React.Component);
-var SearcherPane$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$9)(SearcherPane)));
+var SearcherPane$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$9)(SearcherPane)));
 
-function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _createSuper$c(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$c(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$c() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function ownKeys$8(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$8(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$8(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$8(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _callSuper$c(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$c() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$c() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$c = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$8 = function styles(theme) {
   return {
     root: {
@@ -7691,13 +7533,12 @@ var styles$8 = function styles(theme) {
   };
 };
 var SelectionPane = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](SelectionPane, _Component);
-  var _super = _createSuper$c(SelectionPane);
   function SelectionPane() {
     _classCallCheck__default["default"](this, SelectionPane);
-    return _super.apply(this, arguments);
+    return _callSuper$c(this, SelectionPane, arguments);
   }
-  _createClass__default["default"](SelectionPane, [{
+  _inherits__default["default"](SelectionPane, _Component);
+  return _createClass__default["default"](SelectionPane, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -7714,39 +7555,36 @@ var SelectionPane = /*#__PURE__*/function (_Component) {
       }));
     }
   }]);
-  return SelectionPane;
 }(React.Component);
 var SelectionMenu = /*#__PURE__*/function (_Component2) {
-  _inherits__default["default"](SelectionMenu, _Component2);
-  var _super2 = _createSuper$c(SelectionMenu);
   function SelectionMenu() {
     var _this;
     _classCallCheck__default["default"](this, SelectionMenu);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super2.call.apply(_super2, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$c(this, SelectionMenu, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       anchorEl: null
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "openMenu", function (e) {
+    _defineProperty__default["default"](_this, "openMenu", function (e) {
       return _this.setState({
         anchorEl: e.currentTarget
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "closeMenu", function (e) {
+    _defineProperty__default["default"](_this, "closeMenu", function (e) {
       return _this.setState({
         anchorEl: null
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "action", function (a) {
+    _defineProperty__default["default"](_this, "action", function (a) {
       _this.setState({
         anchorEl: null
       }, function (e) {
         return _this.props.triggerAction(a);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "renderButtons", function (entries, contributionKey) {
+    _defineProperty__default["default"](_this, "renderButtons", function (entries, contributionKey) {
       return /*#__PURE__*/React__default["default"].createElement(core.Grid, {
         item: true,
         className: _this.props.classes.paperHeader
@@ -7778,7 +7616,7 @@ var SelectionMenu = /*#__PURE__*/function (_Component2) {
         contributionKey: contributionKey
       })));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "renderMenu", function (entries, contributionKey) {
+    _defineProperty__default["default"](_this, "renderMenu", function (entries, contributionKey) {
       return /*#__PURE__*/React__default["default"].createElement(core.Grid, {
         item: true,
         className: _this.props.classes.paperHeader
@@ -7817,7 +7655,8 @@ var SelectionMenu = /*#__PURE__*/function (_Component2) {
     });
     return _this;
   }
-  _createClass__default["default"](SelectionMenu, [{
+  _inherits__default["default"](SelectionMenu, _Component2);
+  return _createClass__default["default"](SelectionMenu, [{
     key: "render",
     value: function render() {
       var _this$props2 = this.props,
@@ -7870,20 +7709,17 @@ var SelectionMenu = /*#__PURE__*/function (_Component2) {
       }
     }
   }]);
-  return SelectionMenu;
 }(React.Component);
-var StyledSelectionMenu = reactIntl.injectIntl(withModulesManager(styles$v.withTheme(styles$v.withStyles(styles$8)(SelectionMenu))));
+var StyledSelectionMenu = reactIntl.injectIntl(withModulesManager(styles$w.withTheme(styles$w.withStyles(styles$8)(SelectionMenu))));
 var Searcher = /*#__PURE__*/function (_Component3) {
-  _inherits__default["default"](Searcher, _Component3);
-  var _super3 = _createSuper$c(Searcher);
   function Searcher() {
     var _this2;
     _classCallCheck__default["default"](this, Searcher);
     for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
-    _this2 = _super3.call.apply(_super3, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "state", {
+    _this2 = _callSuper$c(this, Searcher, [].concat(args));
+    _defineProperty__default["default"](_this2, "state", {
       filters: {},
       orderBy: null,
       page: 0,
@@ -7896,7 +7732,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
       menuAnchor: null,
       enter: false
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "filtersToQueryParams", function () {
+    _defineProperty__default["default"](_this2, "filtersToQueryParams", function () {
       var _this2$state = _this2.state,
         page = _this2$state.page,
         afterCursor = _this2$state.afterCursor,
@@ -7927,7 +7763,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
       }
       return prms;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "resetFilters", function () {
+    _defineProperty__default["default"](_this2, "resetFilters", function () {
       _this2.setState(function (state, props) {
         return {
           filters: _objectSpread$8({}, _this2.props.defaultFilters),
@@ -7937,7 +7773,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         return _this2.applyFilters();
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "onChangeFilters", function (fltrs) {
+    _defineProperty__default["default"](_this2, "onChangeFilters", function (fltrs) {
       var filters = _objectSpread$8({}, _this2.state.filters);
       fltrs.forEach(function (filter) {
         if (filter.value === null) {
@@ -7961,7 +7797,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         });
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "handleEnter", function (event) {
+    _defineProperty__default["default"](_this2, "handleEnter", function (event) {
       if (event.key == "Enter") {
         var filters = _objectSpread$8({}, _this2.state.filters);
         _this2.setState({
@@ -7971,7 +7807,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         });
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "_cacheAndApply", function () {
+    _defineProperty__default["default"](_this2, "_cacheAndApply", function () {
       var filters = _this2.filtersToQueryParams();
       if (!!_this2.props.cacheFiltersKey) {
         var cacheKey = _this2._getCacheKey();
@@ -7981,7 +7817,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         _this2.props.fetch(filters);
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "applyFilters", function () {
+    _defineProperty__default["default"](_this2, "applyFilters", function () {
       _this2.setState(function (state, props) {
         return {
           page: 0,
@@ -7991,7 +7827,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         };
       }, _this2._cacheAndApply);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "deleteFilter", function (filter) {
+    _defineProperty__default["default"](_this2, "deleteFilter", function (filter) {
       var fltrs = _this2.state.filters;
       delete fltrs[filter];
       _this2.setState({
@@ -8001,24 +7837,24 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         beforeCursor: null
       }, _this2._cacheAndApply);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "clearSelected", function (e) {
+    _defineProperty__default["default"](_this2, "clearSelected", function (e) {
       _this2.setState(function (state, props) {
         return {
           clearAll: state.clearAll + 1
         };
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "selectAll", function (e) {
+    _defineProperty__default["default"](_this2, "selectAll", function (e) {
       _this2.setState({
         selectAll: _this2.state.selectAll + 1
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "onChangeSelection", function (selection) {
+    _defineProperty__default["default"](_this2, "onChangeSelection", function (selection) {
       _this2.setState({
         selection: selection
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "onChangeRowsPerPage", function (cnt) {
+    _defineProperty__default["default"](_this2, "onChangeRowsPerPage", function (cnt) {
       _this2.setState({
         pageSize: cnt,
         page: 0,
@@ -8028,7 +7864,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         return _this2.props.fetch(_this2.filtersToQueryParams());
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "onChangePage", function (page, nbr) {
+    _defineProperty__default["default"](_this2, "onChangePage", function (page, nbr) {
       if (nbr > _this2.state.page) {
         _this2.setState(function (state, props) {
           return {
@@ -8051,17 +7887,17 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         });
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "openMenu", function (event) {
+    _defineProperty__default["default"](_this2, "openMenu", function (event) {
       _this2.setState({
         menuAnchor: event.currentTarget
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "closeMenu", function () {
+    _defineProperty__default["default"](_this2, "closeMenu", function () {
       _this2.setState({
         menuAnchor: null
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "triggerAction", function (a) {
+    _defineProperty__default["default"](_this2, "triggerAction", function (a) {
       var s = _toConsumableArray__default["default"](_this2.state.selection);
       _this2.setState(function (state, props) {
         return {
@@ -8072,7 +7908,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         return a(s);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "headerActions", function (filters) {
+    _defineProperty__default["default"](_this2, "headerActions", function (filters) {
       if (!!_this2.props.headerActions) return _this2.props.headerActions(filters);
       if (!!_this2.props.sorts) {
         return _this2.props.sorts(filters).map(function (s) {
@@ -8095,7 +7931,8 @@ var Searcher = /*#__PURE__*/function (_Component3) {
     });
     return _this2;
   }
-  _createClass__default["default"](Searcher, [{
+  _inherits__default["default"](Searcher, _Component3);
+  return _createClass__default["default"](Searcher, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this3 = this;
@@ -8350,15 +8187,14 @@ var Searcher = /*#__PURE__*/function (_Component3) {
       }))))));
     }
   }]);
-  return Searcher;
 }(React.Component);
 var mapStateToProps$5 = function mapStateToProps(state) {
-  var _state$core, _state$core$savedPagi, _state$core2, _state$core2$savedPag, _state$core3, _state$core3$savedPag, _state$core$isSeconda;
+  var _state$core, _state$core2, _state$core3, _state$core$isSeconda;
   return {
     filtersCache: !!state.core && state.core.filtersCache,
-    paginationPage: (_state$core = state.core) === null || _state$core === void 0 ? void 0 : (_state$core$savedPagi = _state$core.savedPagination) === null || _state$core$savedPagi === void 0 ? void 0 : _state$core$savedPagi.paginationPage,
-    afterCursor: (_state$core2 = state.core) === null || _state$core2 === void 0 ? void 0 : (_state$core2$savedPag = _state$core2.savedPagination) === null || _state$core2$savedPag === void 0 ? void 0 : _state$core2$savedPag.afterCursor,
-    beforeCursor: (_state$core3 = state.core) === null || _state$core3 === void 0 ? void 0 : (_state$core3$savedPag = _state$core3.savedPagination) === null || _state$core3$savedPag === void 0 ? void 0 : _state$core3$savedPag.beforeCursor,
+    paginationPage: (_state$core = state.core) === null || _state$core === void 0 || (_state$core = _state$core.savedPagination) === null || _state$core === void 0 ? void 0 : _state$core.paginationPage,
+    afterCursor: (_state$core2 = state.core) === null || _state$core2 === void 0 || (_state$core2 = _state$core2.savedPagination) === null || _state$core2 === void 0 ? void 0 : _state$core2.afterCursor,
+    beforeCursor: (_state$core3 = state.core) === null || _state$core3 === void 0 || (_state$core3 = _state$core3.savedPagination) === null || _state$core3 === void 0 ? void 0 : _state$core3.beforeCursor,
     // This is not used directly, but is needed for Searcher component to be rerendered on change of calendar type
     isSecondaryCalendarEnabled: (_state$core$isSeconda = state.core.isSecondaryCalendarEnabled) !== null && _state$core$isSeconda !== void 0 ? _state$core$isSeconda : false
   };
@@ -8370,7 +8206,7 @@ var mapDispatchToProps$4 = function mapDispatchToProps(dispatch) {
     saveCurrentPaginationPage: saveCurrentPaginationPage
   }, dispatch);
 };
-var Searcher$1 = withModulesManager(reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$8)(reactRedux.connect(mapStateToProps$5, mapDispatchToProps$4)(Searcher)))));
+var Searcher$1 = withModulesManager(reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$8)(reactRedux.connect(mapStateToProps$5, mapDispatchToProps$4)(Searcher)))));
 
 var nepali = {
   name: "nepali",
@@ -8570,8 +8406,8 @@ var nepali_np = {
 };
 
 var _excluded$3 = ["intl", "classes", "disablePast", "module", "label", "readOnly", "required", "fullWidth", "format", "reset", "isSecondaryCalendarEnabled", "modulesManager", "minDate", "maxDate"];
-function _createSuper$b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$b(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$b() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$b(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$b() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$b() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$b = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$7 = function styles(theme) {
   return {
     label: {
@@ -8584,39 +8420,37 @@ function fromISODate$1(s) {
   return moment__default["default"](s).toDate();
 }
 var openIMISDatePicker = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](openIMISDatePicker, _Component);
-  var _super = _createSuper$b(openIMISDatePicker);
   function openIMISDatePicker() {
     var _this;
     _classCallCheck__default["default"](this, openIMISDatePicker);
     for (var _len = arguments.length, args = new Array(_len), _key2 = 0; _key2 < _len; _key2++) {
       args[_key2] = arguments[_key2];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$b(this, openIMISDatePicker, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       value: null
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "dateChange", function (d) {
+    _defineProperty__default["default"](_this, "dateChange", function (d) {
       _this.setState({
         value: toISODate(d)
       }, function (i) {
         return !!_this.props.onChange ? _this.props.onChange(toISODate(d)) : null;
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "secondaryCalendarDateChange", function (d) {
+    _defineProperty__default["default"](_this, "secondaryCalendarDateChange", function (d) {
       _this.setState({
         value: toISODate(d.toDate())
       }, function (i) {
         return !!_this.props.onChange ? _this.props.onChange(toISODate(d.toDate())) : null;
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "clearDate", function (e) {
+    _defineProperty__default["default"](_this, "clearDate", function (e) {
       e.preventDefault();
       _this.setState({
         value: null
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "setMinDate", function () {
+    _defineProperty__default["default"](_this, "setMinDate", function () {
       var _this$props = _this.props,
         disablePast = _this$props.disablePast,
         minDate = _this$props.minDate;
@@ -8624,29 +8458,30 @@ var openIMISDatePicker = /*#__PURE__*/function (_Component) {
         minDate: _this.moveByOneDay(disablePast ? new Date() : new Date(minDate))
       };
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "secondaryCalendarsOptions", {
+    _defineProperty__default["default"](_this, "secondaryCalendarsOptions", {
       "nepali": nepali,
       "default": gregorian__default["default"]
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "secondaryCalendarsLocaleOptions", {
+    _defineProperty__default["default"](_this, "secondaryCalendarsLocaleOptions", {
       "nepali_en": nepali_en,
       "nepali_np": nepali_np,
       "default": gregorian_en__default["default"]
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "getDictionaryValueOrDefault", function (_dictionary, _key) {
+    _defineProperty__default["default"](_this, "getDictionaryValueOrDefault", function (_dictionary, _key) {
       return _key in _dictionary ? _dictionary[_key] : _dictionary["default"];
     });
     // for some reason multi-date-picker picks incorrect date
     // we need to add one day for it to works correctly
     // it is possible, that future release of library will fix it
     // making this method redundant
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "moveByOneDay", function (date) {
+    _defineProperty__default["default"](_this, "moveByOneDay", function (date) {
       date.setDate(date.getDate() + 1);
       return date;
     });
     return _this;
   }
-  _createClass__default["default"](openIMISDatePicker, [{
+  _inherits__default["default"](openIMISDatePicker, _Component);
+  return _createClass__default["default"](openIMISDatePicker, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState(function (state, props) {
@@ -8738,7 +8573,6 @@ var openIMISDatePicker = /*#__PURE__*/function (_Component) {
       }
     }
   }]);
-  return openIMISDatePicker;
 }(React.Component);
 var mapStateToProps$4 = function mapStateToProps(state) {
   var _state$core$isSeconda;
@@ -8746,10 +8580,10 @@ var mapStateToProps$4 = function mapStateToProps(state) {
     isSecondaryCalendarEnabled: (_state$core$isSeconda = state.core.isSecondaryCalendarEnabled) !== null && _state$core$isSeconda !== void 0 ? _state$core$isSeconda : false
   };
 };
-var openIMISDatePicker$1 = reactIntl.injectIntl(feCore.withModulesManager(feCore.withHistory(reactRedux.connect(mapStateToProps$4, null)(styles$v.withTheme(styles$v.withStyles(styles$7)(openIMISDatePicker))))));
+var openIMISDatePicker$1 = reactIntl.injectIntl(feCore.withModulesManager(feCore.withHistory(reactRedux.connect(mapStateToProps$4, null)(styles$w.withTheme(styles$w.withStyles(styles$7)(openIMISDatePicker))))));
 
-function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$a() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$a(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$a() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$a() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$a = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$6 = function styles(theme) {
   return {
     label: {
@@ -8760,23 +8594,22 @@ var styles$6 = function styles(theme) {
   };
 };
 var RawPickerDialog = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](RawPickerDialog, _Component);
-  var _super = _createSuper$a(RawPickerDialog);
   function RawPickerDialog() {
     var _this;
     _classCallCheck__default["default"](this, RawPickerDialog);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "keysFunction", function (event) {
+    _this = _callSuper$a(this, RawPickerDialog, [].concat(args));
+    _defineProperty__default["default"](_this, "keysFunction", function (event) {
       if (event.keyCode === 27) {
         _this.props.onClose();
       }
     });
     return _this;
   }
-  _createClass__default["default"](RawPickerDialog, [{
+  _inherits__default["default"](RawPickerDialog, _Component);
+  return _createClass__default["default"](RawPickerDialog, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       document.addEventListener("keydown", this.keysFunction, false);
@@ -8835,30 +8668,27 @@ var RawPickerDialog = /*#__PURE__*/function (_Component) {
       }))));
     }
   }]);
-  return RawPickerDialog;
 }(React.Component);
-var PickerDialog = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$6)(RawPickerDialog)));
+var PickerDialog = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$6)(RawPickerDialog)));
 var Picker = /*#__PURE__*/function (_Component2) {
-  _inherits__default["default"](Picker, _Component2);
-  var _super2 = _createSuper$a(Picker);
   function Picker() {
     var _this2;
     _classCallCheck__default["default"](this, Picker);
     for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
-    _this2 = _super2.call.apply(_super2, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "state", {
+    _this2 = _callSuper$a(this, Picker, [].concat(args));
+    _defineProperty__default["default"](_this2, "state", {
       open: false
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "_onSelect", function (v) {
+    _defineProperty__default["default"](_this2, "_onSelect", function (v) {
       _this2.setState({
         open: false
       }, function (e) {
         return _this2.props.onSelect(v);
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "onClick", function () {
+    _defineProperty__default["default"](_this2, "onClick", function () {
       var _this2$props = _this2.props,
         _this2$props$check = _this2$props.check,
         check = _this2$props$check === void 0 ? null : _this2$props$check,
@@ -8872,15 +8702,15 @@ var Picker = /*#__PURE__*/function (_Component2) {
         });
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "onClose", function (e) {
+    _defineProperty__default["default"](_this2, "onClose", function (e) {
       return _this2.setState({
         open: false
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "onClear", function (e) {
+    _defineProperty__default["default"](_this2, "onClear", function (e) {
       _this2.props.onSelect(null);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this2), "_suggestionFormatter", function (a) {
+    _defineProperty__default["default"](_this2, "_suggestionFormatter", function (a) {
       return /*#__PURE__*/React__default["default"].createElement(FakeInput$1, {
         onSelect: function onSelect(e) {
           return _this2._onSelect(a);
@@ -8890,7 +8720,8 @@ var Picker = /*#__PURE__*/function (_Component2) {
     });
     return _this2;
   }
-  _createClass__default["default"](Picker, [{
+  _inherits__default["default"](Picker, _Component2);
+  return _createClass__default["default"](Picker, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState, snapshot) {
       if (!prevProps.checked && !!this.props.checked) {
@@ -8992,31 +8823,28 @@ var Picker = /*#__PURE__*/function (_Component2) {
       }), !!IconRender && this.renderIcon(), !IconRender && this.renderField());
     }
   }]);
-  return Picker;
 }(React.Component);
-var Picker$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$6)(Picker)));
+var Picker$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$6)(Picker)));
 
-function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$9(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$9() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$9() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$9 = function _isNativeReflectConstruct() { return !!t; })(); }
 var INIT_STATE = {
   value: null
 };
 var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](ConstantBasedPicker, _Component);
-  var _super = _createSuper$9(ConstantBasedPicker);
   function ConstantBasedPicker() {
     var _this;
     _classCallCheck__default["default"](this, ConstantBasedPicker);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", INIT_STATE);
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_formatValue", function (v) {
+    _this = _callSuper$9(this, ConstantBasedPicker, [].concat(args));
+    _defineProperty__default["default"](_this, "state", INIT_STATE);
+    _defineProperty__default["default"](_this, "_formatValue", function (v) {
       var _this$props$nullLabel;
       return v === null ? formatMessage(_this.props.intl, _this.props.module, (_this$props$nullLabel = _this.props.nullLabel) !== null && _this$props$nullLabel !== void 0 ? _this$props$nullLabel : "".concat(_this.props.label, ".null")) : formatMessage(_this.props.intl, _this.props.module, "".concat(_this.props.label, ".").concat(v));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onChange", function (v) {
+    _defineProperty__default["default"](_this, "_onChange", function (v) {
       _this.setState({
         value: v
       }, function (e) {
@@ -9025,7 +8853,8 @@ var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](ConstantBasedPicker, [{
+  _inherits__default["default"](ConstantBasedPicker, _Component);
+  return _createClass__default["default"](ConstantBasedPicker, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       if (!!this.props.value) {
@@ -9093,20 +8922,18 @@ var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
       });
     }
   }]);
-  return ConstantBasedPicker;
 }(React.Component);
 var ConstantBasedPicker$1 = reactIntl.injectIntl(ConstantBasedPicker);
 
-function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$8(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$8() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$8() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$8 = function _isNativeReflectConstruct() { return !!t; })(); }
 var YearPicker = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](YearPicker, _Component);
-  var _super = _createSuper$8(YearPicker);
   function YearPicker() {
     _classCallCheck__default["default"](this, YearPicker);
-    return _super.apply(this, arguments);
+    return _callSuper$8(this, YearPicker, arguments);
   }
-  _createClass__default["default"](YearPicker, [{
+  _inherits__default["default"](YearPicker, _Component);
+  return _createClass__default["default"](YearPicker, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -9146,21 +8973,19 @@ var YearPicker = /*#__PURE__*/function (_Component) {
       });
     }
   }]);
-  return YearPicker;
 }(React.Component);
 var YearPicker$1 = reactIntl.injectIntl(YearPicker);
 
 var _excluded$2 = ["intl", "module", "label", "withNull"];
-function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$7(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$7() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$7() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$7 = function _isNativeReflectConstruct() { return !!t; })(); }
 var MonthPicker = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](MonthPicker, _Component);
-  var _super = _createSuper$7(MonthPicker);
   function MonthPicker() {
     _classCallCheck__default["default"](this, MonthPicker);
-    return _super.apply(this, arguments);
+    return _callSuper$7(this, MonthPicker, arguments);
   }
-  _createClass__default["default"](MonthPicker, [{
+  _inherits__default["default"](MonthPicker, _Component);
+  return _createClass__default["default"](MonthPicker, [{
     key: "render",
     value: function render() {
       var _this$props = this.props;
@@ -9179,13 +9004,12 @@ var MonthPicker = /*#__PURE__*/function (_Component) {
       }, others));
     }
   }]);
-  return MonthPicker;
 }(React.Component);
 var MonthPicker$1 = reactIntl.injectIntl(MonthPicker);
 
 var _excluded$1 = ["intl", "classes", "disablePast", "module", "label", "readOnly", "required", "fullWidth", "reset"];
-function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$6(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$6() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$6() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$6 = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$5 = function styles(theme) {
   return {
     label: {
@@ -9198,19 +9022,17 @@ function fromISODate(s) {
   return moment__default["default"](s).toDate();
 }
 var MonthYearPicker = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](MonthYearPicker, _Component);
-  var _super = _createSuper$6(MonthYearPicker);
   function MonthYearPicker() {
     var _this;
     _classCallCheck__default["default"](this, MonthYearPicker);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$6(this, MonthYearPicker, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       value: null
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "monthYearChange", function (date) {
+    _defineProperty__default["default"](_this, "monthYearChange", function (date) {
       if (date) {
         var monthYear = moment__default["default"](date).format("YYYY-MM");
         _this.setState({
@@ -9228,7 +9050,8 @@ var MonthYearPicker = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](MonthYearPicker, [{
+  _inherits__default["default"](MonthYearPicker, _Component);
+  return _createClass__default["default"](MonthYearPicker, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState(function (state, props) {
@@ -9283,32 +9106,30 @@ var MonthYearPicker = /*#__PURE__*/function (_Component) {
       })));
     }
   }]);
-  return MonthYearPicker;
 }(React.Component);
-var MonthYearPicker$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$5)(MonthYearPicker)));
+var MonthYearPicker$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$5)(MonthYearPicker)));
 
-function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$5(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$5() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$5() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$5 = function _isNativeReflectConstruct() { return !!t; })(); }
 var LanguagePicker = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](LanguagePicker, _Component);
-  var _super = _createSuper$5(LanguagePicker);
   function LanguagePicker() {
     var _this;
     _classCallCheck__default["default"](this, LanguagePicker);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "nullDisplay", _this.props.nullLabel || feCore.formatMessage(_this.props.intl, "core", "Language.null"));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "formatSuggestion", function (i) {
+    _this = _callSuper$5(this, LanguagePicker, [].concat(args));
+    _defineProperty__default["default"](_this, "nullDisplay", _this.props.nullLabel || feCore.formatMessage(_this.props.intl, "core", "Language.null"));
+    _defineProperty__default["default"](_this, "formatSuggestion", function (i) {
       return !!i ? i : _this.nullDisplay;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onSuggestionSelected", function (v) {
+    _defineProperty__default["default"](_this, "onSuggestionSelected", function (v) {
       _this.props.onChange(v, _this.formatSuggestion(v));
     });
     return _this;
   }
-  _createClass__default["default"](LanguagePicker, [{
+  _inherits__default["default"](LanguagePicker, _Component);
+  return _createClass__default["default"](LanguagePicker, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -9369,7 +9190,6 @@ var LanguagePicker = /*#__PURE__*/function (_Component) {
       });
     }
   }]);
-  return LanguagePicker;
 }(React.Component);
 var mapStateToProps$3 = function mapStateToProps(state) {
   return {
@@ -9406,8 +9226,8 @@ var formatRoleLabel = function formatRoleLabel() {
   return "".concat(moduleNameLabel, " | ").concat(rightNameLabel);
 };
 
-function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$7(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$7(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$7(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$7(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var WHITESPACE_REGEX = /\s/g;
 var UNDERSCORE_REGEX = /_/g;
 var AuthorityPicker = function AuthorityPicker(_ref) {
@@ -9473,8 +9293,8 @@ var AuthorityPicker = function AuthorityPicker(_ref) {
   });
 };
 
-function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$4(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$4() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$4() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$4 = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$4 = function styles(theme) {
   return {
     page: theme.page,
@@ -9489,45 +9309,43 @@ var styles$4 = function styles(theme) {
 };
 var DEFAULT_ORDER_BY = "name";
 var RawRoleFilter = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](RawRoleFilter, _Component);
-  var _super = _createSuper$4(RawRoleFilter);
   function RawRoleFilter() {
     var _this;
     _classCallCheck__default["default"](this, RawRoleFilter);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_filterValue", function (k) {
+    _this = _callSuper$4(this, RawRoleFilter, [].concat(args));
+    _defineProperty__default["default"](_this, "_filterValue", function (k) {
       var filters = _this.props.filters;
       return !!filters[k] ? filters[k].value : null;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_filterTextFieldValue", function (k) {
+    _defineProperty__default["default"](_this, "_filterTextFieldValue", function (k) {
       var filters = _this.props.filters;
       return !!filters[k] ? filters[k].value : "";
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onChangeFilter", function (k, v) {
+    _defineProperty__default["default"](_this, "_onChangeFilter", function (k, v) {
       _this.props.onChangeFilters([{
         id: k,
         value: v,
         filter: "".concat(k, ": ").concat(v)
       }]);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "_onChangeStringFilter", function (k, v, lookup) {
+    _defineProperty__default["default"](_this, "_onChangeStringFilter", function (k, v, lookup) {
       _this.props.onChangeFilters([{
         id: k,
         value: v,
         filter: "".concat(k, "_").concat(lookup, ": \"").concat(v, "\"")
       }]);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onChangeRoleRight", function (key, value) {
+    _defineProperty__default["default"](_this, "onChangeRoleRight", function (key, value) {
       _this.props.onChangeFilters([{
         id: key,
         value: value,
         filter: "".concat(key, ": ").concat(value === null || value === void 0 ? void 0 : value.permsValue)
       }]);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "booleanOptions", function () {
+    _defineProperty__default["default"](_this, "booleanOptions", function () {
       var options = [null, "true", "false"];
       return _toConsumableArray__default["default"](options.map(function (option) {
         return {
@@ -9538,7 +9356,8 @@ var RawRoleFilter = /*#__PURE__*/function (_Component) {
     });
     return _this;
   }
-  _createClass__default["default"](RawRoleFilter, [{
+  _inherits__default["default"](RawRoleFilter, _Component);
+  return _createClass__default["default"](RawRoleFilter, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -9608,33 +9427,30 @@ var RawRoleFilter = /*#__PURE__*/function (_Component) {
       })));
     }
   }]);
-  return RawRoleFilter;
 }(React.Component);
-var RoleFilter = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$4)(RawRoleFilter)));
+var RoleFilter = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$4)(RawRoleFilter)));
 var Roles = /*#__PURE__*/function (_Component2) {
-  _inherits__default["default"](Roles, _Component2);
-  var _super2 = _createSuper$4(Roles);
   function Roles() {
     var _this3;
     _classCallCheck__default["default"](this, Roles);
     for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
-    _this3 = _super2.call.apply(_super2, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "state", {
+    _this3 = _callSuper$4(this, Roles, [].concat(args));
+    _defineProperty__default["default"](_this3, "state", {
       toDelete: null,
       deleted: []
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "onAdd", function () {
+    _defineProperty__default["default"](_this3, "onAdd", function () {
       return feCore.historyPush(_this3.props.modulesManager, _this3.props.history, "core.route.role");
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "roleUpdatePageUrl", function (role) {
+    _defineProperty__default["default"](_this3, "roleUpdatePageUrl", function (role) {
       return "".concat(_this3.props.modulesManager.getRef("core.route.role")).concat("/" + role.uuid);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "roleDuplicatePageUrl", function (role) {
+    _defineProperty__default["default"](_this3, "roleDuplicatePageUrl", function (role) {
       return "".concat(_this3.roleUpdatePageUrl(role), "?").concat(QUERY_STRING_DUPLICATE);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "onDoubleClick", function (role) {
+    _defineProperty__default["default"](_this3, "onDoubleClick", function (role) {
       var newTab = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var _this3$props = _this3.props,
         rights = _this3$props.rights,
@@ -9644,10 +9460,10 @@ var Roles = /*#__PURE__*/function (_Component2) {
         feCore.historyPush(modulesManager, history, "core.route.role", [role.uuid], newTab);
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "fetch", function (params) {
+    _defineProperty__default["default"](_this3, "fetch", function (params) {
       return _this3.props.fetchRoles(params);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "headers", function (filters) {
+    _defineProperty__default["default"](_this3, "headers", function (filters) {
       var _filters$showHistory, _filters$showHistory2;
       var rights = _this3.props.rights;
       var result = ["roleManagement.roleName", "roleManagement.isSystem", "roleManagement.isBlocked", filters !== null && filters !== void 0 && (_filters$showHistory = filters.showHistory) !== null && _filters$showHistory !== void 0 && _filters$showHistory.value ? "roleManagement.dateValidFrom" : null, filters !== null && filters !== void 0 && (_filters$showHistory2 = filters.showHistory) !== null && _filters$showHistory2 !== void 0 && _filters$showHistory2.value ? "roleManagement.dateValidTo" : null];
@@ -9658,7 +9474,7 @@ var Roles = /*#__PURE__*/function (_Component2) {
       });
       return result;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "itemFormatters", function (filters) {
+    _defineProperty__default["default"](_this3, "itemFormatters", function (filters) {
       var _this3$props2 = _this3.props,
         intl = _this3$props2.intl,
         rights = _this3$props2.rights,
@@ -9711,7 +9527,7 @@ var Roles = /*#__PURE__*/function (_Component2) {
       }
       return result;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "onDelete", function (role) {
+    _defineProperty__default["default"](_this3, "onDelete", function (role) {
       var _this3$props3 = _this3.props,
         intl = _this3$props3.intl,
         coreConfirm = _this3$props3.coreConfirm,
@@ -9734,26 +9550,27 @@ var Roles = /*#__PURE__*/function (_Component2) {
         confirmedAction: confirmedAction
       }, confirm);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "sorts", function (filters) {
+    _defineProperty__default["default"](_this3, "sorts", function (filters) {
       var _filters$showHistory5, _filters$showHistory6;
       return [["name", true], ["isSystem", true], ["isBlocked", true], filters !== null && filters !== void 0 && (_filters$showHistory5 = filters.showHistory) !== null && _filters$showHistory5 !== void 0 && _filters$showHistory5.value ? ["validityFrom", true] : null, filters !== null && filters !== void 0 && (_filters$showHistory6 = filters.showHistory) !== null && _filters$showHistory6 !== void 0 && _filters$showHistory6.value ? ["validityTo", true] : null];
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "isRowDisabled", function (_, role) {
+    _defineProperty__default["default"](_this3, "isRowDisabled", function (_, role) {
       return _this3.state.deleted.includes(role.id) || !!role.validityTo && role.validityTo < new Date().toISOString();
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "isRowLocked", function (_, role) {
+    _defineProperty__default["default"](_this3, "isRowLocked", function (_, role) {
       return _this3.state.deleted.includes(role.id);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "isOnDoubleClickEnabled", function (role) {
+    _defineProperty__default["default"](_this3, "isOnDoubleClickEnabled", function (role) {
       return !_this3.isRowDisabled(_, role);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this3), "componentDidMount", function () {
+    _defineProperty__default["default"](_this3, "componentDidMount", function () {
       var module = _this3.props.module;
       if (module !== MODULE_NAME) _this3.props.clearCurrentPaginationPage();
     });
     return _this3;
   }
-  _createClass__default["default"](Roles, [{
+  _inherits__default["default"](Roles, _Component2);
+  return _createClass__default["default"](Roles, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState, snapshot) {
       if (prevProps.submittingMutation && !this.props.submittingMutation) {
@@ -9816,10 +9633,9 @@ var Roles = /*#__PURE__*/function (_Component2) {
       }, /*#__PURE__*/React__default["default"].createElement(AddIcon__default["default"], null))), feCore.formatMessage(intl, "core", "roleManagement.createButton.tooltip")));
     }
   }]);
-  return Roles;
 }(React.Component);
 var mapStateToProps$2 = function mapStateToProps(state) {
-  var _state$core, _state$core$savedPagi;
+  var _state$core;
   return {
     rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
     language: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.language : null,
@@ -9832,7 +9648,7 @@ var mapStateToProps$2 = function mapStateToProps(state) {
     confirmed: state.core.confirmed,
     submittingMutation: state.core.submittingMutation,
     mutation: state.core.mutation,
-    module: (_state$core = state.core) === null || _state$core === void 0 ? void 0 : (_state$core$savedPagi = _state$core.savedPagination) === null || _state$core$savedPagi === void 0 ? void 0 : _state$core$savedPagi.module
+    module: (_state$core = state.core) === null || _state$core === void 0 || (_state$core = _state$core.savedPagination) === null || _state$core === void 0 ? void 0 : _state$core.module
   };
 };
 var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
@@ -9844,23 +9660,22 @@ var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
     clearCurrentPaginationPage: feCore.clearCurrentPaginationPage
   }, dispatch);
 };
-var Roles$1 = feCore.withModulesManager(reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$4)(reactRedux.connect(mapStateToProps$2, mapDispatchToProps$2)(Roles)))));
+var Roles$1 = feCore.withModulesManager(reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$4)(reactRedux.connect(mapStateToProps$2, mapDispatchToProps$2)(Roles)))));
 
-function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper$3(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$3() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$3() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$3 = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$3 = function styles(theme) {
   return {
     item: theme.paper.item
   };
 };
 var RoleHeadPanel = /*#__PURE__*/function (_FormPanel) {
-  _inherits__default["default"](RoleHeadPanel, _FormPanel);
-  var _super = _createSuper$3(RoleHeadPanel);
   function RoleHeadPanel() {
     _classCallCheck__default["default"](this, RoleHeadPanel);
-    return _super.apply(this, arguments);
+    return _callSuper$3(this, RoleHeadPanel, arguments);
   }
-  _createClass__default["default"](RoleHeadPanel, [{
+  _inherits__default["default"](RoleHeadPanel, _FormPanel);
+  return _createClass__default["default"](RoleHeadPanel, [{
     key: "render",
     value: function render() {
       var _this = this;
@@ -9927,18 +9742,17 @@ var RoleHeadPanel = /*#__PURE__*/function (_FormPanel) {
       }))));
     }
   }]);
-  return RoleHeadPanel;
 }(feCore.FormPanel);
-var RoleHeadPanel$1 = feCore.withModulesManager(styles$v.withTheme(styles$v.withStyles(styles$3)(RoleHeadPanel)));
+var RoleHeadPanel$1 = feCore.withModulesManager(styles$w.withTheme(styles$w.withStyles(styles$3)(RoleHeadPanel)));
 
 var _excluded = ["roleRights"],
   _excluded2 = ["roleRights"],
   _excluded3 = ["roleRights"],
   _excluded4 = ["roleRights"];
-function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function ownKeys$6(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$6(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$6(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$6(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _callSuper$2(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$2() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$2() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$2 = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$2 = function styles(theme) {
   return {
     item: theme.paper.item,
@@ -9969,13 +9783,11 @@ var styles$2 = function styles(theme) {
   };
 };
 var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
-  _inherits__default["default"](RoleRightsPanel, _FormPanel);
-  var _super = _createSuper$2(RoleRightsPanel);
   function RoleRightsPanel(props) {
     var _this;
     _classCallCheck__default["default"](this, RoleRightsPanel);
-    _this = _super.call(this, props);
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "selectRight", function (rightId) {
+    _this = _callSuper$2(this, RoleRightsPanel, [props]);
+    _defineProperty__default["default"](_this, "selectRight", function (rightId) {
       var _this$props$edited = _this.props.edited,
         roleRights = _this$props$edited.roleRights,
         rest = _objectWithoutProperties__default["default"](_this$props$edited, _excluded);
@@ -9984,7 +9796,7 @@ var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
         roleRights: roleRights
       }, rest));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "unselectRight", function (rightId) {
+    _defineProperty__default["default"](_this, "unselectRight", function (rightId) {
       var _this$props$edited2 = _this.props.edited,
         roleRights = _this$props$edited2.roleRights,
         rest = _objectWithoutProperties__default["default"](_this$props$edited2, _excluded2);
@@ -9994,13 +9806,13 @@ var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
         })
       }, rest));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "rightTranslationId", function (moduleName, permsName) {
+    _defineProperty__default["default"](_this, "rightTranslationId", function (moduleName, permsName) {
       return "".concat(moduleName, ".").concat(permsName);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "isFilterMatched", function (moduleName, permsName) {
+    _defineProperty__default["default"](_this, "isFilterMatched", function (moduleName, permsName) {
       return _this.rightLabel(moduleName, permsName).includes(_this.state.filterValue.toLowerCase()) || _this.rightTranslationId(moduleName, permsName).includes(_this.state.filterValue.toLowerCase());
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "rightLabel", function (moduleName, permsName) {
+    _defineProperty__default["default"](_this, "rightLabel", function (moduleName, permsName) {
       var translationId = _this.rightTranslationId(moduleName, permsName);
       var translatedMessage = feCore.formatMessage(_this.props.intl, null, translationId);
       var translationFound = translatedMessage !== translationId;
@@ -10009,7 +9821,7 @@ var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
       }
       return translatedMessage;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "filterPermissions", function () {
+    _defineProperty__default["default"](_this, "filterPermissions", function () {
       var checkAvailableRights = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       var _this$props = _this.props,
         modulePermissions = _this$props.modulePermissions,
@@ -10035,7 +9847,7 @@ var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
       }).flat();
       return allFilteredPerms;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "selectAllFilteredPerms", function () {
+    _defineProperty__default["default"](_this, "selectAllFilteredPerms", function () {
       var _this$props2 = _this.props,
         edited = _this$props2.edited,
         onEditedChanged = _this$props2.onEditedChanged;
@@ -10046,7 +9858,7 @@ var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
         roleRights: [].concat(_toConsumableArray__default["default"](roleRights), _toConsumableArray__default["default"](filteredPerms))
       }, restState));
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "removeAllChosenPerms", function () {
+    _defineProperty__default["default"](_this, "removeAllChosenPerms", function () {
       var _this$props3 = _this.props,
         edited = _this$props3.edited,
         onEditedChanged = _this$props3.onEditedChanged;
@@ -10074,7 +9886,8 @@ var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
     };
     return _this;
   }
-  _createClass__default["default"](RoleRightsPanel, [{
+  _inherits__default["default"](RoleRightsPanel, _FormPanel);
+  return _createClass__default["default"](RoleRightsPanel, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       if (!this.props.fetchedModulePermissions) {
@@ -10226,7 +10039,6 @@ var RoleRightsPanel = /*#__PURE__*/function (_FormPanel) {
       })))))));
     }
   }]);
-  return RoleRightsPanel;
 }(feCore.FormPanel);
 var mapStateToProps$1 = function mapStateToProps(state) {
   return {
@@ -10245,12 +10057,12 @@ var mapDispatchToProps$1 = function mapDispatchToProps(dispatch) {
     fetchModulesPermissions: fetchModulesPermissions
   }, dispatch);
 };
-var RoleRightsPanel$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$2)(reactRedux.connect(mapStateToProps$1, mapDispatchToProps$1)(RoleRightsPanel))));
+var RoleRightsPanel$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$2)(reactRedux.connect(mapStateToProps$1, mapDispatchToProps$1)(RoleRightsPanel))));
 
-function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function ownKeys$5(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$5(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$5(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$5(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _callSuper$1(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$1() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct$1() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$1 = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$1 = function styles(theme) {
   return {
     page: theme.page,
@@ -10258,16 +10070,14 @@ var styles$1 = function styles(theme) {
   };
 };
 var Role = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Role, _Component);
-  var _super = _createSuper$1(Role);
   function Role() {
     var _this;
     _classCallCheck__default["default"](this, Role);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "state", {
+    _this = _callSuper$1(this, Role, [].concat(args));
+    _defineProperty__default["default"](_this, "state", {
       role: {
         isSystem: false,
         isBlocked: false,
@@ -10276,7 +10086,7 @@ var Role = /*#__PURE__*/function (_Component) {
       reset: 0,
       isLocked: false
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "save", function (role) {
+    _defineProperty__default["default"](_this, "save", function (role) {
       var _this$props = _this.props,
         intl = _this$props.intl,
         createRole = _this$props.createRole,
@@ -10316,16 +10126,16 @@ var Role = /*#__PURE__*/function (_Component) {
         createRole(role, feCore.formatMessageWithValues(intl, "core", "roleManagement.CreateRole.mutationLabel", _this.titleParams(role)));
       }
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "back", function () {
+    _defineProperty__default["default"](_this, "back", function () {
       return _this.props.history.goBack();
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "isFormLocked", function () {
+    _defineProperty__default["default"](_this, "isFormLocked", function () {
       return _this.state.isLocked;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "isRequiredFieldsEmpty", function () {
+    _defineProperty__default["default"](_this, "isRequiredFieldsEmpty", function () {
       return !(!!_this.state.role && !!_this.state.role.name);
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "doesRoleChange", function () {
+    _defineProperty__default["default"](_this, "doesRoleChange", function () {
       var roleRights = _this.state.role.roleRights;
       var _prepareForComparison = prepareForComparison(_this.state.role, _this.props.role, _this.props.roleRights),
         stateRole = _prepareForComparison.stateRole,
@@ -10335,22 +10145,23 @@ var Role = /*#__PURE__*/function (_Component) {
       if (!___default["default"].isEqual(___default["default"].sortBy(convertedRoleRights), ___default["default"].sortBy(roleRights))) return true;
       return false;
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "canSave", function () {
+    _defineProperty__default["default"](_this, "canSave", function () {
       return !_this.isRequiredFieldsEmpty() && _this.doesRoleChange() && !_this.isFormLocked();
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "onEditedChanged", function (role) {
+    _defineProperty__default["default"](_this, "onEditedChanged", function (role) {
       return _this.setState({
         role: role
       });
     });
-    _defineProperty__default["default"](_assertThisInitialized__default["default"](_this), "titleParams", function (role) {
+    _defineProperty__default["default"](_this, "titleParams", function (role) {
       return {
         label: !!role && !!role.name ? role.name : null
       };
     });
     return _this;
   }
-  _createClass__default["default"](Role, [{
+  _inherits__default["default"](Role, _Component);
+  return _createClass__default["default"](Role, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -10441,7 +10252,6 @@ var Role = /*#__PURE__*/function (_Component) {
       }));
     }
   }]);
-  return Role;
 }(React.Component);
 var mapStateToProps = function mapStateToProps(state, props) {
   return {
@@ -10466,10 +10276,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     coreConfirm: feCore.coreConfirm
   }, dispatch);
 };
-var Role$1 = feCore.withHistory(feCore.withModulesManager(reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles$1)(reactRedux.connect(mapStateToProps, mapDispatchToProps)(Role))))));
+var Role$1 = feCore.withHistory(feCore.withModulesManager(reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$1)(reactRedux.connect(mapStateToProps, mapDispatchToProps)(Role))))));
 
-function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$4(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$4(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$4(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$4(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function reducer() {
   var _action$payload, _action$payload3, _action$payload4, _action$payload5, _action$payload6;
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
@@ -10550,25 +10360,6 @@ function reducer() {
           message: action.payload.statusText,
           detail: !!action.payload.response ? action.payload.response.detail : null
         }
-      });
-    case "PASSWORD_POLICY_FIELDS_REQ":
-      return _objectSpread$4(_objectSpread$4({}, state), {}, {
-        fetchingPasswordPolicy: true,
-        fetchedPasswordPolicy: false,
-        passwordPolicy: null,
-        errorPasswordPolicy: null
-      });
-    case "PASSWORD_POLICY_FIELDS_RESP":
-      return _objectSpread$4(_objectSpread$4({}, state), {}, {
-        fetchingPasswordPolicy: false,
-        fetchedPasswordPolicy: true,
-        passwordPolicy: action.payload.data.passwordPolicy,
-        errorPasswordPolicy: formatGraphQLError(action.payload)
-      });
-    case "PASSWORD_POLICY_FIELDS_ERR":
-      return _objectSpread$4(_objectSpread$4({}, state), {}, {
-        fetchingPasswordPolicy: false,
-        errorPasswordPolicy: formatServerError(action.payload)
       });
     case "CORE_CACHE_FILTER":
       var filtersCache = _objectSpread$4(_objectSpread$4({}, state.filtersCache), action.payload);
@@ -10876,21 +10667,20 @@ var InternalServerErrorPage = function InternalServerErrorPage(props) {
   }, props));
 };
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _callSuper(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 var ErrorBoundary = /*#__PURE__*/function (_React$Component) {
-  _inherits__default["default"](ErrorBoundary, _React$Component);
-  var _super = _createSuper(ErrorBoundary);
   function ErrorBoundary(props) {
     var _this;
     _classCallCheck__default["default"](this, ErrorBoundary);
-    _this = _super.call(this, props);
+    _this = _callSuper(this, ErrorBoundary, [props]);
     _this.state = {
       hasError: false
     };
     return _this;
   }
-  _createClass__default["default"](ErrorBoundary, [{
+  _inherits__default["default"](ErrorBoundary, _React$Component);
+  return _createClass__default["default"](ErrorBoundary, [{
     key: "componentDidCatch",
     value: function componentDidCatch(error, errorInfo) {
       // Just log for now, could be reported elsewhere
@@ -10915,7 +10705,6 @@ var ErrorBoundary = /*#__PURE__*/function (_React$Component) {
       };
     }
   }]);
-  return ErrorBoundary;
 }(React__default["default"].Component);
 
 var styles = function styles(theme) {
@@ -10950,10 +10739,10 @@ var SelectDialog = function SelectDialog(_ref) {
     className: classes.secondaryButton
   }, formatMessage(rejectionButton))));
 };
-var SelectDialog$1 = reactIntl.injectIntl(styles$v.withTheme(styles$v.withStyles(styles)(SelectDialog)));
+var SelectDialog$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles)(SelectDialog)));
 
-function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$3(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$3(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$3(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$3(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var DEFAULT_STYLES = {
   backgroundColor: "khaki",
   padding: "12px",
@@ -11071,7 +10860,6 @@ var RefreshAuthToken = function RefreshAuthToken() {
     if (auth.isAuthenticated) {
       intervalRef.current = setInterval(auth.refresh, 2 * 60 * 1000); // Refresh the token every 2 minutes
     }
-
     return function () {
       clearTimeout(intervalRef.current);
     };
@@ -11079,8 +10867,8 @@ var RefreshAuthToken = function RefreshAuthToken() {
   return null;
 };
 
-function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$2(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$2(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$2(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$2(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var UserActivityReport = function UserActivityReport(props) {
   var values = props.values,
     setValues = props.setValues;
@@ -11156,8 +10944,8 @@ var UserActivityReport = function UserActivityReport(props) {
   })));
 };
 
-function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys$1(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$1(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$1(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$1(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var RegistersStatusReport = function RegistersStatusReport(props) {
   var values = props.values,
     setValues = props.setValues;
@@ -11213,8 +11001,8 @@ var SearcherActionButton = function SearcherActionButton(_ref) {
   }, label));
 };
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var ROUTE_ROLES = "roles";
 var ROUTE_ROLE = "roles/role";
 var DEFAULT_CONFIG = {
@@ -11374,12 +11162,11 @@ exports.ConstantBasedPicker = ConstantBasedPicker$1;
 exports.Contributions = Contributions;
 exports.ControlledField = ControlledField$1;
 exports.CoreModule = CoreModule;
-exports.CustomFilterFieldStatusPicker = CustomFilterFieldStatusPicker$1;
 exports.CustomFilterTypeStatusPicker = CustomFilterTypeStatusPicker$1;
 exports.Error = Error$2;
 exports.ErrorBoundary = ErrorBoundary;
 exports.FakeInput = FakeInput$1;
-exports.FatalError = FatalErrorPage;
+exports.FatalError = FatalError$1;
 exports.FieldLabel = FieldLabel$1;
 exports.Form = Form$1;
 exports.FormPanel = FormPanel;
@@ -11426,7 +11213,6 @@ exports.encodeId = encodeId;
 exports.ensureArray = ensureArray;
 exports.fetchCustomFilter = fetchCustomFilter;
 exports.fetchMutation = fetchMutation;
-exports.fetchPasswordPolicy = fetchPasswordPolicy;
 exports.formatAmount = formatAmount;
 exports.formatDateFromISO = formatDateFromISO;
 exports.formatDateTimeFromISO = formatDateTimeFromISO;
@@ -11453,7 +11239,6 @@ exports.onLogout = onLogout;
 exports.openBlob = openBlob;
 exports.pageInfo = pageInfo;
 exports.parseData = parseData;
-exports.passwordGenerator = passwordGenerator;
 exports.prepareForComparison = prepareForComparison;
 exports.prepareMutation = prepareMutation;
 exports.redirectToSamlLogout = redirectToSamlLogout;
@@ -11470,7 +11255,6 @@ exports.useModulesManager = useModulesManager;
 exports.usePrevious = usePrevious;
 exports.useTranslations = useTranslations;
 exports.useUserQuery = useUserQuery;
-exports.validatePassword = validatePassword;
 exports.withHistory = withHistory;
 exports.withModulesManager = withModulesManager;
 exports.withTooltip = withTooltip;

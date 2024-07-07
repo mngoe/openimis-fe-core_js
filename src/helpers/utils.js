@@ -1,3 +1,6 @@
+import { baseApiUrl, logout } from "../actions";
+import { SAML_LOGOUT_PATH } from "../constants";
+
 export const ensureArray = (maybeArray) => {
   if (Array.isArray(maybeArray)) {
     return maybeArray;
@@ -36,6 +39,11 @@ export function getTimeDifferenceInDaysFromToday(dateToCheck) {
   const currentDate = new Date();
   return getTimeDifferenceInDays(dateToCheck, currentDate);
 }
+
+export const onLogout = async (dispatch) => {
+  localStorage.clear();
+  await dispatch(logout());
+};
 
 export const redirectToSamlLogout = (e) => {
   e.preventDefault();
