@@ -51,8 +51,6 @@ import reducer from "./reducer";
 import ErrorBoundary from "./helpers/ErrorBoundary";
 import ConfirmDialog from "./components/dialogs/ConfirmDialog";
 import SelectDialog from "./components/dialogs/SelectDialog";
-import WarningBox from "./components/generics/WarningBox";
-
 import {
   baseApiUrl,
   apiHeaders,
@@ -174,7 +172,6 @@ export * from "./helpers/utils";
 export {
   Helmet,
   baseApiUrl,
-  WarningBox,
   apiHeaders,
   fetchCustomFilter,
   graphql,
