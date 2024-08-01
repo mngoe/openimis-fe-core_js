@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TextInput from "./TextInput";
 import { injectIntl } from "react-intl";
-import {formatMessage, formatMessageWithValues} from "../../helpers/i18n";
+import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
 
 class NumberInput extends Component {
   formatInput = (v, displayZero) => {
