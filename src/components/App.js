@@ -67,6 +67,7 @@ const App = (props) => {
     return modulesManager.getContribs(ROUTER_CONTRIBUTION_KEY);
   }, []);
 
+
   const locale = useMemo(() => {
     if (user) {
       localesManager.getLocale(user.language);

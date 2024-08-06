@@ -113,12 +113,15 @@ class MainMenuContribution extends Component {
     this.toggleExpanded(event);
   };
 
-  handleMenuSelect = (e, route) => {
+  handleMenuSelect = (e, route, redirectToUrl) => {
     // block normal href only for left click
     if (e.type === 'click') {
       e.stopPropagation();
       e.preventDefault();
     }
+    if(!!redirectToUrl){
+      window.location.href = redirectToUrl;
+      return;    }
     this.toggleExpanded(e);
     this.redirect(route);
   };
@@ -153,7 +156,7 @@ class MainMenuContribution extends Component {
                   <MenuList>
                     {this.props.entries.map((entry, idx) => (
                       <div key={`${this.props.header}_${idx}_menuItem`}>
-                        <MenuItem onClick={(e) => this.handleMenuSelect(e, entry.route)}  component="a"  href={`${process.env.PUBLIC_URL || ""}${entry.route}`} passHref>
+                        <MenuItem onClick={(e) => this.handleMenuSelect(e, entry.route, entry.redirectToUrl)}  component="a"  href={`${process.env.PUBLIC_URL || ""}${entry.route}`} passHref>
                           <ListItemIcon>{entry.icon}</ListItemIcon>
                           <ListItemText primary={entry.text}/>
                           
