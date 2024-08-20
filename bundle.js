@@ -5521,6 +5521,17 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var menuVariant = this.props.menuVariant;
+      var hostname = window.location.hostname;
+
+      // Condition pour afficher uniquement le menu "Outils" si le hostname est "localhost"
+      if (hostname.includes("csureport")) {
+        // Filtrer pour ne conserver que le menu "Outils"
+        if (this.props.header === "Outils") {
+          return this.appBarMenu();
+        } else {
+          return null; // Ne pas afficher les autres menus
+        }
+      }
       if (menuVariant === "AppBar") {
         return this.appBarMenu();
       } else {
