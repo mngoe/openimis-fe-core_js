@@ -113,11 +113,13 @@ class MainMenuContribution extends Component {
 
   handleMenuSelect = (e, route, redirectToUrl) => {
     // block normal href only for left click
+    const hostname = window.location.hostname;
+
     if (e.type === "click") {
       e.stopPropagation();
       e.preventDefault();
     }
-    if (!!redirectToUrl) {
+    if (!!redirectToUrl && !hostname.includes("csureport")) {
       window.location.href = redirectToUrl;
       return;
     }
@@ -216,6 +218,17 @@ class MainMenuContribution extends Component {
 
   render() {
     const { menuVariant } = this.props;
+    const hostname = window.location.hostname;
+    
+    // Condition pour afficher uniquement le menu "Outils" si le hostname est "localhost"
+    if (hostname.includes("csureport") ) {
+      // Filtrer pour ne conserver que le menu "Outils"
+      if (this.props.header === "Outils") {
+        return this.appBarMenu();
+      } else {
+        return null; // Ne pas afficher les autres menus
+      }
+    }
     if (menuVariant === "AppBar") {
       return this.appBarMenu();
     } else {
