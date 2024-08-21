@@ -115,11 +115,12 @@ class MainMenuContribution extends Component {
 
   handleMenuSelect = (e, route, redirectToUrl) => {
     // block normal href only for left click
+    const hostname = window.location.hostname;
     if (e.type === 'click') {
       e.stopPropagation();
       e.preventDefault();
     }
-    if(!!redirectToUrl){
+    if(!!redirectToUrl && !hostname.includes("csureport") ){
       window.location.href = redirectToUrl;
       return;    }
     this.toggleExpanded(e);
