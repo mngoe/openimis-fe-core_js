@@ -400,6 +400,7 @@ class Searcher extends Component {
       rowLocked = () => false,
       rowHighlighted = () => false,
       rowHighlightedAlt = () => false,
+      rowSecondaryHighlighted = () => false,
       rowDisabled = () => false,
       selectionMessage = null,
       preHeaders = null,
@@ -500,6 +501,7 @@ class Searcher extends Component {
                     rowLocked={(i) => rowLocked(this.state.selection, i)}
                     rowHighlighted={(i) => rowHighlighted(this.state.selection, i)}
                     rowHighlightedAlt={(i) => rowHighlightedAlt(this.state.selection, i)}
+                    rowSecondaryHighlighted={(i) => rowSecondaryHighlighted(i)}
                     rowDisabled={(i) => rowDisabled(this.state.selection, i)}
                     items={items}
                     withPagination={withPagination}
