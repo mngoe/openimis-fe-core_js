@@ -1,6 +1,7 @@
 import App from "./components/App";
 import React from "react";
 import messages_en from "./translations/en.json";
+import messages_fr from "./translations/fr.json";
 import KeepLegacyAlive from "./components/KeepLegacyAlive";
 import AutoSuggestion from "./components/inputs/AutoSuggestion";
 import Autocomplete from "./components/inputs/Autocomplete";
@@ -37,6 +38,8 @@ import AdDatePicker from "./pickers/AdDatePicker";
 import NeDatePicker from "./pickers/NeDatePicker";
 import Picker from "./components/generics/Picker";
 import ConstantBasedPicker from "./components/generics/ConstantBasedPicker";
+import CustomFilterFieldStatusPicker from "./pickers/CustomFilterFieldStatusPicker";
+import CustomFilterTypeStatusPicker from "./pickers/CustomFilterTypeStatusPicker";
 import YearPicker from "./pickers/YearPicker";
 import MonthPicker from "./pickers/MonthPicker";
 import MonthYearPicker from "./pickers/MonthYearPicker"
@@ -61,6 +64,7 @@ import {
   fetchMutation,
   prepareMutation,
   clearCurrentPaginationPage,
+  fetchCustomFilter
 } from "./actions";
 import {
   formatMessage,
@@ -122,7 +126,7 @@ const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
 const DEFAULT_CONFIG = {
-  "translations": [{ key: "en", messages: messages_en }],
+  "translations": [{ key: "en", messages: messages_en }, { key: "fr", message: messages_fr }],
   "reducers": [{ key: "core", reducer: reducer }],
   "middlewares": [authMiddleware],
   "refs": [
@@ -171,6 +175,7 @@ export {
   Helmet,
   baseApiUrl,
   apiHeaders,
+  fetchCustomFilter,
   graphql,
   graphqlWithVariables,
   graphqlMutation,
@@ -256,6 +261,8 @@ export {
   SearcherPane,
   SelectDialog,
   ConstantBasedPicker,
+  CustomFilterFieldStatusPicker,
+  CustomFilterTypeStatusPicker,
   ErrorBoundary,
   useTranslations,
   useDebounceCb,
