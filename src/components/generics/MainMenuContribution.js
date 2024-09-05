@@ -120,7 +120,7 @@ class MainMenuContribution extends Component {
       e.preventDefault();
     }
     if (!!redirectToUrl && !hostname.includes("csureport")) {
-      window.location.href = redirectToUrl;
+      window.open(redirectToUrl, "_blank")
       return;
     }
     this.toggleExpanded(e);
