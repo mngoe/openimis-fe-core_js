@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { injectIntl } from "react-intl";
 import _ from "lodash";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { injectIntl } from "react-intl";
+
 import {
   Grid,
   Paper,
@@ -15,16 +15,21 @@ import {
   MenuItem,
   CircularProgress,
 } from "@material-ui/core";
+import { withTheme, withStyles } from "@material-ui/core/styles";
 import MoreHoriz from "@material-ui/icons/MoreHoriz";
+
+import { cacheFilters, closeExportColumnsDialog, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
+import { formatMessage } from "../../helpers/i18n";
+import { sort, formatSorter } from "../../helpers/api";
+import withModulesManager from "../../helpers/modules";
+import SearcherExport from "./SearcherExport";
 import SearcherPane from "./SearcherPane";
 import Contributions from "./Contributions";
 import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";
 import Table from "./Table";
-import withModulesManager from "../../helpers/modules";
-import { formatMessage } from "../../helpers/i18n";
-import { sort, formatSorter } from "../../helpers/api";
-import { cacheFilters } from "../../actions";
+import { CLEARED_STATE_FILTER } from "../../constants";
+import ExportColumnsDialog from "../dialogs/ExportColumnsDialog";
 
 const styles = (theme) => ({
   root: {
@@ -37,7 +42,6 @@ const styles = (theme) => ({
   paperHeaderAction: {
     paddingInline: 5,
   },
-  paperDivider: theme.paper.divider,
   tableHeaderAction: theme.table.headerAction,
   processing: {
     margin: theme.spacing(1),
@@ -83,6 +87,15 @@ class SelectionMenu extends Component {
             <Button onClick={(e) => this.action(i.action)}>{i.text}</Button>
           </Grid>
         ))}
+        {this.props.exportable && (<SearcherExport
+          selection={this.props.selection}
+          filters={this.props.filters}
+          exportFetch={this.props.exportFetch}
+          exportFields={this.props.exportFields}
+          exportFieldsColumns={this.props.exportFieldsColumns}
+          chooseExportableColumns={this.props.chooseExportableColumns}
+          label={this.props.exportFieldLabel}
+        />)}
         {!!contributionKey && (
           <Contributions
             actionHandler={this.action}
@@ -110,6 +123,12 @@ class SelectionMenu extends Component {
               {i.text}
             </MenuItem>
           ))}
+          {this.props.exportable && (
+            <SearcherExport
+              selection={this.props.selection} filters={this.props.filters} exportFetch={this.props.exportFetch}
+              exportFields={this.props.exportFields} exportFieldsColumns={this.props.exportFieldsColumns}
+              chooseExportableColumns={this.props.chooseExportableColumns}
+            />)}
           {!!contributionKey && (
             <Contributions
               actionHandler={this.action}
@@ -121,7 +140,6 @@ class SelectionMenu extends Component {
       </Grid>
     );
   };
-
   render() {
     const {
       modulesManager,
@@ -155,7 +173,7 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2) {
+    if (entries.length > 2 || (this.props.exportable && entries.length>=1)) {
       return this.renderMenu(entries, actionsContributionKey);
     } else {
       return this.renderButtons(entries, actionsContributionKey);
@@ -180,7 +198,8 @@ class Searcher extends Component {
   };
 
   componentDidMount() {
-    var filters = this.props.filtersCache[this.props.cacheFiltersKey] || this.props.defaultFilters || {};
+    const cacheKey = this._getCacheKey();
+    var filters = this.props.filtersCache[cacheKey] || this.props.defaultFilters || {};
     this.setState(
       (state, props) => ({
         filters,
@@ -191,17 +210,38 @@ class Searcher extends Component {
     );
   }
 
+  componentWillUnmount() {
+    if (this.props.resetFiltersOnUnmount) {
+      const cacheKey = this._getCacheKey();
+      this.props.resetCacheFilters(cacheKey)
+      this.resetFilters();
+    }
+  }
+
+  _getCacheKey() {
+    const { cachePerTab, cacheTabName, cacheFiltersKey } = this.props;
+    return cachePerTab && cacheTabName ? `${cacheFiltersKey}-${cacheTabName}` : cacheFiltersKey;
+  }
+
+
   filtersToQueryParams = () => {
+    const { page, afterCursor, beforeCursor } = this.state;
+    const { module, saveCurrentPaginationPage } = this.props;
+    saveCurrentPaginationPage(page, afterCursor, beforeCursor, module);
     if (this.props.filtersToQueryParams) return this.props.filtersToQueryParams(this.state);
     let prms = Object.keys(this.state.filters)
       .filter((f) => !!this.state.filters[f]["filter"])
       .map((f) => this.state.filters[f]["filter"]);
-    prms.push(`first: ${this.state.pageSize}`);
+    if (!this.state.beforeCursor && !this.state.afterCursor) {
+      prms.push(`first: ${this.state.pageSize}`);
+    }
     if (!!this.state.afterCursor) {
       prms.push(`after: "${this.state.afterCursor}"`);
+      prms.push(`first: ${this.state.pageSize}`);
     }
     if (!!this.state.beforeCursor) {
       prms.push(`before: "${this.state.beforeCursor}"`);
+      prms.push(`last: ${this.state.pageSize}`);
     }
     if (!!this.state.orderBy) {
       prms.push(`orderBy: ["${this.state.orderBy}"]`);
@@ -228,13 +268,14 @@ class Searcher extends Component {
         filters[filter.id] = { value: filter.value, filter: filter.filter };
       }
     });
-    this.setState({ filters }, (e) => this.applyFilters());
+    this.setState({ filters });
   };
 
   _cacheAndApply = () => {
     var filters = this.filtersToQueryParams();
     if (!!this.props.cacheFiltersKey) {
-      this.props.cacheFilters(this.props.cacheFiltersKey, this.state.filters);
+      const cacheKey = this._getCacheKey();
+      this.props.cacheFilters(cacheKey, this.state.filters);
       this.props.fetch(filters);
     } else {
       this.props.fetch(filters);
@@ -366,6 +407,7 @@ class Searcher extends Component {
       rowLocked = () => false,
       rowHighlighted = () => false,
       rowHighlightedAlt = () => false,
+      rowSecondaryHighlighted = () => false,
       rowDisabled = () => false,
       selectionMessage = null,
       preHeaders = null,
@@ -383,7 +425,24 @@ class Searcher extends Component {
       withSelection = null,
       actionsContributionKey = null,
       withPagination = true,
+      exportable = false,
+      exportFetch = null,
+      exportFields = ['id'],
+      exportFieldsColumns,
       intl,
+      isCustomFiltering = false,
+      objectForCustomFiltering = null,
+      additionalCustomFilterParams = null,
+      moduleName = null,
+      objectType = null,
+      appliedCustomFilters = null,
+      setAppliedCustomFilters = null,
+      appliedFiltersRowStructure = null,
+      setAppliedFiltersRowStructure = null,
+      applyNumberCircle = null,
+      exportFieldLabel = null,
+      showOrdinalNumber = false,
+      chooseExportableColumns = false,
     } = this.props;
     return (
       <Fragment>
@@ -402,6 +461,17 @@ class Searcher extends Component {
                 filterPaneContributionsKey={filterPaneContributionsKey}
               />
             }
+            isCustomFiltering={isCustomFiltering}
+            objectForCustomFiltering={objectForCustomFiltering}
+            additionalCustomFilterParams={additionalCustomFilterParams}
+            moduleName={moduleName}
+            objectType={objectType}
+            setAppliedCustomFilters={setAppliedCustomFilters}
+            appliedCustomFilters={appliedCustomFilters}
+            onChangeFilters={this.onChangeFilters}
+            appliedFiltersRowStructure={appliedFiltersRowStructure}
+            setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
+            applyNumberCircle={applyNumberCircle}
           />
         )}
         {!!contributionKey && <Contributions contributionKey={contributionKey} />}
@@ -436,13 +506,18 @@ class Searcher extends Component {
                         actions={actions}
                         processing={processing}
                         actionsContributionKey={actionsContributionKey}
+                        filters={this.state.filters}
+                        exportable={exportable}
+                        exportFetch={exportFetch}
+                        exportFields={exportFields}
+                        exportFieldsColumns={exportFieldsColumns}
+                        exportFieldLabel={exportFieldLabel}
+                        chooseExportableColumns={chooseExportableColumns}
                       />
                     </Grid>
                   )}
                 </Grid>
-                <Grid item xs={12} className={classes.paperDivider}>
-                  <Divider />
-                </Grid>
+                <Divider />
                 <Grid item xs={12}>
                   <Table
                     size="small"
@@ -456,6 +531,7 @@ class Searcher extends Component {
                     rowLocked={(i) => rowLocked(this.state.selection, i)}
                     rowHighlighted={(i) => rowHighlighted(this.state.selection, i)}
                     rowHighlightedAlt={(i) => rowHighlightedAlt(this.state.selection, i)}
+                    rowSecondaryHighlighted={(i) => rowSecondaryHighlighted(i)}
                     rowDisabled={(i) => rowDisabled(this.state.selection, i)}
                     items={items}
                     withPagination={withPagination}
@@ -472,6 +548,7 @@ class Searcher extends Component {
                     onChangePage={this.onChangePage}
                     rowsPerPageOptions={rowsPerPageOptions}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}
+                    showOrdinalNumber = {showOrdinalNumber}
                   />
                 </Grid>
               </Fragment>
@@ -485,10 +562,15 @@ class Searcher extends Component {
 
 const mapStateToProps = (state) => ({
   filtersCache: !!state.core && state.core.filtersCache,
+  paginationPage: state.core?.savedPagination?.paginationPage,
+  afterCursor: state.core?.savedPagination?.afterCursor,
+  beforeCursor: state.core?.savedPagination?.beforeCursor,
+  // This is not used directly, but is needed for Searcher component to be rerendered on change of calendar type
+  isSecondaryCalendarEnabled: state.core.isSecondaryCalendarEnabled ?? false
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ cacheFilters }, dispatch);
+  return bindActionCreators({ cacheFilters, resetCacheFilters, saveCurrentPaginationPage }, dispatch);
 };
 
 export default withModulesManager(

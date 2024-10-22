@@ -12,7 +12,7 @@ const styles = (theme) => ({
   },
 });
 
-const defaultGetOptionSelected = (option, v) => option.id === v.id;
+const defaultGetOptionSelected = (option, v) => option.id === v?.id;
 
 const Autocomplete = (props) => {
   const {
@@ -35,7 +35,10 @@ const Autocomplete = (props) => {
     filterSelectedOptions,
     placeholder,
     onInputChange,
+    setCurrentString,
     multiple = false,
+    renderInput,
+    noOptionsText,
   } = props;
   const modulesManager = useModulesManager();
   const minCharLookup = modulesManager.getConf("fe-admin", "usersMinCharLookup", 2);
@@ -44,6 +47,8 @@ const Autocomplete = (props) => {
   const [resetKey, setResetKey] = useState(Date.now());
 
   const handleInputChange = useDebounceCb((searchString) => {
+    setCurrentString && setCurrentString(searchString);
+
     if (open && (!searchString || searchString.length > minCharLookup)) {
       onInputChange(searchString);
     }
@@ -68,6 +73,7 @@ const Autocomplete = (props) => {
     <MuiAutocomplete
       key={resetKey}
       fullWidth={fullWidth}
+      noOptionsText={noOptionsText}
       className={className}
       style={{ minWidth }}
       loadingText={formatMessage("loadingText")}
@@ -92,16 +98,20 @@ const Autocomplete = (props) => {
       filterOptions={filterOptions}
       filterSelectedOptions={filterSelectedOptions}
       onInputChange={(__, query) => handleInputChange(query)}
-      renderInput={(inputProps) => (
-        <TextField
-          {...inputProps}
-          variant="standard"
-          required={required}
-          InputLabelProps={{ shrink: value !== undefined }}
-          label={withLabel && (label || formatMessage("label"))}
-          placeholder={!readOnly && withPlaceholder && (placeholder || formatMessage("placeholder"))}
-        />
-      )}
+      renderInput={
+        !!renderInput
+          ? renderInput
+          : (inputProps) => (
+              <TextField
+                {...inputProps}
+                variant="standard"
+                required={required}
+                InputLabelProps={{ shrink: value !== undefined }}
+                label={withLabel && (label || formatMessage("label"))}
+                placeholder={!readOnly && withPlaceholder && (placeholder || formatMessage("placeholder"))}
+              />
+            )
+      }
     />
   );
 };
