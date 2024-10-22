@@ -52,3 +52,11 @@ export const redirectToSamlLogout = (e) => {
 
   window.location.href = redirectToURL.href;
 };
+
+export const getLanguageNameByCode = (languages, languageCode) => {
+  return languages.find((language) => language.code === languageCode)?.name;
+}
+
+export function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0;
+}

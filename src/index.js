@@ -29,6 +29,7 @@ import ProxyPage from "./components/generics/ProxyPage";
 import PublishedComponent from "./components/generics/PublishedComponent";
 import Table from "./components/generics/Table";
 import TableService from "./components/generics/TableService";
+import TableServiceReview from "./components/generics/TableServiceReview";
 import SearcherExport from "./components/generics/SearcherExport";
 import Searcher from "./components/generics/Searcher";
 import SearcherPane from "./components/generics/SearcherPane";
@@ -64,7 +65,8 @@ import {
   fetchMutation,
   prepareMutation,
   clearCurrentPaginationPage,
-  fetchCustomFilter
+  fetchCustomFilter,
+  fetchPasswordPolicy
 } from "./actions";
 import {
   formatMessage,
@@ -119,10 +121,12 @@ import withHistory, {
   Redirect,
   NavLink,
 } from "./helpers/history";
+import { validatePassword } from "./helpers/passwordValidator";
+import { passwordGenerator } from "./helpers/passwordGenerator"
 import { createFieldsBasedOnJSON, renderInputComponent } from "./helpers/json-handler-utils";
 import withModulesManager, { useModulesManager } from "./helpers/modules";
 import { formatJsonField } from "./helpers/jsonExt";
-import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER } from "./constants";
+import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER, EXPORT_FILE_FORMATS } from "./constants";
 import { authMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
 import UserActivityReport from "./reports/UserActivityReport";
@@ -222,6 +226,7 @@ export {
   graphqlMutation,
   journalize,
   fetchMutation,
+  fetchPasswordPolicy,
   prepareMutation,
   downloadExport,
   coreAlert,
@@ -239,6 +244,7 @@ export {
   Link,
   Redirect,
   NavLink,
+  validatePassword,
   historyPush,
   decodeId,
   encodeId,
@@ -299,6 +305,7 @@ export {
   PublishedComponent,
   Table,
   TableService,
+  TableServiceReview,
   SearcherExport,
   Searcher,
   SearcherPane,
@@ -320,4 +327,6 @@ export {
   createFieldsBasedOnJSON,
   renderInputComponent,
   SearcherActionButton,
+  passwordGenerator,
+  EXPORT_FILE_FORMATS,
 };

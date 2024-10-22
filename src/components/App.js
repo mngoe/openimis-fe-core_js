@@ -1,13 +1,13 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
-import { Redirect, Route, BrowserRouter, Switch } from "react-router-dom";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import withModulesManager, { ModulesManagerProvider } from "../helpers/modules";
 import Helmet from "../helpers/Helmet";
 import RequireAuth from "./RequireAuth";
-import FatalError from "./generics/FatalError";
+import FatalErrorPage from "./generics/FatalError";
 import { clearConfirm, toggleCurrentCalendarType } from "../actions";
 import AlertDialog from "./dialogs/AlertDialog";
 import ConfirmDialog from "./dialogs/ConfirmDialog";
@@ -23,13 +23,13 @@ import { RIGHT_VIEW_EU_MODAL } from "../constants";
 import NotFoundPage from "./NotFoundPage";
 import PermissionCheck from "./PermissionCheck";
 import PublishedComponent from "./generics/PublishedComponent";
+import PublicPageMiddleware from "./PublicPageMiddleware";
 
 export const ROUTER_CONTRIBUTION_KEY = "core.Router";
 export const UNAUTHENTICATED_ROUTER_CONTRIBUTION_KEY = "core.UnauthenticatedRouter";
 export const APP_BOOT_CONTRIBUTION_KEY = "core.Boot";
 export const TRANSLATION_CONTRIBUTION_KEY = "translations";
 export const ECONOMIC_UNIT_DIALOG_CONTRIBUTION_KEY = "policyholder.EconomicUnitDialog";
-
 const ECONOMIC_UNIT_STORAGE_KEY = "userEconomicUnit";
 
 const styles = () => ({
@@ -125,11 +125,14 @@ const App = (props) => {
   }, [isSecondaryCalendar]);
 
   if (error) {
-    return <FatalError error={error} />;
+    return (
+      <IntlProvider locale={locale} messages={allMessages}>
+        <FatalErrorPage error={error} />
+      </IntlProvider>
+    );
   }
 
   if (!auth.isInitialized) return null;
-
   return (
     <>
       <Helmet titleTemplate="%s - openIMIS" defaultTitle="openIMIS" />
@@ -154,7 +157,11 @@ const App = (props) => {
             {auth.isAuthenticated && <Contributions contributionKey={APP_BOOT_CONTRIBUTION_KEY} />}
             <BrowserRouter basename={basename}>
               <Switch>
-                <Route exact path="/" render={() => <Redirect to={"/home"} />} />
+                <Route
+                  exact
+                  path="/"
+                  render={() => <PublicPageMiddleware isAuthenticated={auth.isAuthenticated} {...others} />}
+                />
                 <Route path={"/login"} render={() => <LoginPage {...others} />} />
                 <Route path={"/forgot_password"} render={() => <ForgotPasswordPage {...others} />} />
                 <Route path={"/set_password"} render={() => <SetPasswordPage {...others} />} />

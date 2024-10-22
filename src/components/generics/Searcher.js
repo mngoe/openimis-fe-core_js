@@ -1,35 +1,32 @@
 import React, { Component, Fragment } from "react";
-import _ from "lodash";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import {
-  Grid,
-  Paper,
-  Divider,
-  Typography,
-  IconButton,
   Button,
+  CircularProgress,
+  Divider,
+  Grid,
+  IconButton,
   Menu,
   MenuItem,
-  CircularProgress,
+  Paper,
+  Typography,
 } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withStyles, withTheme } from "@material-ui/core/styles";
 import MoreHoriz from "@material-ui/icons/MoreHoriz";
 
-import { cacheFilters, closeExportColumnsDialog, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
+import { cacheFilters, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
+import { formatSorter, sort } from "../../helpers/api";
 import { formatMessage } from "../../helpers/i18n";
-import { sort, formatSorter } from "../../helpers/api";
 import withModulesManager from "../../helpers/modules";
-import SearcherExport from "./SearcherExport";
-import SearcherPane from "./SearcherPane";
 import Contributions from "./Contributions";
 import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";
+import SearcherExport from "./SearcherExport";
+import SearcherPane from "./SearcherPane";
 import Table from "./Table";
-import { CLEARED_STATE_FILTER } from "../../constants";
-import ExportColumnsDialog from "../dialogs/ExportColumnsDialog";
 
 const styles = (theme) => ({
   root: {
@@ -78,7 +75,6 @@ class SelectionMenu extends Component {
   action = (a) => {
     this.setState({ anchorEl: null }, (e) => this.props.triggerAction(a));
   };
-
   renderButtons = (entries, contributionKey) => (
     <Grid item className={this.props.classes.paperHeader}>
       <Grid container alignItems="center" className={this.props.classes.paperHeaderAction}>
@@ -87,18 +83,29 @@ class SelectionMenu extends Component {
             <Button onClick={(e) => this.action(i.action)}>{i.text}</Button>
           </Grid>
         ))}
-        {this.props.exportable && (<SearcherExport
-          selection={this.props.selection}
-          filters={this.props.filters}
-          exportFetch={this.props.exportFetch}
-          exportFields={this.props.exportFields}
-          exportFieldsColumns={this.props.exportFieldsColumns}
-          chooseExportableColumns={this.props.chooseExportableColumns}
-          label={this.props.exportFieldLabel}
-        />)}
+        {this.props.exportable && (
+          <SearcherExport
+            selection={this.props.selection}
+            selectWithCheckbox={this.props.selectWithCheckbox}
+            filters={this.props.filters}
+            exportFetch={this.props.exportFetch}
+            additionalExportFields={this.props.additionalExportFields}
+            exportFields={this.props.exportFields}
+            exportFieldsColumns={this.props.exportFieldsColumns}
+            chooseExportableColumns={this.props.chooseExportableColumns}
+            label={this.props.exportFieldLabel}
+            chooseFileFormat={this.props.chooseFileFormat}
+            exportFileFormats={this.props.exportFileFormats}
+            exportFileFormat={this.props.exportFileFormat}
+            setExportFileFormat={this.props.setExportFileFormat}
+          />
+        )}
         {!!contributionKey && (
           <Contributions
             actionHandler={this.action}
+            refetch={this.props.refetch}
+            clearSelected={this.props.clearSelected}
+            withSelection={this.props.withSelection}
             selection={this.props.selection}
             contributionKey={contributionKey}
           />
@@ -125,10 +132,18 @@ class SelectionMenu extends Component {
           ))}
           {this.props.exportable && (
             <SearcherExport
-              selection={this.props.selection} filters={this.props.filters} exportFetch={this.props.exportFetch}
-              exportFields={this.props.exportFields} exportFieldsColumns={this.props.exportFieldsColumns}
+              selection={this.props.selection}
+              selectWithCheckbox={this.props.selectWithCheckbox}
+              filters={this.props.filters}
+              exportFetch={this.props.exportFetch}
+              exportFields={this.props.exportFields}
+              exportFieldsColumns={this.props.exportFieldsColumns}
               chooseExportableColumns={this.props.chooseExportableColumns}
-            />)}
+              additionalExportFields={this.props.additionalExportFields}
+              chooseFileFormat={this.props.chooseFileFormat}
+              exportFileFormats={this.props.exportFileFormats}
+            />
+          )}
           {!!contributionKey && (
             <Contributions
               actionHandler={this.action}
@@ -173,11 +188,16 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2 || (this.props.exportable && entries.length>=1)) {
-      return this.renderMenu(entries, actionsContributionKey);
-    } else {
-      return this.renderButtons(entries, actionsContributionKey);
+
+    if (this.props.selectWithCheckbox) {
+      return this.renderButtons([], actionsContributionKey);
     }
+
+    if (entries.length > 2 || (this.props.exportable && entries.length >= 1)) {
+      return this.renderMenu(entries, actionsContributionKey);
+    }
+      
+    return this.renderButtons(entries, actionsContributionKey);
   }
 }
 
@@ -196,7 +216,10 @@ class Searcher extends Component {
     clearAll: 0,
     menuAnchor: null,
   };
-
+  constructor(props) {
+    super(props);
+    this.fetchEnabled = props.modulesManager.getConf("fe-core", "shouldFetchInitially", true);
+  }
   componentDidMount() {
     const cacheKey = this._getCacheKey();
     var filters = this.props.filtersCache[cacheKey] || this.props.defaultFilters || {};
@@ -206,7 +229,11 @@ class Searcher extends Component {
         pageSize: props.defaultPageSize || 10,
         orderBy: props.defaultOrderBy,
       }),
-      (e) => this.applyFilters()
+      (e) => {
+        if (this.fetchEnabled) {
+          this.applyFilters();
+        }
+      }
     );
   }
 
@@ -443,6 +470,13 @@ class Searcher extends Component {
       exportFieldLabel = null,
       showOrdinalNumber = false,
       chooseExportableColumns = false,
+      additionalExportFields,
+      chooseFileFormat = false,
+      exportFileFormats = {},
+      exportFileFormat,
+      setExportFileFormat,
+      selectWithCheckbox = false,
+      getAllItems,
     } = this.props;
     return (
       <Fragment>
@@ -497,6 +531,9 @@ class Searcher extends Component {
                   {fetchedItems && (
                     <Grid container direction="row" justify="flex-end" className={classes.paperHeaderAction}>
                       <StyledSelectionMenu
+                        selectWithCheckbox={selectWithCheckbox}
+                        refetch={this.applyFilters}
+                        withSelection={withSelection}
                         canSelectAll={canSelectAll}
                         selection={this.state.selection}
                         items={items}
@@ -513,6 +550,11 @@ class Searcher extends Component {
                         exportFieldsColumns={exportFieldsColumns}
                         exportFieldLabel={exportFieldLabel}
                         chooseExportableColumns={chooseExportableColumns}
+                        additionalExportFields={additionalExportFields}
+                        chooseFileFormat={chooseFileFormat}
+                        exportFileFormats={exportFileFormats}
+                        exportFileFormat={exportFileFormat}
+                        setExportFileFormat={setExportFileFormat}
                       />
                     </Grid>
                   )}
@@ -522,6 +564,8 @@ class Searcher extends Component {
                   <Table
                     size="small"
                     module={module}
+                    selectWithCheckbox={selectWithCheckbox}
+                    getAllItems={getAllItems}
                     fetching={fetchingItems}
                     preHeaders={!!preHeaders && preHeaders(this.state.selection)}
                     headers={headers(this.state.filters)}
