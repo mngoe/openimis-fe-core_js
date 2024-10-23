@@ -11,7 +11,6 @@ import Contributions from "./../components/generics/Contributions";
 import MPassLogo from "./../mPassLogoColor.svg";
 import { baseApiUrl } from "../actions";
 import { DEFAULT, SAML_LOGIN_PATH } from "../constants";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: theme.paper.paper,
   logo: {
-    maxHeight: 130,
-    width: 130,
+    maxHeight: 100,
+    width: 100,
   },
 }));
 
@@ -46,7 +45,6 @@ const LoginPage = ({ logo }) => {
   const [isAuthenticating, setAuthenticating] = useState(false);
   const showMPassProvider = modulesManager.getConf("fe-core", "LoginPage.showMPassProvider", false);
   const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
-  const enablePublicPage = modulesManager.getConf("fe-core", "App.enablePublicPage", DEFAULT.ENABLE_PUBLIC_PAGE);
 
   useEffect(() => {
     if (auth.isAuthenticated) {
@@ -54,35 +52,18 @@ const LoginPage = ({ logo }) => {
     }
   }, []);
 
-  const handleLoginError = (errorMessage) => {
-    setServerResponse({ loginStatus: "CORE_AUTH_ERR", message: errorMessage });
-    setAuthenticating(false);
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     setAuthenticating(true);
-  
-    try {
-      const response = await auth.login(credentials);
-      if (response.payload?.errors?.length) {
-        handleLoginError(response.payload.errors[0].message);
-        return;
-      }
-  
-      const { loginStatus, message } = response;
-      setServerResponse({ loginStatus, message });
-  
-      if (loginStatus === "CORE_AUTH_ERR") {
-        setAuthenticating(false);
-      } else {
-        history.push("/");
-      }
-    } catch (error) {
+    const response = await auth.login(credentials);
+    const { loginStatus, message } = response;
+    setServerResponse({ loginStatus, message });
+    if (response?.loginStatus !== "CORE_AUTH_ERR") {
+      history.push("/");
+    } else {
       setAuthenticating(false);
     }
   };
-  
 
   const redirectToForgotPassword = (e) => {
     e.preventDefault();
@@ -95,10 +76,7 @@ const LoginPage = ({ logo }) => {
     GENERAL: formatMessage("core.LoginPage.authErrorGeneral"),
   };
 
-  const getErrorMessage = (messageKey) => {
-    return errorMessages[messageKey] || messageKey;
-  };
-
+  const getErrorMessage = (key) => errorMessages[key] || errorMessages.GENERAL;
   const redirectToMPassLogin = (e) => {
     e.preventDefault();
     const redirectToURL = new URL(`${window.location.origin}${baseApiUrl}${SAML_LOGIN_PATH}`);
@@ -119,18 +97,6 @@ const LoginPage = ({ logo }) => {
           <form onSubmit={onSubmit}>
             <Box p={6} width={380}>
               <Grid container spacing={2} direction="column" alignItems="stretch">
-                {enablePublicPage && (
-                  <Grid item container direction="row" alignItems="center">
-                    <Button
-                      onClick={() => history.push("/")}
-                      startIcon={<ArrowBackIcon />}
-                      color="primary"
-                      variant="text"
-                    >
-                      {formatMessage("backButton")}
-                    </Button>
-                  </Grid>
-                )}
                 <Grid item container direction="row" alignItems="center">
                   <img className={classes.logo} src={logo} />
                   {!isWorker && (
