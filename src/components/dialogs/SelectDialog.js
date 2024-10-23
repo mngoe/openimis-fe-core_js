@@ -16,32 +16,25 @@ const SelectDialog = ({
   confirmationButton,
   rejectionButton,
   confirmMessage,
-  confirmMessageWithValues = null,
-  translationVariables = {},
   confirmState,
   confirmTitle,
-  confirmMessageComponent,
   onClose,
   onConfirm,
 }) => {
   const modulesManager = useModulesManager();
-  const { formatMessage, formatMessageWithValues } = useTranslations(module, modulesManager);
+  const { formatMessage } = useTranslations(module, modulesManager);
   return (
     <Dialog open={confirmState} onClose={onClose}>
       <DialogTitle>{formatMessage(confirmTitle)}</DialogTitle>
       <DialogContent>
-        {confirmMessage && <DialogContentText>{formatMessage(confirmMessage)}</DialogContentText>}
-        {confirmMessageWithValues && (
-          <DialogContentText>{formatMessageWithValues(confirmMessageWithValues, translationVariables)}</DialogContentText>
-        )}
-        <DialogContentText>{confirmMessageComponent}</DialogContentText>
+        <DialogContentText>{formatMessage(confirmMessage)}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} className={classes.secondaryButton}>
-          {formatMessage(rejectionButton)}
-        </Button>
         <Button onClick={onConfirm} autoFocus className={classes.primaryButton}>
           {formatMessage(confirmationButton)}
+        </Button>
+        <Button onClick={onClose} className={classes.secondaryButton}>
+          {formatMessage(rejectionButton)}
         </Button>
       </DialogActions>
     </Dialog>
