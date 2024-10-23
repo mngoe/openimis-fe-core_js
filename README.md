@@ -29,7 +29,6 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 - `ForbiddenPage`: shown when a user lacks permission to access a specific page or resource. Displays an access denied message.
 - `NotFoundPage`: appears when a user visits a non-existent route (404 error). Informs the user that the page is unavailable and suggests navigation option.
 - `InternalServerErrorPage`: displays a message for a 500 Internal Server Error, informing users of a server-side issue in the application.
- * `LanguageQuickPicker` is a component that allows users to quickly switch between different languages. Available on user's navbar.
 
 ## Generic Components (to be reused along business-focused components)
 
@@ -151,8 +150,8 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 None
 
 ## Configurations Options
-- `core.PublicPage`: This contributions point serves as the Public Page for the OpenIMIS App. To enable its use, it must be exposed as a **core.PublicPage** contribution point. Additionally, the database configuration variable **App.enablePublicPage** must be set to `true`.
-- `datePicker`: the concrete date picker to publish as `core.DatePicker` component ("ad"= Gregorian DatePicker, "ne"= Nepali calendar date picker )
+
+- `datePicker`: the concrete date picker to publish as `core.DatePicker` component ("ad"= Gregorian DatePicker, "ne"= Neplali calendar date picker )
 - `useDynPermalinks`: use ?dyn=<Base64-URL> when opening in new tab (prevent sending client-side routes to server while) (Default: false)
 - `core.JournalDrawer.pollInterval`: poll interval (in ms) to check for mutation status once submitted (Default: 2000)
 - `core.KeepLegacyAlive.pollInterval`: poll interval (in ms) to send the ping to legacy openIMIS (to prevent session timeout). (Default: 300000 = 5')
