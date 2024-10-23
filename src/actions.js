@@ -250,9 +250,9 @@ export function login(credentials) {
             }
           }`;
 
-          await dispatch(
-            graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"]),
-          );
+      await dispatch(
+        graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"]),
+      );
     } else {
       await dispatch(refreshAuthToken());
     }

@@ -17,7 +17,6 @@ import {
   TableFooter,
   Grid,
   TablePagination,
-  Checkbox,
 } from "@material-ui/core";
 import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";

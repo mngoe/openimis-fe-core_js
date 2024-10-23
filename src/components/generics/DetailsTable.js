@@ -4,7 +4,6 @@ function DetailsTable({code,type,validFrom}){
     let list = [
         {code: code, type:type, validFrom:validFrom},
     ]
-    
     return <p><table style={{marginLeft: 20, marginTop: 10}}>
         <tr >
             <td >Code</td>
