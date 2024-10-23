@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-
-import { MenuItem, Tooltip } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
-
-import { closeExportConfigDialog, openExportConfigDialog } from "../../actions";
-import { EXPORT_FILE_FORMATS } from "../../constants";
+import { MenuItem, Tooltip } from "@material-ui/core";
 import { formatMessage } from "../../helpers/i18n";
-import ExportConfigDialog from "../dialogs/ExportConfigDialog";
+import { injectIntl } from "react-intl";
+import {
+  closeExportColumnsDialog,
+  openExportColumnsDialog,
+} from "../../actions";
+import ExportColumnsDialog from "../dialogs/ExportColumnsDialog";
 
 const styles = (theme) => ({
   error: {
@@ -25,49 +25,37 @@ const styles = (theme) => ({
 function SearcherExport(props) {
   const {
     intl,
+    rights,
     selection,
     filters,
     exportFetch,
     exportFields,
     exportFieldsColumns,
     chooseExportableColumns,
-    additionalExportFields,
-    chooseFileFormat,
-    exportFileFormats,
-    exportFileFormat = EXPORT_FILE_FORMATS.csv,
-    setExportFileFormat,
     label = null,
-    selectWithCheckbox,
   } = props;
 
   const [exportStatus, setExport] = useState(0);
   const dispatch = useDispatch();
-  const isExportConfigDialogOpen = useSelector((state) => state.core?.isExportConfigDialogOpen);
+  const isExportColumnsDialogOpen = useSelector(
+    (state) => state.core?.isExportColumnsDialogOpen
+  );
 
-  const enabled = (selection) => (selectWithCheckbox ? !selection?.length && exportStatus === 0 : exportStatus === 0);
+  const enabled = selection => exportStatus === 0;
 
-  const exportData = (
-    fields = exportFields,
-    columns = exportFieldsColumns,
-    additionalFields = additionalExportFields,
-  ) => {
-    const defaultFilters = Object.keys(filters)
+  const exportData = (fields = exportFields, columns = exportFieldsColumns) => {
+    const prms = Object.keys(filters)
       .filter((f) => !!filters[f]["filter"])
       .map((f) => filters[f]["filter"]);
 
-    const additionalFilters = Object.entries(additionalFields || {}).map(([key, value]) => `${key}: "${value}"`);
-
-    const parameters = [...defaultFilters, ...additionalFilters];
-
-    parameters.push(`fileFormat: "${exportFileFormat}"`);
-    parameters.push(`fields: ${JSON.stringify(fields)}`);
-    parameters.push(`fieldsColumns: "${JSON.stringify(columns).replace(/\"/g, '\\"')}"`);
-    exportFetch(parameters);
+    prms.push(`fields: ${JSON.stringify(fields)}`);
+    prms.push(`fieldsColumns: "${JSON.stringify(columns).replace(/\"/g, '\\"')}"`);
+    exportFetch(prms);
   };
 
   const handleExportData = () => {
-    if (chooseExportableColumns || chooseFileFormat) {
-      dispatch(openExportConfigDialog());
+    if (chooseExportableColumns) {
+      dispatch(openExportColumnsDialog());
     } else {
       exportData();
     }
@@ -78,15 +66,14 @@ function SearcherExport(props) {
   };
 
   const parseToDialogColumns = (columns, fields) => {
-    return fields.reduce(
-      (dialogColumns, field) => {
-        if (!(field in dialogColumns)) {
-          dialogColumns[field] = field.startsWith("json_ext__") ? field.replace(/^json_ext__/, "") : field;
-        }
-        return dialogColumns;
-      },
-      { ...columns },
-    );
+    return fields.reduce((dialogColumns, field) => {
+      if (!(field in dialogColumns)) {
+        dialogColumns[field] = field.startsWith("json_ext__")
+          ? field.replace(/^json_ext__/, "")
+          : field;
+      }
+      return dialogColumns;
+    }, { ...columns });
   };
 
   const entries = [
@@ -98,27 +85,25 @@ function SearcherExport(props) {
 
   return (
     <>
-      {(chooseExportableColumns || chooseFileFormat) && (
-        <ExportConfigDialog
-          confirmState={isExportConfigDialogOpen}
-          onConfirm={() => dispatch(closeExportConfigDialog())}
-          onClose={() => dispatch(closeExportConfigDialog())}
+      {chooseExportableColumns && (
+        <ExportColumnsDialog
+          confirmState={isExportColumnsDialogOpen}
+          onConfirm={() => dispatch(closeExportColumnsDialog())}
+          onClose={() => dispatch(closeExportColumnsDialog())}
           module="core"
           getFilteredFieldsAndColumn={handleColumnFiltering}
           columns={parseToDialogColumns(exportFieldsColumns, exportFields)}
-          exportFileFormat={exportFileFormat}
-          setExportFileFormat={setExportFileFormat}
-          exportFileFormats={exportFileFormats}
-          chooseFileFormat={chooseFileFormat}
-          chooseExportableColumns={chooseExportableColumns}
         />
       )}
 
-      <div>
+      <div style={{ display: enabled(selection) ? "block" : "none" }}>
         {entries.map((item, idx) => (
           <Tooltip title={formatMessage(intl, "core", "exportSearchResult.tooltip")}>
             <div key={`selectionsMenu-export-${idx}`}>
-              <MenuItem onClick={(e) => item.action()} disabled={!enabled(selection)}>
+              <MenuItem
+                onClick={(e) => item.action()}
+                disabled={!enabled(selection)}
+              >
                 {item.text}
               </MenuItem>
             </div>

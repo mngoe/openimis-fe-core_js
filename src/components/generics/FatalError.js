@@ -1,30 +1,43 @@
-import React from "react";
-import ErrorPage from "../ErrorPage";
-import { useTranslations } from "../../helpers/i18n";
-import { MODULE_NAME } from "../../constants";
+import React, { Fragment } from "react";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { Typography, Divider } from "@material-ui/core";
 
-const FatalErrorPage = (props) => {
-  const { formatMessage } = useTranslations(MODULE_NAME);
-  const { error } = props;
+const styles = (theme) => ({
+  fatal: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    borderStyle: "solid",
+    borderWidth: "thin",
+    borderColor: theme.palette.error.secondary,
+    padding: theme.spacing(2),
+  },
+  fatalHeader: {
+    color: theme.palette.error.main,
+  },
+  fatalDetail: {
+    color: theme.palette.error.main,
+  },
+});
 
-  let title, description;
-
-  if (error && error.code === 429) {
-    title = formatMessage("core.FatalError.RateLimitExceeded.title");
-    description = formatMessage("core.FatalError.RateLimitExceeded.description");
-  } else {
-    title = formatMessage("core.FatalError.GenericError.title");
-    description = (error && error.message) || formatMessage("core.FatalError.GenericError.description");
-  }
-
+function FatalError(props) {
+  const { classes, error } = props;
   return (
-    <ErrorPage
-      status={error?.code || "Unknown"}
-      title={title}
-      description={description}
-      {...props}
-    />
+    <div className={classes.fatal}>
+      <Typography variant="h6" className={classes.fatalHeader}>
+        {error.code}: {error.message}
+      </Typography>
+      {!!error.detail && (
+        <Fragment>
+          <Divider />
+          <Typography variant="body1" className={classes.fatalCode}>
+            {error.detail}
+          </Typography>
+        </Fragment>
+      )}
+    </div>
   );
-};
+}
 
-export default FatalErrorPage;
+export default withStyles(styles)(FatalError);
