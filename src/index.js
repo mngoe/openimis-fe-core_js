@@ -300,6 +300,7 @@ export {
   PublishedComponent,
   Table,
   TableService,
+  TableServiceReview,
   SearcherExport,
   Searcher,
   SearcherPane,
