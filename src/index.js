@@ -305,7 +305,10 @@ export {
   PublishedComponent,
   Table,
   TableService,
+<<<<<<< HEAD
   TableServiceReview,
+=======
+>>>>>>> 82694aca163c73842e1e174c5de85913312bc65e
   SearcherExport,
   Searcher,
   SearcherPane,
