@@ -23,7 +23,7 @@ const ROLE_FULL_PROJECTION = () => [
 
 const ROLERIGHT_FULL_PROJECTION = () => ["rightId"];
 
-const LANGUAGE_FULL_PROJECTION = () => ["name", "code"];
+const LANGUAGE_FULL_PROJECTION = () => ["name", "code", "sortOrder"];
 
 const MODULEPERMISSION_FULL_PROJECTION = () => ["modulePermsList{moduleName, permissions{permsName, permsValue}}"];
 
@@ -43,17 +43,6 @@ function getApiUrl() {
 }
 
 export const baseApiUrl = getApiUrl();
-
-function getCsrfToken() {
-  const CSRF_TOKEN_NAME = 'csrftoken';
-  const CSRF_NOT_FOUND = null;
-
-  const cookies = document.cookie;
-  const cookieArray = cookies.split('; ');
-  
-  const csrfCookie = cookieArray.find(cookie => cookie.startsWith(CSRF_TOKEN_NAME));
-  return csrfCookie?.split('=')[1] ?? CSRF_NOT_FOUND;
-}
 
 export function apiHeaders() {
   let headers = {
@@ -121,7 +110,7 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
   };
 }
 
-export function graphqlWithVariables(operation, variables, type = "GRAPHQL_QUERY", params = {}, customHeaders = {}) {
+export function graphqlWithVariables(operation, variables, type = "GRAPHQL_QUERY", params = {}) {
   let req, resp, err;
   if (Array.isArray(type)) {
     [req, resp, err] = type;
@@ -136,9 +125,6 @@ export function graphqlWithVariables(operation, variables, type = "GRAPHQL_QUERY
         endpoint: `${baseApiUrl}/graphql`,
         method: "POST",
         body: JSON.stringify({ query: operation, variables }),
-        headers: {
-          ...customHeaders
-        },
         types: [
           {
             type: req,
@@ -213,14 +199,14 @@ export function waitForMutation(clientMutationId) {
   };
 }
 
-export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATION", params = {}, wait = true, customHeaders = {}) {
+export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATION", params = {}, wait = true) {
   let clientMutationId;
   if (variables?.input) {
     clientMutationId = uuid.uuid();
     variables.input.clientMutationId = clientMutationId;
   }
   return async (dispatch) => {
-    const response = await dispatch(graphqlWithVariables(mutation, variables, type, params, customHeaders));
+    const response = await dispatch(graphqlWithVariables(mutation, variables, type, params));
     if (clientMutationId) {
       dispatch(fetchMutation(clientMutationId));
       if (wait) {
@@ -264,30 +250,14 @@ export function login(credentials) {
             }
           }`;
 
-      const csrfToken = getCsrfToken();
-
-      try {
-        const response = await dispatch(
-          graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"], {}, false, {
-            "X-CSRFToken": csrfToken
-          }),
-        );
-        if (response.payload?.errors?.length > 0) {
-          const errorMessage = response.payload.errors[0].message;
-          dispatch(authError({ message: errorMessage }));
-          return { loginStatus: "CORE_AUTH_ERR", message: errorMessage };
-        }
-        const action = await dispatch(loadUser());
-        return { loginStatus: action.type, message: action?.payload?.response?.detail ?? "" };
-      } catch (error) {
-        dispatch(authError({ message: error.message }));
-        return { loginStatus: "CORE_AUTH_ERR", message: error.message };
-      }
+          await dispatch(
+            graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"]),
+          );
     } else {
       await dispatch(refreshAuthToken());
-      const action = await dispatch(loadUser());
-      return { loginStatus: action.type, message: action?.payload?.response?.detail ?? "Error occurred while loading user." };
     }
+    const action = await dispatch(loadUser());
+    return { loginStatus: action.type, message: action?.payload?.response?.detail ?? "" };
   };
 }
 
@@ -333,13 +303,6 @@ export function logout() {
     await dispatch(graphqlMutation(mutation, {}));
     return dispatch({ type: "CORE_AUTH_LOGOUT" });
   };
-}
-
-export function fetchPasswordPolicy() {
-  const payload = `query {
-    passwordPolicy
-  }`;
-  return graphql(payload, "PASSWORD_POLICY_FIELDS");
 }
 
 export function fetchMutation(clientMutationId) {
@@ -416,15 +379,15 @@ export function clearConfirm(confirmed) {
   };
 }
 
-export function openExportConfigDialog() {
+export function openExportColumnsDialog() {
   return (dispatch) => {
-    dispatch({ type: "CORE_OPEN_EXPORT_CONFIG_DIALOG"})
+    dispatch({ type: "CORE_OPEN_EXPORT_COLUMNS_DIALOG"})
   }
 }
 
-export function closeExportConfigDialog() {
+export function closeExportColumnsDialog() {
   return (dispatch) => {
-    dispatch({type: "CORE_CLOSE_EXPORT_CONFIG_DIALOG"})
+    dispatch({type: "CORE_CLOSE_EXPORT_COLUMNS_DIALOG"})
   }
 }
 
@@ -535,16 +498,4 @@ export function toggleCurrentCalendarType(isSecondaryCalendarEnabled) {
   return (dispatch) => {
     dispatch({ type: "CORE_CALENDAR_TYPE_TOGGLE", payload: { isSecondaryCalendarEnabled } });
   };
-}
-
-export function changeUserLanguage(language, clientMutationLabel) {
-  const mutation = formatMutation("changeUserLanguage", `languageId: "${language}"`, clientMutationLabel);
-  const requestedDateTime = new Date();
-
-  return graphql(mutation.payload, ["CORE_MUTATION_REQ", "CHANGE_USER_LANGUAGE_RESP", "CORE_MUTATION_ERR"], {
-    actionType: "CHANGE_USER_LANGUAGE_RESP",
-    clientMutationId: mutation.clientMutationId,
-    clientMutationLabel,
-    requestedDateTime,
-  });
 }

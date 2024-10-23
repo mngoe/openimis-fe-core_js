@@ -65,8 +65,7 @@ import {
   fetchMutation,
   prepareMutation,
   clearCurrentPaginationPage,
-  fetchCustomFilter,
-  fetchPasswordPolicy
+  fetchCustomFilter
 } from "./actions";
 import {
   formatMessage,
@@ -121,12 +120,10 @@ import withHistory, {
   Redirect,
   NavLink,
 } from "./helpers/history";
-import { validatePassword } from "./helpers/passwordValidator";
-import { passwordGenerator } from "./helpers/passwordGenerator"
 import { createFieldsBasedOnJSON, renderInputComponent } from "./helpers/json-handler-utils";
 import withModulesManager, { useModulesManager } from "./helpers/modules";
 import { formatJsonField } from "./helpers/jsonExt";
-import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER, EXPORT_FILE_FORMATS } from "./constants";
+import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER } from "./constants";
 import { authMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
 import UserActivityReport from "./reports/UserActivityReport";
@@ -226,7 +223,6 @@ export {
   graphqlMutation,
   journalize,
   fetchMutation,
-  fetchPasswordPolicy,
   prepareMutation,
   downloadExport,
   coreAlert,
@@ -244,7 +240,6 @@ export {
   Link,
   Redirect,
   NavLink,
-  validatePassword,
   historyPush,
   decodeId,
   encodeId,
@@ -326,6 +321,4 @@ export {
   createFieldsBasedOnJSON,
   renderInputComponent,
   SearcherActionButton,
-  passwordGenerator,
-  EXPORT_FILE_FORMATS,
 };
