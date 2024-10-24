@@ -166,8 +166,6 @@ class Table extends Component {
       onDelete = null,
       fetching = null,
       error = null,
-      forReview,
-      subServicesItemsFormatters,
       subServicesItemsFormattersReview,
       subServiceHeaders
     } = this.props;
@@ -175,10 +173,8 @@ class Table extends Component {
     let localSubServiceHeaders = [...(subServiceHeaders || [])];
     let localPreHeaders = !!preHeaders ? [...preHeaders] : null;
     let localItemFormatters = [...itemFormatters];
-    let localSubServicesItemsFormatters = [...subServicesItemsFormatters];
     let localsubServicesItemsFormattersReview = [...subServicesItemsFormattersReview];
     var i = !!headers && headers.length;
-    var localForReview = forReview
     while (localHeaders && i--) {
       if (modulesManager?.hideField(module, localHeaders[i])) {
         if (!!localPreHeaders) localPreHeaders.splice(i, 1);
@@ -244,6 +240,9 @@ class Table extends Component {
                             <TableCell><FormattedMessage module={module} id={localHeaders[1]} /></TableCell>
                             <TableCell><FormattedMessage module={module} id={localHeaders[2]} /></TableCell>
                             <TableCell><FormattedMessage module={module} id={localHeaders[3]} /></TableCell>
+                            <TableCell><FormattedMessage module={module} id={localHeaders[4]} /></TableCell>
+                            <TableCell><FormattedMessage module={module} id={localHeaders[5]} /></TableCell>
+                            <TableCell><FormattedMessage module={module} id={localHeaders[6]} /></TableCell>
                           </tr>
                         )}
                         <tr>
@@ -298,14 +297,6 @@ class Table extends Component {
                   return (
                     <Box style={{ width: "100%" }}>
                       <table style={{ width: "100%" }}>
-                        {(items.length - iidx) == items.length && (
-                          <tr>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[0]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[1]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[2]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[3]} /></TableCell>
-                          </tr>
-                        )}
                         <tr>
                           {localItemFormatters &&
                             localItemFormatters.map((f, fidx) => {
@@ -335,18 +326,7 @@ class Table extends Component {
                           localItemFormatters[0](i, iidx).props.children.props.value.packagetype !== "S" && (
 
                             <table style={{ marginTop: 10, width: "90%" }}>
-                              <tr>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[0]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[1]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[2]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[3]} /></TableCell>
-                              </tr>
-                              {localSubServicesItemsFormatters &&
-                                localSubServicesItemsFormatters.map((s, sfidx) => {
-                                  return (
-                                    s(i, iidx)
-                                  );
-                                })}
+
                             </table>
                           ))
                       }

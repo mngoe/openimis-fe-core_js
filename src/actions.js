@@ -244,17 +244,16 @@ export function loadUser() {
 export function login(credentials) {
   return async (dispatch) => {
     if (credentials) {
-      // We log in the user using the credentials
       const mutation = `mutation authenticate($username: String!, $password: String!) {
             tokenAuth(username: $username, password: $password) {
               refreshExpiresIn
             }
           }`;
+
       await dispatch(
         graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"]),
       );
     } else {
-      // Try to refresh the token using the cookie (if present)
       await dispatch(refreshAuthToken());
     }
     const action = await dispatch(loadUser());

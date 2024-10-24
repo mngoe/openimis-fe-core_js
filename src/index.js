@@ -29,6 +29,7 @@ import ProxyPage from "./components/generics/ProxyPage";
 import PublishedComponent from "./components/generics/PublishedComponent";
 import Table from "./components/generics/Table";
 import TableService from "./components/generics/TableService";
+import TableServiceReview from "./components/generics/TableServiceReview";
 import SearcherExport from "./components/generics/SearcherExport";
 import Searcher from "./components/generics/Searcher";
 import SearcherPane from "./components/generics/SearcherPane";
@@ -299,6 +300,7 @@ export {
   PublishedComponent,
   Table,
   TableService,
+  TableServiceReview,
   SearcherExport,
   Searcher,
   SearcherPane,
