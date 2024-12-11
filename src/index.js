@@ -33,13 +33,15 @@ import TableServiceReview from "./components/generics/TableServiceReview";
 import SearcherExport from "./components/generics/SearcherExport";
 import Searcher from "./components/generics/Searcher";
 import SearcherPane from "./components/generics/SearcherPane";
-import AdDatePicker from "./pickers/AdDatePicker";
-import NeDatePicker from "./pickers/NeDatePicker";
+import openIMISDatePicker from "./pickers/DatePicker";
 import Picker from "./components/generics/Picker";
 import ConstantBasedPicker from "./components/generics/ConstantBasedPicker";
+import CustomFilterFieldStatusPicker from "./pickers/CustomFilterFieldStatusPicker";
+import CustomFilterTypeStatusPicker from "./pickers/CustomFilterTypeStatusPicker";
 import YearPicker from "./pickers/YearPicker";
 import MonthPicker from "./pickers/MonthPicker";
 import LanguagePicker from "./pickers/LanguagePicker";
+import AuthorityPicker from "./pickers/AuthorityPicker";
 import Helmet from "./helpers/Helmet";
 import AccountBox from "@material-ui/icons/AccountBox";
 import Roles from "./pages/Roles";
@@ -48,6 +50,8 @@ import reducer from "./reducer";
 import ErrorBoundary from "./helpers/ErrorBoundary";
 import ConfirmDialog from "./components/dialogs/ConfirmDialog";
 import SelectDialog from "./components/dialogs/SelectDialog";
+import AdvancedFiltersDialog from "./components/dialogs/AdvancedFiltersDialog";
+import WarningBox from "./components/generics/WarningBox";
 import {
   baseApiUrl,
   apiHeaders,
@@ -57,15 +61,19 @@ import {
   journalize,
   coreAlert,
   coreConfirm,
+  clearConfirm,
   fetchMutation,
   prepareMutation,
   clearCurrentPaginationPage,
+  fetchCustomFilter
 } from "./actions";
 import {
   formatMessage,
   formatMessageWithValues,
   formatDateFromISO,
+  formatDateTimeFromISO,
   toISODate,
+  toISODateTime,
   formatAmount,
   withTooltip,
   useTranslations,
@@ -112,17 +120,59 @@ import withHistory, {
   Redirect,
   NavLink,
 } from "./helpers/history";
+import { createFieldsBasedOnJSON, renderInputComponent } from "./helpers/json-handler-utils";
 import withModulesManager, { useModulesManager } from "./helpers/modules";
 import { formatJsonField } from "./helpers/jsonExt";
-import { RIGHT_ROLE_SEARCH } from "./constants";
+import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER } from "./constants";
 import { authMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
+import UserActivityReport from "./reports/UserActivityReport";
+import RegistersStatusReport from "./reports/RegistersStatusReport";
+import SearcherActionButton from "./components/generics/SearcherActionButton";
+
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
 const DEFAULT_CONFIG = {
   "translations": [{ key: "en", messages: messages_en }],
   "reducers": [{ key: "core", reducer: reducer }],
+  "reports": [
+    {
+      key: "user_activity",
+      component: UserActivityReport,
+      isValid: (values) => values.dateFrom && values.dateTo,
+      getParams: (values) => {
+        const params = {}
+        if (values.user) {
+          params.requested_user_id = decodeId(values.user.iUser.id);
+        }
+        if (values.action) {
+          params.action = values.action;
+        }
+        if (values.entity) {
+          params.entity = values.entity;
+        }
+        params.date_start = values.dateFrom;
+        params.date_end = values.dateTo;
+        return params;
+      },
+    },
+    {
+      key: "registers_status",
+      component: RegistersStatusReport,
+      isValid: (values) => true,
+      getParams: (values) => {
+        const params = {}
+        if (values.region) {
+          params.requested_region_id = decodeId(values.region.id);
+        }
+        if (values.district) {
+          params.requested_district_id = decodeId(values.district.id);
+        }
+        return params;
+      },
+    },
+  ],
   "middlewares": [authMiddleware],
   "refs": [
     { key: "core.JournalDrawer.pollInterval", ref: 2000 },
@@ -130,6 +180,7 @@ const DEFAULT_CONFIG = {
     { key: "core.YearPicker", ref: YearPicker },
     { key: "core.MonthPicker", ref: MonthPicker },
     { key: "core.LanguagePicker", ref: LanguagePicker },
+    { key: "core.AuthorityPicker", ref: AuthorityPicker },
     { key: "core.route.role", ref: ROUTE_ROLE },
   ],
   "core.Boot": [KeepLegacyAlive, RefreshAuthToken],
@@ -149,11 +200,7 @@ const DEFAULT_CONFIG = {
 
 export const CoreModule = (cfg) => {
   let def = { ...DEFAULT_CONFIG };
-  let DatePicker = AdDatePicker;
-  if (cfg.datePicker === "ne") {
-    DatePicker = NeDatePicker;
-  }
-  def.refs.push({ key: "core.DatePicker", ref: DatePicker });
+  def.refs.push({ key: "core.DatePicker", ref: openIMISDatePicker });
   return { ...def, ...cfg };
 };
 
@@ -168,6 +215,8 @@ export * from "./helpers/utils";
 export {
   Helmet,
   baseApiUrl,
+  AdvancedFiltersDialog,
+  fetchCustomFilter,
   apiHeaders,
   graphql,
   graphqlWithVariables,
@@ -178,6 +227,7 @@ export {
   downloadExport,
   coreAlert,
   coreConfirm,
+  clearConfirm,
   clearCurrentPaginationPage,
   openBlob,
   sort,
@@ -210,7 +260,9 @@ export {
   formatMessage,
   formatMessageWithValues,
   formatDateFromISO,
+  formatDateTimeFromISO,
   toISODate,
+  toISODateTime,
   formatAmount,
   formatGQLString,
   formatJsonField,
@@ -225,6 +277,7 @@ export {
   Error,
   FatalError,
   AlertForwarder,
+  WarningBox,
   SelectInput,
   TextInput,
   ValidatedTextInput,
@@ -253,6 +306,8 @@ export {
   SearcherPane,
   SelectDialog,
   ConstantBasedPicker,
+  CustomFilterFieldStatusPicker,
+  CustomFilterTypeStatusPicker,
   ErrorBoundary,
   useTranslations,
   useDebounceCb,
@@ -263,4 +318,8 @@ export {
   ConfirmDialog,
   useAuthentication,
   useBoolean,
+  CLEARED_STATE_FILTER,
+  createFieldsBasedOnJSON,
+  renderInputComponent,
+  SearcherActionButton,
 };
