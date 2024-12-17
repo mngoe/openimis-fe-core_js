@@ -205,6 +205,11 @@ export function waitForMutation(clientMutationId) {
         return null;
       }
       res = response.payload.data.mutationLogs?.edges[0]?.node;
+      console.log("----- Wait For Mutation------");
+      console.log(!res);
+      console.log(res.status === 0);
+      console.log(!res || res.status === 0);
+      console.log(attempts);
     } while ((!res || res.status === 0) && attempts++ < 10);
     if (res && res.status === 1 && res.error) {
       res.error = JSON.parse(res.error);
