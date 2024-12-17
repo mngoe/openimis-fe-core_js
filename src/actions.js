@@ -175,6 +175,7 @@ export function prepareMutation(operation, input, params = {}) {
 }
 
 export function waitForMutation(clientMutationId) {
+  console.log("----- Wait For Mutation Full ------");
   return async (dispatch) => {
     let attempts = 0;
     let res;
@@ -347,6 +348,7 @@ export function logout() {
 }
 
 export function fetchMutation(clientMutationId) {
+  console.log("fetchMutation", clientMutationId);
   const payload = formatPageQuery(
     "mutationLogs",
     [`clientMutationId: "${clientMutationId}"`],
@@ -366,6 +368,7 @@ export function fetchMutation(clientMutationId) {
 }
 
 export function fetchHistoricalMutations(pageSize, afterCursor) {
+  console.log("fetchHistoricalMutations", pageSize, afterCursor);
   let filters = [`first: ${pageSize}`];
   if (!!afterCursor) {
     filters.push(`after: "${afterCursor}"`);
