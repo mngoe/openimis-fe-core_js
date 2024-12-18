@@ -289,7 +289,9 @@ class JournalDrawer extends Component {
     clearTimeout(this.state.timeoutId);
   }
   checkProcessing = () => {
+    console.log("checkProcessing");
     var clientMutationIds = this.state.displayedMutations.filter((m) => m.status === 0).map((m) => m.clientMutationId);
+    console.log(clientMutationIds);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
     clientMutationIds.forEach((id) => this.props.fetchMutation(id));
   };
