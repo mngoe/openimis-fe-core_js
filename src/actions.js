@@ -181,9 +181,6 @@ export function waitForMutation(clientMutationId) {
     let res;
     do {
       console.log("----- Wait For Mutation------");
-      console.log(!res);
-      console.log(res.status === 0);
-      console.log(!res || res.status === 0);
       console.log(attempts);
       if (res) {
         await new Promise((resolve) => setTimeout(resolve, 100 * attempts));
@@ -231,13 +228,20 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
     clientMutationId = uuid.uuid();
     variables.input.clientMutationId = clientMutationId;
   }
+  console.log("graphQlMutation");
+  console.log("Mutation :")
+  console.log(mutation);
   return async (dispatch) => {
     const response = await dispatch(graphqlWithVariables(mutation, variables, type, params, customHeaders));
+    console.log("graphQlMutation Return Async");
     if (clientMutationId) {
+      console.log("Dispatch fetchMutation");
       dispatch(fetchMutation(clientMutationId));
+      console.log(wait);
       if (wait) {
         return dispatch(waitForMutation(clientMutationId));
       } else {
+        console.log(response?.payload?.data);
         return response?.payload?.data;
       }
     }
