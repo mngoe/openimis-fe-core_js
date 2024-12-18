@@ -258,7 +258,7 @@ class JournalDrawer extends Component {
       displayedMutations: [],
       messagesAnchor: null,
       expanded: false,
-      arrayMutaions: []
+      arrayMutations: []
     };
   }
 
@@ -295,8 +295,8 @@ class JournalDrawer extends Component {
     console.log(clientMutationIds);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
     //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
-    var newArrayMutations = this.state.arrayMutaions;
-    if(newArrayMutations.length == 0){
+    var newArrayMutations = localStorage.getItem("arrayMutations");
+    if(newArrayMutations==null || newArrayMutations.length == 0){
       for(let i = 0; i< clientMutationIds.length;i++){
         newArrayMutations.push({
           id: clientMutationIds[i],
@@ -306,7 +306,7 @@ class JournalDrawer extends Component {
     }
 
     for(let j = 0; j< newArrayMutations.length;j++){
-      if(newArrayMutations[j].count < 10){
+      if(newArrayMutations[j].count < 5){
         this.props.fetchMutation(newArrayMutations[j].id);
       }
       newArrayMutations[j].count = newArrayMutations[j].count + 1;
@@ -314,7 +314,8 @@ class JournalDrawer extends Component {
     this.setState({
       arrayMutations: newArrayMutations
     })
-    console.log("array mutation ",this.state.arrayMutaions);
+    console.log("array mutation ",this.state.arrayMutations);
+    localStorage.setItem('arrayMutations', this.state.arrayMutations);
   };
   more = (e) => {
     this.props.fetchHistoricalMutations(this.state.pageSize, this.state.afterCursor);
