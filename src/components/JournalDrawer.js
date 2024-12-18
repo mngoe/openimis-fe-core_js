@@ -258,6 +258,7 @@ class JournalDrawer extends Component {
       displayedMutations: [],
       messagesAnchor: null,
       expanded: false,
+      arrayMutaions: []
     };
   }
 
@@ -291,7 +292,27 @@ class JournalDrawer extends Component {
   checkProcessing = () => {
     var clientMutationIds = this.state.displayedMutations.filter((m) => m.status === 0).map((m) => m.clientMutationId);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
-    clientMutationIds.forEach((id) => this.props.fetchMutation(id));
+    //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
+    var newArrayMutations = this.state.arrayMutaions;
+    if(newArrayMutations.length == 0){
+      for(let i = 0; i< clientMutationIds.length;i++){
+        newArrayMutations.push({
+          id: clientMutationIds[i],
+          count: 0
+        });
+      }
+    }
+
+    for(let j = 0; j< newArrayMutations.length;j++){
+      if(newArrayMutations[j].count < 10){
+        this.props.fetchMutation(newArrayMutations[j].id);
+      }
+      newArrayMutations[j].count = newArrayMutations[j].count + 1;
+    }
+    this.setState({
+      arrayMutations: newArrayMutations
+    })
+    console.log("array mutation ",this.state.arrayMutaions);
   };
   more = (e) => {
     this.props.fetchHistoricalMutations(this.state.pageSize, this.state.afterCursor);
