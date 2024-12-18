@@ -297,6 +297,7 @@ class JournalDrawer extends Component {
     //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
     var newArrayMutations = localStorage.getItem("arrayMutations");
     if(newArrayMutations==null || newArrayMutations.length == 0){
+      newArrayMutations = this.state.arrayMutations;
       for(let i = 0; i< clientMutationIds.length;i++){
         newArrayMutations.push({
           id: clientMutationIds[i],
