@@ -258,7 +258,6 @@ class JournalDrawer extends Component {
       displayedMutations: [],
       messagesAnchor: null,
       expanded: false,
-      arrayMutations: []
     };
   }
 
@@ -295,28 +294,30 @@ class JournalDrawer extends Component {
     console.log(clientMutationIds);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
     //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
-    var newArrayMutations = localStorage.getItem("arrayMutations");
-    if(newArrayMutations==null || newArrayMutations.length == 0){
-      newArrayMutations = this.state.arrayMutations;
-      for(let i = 0; i< clientMutationIds.length;i++){
-        newArrayMutations.push({
-          id: clientMutationIds[i],
+    var arrayMutations = localStorage.getItem('arrayMutations');
+    var mutationLogs = {};
+    if(arrayMutations==null){
+      arrayMutations = [];
+      clientMutationIds.map((id)=>{
+        arrayMutations.push({
+          id: id,
           count: 0
         });
-      }
+      });
+      mutationLogs.arrayMutations = arrayMutations;
+      console.log(mutationLogs);
+      localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
+    }else{
+      let parsedJson = JSON.parse(arrayMutations);
+      console.log(parsedJson);
+      parsedJson.arrayMutations.map((obj)=>{
+        if(obj.count < 5){
+          this.props.fetchMutation(obj.id);
+        }
+        obj.count = obj.count + 1;
+      });
+      localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
     }
-
-    for(let j = 0; j< newArrayMutations.length;j++){
-      if(newArrayMutations[j].count < 5){
-        this.props.fetchMutation(newArrayMutations[j].id);
-      }
-      newArrayMutations[j].count = newArrayMutations[j].count + 1;
-    }
-    this.setState({
-      arrayMutations: newArrayMutations
-    })
-    console.log("array mutation ",this.state.arrayMutations);
-    localStorage.setItem('arrayMutations', this.state.arrayMutations);
   };
   more = (e) => {
     this.props.fetchHistoricalMutations(this.state.pageSize, this.state.afterCursor);
