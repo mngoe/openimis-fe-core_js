@@ -262,7 +262,29 @@ class JournalDrawer extends Component {
   checkProcessing = () => {
     var clientMutationIds = this.state.displayedMutations.filter((m) => m.status === 0).map((m) => m.clientMutationId);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
-    clientMutationIds.forEach((id) => this.props.fetchMutation(id));
+    //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
+    var arrayMutations = localStorage.getItem('arrayMutations');
+    var mutationLogs = {};
+    if(arrayMutations==null){
+      arrayMutations = [];
+      clientMutationIds.map((id)=>{
+        arrayMutations.push({
+          id: id,
+          count: 0
+        });
+      });
+      mutationLogs.arrayMutations = arrayMutations;
+      localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
+    }else{
+      let parsedJson = JSON.parse(arrayMutations);
+      parsedJson.arrayMutations.map((obj)=>{
+        if(obj.count < 5){
+          this.props.fetchMutation(obj.id);
+        }
+        obj.count = obj.count + 1;
+      });
+      localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
+    }
   };
   more = (e) => {
     this.props.fetchHistoricalMutations(this.state.pageSize, this.state.afterCursor);
