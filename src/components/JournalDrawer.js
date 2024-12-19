@@ -306,7 +306,7 @@ class JournalDrawer extends Component {
     }
 
     for(let j = 0; j< newArrayMutations.length;j++){
-      if(newArrayMutations[j].count < 10){
+      if(newArrayMutations[j].count < 5){
         this.props.fetchMutation(newArrayMutations[j].id);
       }
       newArrayMutations[j].count = newArrayMutations[j].count + 1;
