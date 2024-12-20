@@ -334,8 +334,8 @@ class JournalDrawer extends Component {
             obj.count = obj.count + 1;
           }
         }else{
-          const index = parsedJson.indexOf(obj.id);
-          parsedJson.splice(index, 1);
+          const index = parsedJson.arrayMutations.indexOf(obj.id);
+          parsedJson.arrayMutations.splice(index, 1);
         }
       });
       localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
