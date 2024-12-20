@@ -294,27 +294,37 @@ class JournalDrawer extends Component {
     console.log(clientMutationIds);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
     //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
-    var arrayMutations = localStorage.getItem('arrayMutations');
-    var mutationLogs = {};
-    if(arrayMutations==null){
-      arrayMutations = [];
+    var mutationLogs = localStorage.getItem('arrayMutations');
+    console.log(mutationLogs);
+    if(mutationLogs==null){
+      mutationLogs = {};
+      mutationLogs.arrayMutations = [];
       clientMutationIds.map((id)=>{
-        arrayMutations.push({
+        mutationLogs.arrayMutations.push({
           id: id,
-          count: 0
+          count: 0,
+          time: 0
         });
       });
-      mutationLogs.arrayMutations = arrayMutations;
-      console.log(mutationLogs);
       localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
     }else{
-      let parsedJson = JSON.parse(arrayMutations);
-      console.log(parsedJson);
+      let parsedJson = JSON.parse(mutationLogs);
       parsedJson.arrayMutations.map((obj)=>{
         if(obj.count < 5){
           this.props.fetchMutation(obj.id);
+          obj.count = obj.count + 1;
+          if(obj.count == 5){
+            obj.time = obj.count;
+            obj.duration = 1;
+          }
+        }else{
+          if(obj.count == obj.time){
+            this.props.fetchMutation(obj.id);
+            obj.duration = obj.duration * 2;
+            obj.time = obj.count + obj.duration;
+          }
+          obj.count = obj.count + 1;
         }
-        obj.count = obj.count + 1;
       });
       localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
     }
