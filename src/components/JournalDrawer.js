@@ -317,25 +317,20 @@ class JournalDrawer extends Component {
         });
       }
       parsedJson.arrayMutations.map((obj)=>{
-        if(clientMutationIds.includes(obj.id)){
-          if(obj.count < 5){
-            this.props.fetchMutation(obj.id);
-            obj.count = obj.count + 1;
-            if(obj.count == 5){
-              obj.time = obj.count;
-              obj.duration = 1;
-            }
-          }else{
-            if(obj.count == obj.time){
-              this.props.fetchMutation(obj.id);
-              obj.duration = obj.duration * 2;
-              obj.time = obj.count + obj.duration;
-            }
-            obj.count = obj.count + 1;
+        if(obj.count < 5){
+          this.props.fetchMutation(obj.id);
+          obj.count = obj.count + 1;
+          if(obj.count == 5){
+            obj.time = obj.count;
+            obj.duration = 1;
           }
         }else{
-          const index = parsedJson.arrayMutations.indexOf(obj.id);
-          parsedJson.arrayMutations.splice(index, 1);
+          if(obj.count == obj.time){
+            this.props.fetchMutation(obj.id);
+            obj.duration = obj.duration * 2;
+            obj.time = obj.count + obj.duration;
+          }
+          obj.count = obj.count + 1;
         }
       });
       localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
