@@ -309,7 +309,18 @@ class JournalDrawer extends Component {
       localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
     }else{
       let parsedJson = JSON.parse(mutationLogs);
-      if(clientMutationIds.length > parsedJson.arrayMutations.length){
+      if(clientMutationIds.length != 0 && parsedJson.arrayMutations.length != 0){
+        parsedJson.arrayMutations.map((i) =>{
+          if(!clientMutationIds.includes(i.id)){
+            const index = parsedJson.arrayMutations.indexOf(obj.id);
+            parsedJson.arrayMutations.splice(index, 1);
+          }
+        })
+      }else{
+        parsedJson.arrayMutations = [];
+      }
+      
+      if(clientMutationIds.length == clientMutationIds.length+1){
         parsedJson.arrayMutations.push({
           id: clientMutationIds.slice(-1),
           count: 0,
