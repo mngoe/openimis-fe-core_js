@@ -309,6 +309,13 @@ class JournalDrawer extends Component {
       localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
     }else{
       let parsedJson = JSON.parse(mutationLogs);
+      if(clientMutationIds.length > parsedJson.arrayMutations.length){
+        parsedJson.arrayMutations.push({
+          id: clientMutationIds.slice(-1),
+          count: 0,
+          time: 0
+        });
+      }
       parsedJson.arrayMutations.map((obj)=>{
         if(obj.count < 5){
           this.props.fetchMutation(obj.id);
