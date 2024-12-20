@@ -309,37 +309,40 @@ class JournalDrawer extends Component {
       localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
     }else{
       let parsedJson = JSON.parse(mutationLogs);
-      if(clientMutationIds.length != 0 && parsedJson.arrayMutations.length != 0){
-        parsedJson.arrayMutations.map((i) => {
-          if(!clientMutationIds.includes(i.id)){
-            const index = parsedJson.arrayMutations.indexOf(obj.id);
-            parsedJson.arrayMutations.splice(index, 1);
+      for (let i = 0; i < parsedJson.arrayMutations.length; i++) {
+        let mutationLog = parsedJson.arrayMutations[i];
+        if(!clientMutationIds.includes(mutationLog.id)){
+          //remove success mutationLogs in localStorage
+          parsedJson.arrayMutations = parsedJson.arrayMutations.filter((f) => f.id != mutationLog.id);
+        }else{
+          if(mutationLog.count < 5){
+            this.props.fetchMutation(mutationLog.id);
+            mutationLog.count = mutationLog.count + 1;
+            if(mutationLog.count == 5){
+              mutationLog.time = mutationLog.count;
+              mutationLog.duration = 1;
+            }
+          }else{
+            if(mutationLog.count == mutationLog.time){
+              this.props.fetchMutation(mutationLog.id);
+              mutationLog.duration = mutationLog.duration * 2;
+              mutationLog.time = mutationLog.count + mutationLog.duration;
+            }
+            mutationLog.count = mutationLog.count + 1;
           }
-        })
-      }else{
-        parsedJson.arrayMutations = [];
-        if(clientMutationIds.length != parsedJson.arrayMutations.length){
-          this.props.fetchMutation(clientMutationIds[0]);
+          parsedJson.arrayMutations[i] = mutationLog;
         }
       }
 
-      parsedJson.arrayMutations.map((obj)=>{
-        if(obj.count < 5){
-          this.props.fetchMutation(obj.id);
-          obj.count = obj.count + 1;
-          if(obj.count == 5){
-            obj.time = obj.count;
-            obj.duration = 1;
-          }
-        }else{
-          if(obj.count == obj.time){
-            this.props.fetchMutation(obj.id);
-            obj.duration = obj.duration * 2;
-            obj.time = obj.count + obj.duration;
-          }
-          obj.count = obj.count + 1;
+      for(let j = 0; j < clientMutationIds.length; j++){
+        if(!parsedJson.arrayMutations.map((m)=> m.id).includes(clientMutationIds[j])){
+          parsedJson.arrayMutations.push({
+            id: clientMutationIds[j],
+            count: 0,
+            time: 0
+          })
         }
-      });
+      }
       localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
     }
   };
