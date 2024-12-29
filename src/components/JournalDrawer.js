@@ -294,16 +294,19 @@ class JournalDrawer extends Component {
     //console.log(clientMutationIds);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
     //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
-    var arrayMutations = localStorage.getItem('arrayMutations');
-    var mutationLogs = {};
-    if(arrayMutations==null){
-      arrayMutations = [];
+    var mutationLogs = localStorage.getItem('arrayMutations');
+    console.log(mutationLogs);
+    if(mutationLogs==null){
+      mutationLogs = {};
+      mutationLogs.arrayMutations = [];
       clientMutationIds.map((id)=>{
-        arrayMutations.push({
+        mutationLogs.arrayMutations.push({
           id: id,
-          count: 0
+          count: 0,
+          time: 0
         });
       });
+<<<<<<< HEAD
       mutationLogs.arrayMutations = arrayMutations;
       //console.log(mutationLogs);
       localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
@@ -313,9 +316,45 @@ class JournalDrawer extends Component {
       parsedJson.arrayMutations.map((obj)=>{
         if(obj.count < 5){
           this.props.fetchMutation(obj.id);
+=======
+      localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
+    }else{
+      let parsedJson = JSON.parse(mutationLogs);
+      for (let i = 0; i < parsedJson.arrayMutations.length; i++) {
+        let mutationLog = parsedJson.arrayMutations[i];
+        if(!clientMutationIds.includes(mutationLog.id)){
+          //remove success mutationLogs in localStorage
+          parsedJson.arrayMutations = parsedJson.arrayMutations.filter((f) => f.id != mutationLog.id);
+        }else{
+          if(mutationLog.count < 5){
+            this.props.fetchMutation(mutationLog.id);
+            mutationLog.count = mutationLog.count + 1;
+            if(mutationLog.count == 5){
+              mutationLog.time = mutationLog.count;
+              mutationLog.duration = 1;
+            }
+          }else{
+            if(mutationLog.count == mutationLog.time){
+              this.props.fetchMutation(mutationLog.id);
+              mutationLog.duration = mutationLog.duration * 2;
+              mutationLog.time = mutationLog.count + mutationLog.duration;
+            }
+            mutationLog.count = mutationLog.count + 1;
+          }
+          parsedJson.arrayMutations[i] = mutationLog;
+>>>>>>> c9355570378b98c33ca48667d548e281430b6b81
         }
-        obj.count = obj.count + 1;
-      });
+      }
+
+      for(let j = 0; j < clientMutationIds.length; j++){
+        if(!parsedJson.arrayMutations.map((m)=> m.id).includes(clientMutationIds[j])){
+          parsedJson.arrayMutations.push({
+            id: clientMutationIds[j],
+            count: 0,
+            time: 0
+          })
+        }
+      }
       localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
     }
   };

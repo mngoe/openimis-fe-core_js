@@ -1634,12 +1634,17 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
     _classCallCheck__default["default"](this, JournalDrawer);
     _this3 = _callSuper$z(this, JournalDrawer, [props]);
     _defineProperty__default["default"](_this3, "checkProcessing", function () {
+<<<<<<< HEAD
       //console.log("checkProcessing");
+=======
+      console.log("checkProcessing");
+>>>>>>> c9355570378b98c33ca48667d548e281430b6b81
       var clientMutationIds = _this3.state.displayedMutations.filter(function (m) {
         return m.status === 0;
       }).map(function (m) {
         return m.clientMutationId;
       });
+<<<<<<< HEAD
       //console.log(clientMutationIds);
       //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
       //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
@@ -1664,6 +1669,55 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
             _this3.props.fetchMutation(obj.id);
           }
           obj.count = obj.count + 1;
+=======
+      console.log(clientMutationIds);
+      //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
+      //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
+      var mutationLogs = localStorage.getItem('arrayMutations');
+      console.log(mutationLogs);
+      if (mutationLogs == null) {
+        mutationLogs = {};
+        mutationLogs.arrayMutations = [];
+        clientMutationIds.map(function (id) {
+          mutationLogs.arrayMutations.push({
+            id: id,
+            count: 0,
+            time: 0
+          });
+        });
+        localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
+      } else {
+        var parsedJson = JSON.parse(mutationLogs);
+        if (clientMutationIds.length != 0 && parsedJson.arrayMutations.length != 0) {
+          parsedJson.arrayMutations.map(function (i) {
+            if (!clientMutationIds.includes(i.id)) {
+              var index = parsedJson.arrayMutations.indexOf(obj.id);
+              parsedJson.arrayMutations.splice(index, 1);
+            }
+          });
+        } else {
+          parsedJson.arrayMutations = [];
+          if (clientMutationIds.length != parsedJson.arrayMutations.length) {
+            console.log('fetchMutation');
+          }
+        }
+        parsedJson.arrayMutations.map(function (obj) {
+          if (obj.count < 5) {
+            _this3.props.fetchMutation(obj.id);
+            obj.count = obj.count + 1;
+            if (obj.count == 5) {
+              obj.time = obj.count;
+              obj.duration = 1;
+            }
+          } else {
+            if (obj.count == obj.time) {
+              _this3.props.fetchMutation(obj.id);
+              obj.duration = obj.duration * 2;
+              obj.time = obj.count + obj.duration;
+            }
+            obj.count = obj.count + 1;
+          }
+>>>>>>> c9355570378b98c33ca48667d548e281430b6b81
         });
         localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
       }
