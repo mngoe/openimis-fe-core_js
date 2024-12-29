@@ -1634,43 +1634,13 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
     _classCallCheck__default["default"](this, JournalDrawer);
     _this3 = _callSuper$z(this, JournalDrawer, [props]);
     _defineProperty__default["default"](_this3, "checkProcessing", function () {
-<<<<<<< HEAD
       //console.log("checkProcessing");
-=======
-      console.log("checkProcessing");
->>>>>>> c9355570378b98c33ca48667d548e281430b6b81
       var clientMutationIds = _this3.state.displayedMutations.filter(function (m) {
         return m.status === 0;
       }).map(function (m) {
         return m.clientMutationId;
       });
-<<<<<<< HEAD
       //console.log(clientMutationIds);
-      //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
-      //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
-      var arrayMutations = localStorage.getItem('arrayMutations');
-      var mutationLogs = {};
-      if (arrayMutations == null) {
-        arrayMutations = [];
-        clientMutationIds.map(function (id) {
-          arrayMutations.push({
-            id: id,
-            count: 0
-          });
-        });
-        mutationLogs.arrayMutations = arrayMutations;
-        //console.log(mutationLogs);
-        localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
-      } else {
-        var parsedJson = JSON.parse(arrayMutations);
-        //console.log(parsedJson);
-        parsedJson.arrayMutations.map(function (obj) {
-          if (obj.count < 5) {
-            _this3.props.fetchMutation(obj.id);
-          }
-          obj.count = obj.count + 1;
-=======
-      console.log(clientMutationIds);
       //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
       //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
       var mutationLogs = localStorage.getItem('arrayMutations');
@@ -1688,37 +1658,46 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
         localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
       } else {
         var parsedJson = JSON.parse(mutationLogs);
-        if (clientMutationIds.length != 0 && parsedJson.arrayMutations.length != 0) {
-          parsedJson.arrayMutations.map(function (i) {
-            if (!clientMutationIds.includes(i.id)) {
-              var index = parsedJson.arrayMutations.indexOf(obj.id);
-              parsedJson.arrayMutations.splice(index, 1);
+        var _loop = function _loop() {
+          var mutationLog = parsedJson.arrayMutations[i];
+          if (!clientMutationIds.includes(mutationLog.id)) {
+            //remove success mutationLogs in localStorage
+            parsedJson.arrayMutations = parsedJson.arrayMutations.filter(function (f) {
+              return f.id != mutationLog.id;
+            });
+          } else {
+            if (mutationLog.count < 5) {
+              _this3.props.fetchMutation(mutationLog.id);
+              mutationLog.count = mutationLog.count + 1;
+              if (mutationLog.count == 5) {
+                mutationLog.time = mutationLog.count;
+                mutationLog.duration = 1;
+              }
+            } else {
+              if (mutationLog.count == mutationLog.time) {
+                _this3.props.fetchMutation(mutationLog.id);
+                mutationLog.duration = mutationLog.duration * 2;
+                mutationLog.time = mutationLog.count + mutationLog.duration;
+              }
+              mutationLog.count = mutationLog.count + 1;
             }
-          });
-        } else {
-          parsedJson.arrayMutations = [];
-          if (clientMutationIds.length != parsedJson.arrayMutations.length) {
-            console.log('fetchMutation');
+            parsedJson.arrayMutations[i] = mutationLog;
+          }
+        };
+        for (var i = 0; i < parsedJson.arrayMutations.length; i++) {
+          _loop();
+        }
+        for (var j = 0; j < clientMutationIds.length; j++) {
+          if (!parsedJson.arrayMutations.map(function (m) {
+            return m.id;
+          }).includes(clientMutationIds[j])) {
+            parsedJson.arrayMutations.push({
+              id: clientMutationIds[j],
+              count: 0,
+              time: 0
+            });
           }
         }
-        parsedJson.arrayMutations.map(function (obj) {
-          if (obj.count < 5) {
-            _this3.props.fetchMutation(obj.id);
-            obj.count = obj.count + 1;
-            if (obj.count == 5) {
-              obj.time = obj.count;
-              obj.duration = 1;
-            }
-          } else {
-            if (obj.count == obj.time) {
-              _this3.props.fetchMutation(obj.id);
-              obj.duration = obj.duration * 2;
-              obj.time = obj.count + obj.duration;
-            }
-            obj.count = obj.count + 1;
-          }
->>>>>>> c9355570378b98c33ca48667d548e281430b6b81
-        });
         localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
       }
     });
@@ -5634,17 +5613,14 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
       }
       _this.toggleExpanded(event);
     });
-    _defineProperty__default["default"](_this, "handleMenuSelect", function (e, route, redirectToUrl) {
-      // block normal href only for left click
-      var hostname = window.location.hostname;
+    _defineProperty__default["default"](_this, "handleMenuSelect", function (e, route) {
       if (e.type === 'click') {
         e.stopPropagation();
         e.preventDefault();
       }
-      if (!!redirectToUrl && !hostname.includes("csureport")) {
-        window.location.href = redirectToUrl;
-        return;
-      }
+      // if(!!redirectToUrl && !hostname.includes("csureport") ){
+      //   window.location.href = redirectToUrl;
+      //   return;    }
       _this.toggleExpanded(e);
       _this.redirect(route);
     });

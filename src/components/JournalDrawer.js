@@ -306,17 +306,6 @@ class JournalDrawer extends Component {
           time: 0
         });
       });
-<<<<<<< HEAD
-      mutationLogs.arrayMutations = arrayMutations;
-      //console.log(mutationLogs);
-      localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
-    }else{
-      let parsedJson = JSON.parse(arrayMutations);
-      //console.log(parsedJson);
-      parsedJson.arrayMutations.map((obj)=>{
-        if(obj.count < 5){
-          this.props.fetchMutation(obj.id);
-=======
       localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
     }else{
       let parsedJson = JSON.parse(mutationLogs);
@@ -342,7 +331,6 @@ class JournalDrawer extends Component {
             mutationLog.count = mutationLog.count + 1;
           }
           parsedJson.arrayMutations[i] = mutationLog;
->>>>>>> c9355570378b98c33ca48667d548e281430b6b81
         }
       }
 
