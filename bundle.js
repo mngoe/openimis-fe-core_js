@@ -546,7 +546,7 @@ function graphql(payload) {
     err = _type[2];
   }
   return /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(dispatch) {
+    var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(dispatch) {
       var response;
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
@@ -607,7 +607,7 @@ function graphqlWithVariables(operation, variables) {
     err = type + "_ERR";
   }
   return /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2(dispatch) {
+    var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2(dispatch) {
       var response;
       return _regeneratorRuntime__default["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
@@ -661,47 +661,55 @@ function prepareMutation(operation, input) {
   };
 }
 function waitForMutation(clientMutationId) {
+  console.log("----- Wait For Mutation Full ------");
   return /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3(dispatch) {
+    var _ref3 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3(dispatch) {
       var attempts, res, _response$payload$dat, response;
       return _regeneratorRuntime__default["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             attempts = 0;
           case 1:
+            console.log("----- Wait For Mutation------");
+            console.log(attempts);
             if (!res) {
-              _context3.next = 4;
+              _context3.next = 6;
               break;
             }
-            _context3.next = 4;
+            _context3.next = 6;
             return new Promise(function (resolve) {
               return setTimeout(resolve, 100 * attempts);
             });
-          case 4:
-            _context3.next = 6;
+          case 6:
+            _context3.next = 8;
             return dispatch(graphqlWithVariables("\n        query ($clientMutationId: String) {\n          mutationLogs (clientMutationId: $clientMutationId) {\n            edges {\n              node {\n                status\n                clientMutationId\n                jsonContent\n                error\n              }\n            }\n          }\n        }\n      ", {
               clientMutationId: clientMutationId
             }));
-          case 6:
+          case 8:
             response = _context3.sent;
             if (!response.error) {
-              _context3.next = 9;
+              _context3.next = 11;
               break;
             }
             return _context3.abrupt("return", null);
-          case 9:
+          case 11:
             res = (_response$payload$dat = response.payload.data.mutationLogs) === null || _response$payload$dat === void 0 || (_response$payload$dat = _response$payload$dat.edges[0]) === null || _response$payload$dat === void 0 ? void 0 : _response$payload$dat.node;
-          case 10:
+          case 12:
             if ((!res || res.status === 0) && attempts++ < 10) {
               _context3.next = 1;
               break;
             }
-          case 11:
+          case 13:
+            console.log("----- Wait For Mutation While ------");
+            console.log(!res);
+            console.log(res.status === 0);
+            console.log(!res || res.status === 0);
+            console.log(attempts);
             if (res && res.status === 1 && res.error) {
               res.error = JSON.parse(res.error);
             }
             return _context3.abrupt("return", res);
-          case 13:
+          case 20:
           case "end":
             return _context3.stop();
         }
@@ -722,9 +730,12 @@ function graphqlMutation(mutation, variables) {
     clientMutationId = uuid__default["default"].uuid();
     variables.input.clientMutationId = clientMutationId;
   }
+  console.log("graphQlMutation");
+  console.log("Mutation :");
+  console.log(mutation);
   return /*#__PURE__*/function () {
-    var _ref4 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee4(dispatch) {
-      var response, _response$payload;
+    var _ref4 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee4(dispatch) {
+      var response, _response$payload, _response$payload2;
       return _regeneratorRuntime__default["default"].wrap(function _callee4$(_context4) {
         while (1) switch (_context4.prev = _context4.next) {
           case 0:
@@ -732,21 +743,25 @@ function graphqlMutation(mutation, variables) {
             return dispatch(graphqlWithVariables(mutation, variables, type, params, customHeaders));
           case 2:
             response = _context4.sent;
+            console.log("graphQlMutation Return Async");
             if (!clientMutationId) {
-              _context4.next = 10;
+              _context4.next = 14;
               break;
             }
+            console.log("Dispatch fetchMutation");
             dispatch(fetchMutation(clientMutationId));
+            console.log(wait);
             if (!wait) {
-              _context4.next = 9;
+              _context4.next = 12;
               break;
             }
             return _context4.abrupt("return", dispatch(waitForMutation(clientMutationId)));
-          case 9:
-            return _context4.abrupt("return", response === null || response === void 0 || (_response$payload = response.payload) === null || _response$payload === void 0 ? void 0 : _response$payload.data);
-          case 10:
+          case 12:
+            console.log(response === null || response === void 0 || (_response$payload = response.payload) === null || _response$payload === void 0 ? void 0 : _response$payload.data);
+            return _context4.abrupt("return", response === null || response === void 0 || (_response$payload2 = response.payload) === null || _response$payload2 === void 0 ? void 0 : _response$payload2.data);
+          case 14:
             return _context4.abrupt("return", response);
-          case 11:
+          case 15:
           case "end":
             return _context4.stop();
         }
@@ -759,7 +774,7 @@ function graphqlMutation(mutation, variables) {
 }
 function fetch$1(config) {
   return /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee5(dispatch) {
+    var _ref5 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee5(dispatch) {
       return _regeneratorRuntime__default["default"].wrap(function _callee5$(_context5) {
         while (1) switch (_context5.prev = _context5.next) {
           case 0:
@@ -788,8 +803,8 @@ function loadUser() {
 }
 function login(credentials) {
   return /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee6(dispatch) {
-      var mutation, csrfToken, _response$payload2, _action$payload$respo, _action$payload, response, errorMessage, action, _action$payload$respo2, _action$payload2, _action;
+    var _ref6 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee6(dispatch) {
+      var mutation, csrfToken, _response$payload3, _action$payload$respo, _action$payload, response, errorMessage, action, _action$payload$respo2, _action$payload2, _action;
       return _regeneratorRuntime__default["default"].wrap(function _callee6$(_context6) {
         while (1) switch (_context6.prev = _context6.next) {
           case 0:
@@ -806,7 +821,7 @@ function login(credentials) {
             }));
           case 6:
             response = _context6.sent;
-            if (!(((_response$payload2 = response.payload) === null || _response$payload2 === void 0 || (_response$payload2 = _response$payload2.errors) === null || _response$payload2 === void 0 ? void 0 : _response$payload2.length) > 0)) {
+            if (!(((_response$payload3 = response.payload) === null || _response$payload3 === void 0 || (_response$payload3 = _response$payload3.errors) === null || _response$payload3 === void 0 ? void 0 : _response$payload3.length) > 0)) {
               _context6.next = 11;
               break;
             }
@@ -871,7 +886,7 @@ function refreshAuthToken() {
 }
 function initialize() {
   return /*#__PURE__*/function () {
-    var _ref7 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee7(dispatch) {
+    var _ref7 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee7(dispatch) {
       return _regeneratorRuntime__default["default"].wrap(function _callee7$(_context7) {
         while (1) switch (_context7.prev = _context7.next) {
           case 0:
@@ -900,7 +915,7 @@ function authError(error) {
 }
 function logout() {
   return /*#__PURE__*/function () {
-    var _ref8 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee8(dispatch, getState) {
+    var _ref8 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee8(dispatch, getState) {
       var mutation;
       return _regeneratorRuntime__default["default"].wrap(function _callee8$(_context8) {
         while (1) switch (_context8.prev = _context8.next) {
@@ -924,21 +939,18 @@ function logout() {
   }();
 }
 function fetchMutation(clientMutationId) {
-  var payload = formatPageQuery("mutationLogs", ["clientMutationId: \"".concat(clientMutationId, "\"")], ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime"
-  // "jsonExt",
-  //"autogeneratedCode"
-  ]);
+  console.log("fetchMutation", clientMutationId);
+  var payload = formatPageQuery("mutationLogs", ["clientMutationId: \"".concat(clientMutationId, "\"")], ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime", "jsonExt", "autogeneratedCode"]);
   return graphql(payload, "CORE_MUTATION");
 }
 function fetchHistoricalMutations(pageSize, afterCursor) {
+  console.log("fetchHistoricalMutations", pageSize, afterCursor);
   var filters = ["first: ".concat(pageSize)];
   if (!!afterCursor) {
     filters.push("after: \"".concat(afterCursor, "\""));
   }
   filters.push("orderBy: \"-request_date_time\"");
-  var payload = formatPageQuery("mutationLogs", filters, ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime"
-  // "jsonExt",
-  ]);
+  var payload = formatPageQuery("mutationLogs", filters, ["id", "status", "error", "clientMutationId", "clientMutationLabel", "clientMutationDetails", "requestDateTime", "jsonExt"]);
   return graphql(payload, "CORE_HISTORICAL_MUTATIONS");
 }
 function coreAlert(titleOrObject, message, detail) {
@@ -1120,7 +1132,7 @@ function getTimeDifferenceInDaysFromToday(dateToCheck) {
   return getTimeDifferenceInDays(dateToCheck, currentDate);
 }
 var onLogout = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(dispatch) {
+  var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(dispatch) {
     return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -1259,7 +1271,7 @@ var LogoutButton = function LogoutButton() {
     formatMessage = _useTranslations.formatMessage;
   var mPassLogout = modulesManager.getConf("fe-core", "LogoutButton.showMPassProvider", false);
   var onClick = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
+    var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
@@ -1284,7 +1296,7 @@ var LogoutButton = function LogoutButton() {
     };
   }();
   var redirectToImisLogout = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2() {
+    var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2() {
       return _regeneratorRuntime__default["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
@@ -1622,15 +1634,39 @@ var JournalDrawer = /*#__PURE__*/function (_Component2) {
     _classCallCheck__default["default"](this, JournalDrawer);
     _this3 = _callSuper$z(this, JournalDrawer, [props]);
     _defineProperty__default["default"](_this3, "checkProcessing", function () {
+      //console.log("checkProcessing");
       var clientMutationIds = _this3.state.displayedMutations.filter(function (m) {
         return m.status === 0;
       }).map(function (m) {
         return m.clientMutationId;
       });
+      //console.log(clientMutationIds);
       //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
-      clientMutationIds.forEach(function (id) {
-        return _this3.props.fetchMutation(id);
-      });
+      //clientMutationIds.forEach((id) => this.props.fetchMutation(id));
+      var arrayMutations = localStorage.getItem('arrayMutations');
+      var mutationLogs = {};
+      if (arrayMutations == null) {
+        arrayMutations = [];
+        clientMutationIds.map(function (id) {
+          arrayMutations.push({
+            id: id,
+            count: 0
+          });
+        });
+        mutationLogs.arrayMutations = arrayMutations;
+        //console.log(mutationLogs);
+        localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
+      } else {
+        var parsedJson = JSON.parse(arrayMutations);
+        //console.log(parsedJson);
+        parsedJson.arrayMutations.map(function (obj) {
+          if (obj.count < 5) {
+            _this3.props.fetchMutation(obj.id);
+          }
+          obj.count = obj.count + 1;
+        });
+        localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
+      }
     });
     _defineProperty__default["default"](_this3, "more", function (e) {
       _this3.props.fetchHistoricalMutations(_this3.state.pageSize, _this3.state.afterCursor);
@@ -1898,7 +1934,7 @@ var useGraphqlQuery = function useGraphqlQuery(operation, variables) {
     return _fetchQuery.apply(this, arguments);
   }
   function _fetchQuery() {
-    _fetchQuery = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee() {
+    _fetchQuery = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee() {
       var action;
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
@@ -1985,8 +2021,8 @@ var useGraphqlMutation = function useGraphqlMutation(operation, config) {
       isLoading: true,
       error: null
     });
-    return new Promise( /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2(resolve, reject) {
+    return new Promise(/*#__PURE__*/function () {
+      var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2(resolve, reject) {
         var _result$error, variables, result, error;
         return _regeneratorRuntime__default["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -2064,7 +2100,7 @@ var useAuthentication = function useAuthentication() {
     return state.core.authError;
   });
   var refresh = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3() {
+    var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3() {
       return _regeneratorRuntime__default["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
@@ -2829,7 +2865,7 @@ var LoginPage = function LoginPage(_ref) {
     setAuthenticating(false);
   };
   var onSubmit = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
+    var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
       var _response$payload, response, loginStatus, message;
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
@@ -3022,7 +3058,7 @@ var ForgotPasswordPage = function ForgotPasswordPage(props) {
     isLoading = _useGraphqlMutation.isLoading,
     mutate = _useGraphqlMutation.mutate;
   var onSubmit = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
+    var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
@@ -3132,7 +3168,7 @@ var SetPasswordPage = function SetPasswordPage() {
     });
   }, []);
   var onSubmit = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
+    var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
       var result;
       return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
@@ -3680,13 +3716,8 @@ var messages_en = {
 	"core.advancedFilters.button.clearAllFilters": "Clear All Filters",
 	"core.advancedFilters.button.cancel": "Cancel",
 	"core.advancedFilters.button.filter": "Filter",
-	"core.RegistersStatusReport.region": "Region",
-	"core.RegistersStatusReport.district": "District",
-	"core.Table.ordinalNumberHeader": "Number",
-	"core.calendarSwitcher": "BS/AD",
-	"core.calendar.clearButton": "Clear date",
-	"core.calendar.okButton": "Accept",
-	"core.calendar.cancelButton": "Cancel",
+	"core.Table.ordinalNumberHeader": "N°",
+	"core.calendarSwitcher": "1st/2nd",
 	"core.exportColumnsDialog.confirmButton": "Ok",
 	"core.exportColumnsDialog.cancelButton": "Cancel",
 	"core.exportColumnsDialog.clearAllButton": "Clear All",
@@ -3703,6 +3734,132 @@ var messages_en = {
 	"core.NeDateFormatter.dateOutOfRange": "DATE_OUT_OF_RANGE",
 	"core.AuthorityPicker.label": "Authority",
 	"core.AuthorityPicker.placeholder": "Search..."
+};
+
+var messages_fr = {
+	"core.roleManagement.label": "Gestion des rôles",
+	"core.roleManagement.searcher.results.title": "{rolesTotalCount} rôles trouvés",
+	"core.roleManagement.roleName": "Nom du rôle",
+	"core.roleManagement.altLanguage": "Langue alternative",
+	"core.roleManagement.isSystem": "Système",
+	"core.roleManagement.isBlocked": "Bloqué",
+	"core.roleManagement.showHistory": "Afficher valeurs historiques",
+	"core.roleManagement.dateValidFrom": "Valide à partir du",
+	"core.roleManagement.dateValidTo": "Valide jusqu'au",
+	"core.roleManagement.emptyLabel": ".",
+	"core.roleManagement.null": "Tout",
+	"core.roleManagement.true": "Vrai",
+	"core.roleManagement.false": "Faux",
+	"core.roleManagement.createButton.tooltip": "Créer un nouveau rôle",
+	"core.roleManagement.role.page.title": "Détails du rôle {label}",
+	"core.roleManagement.requiredFieldsEmptyError": "* Ces champs sont obligatoires",
+	"core.roleManagement.saveButton.tooltip.enabled": "Sauvegarder les modifications",
+	"core.roleManagement.saveButton.tooltip.disabled": "Veuillez d'abord remplir les champs obligatoires",
+	"core.roleManagement.role.availableRights": "Droits d'accès disponibles",
+	"core.roleManagement.role.chosenRights": "Droits d'accès choisis",
+	"core.roleManagement.role.rightsFilter": "Filtre",
+	"core.roleManagement.CreateRole.mutationLabel": "Créer un rôle {label}",
+	"core.roleManagement.DeleteRole.mutationLabel": "Supprimer le rôle {label}",
+	"core.roleManagement.deleteButton.tooltip": "Supprimer",
+	"core.roleManagement.deleteRole.confirm.title": "Voulez-vous vraiment supprimer {label}?",
+	"core.roleManagement.deleteRole.confirm.message": "Supprimer des données ne signifie pas les effacer d'openIMIS. Les données ne seront désactivées que dans la liste visualisée.",
+	"core.roleManagement.UpdateRole.mutationLabel": "Mettre à jour le rôle {label}",
+	"core.roleManagement.editButton.tooltip": "Modifier",
+	"core.roleManagement.updateRole.confirm.title": "Sauvegarder les modifications dans {label} ?",
+	"core.roleManagement.updateRole.confirm.message": "Êtes-vous sûr de vouloir sauvegarder les modifications dans {label} ?",
+	"core.roleManagement.DuplicateRole.mutationLabel": "Dupliquer le rôle {label}",
+	"core.roleManagement.duplicateButton.tooltip": "Doublon",
+	"core.Autocomplete.loadingText": "Chargement…",
+	"core.Autocomplete.clearText": "Effacer",
+	"core.Autocomplete.openText": "Ouvrir",
+	"core.Autocomplete.closeText": "Fermer",
+	"core.Autocomplete.placeholder": "Recherche...",
+	"core.table.resultsLoading": "Chargement…",
+	"core.Language.null": "",
+	"core.LoginPage.username.label": "Nom d'utilisateur",
+	"core.LoginPage.password.label": "Mot de passe",
+	"core.LoginPage.loginBtn": "Se connecter",
+	"core.LoginPage.authError": "Le mot de passe ou le nom d'utilisateur que vous avez saisi est incorrect.",
+	"core.LoginPage.pageTitle": "Se connecter",
+	"core.LoginPage.forgotPassword": "Mot de passe oublié ?",
+	"core.ForgotPasswordPage.pageTitle": "Mot de passe oublié ?",
+	"core.ForgotPasswordPage.submitBtn": "Soumettre",
+	"core.ForgotPasswordPage.username.label": "Nom d'utilisateur",
+	"core.ForgotPasswordPage.recoverTitle": "Récupérer votre compte",
+	"core.ForgotPasswordPage.explanationMessage": "Saisissez votre nom d'utilisateur pour pouvoir récupérer votre compte. Un e-mail contenant les instructions sera envoyé à votre adresse e-mail.",
+	"core.ForgotPasswordPage.contactAdministrator": "Si vous ne recevez pas d'e-mail, veuillez contacter votre administrateur.",
+	"core.ForgotPasswordPage.done": "C'est fait ! Vérifiez votre boîte de réception et cliquez sur le lien de vérification pour réinitialiser votre mot de passe.",
+	"core.SetPasswordPage.pageTitle": "Définir un nouveau mot de passe",
+	"core.SetPasswordPage.username.label": "Nom d'utilisateur",
+	"core.SetPasswordPage.password.label": "Mot de passe",
+	"core.SetPasswordPage.confirmPassword.label": "Confirmer le mot de passe",
+	"core.SetPasswordPage.error": "Erreur inconnue",
+	"core.SetPasswordPage.submitBtn": "Soumettre",
+	"core.exportSearchResult": "Exporter le résultat de la recherche",
+	"core.exportSearchResult.tooltip": "Résultat de l'exportation",
+	"core.NumberInput.notApplicable": "N/A",
+	"core.advancedFilters": "Filtres avancés",
+	"core.advancedFilters.field": "Champ d'application",
+	"core.advancedFilters.filter": "Filtre",
+	"core.advancedFilters.value": "Valeur",
+	"core.advancedFilters.button.AdvancedFilters": "Filtres avancés",
+	"core.advancedFilters.button.addFilters": "Ajouter un filtre",
+	"core.advancedFilters.button.clearAllFilters": "Effacer tous les filtres",
+	"core.advancedFilters.button.cancel": "Annuler",
+	"core.advancedFilters.button.filter": "Filtre",
+	"core.Table.ordinalNumberHeader": "N°",
+	"core.calendarSwitcher": "",
+	"core.UserActivityReport.dateFrom": "",
+	"core.UserActivityReport.dateTo": "",
+	"core.UserActivityReport.action": "",
+	"core.UserActivityReport.action.null": "",
+	"core.UserActivityReport.action.I": "",
+	"core.UserActivityReport.action.U": "",
+	"core.UserActivityReport.action.D": "",
+	"core.UserActivityReport.entity": "",
+	"core.UserActivityReport.entity.null": "",
+	"core.UserActivityReport.entity.Claim": "",
+	"core.UserActivityReport.entity.BatchRun": "",
+	"core.UserActivityReport.entity.ClaimAdmin": "",
+	"core.UserActivityReport.entity.Location": "",
+	"core.UserActivityReport.entity.Extract": "",
+	"core.UserActivityReport.entity.Family": "",
+	"core.UserActivityReport.entity.Feedback": "",
+	"core.UserActivityReport.entity.HealthFacility": "Formation sanitaire",
+	"core.UserActivityReport.entity.Insuree": "",
+	"core.UserActivityReport.entity.Item": "",
+	"core.UserActivityReport.entity.Officer": "",
+	"core.UserActivityReport.entity.Payer": "",
+	"core.UserActivityReport.entity.InsureePhoto": "",
+	"core.UserActivityReport.entity.ItemsPricelist": "",
+	"core.UserActivityReport.entity.ServicesPricelist": "",
+	"core.UserActivityReport.entity.ItemsPricelistDetail": "",
+	"core.UserActivityReport.entity.ServicesPricelistDetail": "",
+	"core.UserActivityReport.entity.Policy": "",
+	"core.UserActivityReport.entity.Premium": "",
+	"core.UserActivityReport.entity.Product": "",
+	"core.UserActivityReport.entity.ProductItem": "",
+	"core.UserActivityReport.entity.ProductService": "",
+	"core.UserActivityReport.entity.RelativeDistribution": "",
+	"core.UserActivityReport.entity.Service": "",
+	"core.UserActivityReport.entity.InteractiveUser": "",
+	"core.UserActivityReport.entity.UserDistrict": "",
+	"core.UserActivityReport.user": "",
+	"core.UserActivityReport.user.null": "",
+	"core.RegistersStatusReport.region": "",
+	"core.RegistersStatusReport.district": "",
+	"core.LoginPage.authMPassError": "",
+	"core.LoginPage.loginWithMPass": "",
+	"core.calendar.clearButton": "",
+	"core.calendar.okButton": "",
+	"core.calendar.cancelButton": "",
+	"core.NotFoundPage.title": "",
+	"core.NotFoundPage.description": "",
+	"core.ErrorPage.back": "",
+	"core.ForbiddenPage.title": "",
+	"core.ForbiddenPage.description": "",
+	"core.InternalServerErrorPage.title": "",
+	"core.InternalServerErrorPage.description": ""
 };
 
 function _callSuper$v(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$v() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
@@ -5425,11 +5582,12 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
     });
     _defineProperty__default["default"](_this, "handleMenuSelect", function (e, route, redirectToUrl) {
       // block normal href only for left click
+      var hostname = window.location.hostname;
       if (e.type === 'click') {
         e.stopPropagation();
         e.preventDefault();
       }
-      if (!!redirectToUrl) {
+      if (!!redirectToUrl && !hostname.includes("csureport")) {
         window.location.href = redirectToUrl;
         return;
       }
@@ -7812,6 +7970,9 @@ var Searcher = /*#__PURE__*/function (_Component3) {
           return _this2.applyFilters();
         });
       }
+      if (_this2.props.onChangeFilters) {
+        _this2.props.onChangeFilters(filters); // Pass updated filters to parent
+      }
     });
     _defineProperty__default["default"](_this2, "handleEnter", function (event) {
       if (event.key == "Enter") {
@@ -9517,7 +9678,7 @@ var Roles = /*#__PURE__*/function (_Component2) {
       }];
       if (rights.includes(RIGHT_ROLE_SEARCH) || rights.includes(RIGHT_ROLE_UPDATE)) {
         result.push(function (role) {
-          return feCore.withTooltip( /*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
+          return feCore.withTooltip(/*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
             href: _this3.roleUpdatePageUrl(role),
             disabled: _this3.isRowDisabled(null, role)
           }, /*#__PURE__*/React__default["default"].createElement(EditIcon__default["default"], null))), feCore.formatMessage(intl, "core", "roleManagement.editButton.tooltip"));
@@ -9525,7 +9686,7 @@ var Roles = /*#__PURE__*/function (_Component2) {
       }
       if (rights.includes(RIGHT_ROLE_DUPLICATE)) {
         result.push(function (role) {
-          return feCore.withTooltip( /*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
+          return feCore.withTooltip(/*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
             href: _this3.roleDuplicatePageUrl(role),
             disabled: _this3.isRowDisabled(null, role)
           }, /*#__PURE__*/React__default["default"].createElement(SupervisedUserCircleIcon__default["default"], null))), feCore.formatMessage(intl, "core", "roleManagement.duplicateButton.tooltip"));
@@ -9533,7 +9694,7 @@ var Roles = /*#__PURE__*/function (_Component2) {
       }
       if (rights.includes(RIGHT_ROLE_DELETE)) {
         result.push(function (role) {
-          return feCore.withTooltip( /*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
+          return feCore.withTooltip(/*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(core.IconButton, {
             onClick: function onClick() {
               return _this3.onDelete(role);
             },
@@ -9641,7 +9802,7 @@ var Roles = /*#__PURE__*/function (_Component2) {
         onDoubleClick: function onDoubleClick(role) {
           return _this4.isOnDoubleClickEnabled(role) && _this4.onDoubleClick(role);
         }
-      }), rights.includes(RIGHT_ROLE_CREATE) && feCore.withTooltip( /*#__PURE__*/React__default["default"].createElement("div", {
+      }), rights.includes(RIGHT_ROLE_CREATE) && feCore.withTooltip(/*#__PURE__*/React__default["default"].createElement("div", {
         className: classes.fab
       }, /*#__PURE__*/React__default["default"].createElement(core.Fab, {
         color: "primary",
@@ -11025,6 +11186,9 @@ var DEFAULT_CONFIG = {
   "translations": [{
     key: "en",
     messages: messages_en
+  }, {
+    key: "fr",
+    message: messages_fr
   }],
   "reducers": [{
     key: "core",

@@ -275,6 +275,10 @@ class Searcher extends Component {
     else if (this.props.canFetch == undefined || this.state.canFetch == true) {
       this.setState({ filters }, (e) => this.applyFilters())
     }
+
+    if (this.props.onChangeFilters) {
+      this.props.onChangeFilters(filters); // Pass updated filters to parent
+    }
   };
 
   handleEnter = (event) => {
