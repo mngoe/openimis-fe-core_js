@@ -118,7 +118,7 @@ class MainMenuContribution extends Component {
       e.stopPropagation();
       e.preventDefault();
     }
-    if (!!redirectToUrl && !hostname.includes("csureport")) {
+    if (!!redirectToUrl && redirectToUrl != null && !hostname.includes("csureport")) {
       window.open(redirectToUrl, "_blank")
       return;
     }
