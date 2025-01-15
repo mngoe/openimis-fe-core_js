@@ -17,7 +17,7 @@ function fromISODate(s) {
   return moment(s).toDate();
 }
 
-class AdDatePicker extends Component {
+class MonthYearPicker extends Component {
   state = { value: null };
 
   componentDidMount() {
@@ -30,8 +30,13 @@ class AdDatePicker extends Component {
     }
   }
 
-  dateChange = (d) => {
-    this.setState({ value: d }, (i) => this.props.onChange(toISODate(d)));
+  monthYearChange = (date) => {
+    if (date) {
+      const monthYear = moment(date).format("YYYY-MM");
+      this.setState({ value: date }, () => this.props.onChange(monthYear));
+    } else {
+      this.setState({ value: null }, () => this.props.onChange(null));
+    }
   };
 
   render() {
@@ -44,7 +49,6 @@ class AdDatePicker extends Component {
       readOnly = false,
       required = false,
       fullWidth = true,
-      format = "YYYY-MM-DD",
       reset,
       ...otherProps
     } = this.props;
@@ -53,7 +57,7 @@ class AdDatePicker extends Component {
       <FormControl fullWidth={fullWidth}>
         <MUIDatePicker
           {...otherProps}
-          format={format}
+          views={["year", "month"]}
           disabled={readOnly}
           required={required}
           clearable
@@ -62,7 +66,7 @@ class AdDatePicker extends Component {
             className: classes.label,
           }}
           label={!!label ? formatMessage(intl, module, label) : null}
-          onChange={this.dateChange}
+          onChange={this.monthYearChange}
           reset={reset}
           disablePast={disablePast}
         />
@@ -71,4 +75,4 @@ class AdDatePicker extends Component {
   }
 }
 
-export default injectIntl(withTheme(withStyles(styles)(AdDatePicker)));
+export default injectIntl(withTheme(withStyles(styles)(MonthYearPicker)));

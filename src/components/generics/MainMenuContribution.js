@@ -31,8 +31,7 @@ const styles = (theme) => ({
   },
   drawerHeading: {
     fontSize: theme.menu.drawer.fontSize,
-    color: theme.palette.text.primary,
-    paddingTop: theme.menu.drawer.fontSize / 2,
+    color: theme.menu.drawer.textColor,
   },
   drawerDivider: {
     // width: 100
@@ -54,7 +53,6 @@ const styles = (theme) => ({
 
 const Accordion = withStyles({
   root: {
-    border: "1px solid rgba(0, 0, 0, .125)",
     boxShadow: "none",
     "&:not(:last-child)": {
       borderBottom: 0,
@@ -69,23 +67,27 @@ const Accordion = withStyles({
   expanded: {},
 })(MuiAccordion);
 
-const AccordionSummary = withStyles({
+const AccordionSummary = withStyles((theme) => ({
   root: {
-    backgroundColor: "rgba(0, 0, 0, .03)",
-    borderBottom: "1px solid rgba(0, 0, 0, .125)",
-    marginBottom: -1,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
     minHeight: 56,
     "&$expanded": {
       minHeight: 56,
     },
   },
   content: {
+    margin: "0",
+    padding: "0",
+    alignItems: 'center',
+    justifyContent: 'start',
     "&$expanded": {
-      margin: "12px 0",
+      margin: "0",
     },
+    color: theme.palette.secondary.main
   },
   expanded: {},
-})(MuiAccordionSummary);
+}))(MuiAccordionSummary);
 
 const AccordionDetails = withStyles((theme) => ({
   root: {
@@ -114,14 +116,13 @@ class MainMenuContribution extends Component {
   handleMenuSelect = (e, route, redirectToUrl) => {
     // block normal href only for left click
     const hostname = window.location.hostname;
-    if (e.type === "click") {
+    if (e.type === 'click') {
       e.stopPropagation();
       e.preventDefault();
     }
-    if (!!redirectToUrl && !hostname.includes("csureport")) {
-      window.open(redirectToUrl, "_blank")
-      return;
-    }
+    if(!!redirectToUrl && redirectToUrl != null && !hostname.includes("csureport") ){
+      window.location.href = redirectToUrl;
+      return;    }
     this.toggleExpanded(e);
     this.redirect(route);
   };
@@ -156,12 +157,11 @@ class MainMenuContribution extends Component {
                   <MenuList>
                     {this.props.entries.map((entry, idx) => (
                       <div key={`${this.props.header}_${idx}_menuItem`}>
-                        <MenuItem
-                          onClick={(e) => this.handleMenuSelect(e, entry.route,  entry.redirectToUrl)}
-                          component="a"
-                          href={`${process.env.PUBLIC_URL || ""}${entry.route}`}
-                          passHref
-                        >
+                        <MenuItem 
+                        onClick={(e) => this.handleMenuSelect(e, entry.route, entry.redirectToUrl)}  
+                        component="a"  
+                        href={`${process.env.PUBLIC_URL || ""}${entry.route}`} 
+                        passHref>
                           <ListItemIcon>{entry.icon}</ListItemIcon>
                           <ListItemText primary={entry.text} />
                         </MenuItem>
@@ -202,7 +202,7 @@ class MainMenuContribution extends Component {
                   }}
                 >
                   <ListItemIcon>{entry.icon}</ListItemIcon>
-                  <ListItemText primary={entry.text} />
+                  <ListItemText primary={entry.text}/>
                 </ListItem>
                 {entry.withDivider && (
                   <Divider key={`${this.props.header}_${idx}_divider`} className={this.props.classes.drawerDivider} />
@@ -214,11 +214,11 @@ class MainMenuContribution extends Component {
       </Accordion>
     );
   };
-
+    
   render() {
     const { menuVariant } = this.props;
     const hostname = window.location.hostname;
-
+    
     // Condition pour afficher uniquement le menu "Outils" si le hostname est "localhost"
     if (hostname.includes("csureport") ) {
       // Filtrer pour ne conserver que le menu "Outils"
@@ -234,6 +234,7 @@ class MainMenuContribution extends Component {
       return this.drawerMenu();
     }
   }
+
 }
 
 MainMenuContribution.propTypes = {
