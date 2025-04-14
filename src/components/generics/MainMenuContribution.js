@@ -221,8 +221,8 @@ class MainMenuContribution extends Component {
     
     // Condition pour afficher uniquement le menu "Outils" si le hostname est "localhost"
     if (hostname.includes("csureport") ) {
-      // Filtrer pour ne conserver que le menu "Outils"
-      if (this.props.header === "Outils") {
+      // Filtrer pour ne conserver que le menu "Outils ou Tools"
+      if (this.props.header === "Outils" || this.props.header === "Tools") {
         return this.appBarMenu();
       } else {
         return null; // Ne pas afficher les autres menus
