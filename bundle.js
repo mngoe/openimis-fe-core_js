@@ -5613,14 +5613,17 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
       }
       _this.toggleExpanded(event);
     });
-    _defineProperty__default["default"](_this, "handleMenuSelect", function (e, route) {
+    _defineProperty__default["default"](_this, "handleMenuSelect", function (e, route, redirectToUrl) {
+      // block normal href only for left click
+      var hostname = window.location.hostname;
       if (e.type === 'click') {
         e.stopPropagation();
         e.preventDefault();
       }
-      // if(!!redirectToUrl && !hostname.includes("csureport") ){
-      //   window.location.href = redirectToUrl;
-      //   return;    }
+      if (!!redirectToUrl && redirectToUrl != null && !hostname.includes("csureport")) {
+        window.open(redirectToUrl, '_blank');
+        return;
+      }
       _this.toggleExpanded(e);
       _this.redirect(route);
     });
@@ -5712,9 +5715,9 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
       var hostname = window.location.hostname;
 
       // Condition pour afficher uniquement le menu "Outils" si le hostname est "localhost"
-      if (hostname.includes("csureport")) {
-        // Filtrer pour ne conserver que le menu "Outils"
-        if (this.props.header === "Outils") {
+      if (hostname.includes("localhost")) {
+        // Filtrer pour ne conserver que le menu "Outils ou Tools"
+        if (this.props.header === "Outils" || this.props.header === "Tools") {
           return this.appBarMenu();
         } else {
           return null; // Ne pas afficher les autres menus
