@@ -10,15 +10,18 @@ export default {
       file: pkg.module,
       format: "es",
       sourcemap: true,
+      compact: false 
     },
     {
       file: "dist/index.js",
       format: "cjs",
       sourcemap: true,
+      compact: false
     },
     {
       file: 'bundle.js',
       format: 'cjs',
+      compact: false
     },
   ],
   external: [
@@ -43,4 +46,5 @@ export default {
     }),
     svgr(),
   ],
+  preserveModules: true
 };
