@@ -3,7 +3,8 @@
     [
       "@babel/preset-env",
       {
-        "modules": true
+        "modules": true,
+        "minified": false
       }
     ],
     ["@babel/preset-react"]
