@@ -22,7 +22,6 @@ import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";
 import withModulesManager from "../../helpers/modules";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
-import DetailsTable from "./DetailsTable";
 
 const styles = (theme) => ({
   table: theme.table,
@@ -131,6 +130,23 @@ class Table extends Component {
     }
   };
 
+  selectAll = async () => {
+    const { withSelection, onChangeSelection, items } = this.props;
+    const { selection } = this.state;
+
+    if (!withSelection) return;
+
+    let newSelection = {};
+
+    if (!Object.keys(selection).length) {
+      newSelection = this._atom(items);
+    }
+
+    this.setState({ selection: newSelection }, () => {
+      onChangeSelection?.(Object.values(this.state.selection));
+    });
+  };
+
   headerAction = (a) => (
     <Box flexGrow={1}>
       <Box display="flex" justifyContent="flex-end">
@@ -188,6 +204,8 @@ class Table extends Component {
       showOrdinalNumber = false,
       extendHeader,
       disableDeleteOnEmptyRow = false,
+      selectWithCheckbox = false,
+      withSelection = false
     } = this.props;
     const { ordinalNumberFrom } = this.state;
     let localHeaders = [...(headers || [])];
@@ -265,6 +283,16 @@ class Table extends Component {
           {!!localHeaders && localHeaders.length > 0 && (
             <TableHead>
               <TableRow>
+                {selectWithCheckbox && withSelection && (
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      indeterminate={numSelected > 0 && numSelected < count}
+                      checked={count > 0 && numSelected === count}
+                      onChange={(e) => this.selectAll(e)}
+                    />
+                  </TableCell>
+                )}
                 {localHeaders.map((h, idx) => {
                   if (headerSpans.length > idx && !headerSpans[idx]) return null;
                   return (
@@ -319,6 +347,11 @@ class Table extends Component {
                     !!onDoubleClick && classes.clickable,
                   )}
                 >
+                  {selectWithCheckbox && withSelection && (
+                    <TableCell padding="checkbox">
+                      <Checkbox checked={this.isSelected(i)} onChange={(e) => this.select(i, e)} color="primary" />
+                    </TableCell>
+                  )}
                   {showOrdinalNumber && (
                     <TableCell
                       className={clsx(
@@ -364,7 +397,6 @@ class Table extends Component {
                 </TableRow>
               ))}
           </TableBody>
-
           {!!withPagination && !!count && (
             <TableFooter className={classes.tableFooter}>
               <TableRow>
@@ -382,6 +414,8 @@ class Table extends Component {
                   rowsPerPageOptions={rowsPerPageOptions}
                   onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
                   onPageChange={onChangePage}
+                  nextIconButtonText={formatMessage(intl, "core", "Table.nextPage")}
+                  backIconButtonText={formatMessage(intl, "core", "Table.previousPage")}
                 />
               </TableRow>
             </TableFooter>

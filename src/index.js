@@ -121,6 +121,10 @@ import withHistory, {
   Redirect,
   NavLink,
 } from "./helpers/history";
+import { useToast } from "./helpers/ToastContext";
+import { usePublicPageLanguage } from "./helpers/PublicPageLanguageContext";
+import { validatePassword } from "./helpers/passwordValidator";
+import { passwordGenerator } from "./helpers/passwordGenerator"
 import { createFieldsBasedOnJSON, renderInputComponent } from "./helpers/json-handler-utils";
 import withModulesManager, { useModulesManager } from "./helpers/modules";
 import { formatJsonField } from "./helpers/jsonExt";
@@ -130,6 +134,8 @@ import RefreshAuthToken from "./components/RefreshAuthToken";
 import UserActivityReport from "./reports/UserActivityReport";
 import RegistersStatusReport from "./reports/RegistersStatusReport";
 import SearcherActionButton from "./components/generics/SearcherActionButton";
+import InfoButton from "./components/generics/InfoButton";
+import { EXPORT_FILE_FORMATS } from "./constants";
 
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
@@ -196,6 +202,7 @@ const DEFAULT_CONFIG = {
       icon: <AccountBox />,
       route: "/" + ROUTE_ROLES,
       filter: (rights) => rights.includes(RIGHT_ROLE_SEARCH),
+      id: 'admin.roleManagement',
     },
   ],
 };
@@ -325,4 +332,10 @@ export {
   createFieldsBasedOnJSON,
   renderInputComponent,
   SearcherActionButton,
+  validatePassword,
+  passwordGenerator,
+  EXPORT_FILE_FORMATS,
+  useToast,
+  InfoButton,
+  usePublicPageLanguage,
 };

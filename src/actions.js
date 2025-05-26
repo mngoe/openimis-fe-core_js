@@ -10,6 +10,8 @@ import {
   formatServerError,
 } from "./helpers/api";
 
+const REQUESTED_WITH = 'webapp'
+
 const ROLE_FULL_PROJECTION = () => [
   "id",
   "uuid",
@@ -70,6 +72,10 @@ export function journalize(mutation, meta) {
   };
 }
 
+function isCsrfError(error) {
+  return error?.message?.includes("CSRF token missing or incorrect.");
+}
+
 export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
   let req = type + "_REQ";
   let resp = type + "_RESP";
@@ -103,6 +109,18 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
       if (response.error) {
         dispatch(coreAlert(formatServerError(response.payload)));
       }
+
+      const error = response.payload?.errors?.[0];
+      if (error && isCsrfError(error)) {
+        await dispatch(logout());
+
+        requestAnimationFrame(() => {
+          window.location.reload();
+        });
+
+        return;
+      }
+
       return response;
     } catch (err) {
       console.error(err);
@@ -220,12 +238,15 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
 }
 
 export function fetch(config) {
+  const csrfToken = localStorage.getItem('csrfToken');
   return async (dispatch) => {
     return dispatch({
       [RSAA]: {
         ...config,
         headers: {
           "Content-Type": "application/json",
+          'X-Requested-With': REQUESTED_WITH,
+          "X-CSRFToken": csrfToken,
           ...config.headers,
         },
       },
@@ -250,14 +271,53 @@ export function login(credentials) {
             }
           }`;
 
-      await dispatch(
-        graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"]),
-      );
+      try {
+        const response = await dispatch(
+          graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"], {}, false, {
+            "X-CSRFToken": csrfToken
+          }),
+        );
+        if (response.payload?.errors?.length > 0) {
+          const errorMessage = response.payload.errors[0].message;
+          dispatch(authError({ message: errorMessage }));
+          return { loginStatus: "CORE_AUTH_ERR", message: errorMessage };
+        }
+        
+        const jwtToken = response.payload.data.tokenAuth.token;
+        const csrfResponse = await dispatch(fetchCsrfToken(jwtToken));
+        const csrfToken = csrfResponse?.payload?.data?.getCsrfToken?.csrfToken;
+        if (csrfToken) {
+          localStorage.setItem('csrfToken', csrfToken);
+        }
+
+
+        const action = await dispatch(loadUser());
+        return { loginStatus: action.type, message: action?.payload?.response?.detail ?? "" };
+      } catch (error) {
+        dispatch(authError({ message: error.message }));
+        return { loginStatus: "CORE_AUTH_ERR", message: error.message };
+      }
     } else {
       await dispatch(refreshAuthToken());
     }
     const action = await dispatch(loadUser());
     return { loginStatus: action.type, message: action?.payload?.response?.detail ?? "" };
+  };
+}
+
+export function fetchCsrfToken(jwtToken) {
+  return async (dispatch) => {
+    const csrfQuery = `mutation {
+      getCsrfToken {
+        csrfToken
+      }
+    }`;
+
+    return dispatch(
+      graphqlMutation(csrfQuery, {}, ["CORE_AUTH_CSRTOKEN_REQ", "CORE_AUTH_CSRTOKEN_RESP", "CORE_AUTH_ERR"], {}, false, {
+        "Authorization": `JWT ${jwtToken}`,
+      }),
+    );
   };
 }
 

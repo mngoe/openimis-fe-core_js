@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { MenuItem, Tooltip, Button, Typography } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { MenuItem, Tooltip } from "@material-ui/core";
+import GetAppIcon from "@material-ui/icons/GetApp";
+
+import { EXPORT_FILE_FORMATS } from "../../constants";
 import { formatMessage } from "../../helpers/i18n";
 import { injectIntl } from "react-intl";
 import {
@@ -33,6 +37,9 @@ function SearcherExport(props) {
     exportFieldsColumns,
     chooseExportableColumns,
     label = null,
+    selectWithCheckbox,
+    downloadWithIconButton,
+    displayClearAllColsButton,
   } = props;
 
   const [exportStatus, setExport] = useState(0);
@@ -79,6 +86,7 @@ function SearcherExport(props) {
   const entries = [
     {
       text: label || formatMessage(intl, "core", "exportSearchResult"),
+      icon: <GetAppIcon />,
       action: handleExportData,
     },
   ];
@@ -93,6 +101,12 @@ function SearcherExport(props) {
           module="core"
           getFilteredFieldsAndColumn={handleColumnFiltering}
           columns={parseToDialogColumns(exportFieldsColumns, exportFields)}
+          exportFileFormat={exportFileFormat}
+          setExportFileFormat={setExportFileFormat}
+          exportFileFormats={exportFileFormats}
+          chooseFileFormat={chooseFileFormat}
+          chooseExportableColumns={chooseExportableColumns}
+          displayClearAllColsButton={displayClearAllColsButton}
         />
       )}
 
@@ -100,12 +114,21 @@ function SearcherExport(props) {
         {entries.map((item, idx) => (
           <Tooltip title={formatMessage(intl, "core", "exportSearchResult.tooltip")}>
             <div key={`selectionsMenu-export-${idx}`}>
-              <MenuItem
-                onClick={(e) => item.action()}
-                disabled={!enabled(selection)}
-              >
-                {item.text}
-              </MenuItem>
+              {downloadWithIconButton ? (
+                <Button
+                  onClick={(e) => item.action()}
+                  disabled={!enabled(selection)}
+                  variant="contained"
+                  color="primary"
+                  startIcon={item.icon}
+                >
+                  <Typography variant="body2"> {item.text} </Typography>
+                </Button>
+              ) : (
+                <MenuItem onClick={(e) => item.action()} disabled={!enabled(selection)}>
+                  {item.text}
+                </MenuItem>
+              )}
             </div>
           </Tooltip>
         ))}
