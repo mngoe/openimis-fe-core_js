@@ -27,19 +27,44 @@ class SearcherPane extends Component {
     this.debouncedRefresh = _debounce(refresh, DEFAULT_DEBOUNCE_TIME);
     this.debouncedReset = _debounce(reset, DEFAULT_DEBOUNCE_TIME);
   }
-
-  handleKeyDown = (event) => {
+  handleModalKeyDown = (event) => {
     if (event.key === ENTER_KEY) {
+      event.stopPropagation();
+      event.stopImmediatePropagation();
       this.debouncedRefresh();
     }
   };
+  handlePageKeyDown = (event) => {
+    if (event.key === ENTER_KEY) {
+      this.debouncedRefresh();
+    }
+  }
+
+  // handleKeyDown = (event) => {
+  //   if (event.key === ENTER_KEY) {   
+  //       if (this.props.isModal == true) {
+  //         event.stopPropagation();
+  //         event.stopImmediatePropagation();
+  //       }
+  //       this.debouncedRefresh();
+  //   }
+  // };
+
 
   componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown);
+    if (this.props.isModal) {
+      document.addEventListener('keydown', this.handleModalKeyDown, { capture: true });
+    } else {
+      window.addEventListener('keydown', this.handlePageKeyDown);
+    }
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
+    if (this.props.isModal) {
+      document.removeEventListener('keydown', this.handleModalKeyDown, { capture: true });
+    } else {
+      window.removeEventListener('keydown', this.handlePageKeyDown);
+    }  
   }
 
   render() {

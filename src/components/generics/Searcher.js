@@ -443,6 +443,7 @@ class Searcher extends Component {
       exportFieldLabel = null,
       showOrdinalNumber = false,
       chooseExportableColumns = false,
+      isModal = false,
     } = this.props;
     return (
       <Fragment>
@@ -453,6 +454,7 @@ class Searcher extends Component {
             refresh={this.applyFilters}
             del={this.deleteFilter}
             filters={this.state.filters}
+            isModal={isModal}
             filterPane={
               <FilterPane
                 filters={this.state.filters}
