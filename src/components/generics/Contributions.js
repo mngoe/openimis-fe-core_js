@@ -18,7 +18,6 @@ const Contributions = ({ children = null, contributionKey, reverse = false, ...d
     }
     return components;
   }, [contributionKey, reverse]);
-console.log("components : ",components);
   return (
     <>
       {children}
