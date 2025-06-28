@@ -136,7 +136,7 @@ import UserActivityReport from "./reports/UserActivityReport";
 import RegistersStatusReport from "./reports/RegistersStatusReport";
 import SearcherActionButton from "./components/generics/SearcherActionButton";
 import InfoButton from "./components/generics/InfoButton";
-
+import LoginPage from "./pages/LoginPage";
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
@@ -338,4 +338,5 @@ export {
   useToast,
   InfoButton,
   usePublicPageLanguage,
+  LoginPage,
 };
