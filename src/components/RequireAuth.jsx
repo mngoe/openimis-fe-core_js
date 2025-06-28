@@ -180,15 +180,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  drawer: {
-    ...theme.mixins.toolbar,
-    width: theme.menu.drawer.width,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: theme.menu.drawer.width,
-    backgroundColor: theme.menu.drawer.backgroundColor
-  },
   drawerContainer: {
     overflow: 'auto',
   },
@@ -285,7 +276,7 @@ const RequireAuth = (props) => {
     </>
     )
   }
-  const { formatMessage } = useTranslations(module, modulesManager);
+  const { formatMessage } = useTranslations("core", modulesManager);
   return (
     <>
       <AppBar
