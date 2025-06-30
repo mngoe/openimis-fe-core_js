@@ -173,7 +173,7 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2 || (this.props.exportable && entries.length>=1)) {
+    if (entries.length >= 2 || (this.props.exportable && entries.length>=1)) {
       return this.renderMenu(entries, actionsContributionKey);
     } else {
       return this.renderButtons(entries, actionsContributionKey);
@@ -483,7 +483,7 @@ class Searcher extends Component {
               <ProgressOrError error={errorItems} />
             ) : (
               <Fragment>
-                <Grid container item alignItems="center" xs={6} className={classes.paperHeader}>
+                <Grid container item alignItems="center" xs={8} className={classes.paperHeader}>
                   <Grid item xs={8} className={classes.paperHeaderTitle}>
                     {!fetchingItems ? tableTitle : formatMessage(intl, "core", "table.resultsLoading")}
                   </Grid>
@@ -495,7 +495,7 @@ class Searcher extends Component {
                     />
                   </Grid>
                 </Grid>
-                <Grid container alignItems="center" item xs={6} className={classes.paperHeader}>
+                <Grid container alignItems="center" item xs={4} className={classes.paperHeader}>
                   {fetchedItems && (
                     <Grid container direction="row" justify="flex-end" className={classes.paperHeaderAction}>
                       <StyledSelectionMenu
