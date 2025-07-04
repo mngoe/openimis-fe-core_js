@@ -173,7 +173,7 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2 || (this.props.exportable && entries.length>=1)) {
+    if (entries.length >= 2 || (this.props.exportable && entries.length>=1)) {
       return this.renderMenu(entries, actionsContributionKey);
     } else {
       return this.renderButtons(entries, actionsContributionKey);
@@ -443,6 +443,7 @@ class Searcher extends Component {
       exportFieldLabel = null,
       showOrdinalNumber = false,
       chooseExportableColumns = false,
+      isModal = false,
     } = this.props;
     return (
       <Fragment>
@@ -453,6 +454,7 @@ class Searcher extends Component {
             refresh={this.applyFilters}
             del={this.deleteFilter}
             filters={this.state.filters}
+            isModal={isModal}
             filterPane={
               <FilterPane
                 filters={this.state.filters}
