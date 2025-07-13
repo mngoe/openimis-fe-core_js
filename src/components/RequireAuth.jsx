@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
-import withWidth from "@material-ui/core/withWidth";
+import { useTheme, useMediaQuery, alpha, makeStyles } from "@mui/material/styles";
 import { Redirect, useHistory } from "../helpers/history";
-import { alpha, useTheme, makeStyles } from "@material-ui/core/styles";
 import { useModulesManager } from "../helpers/modules";
 import LogoutButton from "./LogoutButton";
 import Help from "../pages/Help";
@@ -17,16 +16,16 @@ import {
   Button,
   Hidden,
   ClickAwayListener,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import Contributions from "./generics/Contributions";
 import FormattedMessage from "./generics/FormattedMessage";
 import MainMenuBar from "./MainMenuBar";
 import JournalDrawer from "./JournalDrawer";
 import { useBoolean, useAuthentication } from "../helpers/hooks";
 import LanguageQuickPicker from "../pickers/LanguageQuickPicker";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Switch } from "@material-ui/core";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Switch } from "@mui/material";
 import { useTranslations } from "../helpers/i18n";
 import { DEFAULT } from "../constants";
 
@@ -180,15 +179,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  drawer: {
-    ...theme.mixins.toolbar,
-    width: theme.menu.drawer.width,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: theme.menu.drawer.width,
-    backgroundColor: theme.menu.drawer.backgroundColor
-  },
+
   drawerContainer: {
     overflow: 'auto',
   },
@@ -385,4 +376,4 @@ const RequireAuth = (props) => {
   );
 };
 
-export default withWidth()(RequireAuth);
+export default RequireAuth;

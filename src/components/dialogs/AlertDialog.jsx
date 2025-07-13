@@ -11,9 +11,9 @@ import {
   DialogTitle,
   Typography,
   Grid,
-} from "@material-ui/core";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+} from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { clearAlert } from "../../actions";
 import { formatMessage } from "../../helpers/i18n";
 import { ensureArray } from "../../helpers/utils";

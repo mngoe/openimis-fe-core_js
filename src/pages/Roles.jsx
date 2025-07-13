@@ -3,12 +3,12 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 
-import { Grid, FormControlLabel, Checkbox, Fab, IconButton } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import { Grid, FormControlLabel, Checkbox, Fab, IconButton } from "@mui/material";
+import { withTheme, withStyles } from "@mui/material/styles";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 
 import {
   withModulesManager,

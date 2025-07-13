@@ -1,7 +1,7 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core";
+import { withTheme, withStyles } from "@mui/material/styles";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { formatMessage } from "../../helpers/i18n";
 
 const styles = (theme) => ({

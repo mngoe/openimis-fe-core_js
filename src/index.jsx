@@ -44,7 +44,7 @@ import MonthPicker from "./pickers/MonthPicker";
 import LanguagePicker from "./pickers/LanguagePicker";
 import AuthorityPicker from "./pickers/AuthorityPicker";
 import Helmet from "./helpers/Helmet";
-import AccountBox from "@material-ui/icons/AccountBox";
+import AccountBox from "@mui/icons-material/AccountBox";
 import Roles from "./pages/Roles";
 import Role from "./pages/Role";
 import reducer from "./reducer";

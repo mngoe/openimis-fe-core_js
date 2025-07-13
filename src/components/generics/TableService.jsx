@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 import clsx from "clsx";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { withTheme, withStyles } from "@mui/material/styles";
 import {
   Typography,
   Divider,
@@ -17,7 +17,7 @@ import {
   TableFooter,
   Grid,
   TablePagination,
-} from "@material-ui/core";
+} from "@mui/material";
 import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";
 import withModulesManager from "../../helpers/modules";

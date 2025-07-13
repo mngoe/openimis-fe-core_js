@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { makeStyles } from "@material-ui/styles";
-import { Button, Typography, Box, Grid, Paper, IconButton, InputAdornment } from "@material-ui/core";
+import { makeStyles } from "@mui/material/styles";
+import { Button, Typography, Box, Grid, Paper, IconButton, InputAdornment } from "@mui/material";
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
 import { useModulesManager } from "../helpers/modules";
@@ -12,9 +12,9 @@ import { bindActionCreators } from "redux";
 import { fetchPasswordPolicy } from "../actions";
 import { validatePassword } from '../helpers/passwordValidator';
 import { passwordGenerator } from "../helpers/passwordGenerator";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import ClearIcon from "@material-ui/icons/Clear";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const useStyles = makeStyles((theme) => ({
   container: {

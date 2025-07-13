@@ -2,9 +2,9 @@ import React, { Component, Fragment } from "react";
 import { injectIntl } from "react-intl";
 import _debounce from "lodash/debounce";
 
-import { Grid, Paper, Divider } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "@material-ui/icons";
+import { Grid, Paper, Divider } from "@mui/material";
+import { withTheme, withStyles } from "@mui/material/styles";
+import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "@mui/icons-material";
 
 import { SearcherActionButton } from "@openimis/fe-core";
 import { DEFAULT_DEBOUNCE_TIME, ENTER_KEY } from "../../constants";

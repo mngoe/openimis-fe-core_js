@@ -1,8 +1,8 @@
 import React from "react";
 
-import { IconButton, Tooltip } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
-import { HelpOutline } from "@material-ui/icons";
+import { IconButton, Tooltip } from "@mui/material";
+import { withStyles } from "@mui/material/styles";
+import { HelpOutline } from "@mui/icons-material";
 
 import { useModulesManager } from "@openimis/fe-core";
 import { CORE_MIS_CONFLUENCE_URL, DEFAULT_URL, MODULE_NAME } from "../constants";

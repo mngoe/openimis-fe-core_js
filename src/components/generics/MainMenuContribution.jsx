@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
-import * as Icons from "@material-ui/icons";
+import * as Icons from "@mui/icons-material";
 import PropTypes from "prop-types";
-import MuiAccordion from "@material-ui/core/Accordion";
-import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
-import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Typography from "@mui/material/Typography";
+import { withTheme, withStyles } from "@mui/material/styles";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import {
   Divider,
   List,
@@ -21,7 +21,7 @@ import {
   Grow,
   Paper,
   ClickAwayListener,
-} from "@material-ui/core";
+} from "@mui/material";
 import withModulesManager from "../../helpers/modules";
 import { _historyPush } from "../../helpers/history";
 

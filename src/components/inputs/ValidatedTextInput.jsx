@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { Box, CircularProgress, InputAdornment } from "@material-ui/core";
-import CheckOutlinedIcon from "@material-ui/icons/CheckOutlined";
+import { Box, CircularProgress, InputAdornment } from "@mui/material";
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import clsx from "clsx";
 import { debounce } from "lodash";
-import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 
 import { TextInput, useModulesManager, useTranslations } from "@openimis/fe-core";
 import { useStyles } from "../../styles";

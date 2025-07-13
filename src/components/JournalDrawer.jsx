@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import clsx from "clsx";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/material/styles";
 import {
   CircularProgress,
   ClickAwayListener,
@@ -20,14 +20,14 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-} from "@material-ui/core";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MoreIcon from "@material-ui/icons/KeyboardArrowDown";
-import CheckIcon from "@material-ui/icons/CheckCircleOutline";
-import ErrorIcon from "@material-ui/icons/ErrorOutline";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+} from "@mui/material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MoreIcon from "@mui/icons-material/KeyboardArrowDown";
+import CheckIcon from "@mui/icons-material/CheckCircleOutline";
+import ErrorIcon from "@mui/icons-material/ErrorOutline";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { fetchMutation, fetchHistoricalMutations } from "../actions";
 import withModulesManager from "../helpers/modules";
 import moment from "moment";

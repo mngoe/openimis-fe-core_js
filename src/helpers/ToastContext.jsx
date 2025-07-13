@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useCallback, useMemo } from "react";
-import { Typography, Snackbar } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
+import { Typography, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 
 const CONFIG = {
   AUTOHIDE_DURATION: 5000,

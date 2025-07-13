@@ -12,16 +12,16 @@ import {
   TextField,
   Tooltip,
   InputAdornment,
-} from "@material-ui/core";
+} from "@mui/material";
 import { injectIntl } from "react-intl";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/material/styles";
 import { fetchModulesPermissions } from "../actions";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import SearchIcon from "@material-ui/icons/Search";
-import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import SearchIcon from "@mui/icons-material/Search";
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { formatRoleLabel } from "../helpers/role-label-formatter";
 
 const styles = (theme) => ({

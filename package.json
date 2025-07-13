@@ -24,7 +24,6 @@
     "react-intl": "^5.8.1"
   },
   "dependencies": {
-    "@material-ui/styles": "^4.11.5",
     "react-multi-date-picker": "^4.5.2"
   },
   "devDependencies": {
@@ -48,7 +47,11 @@
     "redux": "^4.0.5",
     "redux-api-middleware": "^3.2.1",
     "vite": "^6.3.5",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-svgr": "^4.3.0",
+    "@mui/material": "^5.15.14",
+    "@mui/icons-material": "^5.14.17",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0"
   },
   "files": [
     "dist"

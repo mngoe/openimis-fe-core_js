@@ -13,9 +13,9 @@ import {
   MenuItem,
   Paper,
   Typography,
-} from "@material-ui/core";
-import { withStyles, withTheme } from "@material-ui/core/styles";
-import MoreHoriz from "@material-ui/icons/MoreHoriz";
+} from "@mui/material";
+import { withStyles, withTheme } from "@mui/material/styles";
+import MoreHoriz from "@mui/icons-material/MoreHoriz";
 
 import { cacheFilters, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
 import { DEFAULT } from "../../constants";
