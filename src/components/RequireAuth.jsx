@@ -1,5 +1,7 @@
 import React, { useMemo } from "react";
-import { useTheme, useMediaQuery, alpha, makeStyles } from "@mui/material/styles";
+import { useTheme, alpha } from "@mui/material/styles"; 
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { makeStyles } from "@mui/styles";
 import { Redirect, useHistory } from "../helpers/history";
 import { useModulesManager } from "../helpers/modules";
 import LogoutButton from "./LogoutButton";

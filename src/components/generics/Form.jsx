@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { injectIntl } from "react-intl";
 import { Fab, Grid, Paper, IconButton, Typography, Divider, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";

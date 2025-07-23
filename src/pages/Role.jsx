@@ -5,7 +5,7 @@ import { injectIntl } from "react-intl";
 import _ from "lodash";
 import clsx from "clsx";
 
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 
 import {
   withModulesManager,

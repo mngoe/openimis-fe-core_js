@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 import { Checkbox, Divider, FormControlLabel, Grid } from "@mui/material";
-import { withStyles, withTheme } from "@mui/material/styles";
+import { withStyles, withTheme } from "@mui/styles";
 
 import {
   formatMessage,

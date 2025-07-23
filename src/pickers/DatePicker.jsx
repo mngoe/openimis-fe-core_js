@@ -4,7 +4,7 @@ import clsx from "clsx";
 import moment from "moment";
 import { injectIntl } from "react-intl";
 
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { FormControl } from "@mui/material";
 import { DatePicker as MUIDatePicker } from "@material-ui/pickers";
 import { formatMessage, toISODate } from "../helpers/i18n";

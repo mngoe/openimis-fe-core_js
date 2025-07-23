@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import withStyles from "@mui/material/styles/withStyles";
+import withStyles from "@mui/styles/withStyles";
 import { Typography, Divider } from "@mui/material";
 
 const styles = (theme) => ({

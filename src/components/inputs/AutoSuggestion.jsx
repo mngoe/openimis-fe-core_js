@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { FormControl, IconButton, InputAdornment, TextField } from "@mui/material";
 import SelectInput from "./SelectInput";
 import ClearIcon from "@mui/icons-material/Clear";

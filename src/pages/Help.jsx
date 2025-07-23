@@ -1,7 +1,7 @@
 import React from "react";
 
 import { IconButton, Tooltip } from "@mui/material";
-import { withStyles } from "@mui/material/styles";
+import { withStyles } from "@mui/styles";
 import { HelpOutline } from "@mui/icons-material";
 
 import { useModulesManager } from "@openimis/fe-core";

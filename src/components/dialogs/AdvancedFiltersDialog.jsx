@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import { formatMessage, SearcherActionButton } from "@openimis/fe-core";
-import { withStyles, withTheme } from "@mui/material/styles";
+import { withStyles, withTheme } from "@mui/styles";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AdvancedFilterRowValue from "./AdvancedFilterRowValue";

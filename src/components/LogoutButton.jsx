@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { IconButton, Tooltip } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 import { ExitToApp } from "@mui/icons-material";
 
 import { MODULE_NAME } from "../constants";

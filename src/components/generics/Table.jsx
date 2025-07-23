@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import {
   Typography,
   Divider,

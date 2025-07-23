@@ -3,7 +3,7 @@ import { injectIntl } from "react-intl";
 import _ from "lodash-uuid";
 
 import { FormControl, InputLabel, Select, MenuItem, IconButton } from "@mui/material";
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import FormattedMessage from "../generics/FormattedMessage";

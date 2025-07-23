@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { FormControl, InputBase } from "@mui/material";
 
 const styles = (theme) => ({

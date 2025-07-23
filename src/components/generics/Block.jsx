@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { Paper, Box, Typography } from "@mui/material";
 

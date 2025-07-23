@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { makeStyles } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 import { Button, Typography, Box, Grid, Paper, IconButton, InputAdornment } from "@mui/material";
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";

@@ -12,7 +12,7 @@ import {
   FormControlLabel,
   Typography,
 } from "@mui/material";
-import { withStyles, withTheme } from "@mui/material/styles";
+import { withStyles, withTheme } from "@mui/styles";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import withModulesManager, { ModulesManagerProvider } from "../helpers/modules";
 import Helmet from "../helpers/Helmet";
 import RequireAuth from "./RequireAuth";

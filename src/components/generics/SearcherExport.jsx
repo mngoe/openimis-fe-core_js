@@ -3,7 +3,7 @@ import { injectIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 
 import { MenuItem, Tooltip, Button, Typography } from "@mui/material";
-import withStyles from "@mui/material/styles/withStyles";
+import withStyles from "@mui/styles/withStyles";
 import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { closeExportConfigDialog, openExportConfigDialog } from "../../actions";

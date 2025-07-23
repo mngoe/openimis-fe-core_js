@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import clsx from "clsx";
-import { withTheme, withStyles } from "@mui/material/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { injectIntl } from "react-intl";
 import { TextField } from "@mui/material";
 import { formatMessage } from "../../helpers/i18n";

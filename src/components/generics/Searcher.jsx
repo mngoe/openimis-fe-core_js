@@ -14,7 +14,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { withStyles, withTheme } from "@mui/material/styles";
+import { withStyles, withTheme } from "@mui/styles";
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
 
 import { cacheFilters, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
