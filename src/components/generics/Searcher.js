@@ -661,7 +661,7 @@ class Searcher extends Component {
                     onDoubleClick={onDoubleClick}
                     page={this.state.page}
                     pageSize={this.state.pageSize}
-                    count={itemsPageInfo.totalCount}
+                    count={itemsPageInfo?.totalCount}
                     onChangePage={this.onChangePage}
                     rowsPerPageOptions={rowsPerPageOptions}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}
