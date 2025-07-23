@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from "react";
 import clsx from "clsx";
 
-import { makeStyles } from "@material-ui/styles";
-import { IconButton, Popover, Typography, Tooltip } from "@material-ui/core";
-import InfoIcon from "@material-ui/icons/Info";
+import { makeStyles } from "@mui/material/styles";
+import { IconButton, Popover, Typography, Tooltip } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 import { useTranslations } from "../../helpers/i18n";
 import { MODULE_NAME } from "../../constants";
 

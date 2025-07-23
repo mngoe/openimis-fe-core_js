@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Typography, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { Typography, Button } from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { useHistory } from "../helpers/history";
 

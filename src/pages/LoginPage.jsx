@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "../helpers/history";
-import { makeStyles } from "@material-ui/styles";
-import { Button, Box, Grid, Paper, LinearProgress, Divider, Link, Typography } from "@material-ui/core";
+import { makeStyles } from "@mui/material/styles";
+import { Button, Box, Grid, Paper, LinearProgress, Divider, Link, Typography } from "@mui/material";
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
 import { useModulesManager } from "../helpers/modules";
@@ -10,7 +10,7 @@ import { useAuthentication } from "../helpers/hooks";
 import Contributions from "./../components/generics/Contributions";
 import { baseApiUrl } from "../actions";
 import { DEFAULT, SAML_LOGIN_PATH } from "../constants";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
   container: {

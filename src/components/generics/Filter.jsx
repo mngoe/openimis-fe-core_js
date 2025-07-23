@@ -5,7 +5,7 @@ import {
   Grid,
   withTheme,
   withStyles,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   formatMessage,
   TextInput,

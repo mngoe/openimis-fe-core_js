@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { withTheme, withStyles } from "@mui/material/styles";
+import { Typography } from "@mui/material";
 import FormattedMessage from "./FormattedMessage";
 
 const styles = (theme) => ({

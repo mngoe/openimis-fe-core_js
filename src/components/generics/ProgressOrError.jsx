@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { CircularProgress } from "@material-ui/core";
+import { withTheme, withStyles } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
 import Error from "./Error";
 
 const styles = (theme) => ({

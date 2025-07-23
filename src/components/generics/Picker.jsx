@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/material/styles";
 import { injectIntl } from "react-intl";
 import {
   Dialog,
@@ -12,10 +12,10 @@ import {
   TextField,
   InputAdornment,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 import { formatMessage } from "../../helpers/i18n";
-import ClearIcon from "@material-ui/icons/Clear";
-import SearchIcon from "@material-ui/icons/Search";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import FormattedMessage from "./FormattedMessage";
 import Table from "./Table";
 import FakeInput from "../inputs/FakeInput";

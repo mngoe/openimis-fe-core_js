@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
 import { formatMessage, SearcherActionButton } from "@openimis/fe-core";
-import { withStyles, withTheme } from "@material-ui/core/styles";
+import { withStyles, withTheme } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AdvancedFilterRowValue from "./AdvancedFilterRowValue";
 import { fetchCustomFilter } from "../../actions";
-import AddCircle from "@material-ui/icons/Add";
-import FilterListIcon from '@material-ui/icons/FilterList';
+import AddCircle from "@mui/icons-material/Add";
+import FilterListIcon from '@mui/icons-material/FilterList';
 import {
   CLEARED_STATE_FILTER,
   CUSTOM_FILTERS,

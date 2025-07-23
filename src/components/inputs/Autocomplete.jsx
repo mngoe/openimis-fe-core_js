@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { Autocomplete as MuiAutocomplete } from "@material-ui/lab";
-import { TextField } from "@material-ui/core";
+import { withTheme, withStyles } from "@mui/material/styles";
+import MuiAutocomplete from "@mui/material/Autocomplete";
+import { TextField } from "@mui/material";
 import { useDebounceCb } from "../../helpers/hooks";
 import { useTranslations } from "../../helpers/i18n";
 import { useModulesManager } from "../../helpers/modules";

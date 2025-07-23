@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Grid, Box, Typography } from "@material-ui/core";
+import { Grid, Box, Typography } from "@mui/material";
 
 const DEFAULT_STYLES = {
   backgroundColor: "khaki",

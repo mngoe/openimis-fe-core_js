@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import clsx from "clsx";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/material/styles";
 import { injectIntl } from "react-intl";
-import { TextField } from "@material-ui/core";
+import { TextField } from "@mui/material";
 import { formatMessage } from "../../helpers/i18n";
 import { DEFAULT } from "../../constants";
 import withModulesManager from "../../helpers/modules";

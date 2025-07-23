@@ -11,10 +11,10 @@ import {
   Divider,
   FormControlLabel,
   Typography,
-} from "@material-ui/core";
-import { withStyles, withTheme } from "@material-ui/core/styles";
-import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
-import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+} from "@mui/material";
+import { withStyles, withTheme } from "@mui/material/styles";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 import { useModulesManager, useTranslations } from "@openimis/fe-core";
 import { isEmptyObject } from "../../helpers/utils";

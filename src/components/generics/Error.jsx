@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-import { Typography, Divider } from "@material-ui/core";
+import withStyles from "@mui/material/styles/withStyles";
+import { Typography, Divider } from "@mui/material";
 
 const styles = (theme) => ({
   error: {

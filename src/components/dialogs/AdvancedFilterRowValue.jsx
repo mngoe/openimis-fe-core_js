@@ -6,8 +6,8 @@ import {
   NumberInput,
   SelectInput,
 } from "@openimis/fe-core";
-import { Grid } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { Grid } from "@mui/material";
+import { withTheme, withStyles } from "@mui/material/styles";
 import { connect } from "react-redux";
 import CustomFilterFieldStatusPicker from "../../pickers/CustomFilterFieldStatusPicker";
 import CustomFilterTypeStatusPicker from "../../pickers/CustomFilterTypeStatusPicker";

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { FormControl, InputBase } from "@material-ui/core";
+import { withTheme, withStyles } from "@mui/material/styles";
+import { FormControl, InputBase } from "@mui/material";
 
 const styles = (theme) => ({
   fakeInput: theme.fakeInput,

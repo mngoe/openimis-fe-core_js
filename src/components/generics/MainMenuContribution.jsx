@@ -10,18 +10,7 @@ import { withTheme, withStyles } from "@mui/material/styles";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import {
-  Divider,
-  List,
-  IconButton,
-  MenuList,
-  MenuItem,
-  Button,
-  Popper,
-  Grow,
-  Paper,
-  ClickAwayListener,
-} from "@mui/material";
+import { Divider, List, IconButton, MenuList, MenuItem, Button, Popper, Grow, Paper, ClickAwayListener } from "@mui/material";
 import withModulesManager from "../../helpers/modules";
 import { _historyPush } from "../../helpers/history";
 

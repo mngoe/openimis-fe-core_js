@@ -1,9 +1,9 @@
 import React from "react";
 import _ from "lodash-uuid";
-import { IconButton } from "@material-ui/core";
-import SortIcon from "@material-ui/icons/UnfoldMore";
-import SortAscIcon from "@material-ui/icons/ExpandLess";
-import SortDescIcon from "@material-ui/icons/ExpandMore";
+import { IconButton } from "@mui/material";
+import SortIcon from "@mui/icons-material/UnfoldMore";
+import SortAscIcon from "@mui/icons-material/ExpandLess";
+import SortDescIcon from "@mui/icons-material/ExpandMore";
 
 function _entityAndFilters(entity, filters) {
   return `${entity}${!!filters && filters.length ? `(${filters.join(",")})` : ""}`;

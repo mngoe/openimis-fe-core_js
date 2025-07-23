@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/material/styles";
 import { injectIntl } from "react-intl";
-import { Fab, Grid, Paper, IconButton, Typography, Divider, Tooltip } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import SaveIcon from "@material-ui/icons/Save";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { Fab, Grid, Paper, IconButton, Typography, Divider, Tooltip } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import SaveIcon from "@mui/icons-material/Save";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import FormattedMessage from "./FormattedMessage";
 import Contributions from "./Contributions";
 import withHistory from "../../helpers/history";

@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button, Typography, MenuList, MenuItem, Popper, Paper, Grow, ClickAwayListener } from "@material-ui/core";
-import { Public as Globe, ExpandMore } from "@material-ui/icons";
+import { Button, Typography, MenuList, MenuItem, Popper, Paper, Grow, ClickAwayListener } from "@mui/material";
+import Globe from "@mui/icons-material/Public";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { SelectDialog } from "@openimis/fe-core";
 import { changeUserLanguage, fetchLanguages } from "../actions";

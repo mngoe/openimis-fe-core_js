@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 
-import { MenuItem, Tooltip, Button, Typography } from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import GetAppIcon from "@material-ui/icons/GetApp";
+import { MenuItem, Tooltip, Button, Typography } from "@mui/material";
+import withStyles from "@mui/material/styles/withStyles";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { closeExportConfigDialog, openExportConfigDialog } from "../../actions";
 import { EXPORT_FILE_FORMATS } from "../../constants";

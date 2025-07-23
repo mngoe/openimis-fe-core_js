@@ -1,6 +1,6 @@
 import React from "react";
 import { injectIntl } from "react-intl";
-import { InputAdornment } from "@material-ui/core";
+import { InputAdornment } from "@mui/material";
 import NumberInput from "./NumberInput";
 import { useModulesManager } from "../../helpers/modules";
 

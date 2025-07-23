@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { FormControl, IconButton, InputAdornment, TextField } from "@material-ui/core";
+import { withTheme, withStyles } from "@mui/material/styles";
+import { FormControl, IconButton, InputAdornment, TextField } from "@mui/material";
 import SelectInput from "./SelectInput";
-import ClearIcon from "@material-ui/icons/Clear";
-import SearchIcon from "@material-ui/icons/Search";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import withModulesManager from "../../helpers/modules";
 import { injectIntl } from "react-intl";
 import _ from "lodash";

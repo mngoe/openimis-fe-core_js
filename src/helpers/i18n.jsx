@@ -1,5 +1,5 @@
 import React from "react";
-import { Tooltip } from "@material-ui/core";
+import { Tooltip } from "@mui/material";
 import { useIntl } from "react-intl";
 import moment from "moment";
 import { formatDateFromISO as adFormateDateFromISO } from "../pickers/AdDateFormatter";
