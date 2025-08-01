@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "../helpers/history";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { Button, Box, Grid, Paper, LinearProgress, Divider, Link, Typography } from "@mui/material";
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
@@ -12,8 +12,8 @@ import { baseApiUrl } from "../actions";
 import { DEFAULT, SAML_LOGIN_PATH } from "../constants";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
+const StyledLoginPage = styled('div')(({ theme }) => ({
+  '& .container': {
     position: "absolute",
     top: 0,
     bottom: 0,
@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  paper: theme.paper.paper,
-  logo: {
+  '& .paper': theme.paper.paper,
+  '& .logo': {
     width: "100%",
     padding: theme.spacing(2),
   },
@@ -35,7 +35,6 @@ const LOGIN_PAGE_CONTRIBUTION_KEY = "core.LoginPage";
 const LOGIN_PAGE_MPASS_CONTRIBUTION_KEY = "workerVoucher.MPassLoginButton";
 
 const LoginPage = ({ logo }) => {
-  const classes = useStyles();
   const history = useHistory();
   const modulesManager = useModulesManager();
   const { formatMessage } = useTranslations("core.LoginPage", modulesManager);
@@ -107,15 +106,15 @@ const LoginPage = ({ logo }) => {
   };
 
   return (
-    <>
+    <StyledLoginPage>
       {isAuthenticating && (
         <Box position="absolute" top={0} left={0} right={0}>
           <LinearProgress className="bootstrap" />
         </Box>
       )}
-      <div className={classes.container}>
+      <div className="container">
         <Helmet title={formatMessage("pageTitle")} />
-        <Paper className={classes.paper} elevation={2}>
+        <Paper className="paper" elevation={2}>
           <form onSubmit={onSubmit}>
             <Box p={6} width={380}>
               <Grid container spacing={2} direction="column" alignItems="stretch">
@@ -132,7 +131,7 @@ const LoginPage = ({ logo }) => {
                   </Grid>
                 )}
                 <Grid item container direction="row" alignItems="center">
-                  <img className={classes.logo} src={logo} />
+                  <img className="logo" src={logo} />
                   {!isWorker && (
                     <Box pl={2} fontWeight="fontWeightMedium" fontSize="h4.fontSize">
                       {formatMessage("appName")}
@@ -212,7 +211,7 @@ const LoginPage = ({ logo }) => {
           </form>
         </Paper>
       </div>
-    </>
+    </StyledLoginPage>
   );
 };
 

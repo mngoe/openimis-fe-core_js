@@ -3,25 +3,25 @@ import { injectIntl } from "react-intl";
 import _ from "lodash-uuid";
 
 import { FormControl, InputLabel, Select, MenuItem, IconButton } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import FormattedMessage from "../generics/FormattedMessage";
 import TextInput from "./TextInput";
 
-const styles = (theme) => ({
-  label: {
+const StyledSelectInput = styled('div')(({ theme }) => ({
+  '& .label': {
     color: theme.palette.primary.main,
   },
-  formControl: {
+  '& .formControl': {
     position: "relative",
   },
-  iconButton: {
+  '& .iconButton': {
     position: "absolute",
     right: 0,
     padding: "8px",
   },
-});
+}));
 
 function EmptyComponent() {
   return <div />;
@@ -47,9 +47,9 @@ class SelectInput extends Component {
 
   // If there's a value, we render the clear icon. Clicking it calls handleClear, which resets the Select's value.
   renderEndAdornment = () => {
-    const { value, classes } = this.props;
+    const { value } = this.props;
     return value ? (
-      <IconButton onClick={this.handleClear} className={classes.iconButton}>
+      <IconButton onClick={this.handleClear} className="iconButton">
         <ClearIcon />
       </IconButton>
     ) : undefined;
@@ -57,7 +57,6 @@ class SelectInput extends Component {
 
   render() {
     const {
-      classes,
       module,
       label,
       strLabel = null,
@@ -77,55 +76,57 @@ class SelectInput extends Component {
       valueStr = options.filter((o) => JSON.stringify(o.value) === JSON.stringify(value)).map((o) => o.label);
     }
     return (
-      <Fragment>
-        {!readOnly && (
-          <FormControl required={required} fullWidth className={classes.formControl}>
-            <InputLabel shrink={true} className={classes.label}>
-              {strLabel ?? <FormattedMessage module={module} id={label} />}
-            </InputLabel>
-            <Select
-              readOnly={readOnly}
-              inputProps={{
-                name: name,
-                id: `${_.uuid()}-input`,
-                title: title,
-              }}
-              value={!!value ? JSON.stringify(value) : null}
-              onChange={this._onChange}
-              IconComponent={this.renderIconComponent()}
-              disabled={disabled}
-              endAdornment={this.renderEndAdornment()}
-              displayEmpty
+      <StyledSelectInput>
+        <Fragment>
+          {!readOnly && (
+            <FormControl required={required} fullWidth className="formControl">
+              <InputLabel shrink={true} className="label">
+                {strLabel ?? <FormattedMessage module={module} id={label} />}
+              </InputLabel>
+              <Select
+                readOnly={readOnly}
+                inputProps={{
+                  name: name,
+                  id: `${_.uuid()}-input`,
+                  title: title,
+                }}
+                value={!!value ? JSON.stringify(value) : null}
+                onChange={this._onChange}
+                IconComponent={this.renderIconComponent()}
+                disabled={disabled}
+                endAdornment={this.renderEndAdornment()}
+                displayEmpty
+                //NOTE: We want to get rid of default styling (marginTop) if label is not rendered
+                {...(withLabel ? null : { style: { marginTop: "0px" } })}
+              >
+                {placeholder && (
+                  <MenuItem disabled value="">
+                    <FormattedMessage module={module} id={placeholder} />
+                  </MenuItem>
+                )}
+                {options.map((option, idx) => (
+                  <MenuItem key={`${module}-${name}-option-${idx}`} value={JSON.stringify(option.value)}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+          {!!readOnly && (
+            <TextInput
               //NOTE: We want to get rid of default styling (marginTop) if label is not rendered
-              {...(withLabel ? null : { style: { marginTop: "0px" } })}
-            >
-              {placeholder && (
-                <MenuItem disabled value="">
-                  <FormattedMessage module={module} id={placeholder} />
-                </MenuItem>
-              )}
-              {options.map((option, idx) => (
-                <MenuItem key={`${module}-${name}-option-${idx}`} value={JSON.stringify(option.value)}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
-        {!!readOnly && (
-          <TextInput
-            //NOTE: We want to get rid of default styling (marginTop) if label is not rendered
-            {...(withLabel ? { label } : null)}
-            fullWidth={true}
-            module={module}
-            value={valueStr}
-            readOnly={true}
-            title={title}
-          />
-        )}
-      </Fragment>
+              {...(withLabel ? { label } : null)}
+              fullWidth={true}
+              module={module}
+              value={valueStr}
+              readOnly={true}
+              title={title}
+            />
+          )}
+        </Fragment>
+      </StyledSelectInput>
     );
   }
 }
 
-export default injectIntl(withTheme(withStyles(styles)(SelectInput)));
+export default injectIntl(SelectInput);

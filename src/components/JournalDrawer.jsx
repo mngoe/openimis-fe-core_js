@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import clsx from "clsx";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import {
   CircularProgress,
   ClickAwayListener,
@@ -34,23 +34,23 @@ import moment from "moment";
 import _ from "lodash";
 import { CLAIM_STATS_ORDER, GLOBAL_UNDERSCORE, REQUEST_LIMIT, WHITE_SPACE } from "../constants";
 
-const styles = (theme) => ({
-  toolbar: {
+const StyledJournalDrawer = styled('div')(({ theme }) => ({
+  '& .toolbar': {
     minHeight: 80,
   },
-  drawer: {
+  '& .drawer': {
     width: theme.jrnlDrawer.width,
     flexShrink: 0,
     whiteSpace: "nowrap",
   },
-  drawerOpen: {
+  '& .drawerOpen': {
     width: theme.jrnlDrawer.open.width,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  drawerClose: {
+  '& .drawerClose': {
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -61,52 +61,52 @@ const styles = (theme) => ({
       width: theme.spacing(9) + 1,
     },
   },
-  jrnlItem: theme.jrnlDrawer.item,
-  jrnlItemDetail: theme.jrnlDrawer.itemDetail,
-  jrnlItemDetailsError: {
+  '& .jrnlItem': theme.jrnlDrawer.item,
+  '& .jrnlItemDetail': theme.jrnlDrawer.itemDetail,
+  '& .jrnlItemDetailsError': {
     ...theme.jrnlDrawer.itemDetail,
     color: theme.palette.error.main,
     whiteSpace: 'normal',
     overflowWrap: 'break-word',
   },
-  jrnlItemDetailText: theme.jrnlDrawer.itemDetailText,
-  jrnlIconClickable: {
+  '& .jrnlItemDetailText': theme.jrnlDrawer.itemDetailText,
+  '& .jrnlIconClickable': {
     cursor: "pointer",
   },
-  jrnlIcon: {
+  '& .jrnlIcon': {
     paddingLeft: theme.spacing(1),
   },
-  jrnlErrorItem: {
+  '& .jrnlErrorItem': {
     color: theme.palette.error.main,
   },
-  jrnlErrorIcon: {
+  '& .jrnlErrorIcon': {
     paddingLeft: theme.spacing(1),
     color: theme.palette.error.main,
   },
-  messagePopover: {
+  '& .messagePopover': {
     width: 350,
   },
-  groupMessagePanel: {
+  '& .groupMessagePanel': {
     width: "100%",
     margin: 0,
     padding: 0,
   },
-  errorPanel: {
+  '& .errorPanel': {
     width: "100%",
     color: theme.palette.error.main,
   },
-  messagePanel: {
+  '& .messagePanel': {
     width: "100%",
     margin: theme.spacing(1),
   },
-  centerText: {
+  '& .centerText': {
     textAlign: 'center'
   },
-  boldCenterText: {
+  '& .boldCenterText': {
     textAlign: 'center',
     fontWeight: 'bold',
   }
-});
+}));
 
 class Messages extends Component {
   state = {
@@ -135,7 +135,7 @@ class Messages extends Component {
           key={`message-${idx}-panel`}
           expanded={message.hasOwnProperty("detail") && this.state.expanded === `message-${idx}`}
           onChange={this.handleChange(`message-${idx}`)}
-          className={this.props.classes.errorPanel}
+          className="errorPanel"
         >
           <AccordionSummary
             id={`message-${idx}-header`}
@@ -155,7 +155,7 @@ class Messages extends Component {
       );
     } else if (message.hasOwnProperty("clientMutationLabel")) {
       return (
-        <Grid key={`message-${idx}-panel`} item className={this.props.classes.messagePanel}>
+        <Grid key={`message-${idx}-panel`} item className="messagePanel">
           {message.clientMutationLabel}
         </Grid>
       );
@@ -175,12 +175,12 @@ class Messages extends Component {
           key={`groupMessage-${idx}-panel`}
           expanded={this.state.groupExpanded === `groupMessage-${idx}`}
           onChange={this.handleGroupChange(`groupMessage-${idx}`)}
-          className={this.props.classes.groupMessagePanel}
+          className="groupMessagePanel"
         >
           <AccordionSummary id={`groupMessage-${idx}-header`} expandIcon={<ExpandMoreIcon />}>
             <Typography variant="caption">{message.title}</Typography>
           </AccordionSummary>
-          <AccordionDetails className={this.props.classes.groupMessagePanel}>
+          <AccordionDetails className="groupMessagePanel">
             <Grid container spacing={0}>
               {message.list.map((m, i) => (
                 <Grid item xs={12}>
@@ -197,7 +197,7 @@ class Messages extends Component {
   };
 
   render() {
-    const { classes, anchorEl, onClick, messages } = this.props;
+    const { anchorEl, onClick, messages } = this.props;
     if (!messages) return null;
     const stats = messages?.jsonExt ? JSON.parse(messages.jsonExt) : {};
     let msgs = [messages?.error || messages];
@@ -223,16 +223,16 @@ class Messages extends Component {
             horizontal: "right",
           }}
           onClick={onClick}
-          PaperProps={{ className: classes.messagePopover }}
+          PaperProps={{ className: "messagePopover" }}
         >
           {stats?.claim_stats && (
             <div>
-              <Typography className={classes.boldCenterText}>
+              <Typography className="boldCenterText">
                 {stats.claim_stats["header"]}
               </Typography>
               {CLAIM_STATS_ORDER.map((key) => (
                 stats.claim_stats.hasOwnProperty(key) && (
-                  <Typography className={classes.centerText} key={key}>
+                  <Typography className="centerText" key={key}>
                     {`${key.replace(GLOBAL_UNDERSCORE, WHITE_SPACE)}: ${stats.claim_stats[key]}`}
                   </Typography>
                 )
@@ -245,8 +245,6 @@ class Messages extends Component {
     );
   }
 }
-
-const StyledMessages = withTheme(withStyles(styles)(Messages));
 
 class JournalDrawer extends Component {
   constructor(props) {
@@ -376,112 +374,114 @@ class JournalDrawer extends Component {
   };
 
   render() {
-    const { theme, classes, open, handleDrawer } = this.props;
+    const { theme, open, handleDrawer } = this.props;
     return (
-      <ClickAwayListener onClickAway={(e) => open && handleDrawer()}>
-        <nav className={classes.drawer}>
-          <StyledMessages
-            anchorEl={this.state.messagesAnchor}
-            messages={this.state.messages}
-            onClick={this.hideMessages}
-          />
-          <Drawer
-            variant="permanent"
-            anchor="right"
-            className={clsx(classes.drawer, {
-              [classes.drawerOpen]: open,
-              [classes.drawerClose]: !open,
-            })}
-            classes={{
-              paper: clsx({
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-              }),
-            }}
-            open={open}
-          >
-            <Grid container className={classes.toolbar} justify="center" alignItems="center">
-              <Grid item>
-                <IconButton onClick={handleDrawer}>{open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
+      <StyledJournalDrawer>
+        <ClickAwayListener onClickAway={(e) => open && handleDrawer()}>
+          <nav className="drawer">
+            <Messages
+              anchorEl={this.state.messagesAnchor}
+              messages={this.state.messages}
+              onClick={this.hideMessages}
+            />
+            <Drawer
+              variant="permanent"
+              anchor="right"
+              className={clsx("drawer", {
+                "drawerOpen": open,
+                "drawerClose": !open,
+              })}
+              classes={{
+                paper: clsx({
+                  "drawerOpen": open,
+                  "drawerClose": !open,
+                }),
+              }}
+              open={open}
+            >
+              <Grid container className="toolbar" justify="center" alignItems="center">
+                <Grid item>
+                  <IconButton onClick={handleDrawer}>{open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
+                </Grid>
               </Grid>
-            </Grid>
-            <Divider />
-            <List>
-              {this.state.displayedMutations.map((m, idx) => (
-                <Fragment key={`mutation${idx}`}>
-                  <ListItem key={`mutation-label${idx}`} className={classes.jrnlItem}>
-                    {m.status == 0 && (
-                      <ListItemIcon className={classes.jrnlIcon}>
-                        <CircularProgress size={theme.jrnlDrawer.iconSize} />
+              <Divider />
+              <List>
+                {this.state.displayedMutations.map((m, idx) => (
+                  <Fragment key={`mutation${idx}`}>
+                    <ListItem key={`mutation-label${idx}`} className="jrnlItem">
+                      {m.status == 0 && (
+                        <ListItemIcon className="jrnlIcon">
+                          <CircularProgress size={theme.jrnlDrawer.iconSize} />
+                        </ListItemIcon>
+                      )}
+                      <ListItemIcon
+                        className={clsx(m.status === 1 ? "jrnlErrorIcon" : "jrnlIcon", { "jrnlIconClickable": !open })}
+                        onClick={(e) => this.showMessages(e, m)}
+                      >
+                        {m.status === 1 ? <ErrorIcon /> : <CheckIcon/>}
                       </ListItemIcon>
+                      <ListItemText
+                        className={m.status === 1 ? "jrnlErrorItem" : "jrnlItem"}
+                        primary={m.clientMutationLabel}
+                        secondary={moment(m.requestDateTime).format("YYYY-MM-DD HH:mm")}
+                      />
+                      {!!m.clientMutationDetails && this.state.expanded === `detail-${idx}` && (
+                        <IconButton onClick={(e) => this.handleChange(e, false)}>
+                          <ExpandLessIcon />
+                        </IconButton>
+                      )}
+                      {!!m.clientMutationDetails && this.state.expanded !== `detail-${idx}` && (
+                        <IconButton onClick={(e) => this.handleChange(e, `detail-${idx}`)}>
+                          <ExpandMoreIcon />
+                        </IconButton>
+                      )}
+                    </ListItem>
+                    {!!m.clientMutationDetails && (
+                      <Collapse
+                        key={`mutation-detail${idx}`}
+                        in={!!m.clientMutationDetails && this.state.expanded === `detail-${idx}`}
+                        timeout="auto"
+                        unmountOnExit
+                      >
+                        <List component="div" disablePadding>
+                          {(() => {
+                            try {
+                              const details = JSON.parse(m.clientMutationDetails);
+                              return details.map((detail, detailIndex) => (
+                                <ListItemText
+                                  className="jrnlItemDetail"
+                                  key={`mdet-${detailIndex}`}
+                                  primary={detail}
+                                  primaryTypographyProps={{ class: "jrnlItemDetailText" }}
+                                />
+                              ));
+                            } catch (error) {
+                              return (
+                                <ListItemText
+                                  className="jrnlItemDetailsError"
+                                  primaryTypographyProps={{ class: "jrnlItemDetailText" }}
+                                  primary={`Mutation details not available. ${error}`}
+                                />
+                              );
+                            }
+                          })()}
+                        </List>
+                      </Collapse>
                     )}
-                    <ListItemIcon
-                      className={clsx(m.status === 1 ? classes.jrnlErrorIcon : classes.jrnlIcon, { [classes.jrnlIconClickable]: !open })}
-                      onClick={(e) => this.showMessages(e, m)}
-                    >
-                      {m.status === 1 ? <ErrorIcon /> : <CheckIcon/>}
-                    </ListItemIcon>
-                    <ListItemText
-                      className={m.status === 1 ? classes.jrnlErrorItem : classes.jrnlItem}
-                      primary={m.clientMutationLabel}
-                      secondary={moment(m.requestDateTime).format("YYYY-MM-DD HH:mm")}
-                    />
-                    {!!m.clientMutationDetails && this.state.expanded === `detail-${idx}` && (
-                      <IconButton onClick={(e) => this.handleChange(e, false)}>
-                        <ExpandLessIcon />
-                      </IconButton>
-                    )}
-                    {!!m.clientMutationDetails && this.state.expanded !== `detail-${idx}` && (
-                      <IconButton onClick={(e) => this.handleChange(e, `detail-${idx}`)}>
-                        <ExpandMoreIcon />
-                      </IconButton>
-                    )}
+                  </Fragment>
+                ))}
+                {!!this.state.hasNextPage && (
+                  <ListItem key={`more`} className="jrnlItem">
+                    <IconButton onClick={this.more} className="jrnlIcon">
+                      <MoreIcon />
+                    </IconButton>
                   </ListItem>
-                  {!!m.clientMutationDetails && (
-                    <Collapse
-                      key={`mutation-detail${idx}`}
-                      in={!!m.clientMutationDetails && this.state.expanded === `detail-${idx}`}
-                      timeout="auto"
-                      unmountOnExit
-                    >
-                      <List component="div" disablePadding>
-                        {(() => {
-                          try {
-                            const details = JSON.parse(m.clientMutationDetails);
-                            return details.map((detail, detailIndex) => (
-                              <ListItemText
-                                className={classes.jrnlItemDetail}
-                                key={`mdet-${detailIndex}`}
-                                primary={detail}
-                                primaryTypographyProps={{ class: classes.jrnlItemDetailText }}
-                              />
-                            ));
-                          } catch (error) {
-                            return (
-                              <ListItemText
-                                className={classes.jrnlItemDetailsError}
-                                primaryTypographyProps={{ class: classes.jrnlItemDetailText }}
-                                primary={`Mutation details not available. ${error}`}
-                              />
-                            );
-                          }
-                        })()}
-                      </List>
-                    </Collapse>
-                  )}
-                </Fragment>
-              ))}
-              {!!this.state.hasNextPage && (
-                <ListItem key={`more`} className={classes.jrnlItem}>
-                  <IconButton onClick={this.more} className={classes.jrnlIcon}>
-                    <MoreIcon />
-                  </IconButton>
-                </ListItem>
-              )}
-            </List>
-          </Drawer>
-        </nav>
-      </ClickAwayListener>
+                )}
+              </List>
+            </Drawer>
+          </nav>
+        </ClickAwayListener>
+      </StyledJournalDrawer>
     );
   }
 }
@@ -499,5 +499,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withModulesManager(
-  withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(JournalDrawer))),
+  connect(mapStateToProps, mapDispatchToProps)(JournalDrawer),
 );

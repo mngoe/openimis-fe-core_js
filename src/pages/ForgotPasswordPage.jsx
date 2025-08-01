@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { Button, Box, Grid, Paper, Typography } from "@mui/material";
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
@@ -8,8 +8,8 @@ import { useModulesManager } from "../helpers/modules";
 import Helmet from "../helpers/Helmet";
 import { useGraphqlMutation } from "../helpers/hooks";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
+const StyledForgotPasswordPage = styled('div')(({ theme }) => ({
+  '& .container': {
     position: "absolute",
     top: "30%",
     left: 0,
@@ -18,14 +18,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
-  paper: theme.paper.paper,
-  logo: {
+  '& .paper': theme.paper.paper,
+  '& .logo': {
     maxHeight: 100,
   },
 }));
 
 const ForgotPasswordPage = (props) => {
-  const classes = useStyles();
   const modulesManager = useModulesManager();
   const { formatMessage } = useTranslations("core.ForgotPasswordPage", modulesManager);
   const [username, setUsername] = useState();
@@ -52,10 +51,10 @@ const ForgotPasswordPage = (props) => {
   };
 
   return (
-    <>
-      <div className={classes.container}>
+    <StyledForgotPasswordPage>
+      <div className="container">
         <Helmet title={formatMessage("pageTitle")} />
-        <Paper className={classes.paper} elevation={2}>
+        <Paper className="paper" elevation={2}>
           <form onSubmit={onSubmit}>
             <Box p={3} width={500}>
               {!isDone && (
@@ -97,7 +96,7 @@ const ForgotPasswordPage = (props) => {
           </form>
         </Paper>
       </div>
-    </>
+    </StyledForgotPasswordPage>
   );
 };
 

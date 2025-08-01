@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 
 import { Grid, FormControlLabel, Checkbox, Fab, IconButton } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -41,16 +41,16 @@ import {
   MODULE_NAME,
 } from "../constants";
 
-const styles = (theme) => ({
-  page: theme.page,
-  form: {
+const StyledRoles = styled('div')(({ theme }) => ({
+  '& .page': theme.page,
+  '& .form': {
     padding: 0,
   },
-  item: {
+  '& .item': {
     padding: theme.spacing(1),
   },
-  fab: theme.fab,
-});
+  '& .fab': theme.fab,
+}));
 
 const DEFAULT_ORDER_BY = "name";
 
@@ -106,10 +106,10 @@ class RawRoleFilter extends Component {
   };
 
   render() {
-    const { intl, classes } = this.props;
+    const { intl } = this.props;
     return (
-      <Grid container className={classes.form}>
-        <Grid item xs={3} className={classes.item}>
+      <Grid container className="form">
+        <Grid item xs={3} className="item">
           <TextInput
             module="core"
             label="roleManagement.roleName"
@@ -117,7 +117,7 @@ class RawRoleFilter extends Component {
             onChange={(v) => this._onChangeStringFilter("name", v, CONTAINS_LOOKUP)}
           />
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={3} className="item">
           <SelectInput
             module="core"
             label="roleManagement.isSystem"
@@ -126,7 +126,7 @@ class RawRoleFilter extends Component {
             onChange={(v) => this._onChangeFilter("isSystem", v)}
           />
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={3} className="item">
           <SelectInput
             module="core"
             label="roleManagement.isBlocked"
@@ -135,14 +135,14 @@ class RawRoleFilter extends Component {
             onChange={(v) => this._onChangeFilter("isBlocked", v)}
           />
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={3} className="item">
           <PublishedComponent
             pubRef="core.AuthorityPicker"
             value={this._filterValue("roleRight")}
             onChange={(roleRight) => this.onChangeRoleRight("roleRight", roleRight)}
           />
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={3} className="item">
           <FormControlLabel
             label={formatMessage(intl, "core", "roleManagement.showHistory")}
             control={
@@ -158,7 +158,7 @@ class RawRoleFilter extends Component {
   }
 }
 
-const RoleFilter = injectIntl(withTheme(withStyles(styles)(RawRoleFilter)));
+const RoleFilter = injectIntl(RawRoleFilter);
 
 class Roles extends Component {
   state = {
@@ -307,45 +307,47 @@ class Roles extends Component {
   };
 
   render() {
-    const { intl, rights, classes, fetchingRoles, fetchedRoles, errorRoles, roles, rolesPageInfo, rolesTotalCount } =
+    const { intl, rights, fetchingRoles, fetchedRoles, errorRoles, roles, rolesPageInfo, rolesTotalCount } =
       this.props;
     return (
-      rights.includes(RIGHT_ROLE_SEARCH) && (
-        <div className={classes.page}>
-          <Helmet title={formatMessage(this.props.intl, "core", "roleManagement.label")} />
-          <Searcher
-            module="core"
-            FilterPane={RoleFilter}
-            fetch={this.fetch}
-            items={roles}
-            itemsPageInfo={rolesPageInfo}
-            fetchingItems={fetchingRoles}
-            fetchedItems={fetchedRoles}
-            errorItems={errorRoles}
-            tableTitle={formatMessageWithValues(intl, "core", "roleManagement.searcher.results.title", {
-              rolesTotalCount,
-            })}
-            headers={this.headers}
-            itemFormatters={this.itemFormatters}
-            sorts={this.sorts}
-            rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-            defaultPageSize={DEFAULT_PAGE_SIZE}
-            defaultOrderBy={DEFAULT_ORDER_BY}
-            rowLocked={this.isRowLocked}
-            rowDisabled={this.isRowDisabled}
-            onDoubleClick={(role) => this.isOnDoubleClickEnabled(role) && this.onDoubleClick(role)}
-          />
-          {rights.includes(RIGHT_ROLE_CREATE) &&
-            withTooltip(
-              <div className={classes.fab}>
-                <Fab color="primary" onClick={this.onAdd}>
-                  <AddIcon />
-                </Fab>
-              </div>,
-              formatMessage(intl, "core", "roleManagement.createButton.tooltip"),
-            )}
-        </div>
-      )
+      <StyledRoles>
+        {rights.includes(RIGHT_ROLE_SEARCH) && (
+          <div className="page">
+            <Helmet title={formatMessage(this.props.intl, "core", "roleManagement.label")} />
+            <Searcher
+              module="core"
+              FilterPane={RoleFilter}
+              fetch={this.fetch}
+              items={roles}
+              itemsPageInfo={rolesPageInfo}
+              fetchingItems={fetchingRoles}
+              fetchedItems={fetchedRoles}
+              errorItems={errorRoles}
+              tableTitle={formatMessageWithValues(intl, "core", "roleManagement.searcher.results.title", {
+                rolesTotalCount,
+              })}
+              headers={this.headers}
+              itemFormatters={this.itemFormatters}
+              sorts={this.sorts}
+              rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+              defaultPageSize={DEFAULT_PAGE_SIZE}
+              defaultOrderBy={DEFAULT_ORDER_BY}
+              rowLocked={this.isRowLocked}
+              rowDisabled={this.isRowDisabled}
+              onDoubleClick={(role) => this.isOnDoubleClickEnabled(role) && this.onDoubleClick(role)}
+            />
+            {rights.includes(RIGHT_ROLE_CREATE) &&
+              withTooltip(
+                <div className="fab">
+                  <Fab color="primary" onClick={this.onAdd}>
+                    <AddIcon />
+                  </Fab>
+                </div>,
+                formatMessage(intl, "core", "roleManagement.createButton.tooltip"),
+              )}
+          </div>
+        )}
+      </StyledRoles>
     );
   }
 }
@@ -370,5 +372,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withModulesManager(
-  injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Roles)))),
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Roles)),
 );

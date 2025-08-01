@@ -16,7 +16,7 @@ import {
 import { injectIntl } from "react-intl";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { fetchModulesPermissions } from "../actions";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -24,33 +24,33 @@ import SearchIcon from "@mui/icons-material/Search";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { formatRoleLabel } from "../helpers/role-label-formatter";
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-  paper: theme.paper.paper,
-  paperHeader: theme.paper.paperHeader,
-  list: {
+const StyledRoleRightsPanel = styled('div')(({ theme }) => ({
+  '& .item': theme.paper.item,
+  '& .paper': theme.paper.paper,
+  '& .paperHeader': theme.paper.paperHeader,
+  '& .list': {
     width: "100%",
     height: "500px",
     position: "relative",
     overflow: "auto",
   },
-  filter: {
+  '& .filter': {
     width: "100%",
   },
-  listItemText: {
+  '& .listItemText': {
     textTransform: "capitalize",
   },
-  reversedArrow: {
+  '& .reversedArrow': {
     transform: "rotate(180deg)",
   },
-  listTitle: {
+  '& .listTitle': {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     gap: "5px",
   },
-});
+}));
 
 class RoleRightsPanel extends FormPanel {
   constructor(props) {
@@ -147,7 +147,6 @@ class RoleRightsPanel extends FormPanel {
   render() {
     const {
       intl,
-      classes,
       edited,
       isReadOnly,
       fetchingModulePermissions,
@@ -163,131 +162,133 @@ class RoleRightsPanel extends FormPanel {
       ? modulePermissions.sort((module, otherModule) => module.moduleName > otherModule.moduleName)
       : [];
     return (
-      <Fragment>
-        <Paper className={classes.paper}>
-          <Grid container>
-            <Grid item className={classes.item}>
-              <Paper>
-                <Grid item className={classes.item}>
-                  <TextField
-                    className={classes.filter}
-                    variant="outlined"
-                    label={formatMessage(intl, "core", "roleManagement.role.rightsFilter")}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    onChange={(e) => this.setState({ filterValue: e.target.value })}
-                  />
-                </Grid>
-              </Paper>
-            </Grid>
-          </Grid>
-          <Grid container justify="space-between" alignItems="center">
-            <Grid item xs={6} className={classes.item}>
-              <Grid item className={classes.item}>
-                <Grid className={classes.listTitle}>
-                  <Typography variant="h6">
-                    <FormattedMessage module="core" id="roleManagement.role.availableRights" />
-                  </Typography>
-                  <Tooltip title={<FormattedMessage module="core" id="roleManagement.role.addAllFilteredPerms" />}>
-                    <IconButton color="primary" disabled={isReadOnly} onClick={this.selectAllFilteredPerms}>
-                      <DoubleArrowIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Grid>
+      <StyledRoleRightsPanel>
+        <Fragment>
+          <Paper className="paper">
+            <Grid container>
+              <Grid item className="item">
+                <Paper>
+                  <Grid item className="item">
+                    <TextField
+                      className="filter"
+                      variant="outlined"
+                      label={formatMessage(intl, "core", "roleManagement.role.rightsFilter")}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                      onChange={(e) => this.setState({ filterValue: e.target.value })}
+                    />
+                  </Grid>
+                </Paper>
               </Grid>
-              <Paper>
-                <List className={classes.list} subheader={<li />}>
-                  <ProgressOrError
-                    progress={fetchingModulePermissions || fetchingRoleRights}
-                    error={errorModulePermissions || errorRoleRights}
-                  />
-                  {!!fetchedModulePermissions &&
-                    (!!roleUuid ? !!fetchedRoleRights : true) &&
-                    !!sortedModulePermissions.length &&
-                    sortedModulePermissions.map((modulePermission) =>
-                      modulePermission.permissions
-                        .filter(
-                          (permission) =>
-                            !edited.roleRights.includes(permission.permsValue) &&
-                            this.isFilterMatched(modulePermission.moduleName, permission.permsName),
-                        )
-                        .map((permission) => (
-                          <ListItem button divider>
-                            <ListItemText
-                              className={classes.listItemText}
-                              primary={this.rightLabel(modulePermission.moduleName, permission.permsName)}
-                            />
-                            <ListItemSecondaryAction>
-                              <IconButton
-                                onClick={() => this.selectRight(permission.permsValue)}
-                                disabled={!!isReadOnly}
-                              >
-                                <ArrowForwardIcon />
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          </ListItem>
-                        )),
-                    )}
-                </List>
-              </Paper>
             </Grid>
-            <Grid item xs={6} className={classes.item}>
-              <Grid item className={classes.item}>
-                <Grid className={classes.listTitle}>
-                  <Tooltip title={<FormattedMessage module="core" id="roleManagement.role.removeAllPerms" />}>
-                    <IconButton color="primary" disabled={isReadOnly} onClick={this.removeAllChosenPerms}>
-                      <DoubleArrowIcon className={classes.reversedArrow} />
-                    </IconButton>
-                  </Tooltip>
-                  <Typography variant="h6">
-                    <FormattedMessage module="core" id="roleManagement.role.chosenRights" />
-                  </Typography>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item xs={6} className="item">
+                <Grid item className="item">
+                  <Grid className="listTitle">
+                    <Typography variant="h6">
+                      <FormattedMessage module="core" id="roleManagement.role.availableRights" />
+                    </Typography>
+                    <Tooltip title={<FormattedMessage module="core" id="roleManagement.role.addAllFilteredPerms" />}>
+                      <IconButton color="primary" disabled={isReadOnly} onClick={this.selectAllFilteredPerms}>
+                        <DoubleArrowIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Grid>
                 </Grid>
+                <Paper>
+                  <List className="list" subheader={<li />}>
+                    <ProgressOrError
+                      progress={fetchingModulePermissions || fetchingRoleRights}
+                      error={errorModulePermissions || errorRoleRights}
+                    />
+                    {!!fetchedModulePermissions &&
+                      (!!roleUuid ? !!fetchedRoleRights : true) &&
+                      !!sortedModulePermissions.length &&
+                      sortedModulePermissions.map((modulePermission) =>
+                        modulePermission.permissions
+                          .filter(
+                            (permission) =>
+                              !edited.roleRights.includes(permission.permsValue) &&
+                              this.isFilterMatched(modulePermission.moduleName, permission.permsName),
+                          )
+                          .map((permission) => (
+                            <ListItem button divider>
+                              <ListItemText
+                                className="listItemText"
+                                primary={this.rightLabel(modulePermission.moduleName, permission.permsName)}
+                              />
+                              <ListItemSecondaryAction>
+                                <IconButton
+                                  onClick={() => this.selectRight(permission.permsValue)}
+                                  disabled={!!isReadOnly}
+                                >
+                                  <ArrowForwardIcon />
+                                </IconButton>
+                              </ListItemSecondaryAction>
+                            </ListItem>
+                          )),
+                      )}
+                  </List>
+                </Paper>
               </Grid>
-              <Paper>
-                <List className={classes.list} subheader={<li />}>
-                  <ProgressOrError
-                    progress={fetchingModulePermissions || fetchingRoleRights}
-                    error={errorModulePermissions || errorRoleRights}
-                  />
-                  {!!fetchedModulePermissions &&
-                    (!!roleUuid ? !!fetchedRoleRights : true) &&
-                    !!sortedModulePermissions.length &&
-                    sortedModulePermissions.map((modulePermission) =>
-                      modulePermission.permissions
-                        .filter(
-                          (permission) =>
-                            edited.roleRights.includes(permission.permsValue) &&
-                            this.isFilterMatched(modulePermission.moduleName, permission.permsName),
-                        )
-                        .map((permission) => (
-                          <ListItem button divider>
-                            <ListItemText
-                              className={classes.listItemText}
-                              primary={this.rightLabel(modulePermission.moduleName, permission.permsName)}
-                            />
-                            <ListItemSecondaryAction>
-                              <IconButton
-                                onClick={() => this.unselectRight(permission.permsValue)}
-                                disabled={!!isReadOnly}
-                              >
-                                <ArrowBackIcon />
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          </ListItem>
-                        )),
-                    )}
-                </List>
-              </Paper>
+              <Grid item xs={6} className="item">
+                <Grid item className="item">
+                  <Grid className="listTitle">
+                    <Tooltip title={<FormattedMessage module="core" id="roleManagement.role.removeAllPerms" />}>
+                      <IconButton color="primary" disabled={isReadOnly} onClick={this.removeAllChosenPerms}>
+                        <DoubleArrowIcon className="reversedArrow" />
+                      </IconButton>
+                    </Tooltip>
+                    <Typography variant="h6">
+                      <FormattedMessage module="core" id="roleManagement.role.chosenRights" />
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Paper>
+                  <List className="list" subheader={<li />}>
+                    <ProgressOrError
+                      progress={fetchingModulePermissions || fetchingRoleRights}
+                      error={errorModulePermissions || errorRoleRights}
+                    />
+                    {!!fetchedModulePermissions &&
+                      (!!roleUuid ? !!fetchedRoleRights : true) &&
+                      !!sortedModulePermissions.length &&
+                      sortedModulePermissions.map((modulePermission) =>
+                        modulePermission.permissions
+                          .filter(
+                            (permission) =>
+                              edited.roleRights.includes(permission.permsValue) &&
+                              this.isFilterMatched(modulePermission.moduleName, permission.permsName),
+                          )
+                          .map((permission) => (
+                            <ListItem button divider>
+                              <ListItemText
+                                className="listItemText"
+                                primary={this.rightLabel(modulePermission.moduleName, permission.permsName)}
+                              />
+                              <ListItemSecondaryAction>
+                                <IconButton
+                                  onClick={() => this.unselectRight(permission.permsValue)}
+                                  disabled={!!isReadOnly}
+                                >
+                                  <ArrowBackIcon />
+                                </IconButton>
+                              </ListItemSecondaryAction>
+                            </ListItem>
+                          )),
+                      )}
+                  </List>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
-      </Fragment>
+          </Paper>
+        </Fragment>
+      </StyledRoleRightsPanel>
     );
   }
 }
@@ -307,4 +308,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ fetchModulesPermissions }, dispatch);
 };
 
-export default injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(RoleRightsPanel))));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(RoleRightsPanel));

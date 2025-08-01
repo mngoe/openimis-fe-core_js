@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import {
   Typography,
   Divider,
@@ -26,34 +26,34 @@ import TextInput from "../inputs/TextInput";
 import NumberInput from "../inputs/NumberInput";
 import AmountInput from "../inputs/AmountInput";
 
-const styles = (theme) => ({
-  table: theme.table,
-  tableTitle: theme.table.title,
-  tableHeader: theme.table.header,
-  tableRow: theme.table.row,
-  tableLockedRow: theme.table.lockedRow,
-  tableLockedCell: theme.table.lockedCell,
-  tableHighlightedRow: theme.table.highlightedRow,
-  tableHighlightedCell: theme.table.highlightedCell,
-  tableHighlightedAltRow: theme.table.highlightedAltRow,
-  tableHighlightedAltCell: theme.table.highlightedAltCell,
-  tableDisabledRow: theme.table.disabledRow,
-  tableDisabledCell: theme.table.disabledCell,
-  tableFooter: theme.table.footer,
-  pager: theme.table.pager,
-  left: {
+const StyledTableServiceReview = styled('div')(({ theme }) => ({
+  '& .table': theme.table,
+  '& .tableTitle': theme.table.title,
+  '& .tableHeader': theme.table.header,
+  '& .tableRow': theme.table.row,
+  '& .tableLockedRow': theme.table.lockedRow,
+  '& .tableLockedCell': theme.table.lockedCell,
+  '& .tableHighlightedRow': theme.table.highlightedRow,
+  '& .tableHighlightedCell': theme.table.highlightedCell,
+  '& .tableHighlightedAltRow': theme.table.highlightedAltRow,
+  '& .tableHighlightedAltCell': theme.table.highlightedAltCell,
+  '& .tableDisabledRow': theme.table.disabledRow,
+  '& .tableDisabledCell': theme.table.disabledCell,
+  '& .tableFooter': theme.table.footer,
+  '& .pager': theme.table.pager,
+  '& .left': {
     textAlign: "left",
   },
-  right: {
+  '& .right': {
     textAlign: "right",
   },
-  center: {
+  '& .center': {
     textAlign: "center",
   },
-  clickable: {
+  '& .clickable': {
     cursor: "pointer",
   },
-  loader: {
+  '& .loader': {
     position: "absolute",
     top: 0,
     bottom: 0,
@@ -61,7 +61,7 @@ const styles = (theme) => ({
     right: 0,
     background: "rgba(0, 0, 0, 0.12)",
   },
-});
+}));
 
 class Table extends Component {
   state = {
@@ -139,7 +139,6 @@ class Table extends Component {
     const {
       intl,
       modulesManager,
-      classes,
       module,
       header,
       preHeaders,
@@ -198,181 +197,183 @@ class Table extends Component {
 
     const rowsPerPage = pageSize || rowsPerPageOptions[0];
     return (
-      <Box position="relative" overflow="auto">
-        {header && (
-          <Fragment>
-            <Typography className={classes.tableTitle}>{header}</Typography>
-            <Divider />
-          </Fragment>
-        )}
-        <MUITable className={classes.table} size={size}>
-          {!!localPreHeaders && localPreHeaders.length > 0 && (
-            <table style={{ width: "100%" }}>
-              <tr>
-                {localPreHeaders.map((h, idx) => {
-                  if (headerSpans.length > idx && !headerSpans[idx]) return null;
-                  return (
-                    <TableCell
-                      colSpan={headerSpans.length > idx ? headerSpans[idx] : 1}
-                      className={clsx(classes.tableHeader, aligns.length > idx && classes[aligns[idx]])}
-                      key={`preh-${idx}`}
-                    >
-                      {!!h && h}
-                    </TableCell>
-                  );
-                })}
-              </tr>
-            </table>
+      <StyledTableServiceReview>
+        <Box position="relative" overflow="auto">
+          {header && (
+            <Fragment>
+              <Typography className="tableTitle">{header}</Typography>
+              <Divider />
+            </Fragment>
           )}
+          <MUITable className="table" size={size}>
+            {!!localPreHeaders && localPreHeaders.length > 0 && (
+              <table style={{ width: "100%" }}>
+                <tr>
+                  {localPreHeaders.map((h, idx) => {
+                    if (headerSpans.length > idx && !headerSpans[idx]) return null;
+                    return (
+                      <TableCell
+                        colSpan={headerSpans.length > idx ? headerSpans[idx] : 1}
+                        className={clsx("tableHeader", aligns.length > idx && aligns[idx])}
+                        key={`preh-${idx}`}
+                      >
+                        {!!h && h}
+                      </TableCell>
+                    );
+                  })}
+                </tr>
+              </table>
+            )}
 
-          <TableBody>
-            {items &&
-              items.length > 0 &&
-              items.map((i, iidx) => {
-                if (i.claimlinkedService != undefined) {
-                  console.log(i);
-                  return (
-                    <Box style={{ width: "100%" }}>
-                      <table style={{ width: "100%" }}>
-                        {(items.length - iidx) == items.length && (
+            <TableBody>
+              {items &&
+                items.length > 0 &&
+                items.map((i, iidx) => {
+                  if (i.claimlinkedService != undefined) {
+                    console.log(i);
+                    return (
+                      <Box style={{ width: "100%" }}>
+                        <table style={{ width: "100%" }}>
+                          {(items.length - iidx) == items.length && (
+                            <tr>
+                              <TableCell><FormattedMessage module={module} id={localHeaders[0]} /></TableCell>
+                              <TableCell><FormattedMessage module={module} id={localHeaders[1]} /></TableCell>
+                              <TableCell><FormattedMessage module={module} id={localHeaders[2]} /></TableCell>
+                              <TableCell><FormattedMessage module={module} id={localHeaders[3]} /></TableCell>
+                              <TableCell><FormattedMessage module={module} id={localHeaders[4]} /></TableCell>
+                              <TableCell><FormattedMessage module={module} id={localHeaders[5]} /></TableCell>
+                              <TableCell><FormattedMessage module={module} id={localHeaders[6]} /></TableCell>
+                            </tr>
+                          )}
                           <tr>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[0]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[1]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[2]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[3]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[4]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[5]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[6]} /></TableCell>
+                            {localItemFormatters &&
+                              localItemFormatters.map((f, fidx) => {
+                                if (colSpans.length > fidx && !colSpans[fidx]) return null;
+                                return (
+                                  <TableCell
+                                    colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
+                                    className={clsx(
+                                      !!rowLocked && rowLocked(i) ? "tableLockedCell" : null,
+                                      !!rowHighlighted && rowHighlighted(i) ? "tableHighlightedCell" : null,
+                                      !!rowHighlightedAlt && rowHighlightedAlt(i) ? "tableHighlightedAltCell" : null,
+                                      !!rowDisabled && rowDisabled(i) ? "tableDisabledCell" : null,
+                                      aligns.length > fidx && aligns[fidx],
+                                    )}
+                                    key={`v-${iidx}-${fidx}`}
+                                  >
+                                    {f(i, iidx)}
+
+                                  </TableCell>
+                                );
+                              })}
                           </tr>
-                        )}
-                        <tr>
-                          {localItemFormatters &&
-                            localItemFormatters.map((f, fidx) => {
-                              if (colSpans.length > fidx && !colSpans[fidx]) return null;
-                              return (
-                                <TableCell
-                                  colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
-                                  className={clsx(
-                                    !!rowLocked && rowLocked(i) ? classes.tableLockedCell : null,
-                                    !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null,
-                                    !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null,
-                                    !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null,
-                                    aligns.length > fidx && classes[aligns[fidx]],
-                                  )}
-                                  key={`v-${iidx}-${fidx}`}
-                                >
-                                  {f(i, iidx)}
+                        </table>
+                        {localItemFormatters[0](i, iidx).props.children.props.value != undefined &&
+                          (
+                            localItemFormatters[0](i, iidx).props.children.props.value.packagetype != undefined &&
+                            localItemFormatters[0](i, iidx).props.children.props.value.packagetype !== "S" && (
 
-                                </TableCell>
-                              );
-                            })}
-                        </tr>
-                      </table>
-                      {localItemFormatters[0](i, iidx).props.children.props.value != undefined &&
-                        (
-                          localItemFormatters[0](i, iidx).props.children.props.value.packagetype != undefined &&
-                          localItemFormatters[0](i, iidx).props.children.props.value.packagetype !== "S" && (
+                              <table style={{ marginTop: 10, width: "90%" }}>
+                                <tr>
+                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[0]} /></TableCell>
+                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[1]} /></TableCell>
+                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[2]} /></TableCell>
+                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[3]} /></TableCell>
+                                </tr>
+                                {localsubServicesItemsFormattersReview &&
+                                  localsubServicesItemsFormattersReview.map((s, sfidx) => {
+                                    return (
+                                      s(i, iidx)
+                                    );
+                                  })}
+                              </table>
 
-                            <table style={{ marginTop: 10, width: "90%" }}>
-                              <tr>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[0]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[1]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[2]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[3]} /></TableCell>
-                              </tr>
-                              {localsubServicesItemsFormattersReview &&
-                                localsubServicesItemsFormattersReview.map((s, sfidx) => {
-                                  return (
-                                    s(i, iidx)
-                                  );
-                                })}
-                            </table>
+                            ))
+                        }
 
-                          ))
-                      }
+                      </Box>
+                    )
+                  } else {
+                    return (
+                      <Box style={{ width: "100%" }}>
+                        <table style={{ width: "100%" }}>
+                          <tr>
+                            {localItemFormatters &&
+                              localItemFormatters.map((f, fidx) => {
+                                if (colSpans.length > fidx && !colSpans[fidx]) return null;
+                                return (
+                                  <TableCell
+                                    colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
+                                    className={clsx(
+                                      !!rowLocked && rowLocked(i) ? "tableLockedCell" : null,
+                                      !!rowHighlighted && rowHighlighted(i) ? "tableHighlightedCell" : null,
+                                      !!rowHighlightedAlt && rowHighlightedAlt(i) ? "tableHighlightedAltCell" : null,
+                                      !!rowDisabled && rowDisabled(i) ? "tableDisabledCell" : null,
+                                      aligns.length > fidx && aligns[fidx],
+                                    )}
+                                    key={`v-${iidx}-${fidx}`}
+                                  >
+                                    {f(i, iidx)}
 
-                    </Box>
-                  )
-                } else {
-                  return (
-                    <Box style={{ width: "100%" }}>
-                      <table style={{ width: "100%" }}>
-                        <tr>
-                          {localItemFormatters &&
-                            localItemFormatters.map((f, fidx) => {
-                              if (colSpans.length > fidx && !colSpans[fidx]) return null;
-                              return (
-                                <TableCell
-                                  colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
-                                  className={clsx(
-                                    !!rowLocked && rowLocked(i) ? classes.tableLockedCell : null,
-                                    !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null,
-                                    !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null,
-                                    !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null,
-                                    aligns.length > fidx && classes[aligns[fidx]],
-                                  )}
-                                  key={`v-${iidx}-${fidx}`}
-                                >
-                                  {f(i, iidx)}
+                                  </TableCell>
+                                );
+                              })}
+                          </tr>
+                        </table>
+                        {localItemFormatters[0](i, iidx).props.children.props.value != undefined &&
+                          (
+                            localItemFormatters[0](i, iidx).props.children.props.value.packagetype != undefined &&
+                            localItemFormatters[0](i, iidx).props.children.props.value.packagetype !== "S" && (
 
-                                </TableCell>
-                              );
-                            })}
-                        </tr>
-                      </table>
-                      {localItemFormatters[0](i, iidx).props.children.props.value != undefined &&
-                        (
-                          localItemFormatters[0](i, iidx).props.children.props.value.packagetype != undefined &&
-                          localItemFormatters[0](i, iidx).props.children.props.value.packagetype !== "S" && (
+                              <table style={{ marginTop: 10, width: "90%" }}>
 
-                            <table style={{ marginTop: 10, width: "90%" }}>
+                              </table>
+                            ))
+                        }
+                      </Box>
+                    )
 
-                            </table>
-                          ))
-                      }
-                    </Box>
-                  )
+                  }
 
                 }
+                )}
+            </TableBody>
 
-              }
-              )}
-          </TableBody>
-
+            {
+              !!withPagination && !!count && (
+                <TableFooter className="tableFooter">
+                  <TableRow>
+                    <TablePagination
+                      className="pager"
+                      colSpan={localItemFormatters.length}
+                      labelRowsPerPage={formatMessage(intl, "core", "rowsPerPage")}
+                      labelDisplayedRows={({ from, to, count }) =>
+                        `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`
+                      }
+                      count={count}
+                      page={page}
+                      rowsPerPage={rowsPerPage}
+                      rowsPerPageOptions={rowsPerPageOptions}
+                      onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
+                      onPageChange={onChangePage}
+                    />
+                  </TableRow>
+                </TableFooter>
+              )
+            }
+          </MUITable>
           {
-            !!withPagination && !!count && (
-              <TableFooter className={classes.tableFooter}>
-                <TableRow>
-                  <TablePagination
-                    className={classes.pager}
-                    colSpan={localItemFormatters.length}
-                    labelRowsPerPage={formatMessage(intl, "core", "rowsPerPage")}
-                    labelDisplayedRows={({ from, to, count }) =>
-                      `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`
-                    }
-                    count={count}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
-                    onPageChange={onChangePage}
-                  />
-                </TableRow>
-              </TableFooter>
+            (fetching || error) && (
+              <Grid className="loader" container justifyContent="center" alignItems="center">
+                <ProgressOrError progress={items?.length && fetching} error={error} />{" "}
+                {/* We do not want to display the spinner with the empty table */}
+              </Grid>
             )
           }
-        </MUITable>
-        {
-          (fetching || error) && (
-            <Grid className={classes.loader} container justifyContent="center" alignItems="center">
-              <ProgressOrError progress={items?.length && fetching} error={error} />{" "}
-              {/* We do not want to display the spinner with the empty table */}
-            </Grid>
-          )
-        }
-      </Box >
+        </Box >
+      </StyledTableServiceReview>
     );
   }
 }
 
-export default withModulesManager(injectIntl(withTheme(withStyles(styles)(Table))));
+export default withModulesManager(injectIntl(Table));

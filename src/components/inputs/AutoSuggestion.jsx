@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { FormControl, IconButton, InputAdornment, TextField } from "@mui/material";
 import SelectInput from "./SelectInput";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -9,27 +9,27 @@ import withModulesManager from "../../helpers/modules";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 
-const styles = (theme) => ({
-  paper: {
+const StyledAutoSuggestion = styled('div')(({ theme }) => ({
+  '& .paper': {
     margin: theme.spacing(1),
     marginLeft: 0,
   },
-  header: theme.table.title,
-  label: {
+  '& .header': theme.table.title,
+  '& .label': {
     color: theme.palette.primary.main,
   },
-  textField: {
+  '& .textField': {
     width: "100%",
   },
-  suggestionContainer: {
+  '& .suggestionContainer': {
     flexGrow: 1,
     position: "relative",
   },
-  suggestionInputField: {
+  '& .suggestionInputField': {
     margin: 0,
     border: 0,
   },
-  suggestionsContainerOpen: {
+  '& .suggestionsContainerOpen': {
     position: "absolute",
     top: 42,
     padding: 0,
@@ -39,21 +39,21 @@ const styles = (theme) => ({
     border: "solid 1px grey",
     zIndex: theme.zIndex.modal,
   },
-  suggestion: {
+  '& .suggestion': {
     display: "block",
     cursor: "pointer",
     padding: "10px 20px",
   },
-  suggestionsList: {
+  '& .suggestionsList': {
     listStyleType: "none",
     margin: 0,
     padding: 0,
   },
-  suggestionHighlighted: {
+  '& .suggestionHighlighted': {
     color: theme.palette.text.second,
     backgroundColor: theme.palette.text.primary,
   },
-});
+}));
 
 function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -175,12 +175,11 @@ class AutoSuggestion extends Component {
   };
 
   renderInputComponent = (inputProps) => {
-    const { classes } = this.props;
     return (
       <FormControl fullWidth>
         <TextField
           InputLabelProps={{
-            className: classes.label,
+            className: "label",
           }}
           {...inputProps}
           InputProps={{
@@ -279,7 +278,6 @@ class AutoSuggestion extends Component {
 
   renderAutoselect = () => {
     const {
-      classes,
       label,
       disabled = false,
       required = false,
@@ -289,7 +287,7 @@ class AutoSuggestion extends Component {
     } = this.props;
     const { suggestions, value } = this.state;
     const inputProps = {
-      className: classes.suggestionInputField,
+      className: "suggestionInputField",
       placeholder,
       // Value has to be a string
       value: value ?? "",
@@ -302,11 +300,11 @@ class AutoSuggestion extends Component {
     return (
       <Autosuggest
         theme={{
-          container: classes.suggestionContainer,
-          suggestionsContainerOpen: classes.suggestionsContainerOpen,
-          suggestionsList: classes.suggestionsList,
-          suggestion: classes.suggestion,
-          suggestionHighlighted: classes.suggestionHighlighted,
+          container: "suggestionContainer",
+          suggestionsContainerOpen: "suggestionsContainerOpen",
+          suggestionsList: "suggestionsList",
+          suggestion: "suggestion",
+          suggestionHighlighted: "suggestionHighlighted",
         }}
         renderInputComponent={this.renderInputComponent}
         inputProps={inputProps}
@@ -323,7 +321,6 @@ class AutoSuggestion extends Component {
 
   render() {
     const {
-      classes,
       label,
       readOnly = false,
       selectThreshold = null,
@@ -333,13 +330,15 @@ class AutoSuggestion extends Component {
 
     if (!!readOnly) {
       return (
-        <TextField
-          label={label}
-          className={classes.textField}
-          disabled
-          value={value}
-          title={title}
-        />
+        <StyledAutoSuggestion>
+          <TextField
+            label={label}
+            className="textField"
+            disabled
+            value={value}
+            title={title}
+          />
+        </StyledAutoSuggestion>
       );
     }
     if (
@@ -351,9 +350,13 @@ class AutoSuggestion extends Component {
     ) {
       return this.renderSelect();
     } else {
-      return this.renderAutoselect();
+      return (
+        <StyledAutoSuggestion>
+          {this.renderAutoselect()}
+        </StyledAutoSuggestion>
+      );
     }
   }
 }
 
-export default injectIntl(withModulesManager(withTheme(withStyles(styles)(AutoSuggestion))));
+export default injectIntl(withModulesManager(AutoSuggestion));

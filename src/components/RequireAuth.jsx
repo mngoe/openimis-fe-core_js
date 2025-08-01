@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useTheme, alpha } from "@mui/material/styles"; 
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { Redirect, useHistory } from "../helpers/history";
 import { useModulesManager } from "../helpers/modules";
 import LogoutButton from "./LogoutButton";
@@ -37,26 +37,26 @@ export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
 export const MAIN_SEARCHER_CONTRIBUTION_KEY = "core.MainSearcher";
 export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY = "policyholder.EconomicUnitChangeButton";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const StyledRequireAuth = styled('div')(({ theme }) => ({
+  '& .root': {
     display: "flex",
   },
-  grow: {
+  '& .grow': {
     flexGrow: 1,
   },
-  logo: {
+  '& .logo': {
     verticalAlign: "middle",
     margin: theme.typography.title.fontSize / 2,
     maxHeight: theme.typography.title.fontSize * 2,
   },
-  appBar: {
+  '& .appBar': {
     paddingRight: theme.jrnlDrawer.close.width,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarDrawer: {
+  '& .appBarDrawer': {
     margin: theme.spacing(-1, 0, -1, 0),
     paddingRight: theme.jrnlDrawer.close.width,
     transition: theme.transitions.create(["margin", "width"], {
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary
   },
   
-  toolbarDrawerLogout: {
+  '& .toolbarDrawerLogout': {
     color: theme.palette.text.primary,
     button: {
       margin: theme.spacing(2),
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   
-  appBarShift: {
+  '& .appBarShift': {
     width: `calc(100% - ${theme.menu.drawer.width})`,
     marginLeft: theme.menu.drawer.width,
     transition: theme.transitions.create(["margin", "width"], {
@@ -83,36 +83,36 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  menuButton: {
+  '& .menuButton': {
     margin: theme.spacing(0, 1, 0, 1),
     padding: 0,
   },
-  autoHideMenuButton: {
+  '& .autoHideMenuButton': {
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
   },
-  toolbar: {
+  '& .toolbar': {
     ...theme.mixins.toolbar,
     marginTop: theme.spacing(2),
   },
-  drawer: {
+  '& .drawer': {
     [theme.breakpoints.up("sm")]: {
       width: theme.menu.drawer.width,
       flexShrink: 0,
     },
     backgroundColor: theme.menu.drawer.backgroundColor
   },
-  drawerHeader: {
+  '& .drawerHeader': {
     ...theme.mixins.toolbar,
     margin: theme.spacing(1, 0, 1, 0),
     backgroundColor: theme.menu.drawer.backgroundColor
   },
-  drawerPaper: {
+  '& .drawerPaper': {
     width: theme.menu.drawer.width,
     backgroundColor: theme.menu.drawer.backgroundColor
   },
-  content: {
+  '& .content': {
     flexGrow: 1,
     paddingRight: theme.jrnlDrawer.close.width - theme.spacing(1),
     transition: theme.transitions.create("margin", {
@@ -120,30 +120,30 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  contentShift: {
+  '& .contentShift': {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: theme.menu.drawer.width,
   },
-  appName: {
+  '& .appName': {
     color: theme.palette.secondary.main,
     textTransform: "none",
     fontSize: theme.typography.title.fontSize,
   },
-  appVersionsBox: {
+  '& .appVersionsBox': {
     padding: 0,
     margin: 0,
     minWidth: theme.typography.title.fontSize / 2,
   },
-  appVersions: {
+  '& .appVersions': {
     color: theme.palette.secondary.main,
     fontSize: theme.typography.title.fontSize / 2,
     verticalAlign: "text-bottom",
     marginRight: theme.spacing(2),
   },
-  search: {
+  '& .search': {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -157,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
       width: "auto",
     },
   },
-  searchIcon: {
+  '& .searchIcon': {
     width: theme.spacing(9),
     height: "100%",
     position: "absolute",
@@ -166,11 +166,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  inputRoot: {
+  '& .inputRoot': {
     color: "inherit",
     width: "100%",
   },
-  inputInput: {
+  '& .inputInput': {
     padding: theme.spacing(1, 1, 1, 10),
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -182,10 +182,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  drawerContainer: {
+  '& .drawerContainer': {
     overflow: 'auto',
   },
-  contentShiftLeftSideMenu: {
+  '& .contentShiftLeftSideMenu': {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -208,7 +208,6 @@ const RequireAuth = (props) => {
   } = props;  const [isOpen, setOpen] = useBoolean();
   const [isDrawerOpen, setDrawerOpen] = useBoolean();
   const theme = useTheme();
-  const classes = useStyles();
   const history = useHistory();
   const modulesManager = useModulesManager();
   const auth = useAuthentication();
@@ -228,78 +227,78 @@ const RequireAuth = (props) => {
   }
   if (cfg['openimis-fe-core_js']?.menuLeft === true) {
     return (
-    <>
-      <AppBar position="fixed" className={classes.appBarDrawer}>
-        <Toolbar className={classes.toolbarDrawer}>
-          <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
-            <div className={classes.grow} />
-          </Contributions>
-          <LogoutButton className={classes.toolbarDrawerLogout}/>
-          <Help />
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        anchor="left"
-      >
-          <Button className={classes.appName} onClick={(e) => (window.location.href = "/front")}>
-            {isAppBarMenu && (
+      <StyledRequireAuth>
+        <AppBar position="fixed" className="appBarDrawer">
+          <Toolbar className="toolbarDrawer">
+            <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
+              <div className="grow" />
+            </Contributions>
+            <LogoutButton className="toolbarDrawerLogout"/>
+            <Help />
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          className="drawer"
+          variant="permanent"
+          classes={{
+            paper: "drawerPaper",
+          }}
+          anchor="left"
+        >
+            <Button className="appName" onClick={(e) => (window.location.href = "/front")}>
+              {isAppBarMenu && (
+                <Hidden smDown implementation="css">
+                  <img className="logo" src={logo} alt="Logo of openIMIS" />
+                </Hidden>
+              )}
+              {!disableTextLogo && (
+                <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
+              )}
               <Hidden smDown implementation="css">
-                <img className={classes.logo} src={logo} alt="Logo of openIMIS" />
-              </Hidden>
-            )}
-            {!disableTextLogo && (
-              <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
-            )}
-            <Hidden smDown implementation="css">
-            <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
-              <Typography variant="caption" className={classes.appVersions}>
-                {modulesManager.getOpenIMISVersion()}
-              </Typography>
-            </Tooltip>
-          </Hidden>
-          </Button>
-            <div className={classes.drawerContainer}></div>
-              <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
-                <Divider />
-              </MainMenuBar>
-            <div/>
-            </Drawer>  
-          <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
-      <main
-        className={classes.contentShiftLeftSideMenu}
-      >
-        {children}
-      </main>
-    </>
+              <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
+                <Typography variant="caption" className="appVersions">
+                  {modulesManager.getOpenIMISVersion()}
+                </Typography>
+              </Tooltip>
+            </Hidden>
+            </Button>
+              <div className="drawerContainer"></div>
+                <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
+                  <Divider />
+                </MainMenuBar>
+              <div/>
+              </Drawer>  
+            <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
+        <main
+          className="contentShiftLeftSideMenu"
+        >
+          {children}
+        </main>
+      </StyledRequireAuth>
     )
   }
   const { formatMessage } = useTranslations("core", modulesManager);
   return (
-    <>
+    <StyledRequireAuth>
       <AppBar
         position="fixed"
         className={clsx({
-          [classes.appBarShift]: isOpen && theme.breakpoints.up("md"),
-          [classes.appBar]: showJournalSidebar,
+          "appBarShift": isOpen && theme.breakpoints.up("md"),
+          "appBar": showJournalSidebar,
         })}
       >
         <Toolbar>
           <IconButton
             color="inherit"
             onClick={setOpen.toggle}
-            className={clsx(classes.menuButton, isAppBarMenu && classes.autoHideMenuButton, isOpen && classes.hide)}
+            className={clsx("menuButton", isAppBarMenu && "autoHideMenuButton", isOpen && "hide")}
           >
             <MenuIcon />
           </IconButton>
-          <Button className={classes.appName} onClick={(e) => history.push("/")}>
+          <Button className="appName" onClick={(e) => history.push("/")}>
             {isAppBarMenu && (
               <Hidden smDown implementation="css">
-                <img className={classes.logo} src={logo} alt="Logo of openIMIS" />
+                <img className="logo" src={logo} alt="Logo of openIMIS" />
               </Hidden>
             )}
             {!disableTextLogo && (
@@ -308,7 +307,7 @@ const RequireAuth = (props) => {
           </Button>
           <Hidden smDown implementation="css">
             <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
-              <Typography variant="caption" className={classes.appVersions}>
+              <Typography variant="caption" className="appVersions">
                 {modulesManager.getOpenIMISVersion()}
               </Typography>
             </Tooltip>
@@ -321,10 +320,10 @@ const RequireAuth = (props) => {
             </Hidden>
           )}
           {isWorker ? (
-            <div className={classes.grow} />
+            <div className="grow" />
           ) : (
             <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
-              <div className={classes.grow} />
+              <div className="grow" />
             </Contributions>
           )}
           {!!calendarSwitch && (
@@ -347,14 +346,14 @@ const RequireAuth = (props) => {
       </AppBar>
       {isOpen && (
         <ClickAwayListener onClickAway={setOpen.off}>
-          <nav className={classes.drawer}>
+          <nav className="drawer">
             <Drawer
-              className={classes.drawer}
+              className="drawer"
               variant="persistent"
               anchor="left"
               open={isOpen}
               classes={{
-                paper: classes.drawerPaper,
+                paper: "drawerPaper",
               }}
             >
               <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
@@ -365,16 +364,16 @@ const RequireAuth = (props) => {
         </ClickAwayListener>
       )}
       {showJournalSidebar && <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />}
-      <div className={classes.toolbar} />
+      <div className="toolbar" />
       <main
         className={clsx({
-          [classes.jrnlContentShift]: isDrawerOpen,
-          [classes.content]: showJournalSidebar,
+          "jrnlContentShift": isDrawerOpen,
+          "content": showJournalSidebar,
         })}
       >
         {children}
       </main>
-    </>
+    </StyledRequireAuth>
   );
 };
 

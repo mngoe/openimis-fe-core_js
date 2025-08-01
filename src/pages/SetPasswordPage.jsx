@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { Button, Typography, Box, Grid, Paper, IconButton, InputAdornment } from "@mui/material";
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
@@ -16,8 +16,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
+const StyledSetPasswordPage = styled('div')(({ theme }) => ({
+  '& .container': {
     position: "absolute",
     top: "30%",
     left: 0,
@@ -26,14 +26,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
-  paper: theme.paper.paper,
-  logo: {
+  '& .paper': theme.paper.paper,
+  '& .logo': {
     maxHeight: 100,
   },
-  passwordFeedback: {
+  '& .passwordFeedback': {
     marginTop: theme.spacing(1),
   },
-  buttonGroup: {
+  '& .buttonGroup': {
     display: "flex",
     justifyContent: "space-between",
   },
@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
-  const classes = useStyles();
   const history = useHistory();
   const modulesManager = useModulesManager();
   const { formatMessage, formatMessageWithValues } = useTranslations("core.SetPasswordPage", modulesManager);
@@ -130,10 +129,10 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
   );
 
   return (
-    <>
-      <div className={classes.container}>
+    <StyledSetPasswordPage>
+      <div className="container">
         <Helmet title={formatMessage("pageTitle")} />
-        <Paper className={classes.paper} elevation={2}>
+        <Paper className="paper" elevation={2}>
           <form onSubmit={onSubmit}>
             <Box p={6} width={450}>
               <Grid container spacing={2} direction="column" alignItems="stretch">
@@ -176,14 +175,14 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
                     value={credentials.confirmPassword || ""}
                   />
                 </Grid>
-                <Grid item className={classes.buttonGroup}>
+                <Grid item className="buttonGroup">
                   <Button onClick={generatePassword} variant="contained">
                     {formatMessage("core.SetPasswordPage.generatePassword")}
                   </Button>
                 </Grid>
                 {passwordFeedback && (
                   <Grid item>
-                    <Typography color={IS_PASSWORD_SECURED ? "primary" : "error"} className={classes.passwordFeedback}>
+                    <Typography color={IS_PASSWORD_SECURED ? "primary" : "error"} className="passwordFeedback">
                       {passwordFeedback}
                     </Typography>
                   </Grid>
@@ -203,7 +202,7 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
           </form>
         </Paper>
       </div>
-    </>
+    </StyledSetPasswordPage>
   );
 };
 

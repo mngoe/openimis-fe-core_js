@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import withModulesManager, { ModulesManagerProvider } from "../helpers/modules";
 import Helmet from "../helpers/Helmet";
 import RequireAuth from "./RequireAuth";
@@ -36,19 +36,18 @@ export const ECONOMIC_UNIT_DIALOG_CONTRIBUTION_KEY = "policyholder.EconomicUnitD
 const ECONOMIC_UNIT_STORAGE_KEY = "userEconomicUnit";
 const PUBLIC_PAGE_LANGUAGE_STORAGE_KEY = "publicPageLanguage";
 
-const styles = () => ({
-  fetching: {
+const StyledApp = styled('div')(({ theme }) => ({
+  '& .fetching': {
     margin: 0,
     position: "absolute",
     top: "50%",
     left: "50%",
   },
-});
+}));
 
 const App = (props) => {
   const {
     history,
-    classes,
     error,
     confirm,
     user,
@@ -139,7 +138,7 @@ const App = (props) => {
 
   if (!auth.isInitialized) return null;
   return (
-    <>
+    <StyledApp>
       <Helmet titleTemplate="%s - openIMIS" defaultTitle="openIMIS" />
       <CssBaseline />
       <ModulesManagerProvider value={modulesManager}>
@@ -217,7 +216,7 @@ const App = (props) => {
           </IntlProvider>
         </PublicPageLanguageProvider>
       </ModulesManagerProvider>
-    </>
+    </StyledApp>
   );
 };
 
@@ -230,4 +229,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ clearConfirm, toggleCurrentCalendarType }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme(withStyles(styles)(withModulesManager(App))));
+export default connect(mapStateToProps, mapDispatchToProps)(withModulesManager(App));

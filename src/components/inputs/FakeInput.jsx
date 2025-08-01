@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { FormControl, InputBase } from "@mui/material";
 
-const styles = (theme) => ({
-  fakeInput: theme.fakeInput,
-});
+const StyledFakeInput = styled('div')(({ theme }) => ({
+  '& .fakeInput': theme.fakeInput,
+}));
 
 class FakeInput extends Component {
   _onKeyDown = (e) => {
@@ -15,20 +15,22 @@ class FakeInput extends Component {
   };
 
   render() {
-    const { classes, onSelect, ...others } = this.props;
+    const { onSelect, ...others } = this.props;
     return (
-      <FormControl>
-        <InputBase
-          className={classes.fakeInput}
-          inputProps={{
-            onKeyDown: (e) => this._onKeyDown(e),
-            readOnly: true,
-          }}
-          {...others}
-        />
-      </FormControl>
+      <StyledFakeInput>
+        <FormControl>
+          <InputBase
+            className="fakeInput"
+            inputProps={{
+              onKeyDown: (e) => this._onKeyDown(e),
+              readOnly: true,
+            }}
+            {...others}
+          />
+        </FormControl>
+      </StyledFakeInput>
     );
   }
 }
 
-export default withTheme(withStyles(styles)(FakeInput));
+export default FakeInput;

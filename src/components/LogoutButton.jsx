@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { IconButton, Tooltip } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { ExitToApp } from "@mui/icons-material";
 
 import { MODULE_NAME } from "../constants";
@@ -11,8 +11,8 @@ import { useModulesManager } from "../helpers/modules";
 import { onLogout, redirectToSamlLogout } from "../helpers/utils";
 import { useTranslations } from "../helpers/i18n";
 
-const useStyles = makeStyles((theme) => ({
-  button: {
+const StyledLogoutButton = styled('div')(({ theme }) => ({
+  '& .button': {
     margin: theme.spacing(2),
     color: theme.palette.secondary.main,
   },
@@ -37,14 +37,14 @@ const LogoutButton = () => {
     history.push("/");
   }
 
-  const classes = useStyles();
-
   return (
-    <Tooltip title={formatMessage("core.tooltip.logout")}>
-      <IconButton className={classes.button} onClick={onClick}>
-        <ExitToApp />
-      </IconButton>
-    </Tooltip>
+    <StyledLogoutButton>
+      <Tooltip title={formatMessage("core.tooltip.logout")}>
+        <IconButton className="button" onClick={onClick}>
+          <ExitToApp />
+        </IconButton>
+      </Tooltip>
+    </StyledLogoutButton>
   );
 };
 

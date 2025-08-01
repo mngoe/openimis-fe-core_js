@@ -5,7 +5,7 @@ import { injectIntl } from "react-intl";
 import _ from "lodash";
 import clsx from "clsx";
 
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 
 import {
   withModulesManager,
@@ -23,10 +23,10 @@ import { prepareForComparison } from "../helpers/utils";
 import RoleHeadPanel from "../components/RoleHeadPanel";
 import RoleRightsPanel from "../components/RoleRightsPanel";
 
-const styles = (theme) => ({
-  page: theme.page,
-  locked: theme.page.locked,
-});
+const StyledRole = styled('div')(({ theme }) => ({
+  '& .page': theme.page,
+  '& .locked': theme.page.locked,
+}));
 
 class Role extends Component {
   state = {
@@ -158,43 +158,45 @@ class Role extends Component {
   titleParams = (role) => ({ label: !!role && !!role.name ? role.name : null });
 
   render() {
-    const { intl, rights, classes, roleUuid } = this.props;
+    const { intl, rights, roleUuid } = this.props;
     return (
-      rights.includes(RIGHT_ROLE_SEARCH) &&
-      rights.includes(RIGHT_ROLE_CREATE) && (
-        <div className={clsx(classes.page, this.state.isLocked && classes.locked)}>
-          <Helmet
-            title={formatMessageWithValues(
-              this.props.intl,
-              "core",
-              "roleManagement.role.page.title",
-              this.titleParams(this.state.role),
-            )}
-          />
-          <Form
-            module="core"
-            title="roleManagement.role.page.title"
-            titleParams={this.titleParams(this.state.role)}
-            edited={this.state.role}
-            back={this.back}
-            canSave={this.canSave}
-            save={this.save}
-            onEditedChanged={this.onEditedChanged}
-            HeadPanel={RoleHeadPanel}
-            Panels={[RoleRightsPanel]}
-            isRequiredFieldsEmpty={this.isRequiredFieldsEmpty()}
-            saveTooltip={formatMessage(
-              intl,
-              "core",
-              `roleManagement.saveButton.tooltip.${this.canSave() ? "enabled" : "disabled"}`,
-            )}
-            isReadOnly={!!this.state.isSystemRole || !rights.includes(RIGHT_ROLE_UPDATE) || this.state.isLocked}
-            reset={this.state.reset}
-            roleUuid={roleUuid}
-            openDirty={rights.includes(RIGHT_ROLE_UPDATE) ? this.save : null}
-          />
-        </div>
-      )
+      <StyledRole>
+        {rights.includes(RIGHT_ROLE_SEARCH) &&
+          rights.includes(RIGHT_ROLE_CREATE) && (
+            <div className={clsx("page", this.state.isLocked && "locked")}>
+              <Helmet
+                title={formatMessageWithValues(
+                  this.props.intl,
+                  "core",
+                  "roleManagement.role.page.title",
+                  this.titleParams(this.state.role),
+                )}
+              />
+              <Form
+                module="core"
+                title="roleManagement.role.page.title"
+                titleParams={this.titleParams(this.state.role)}
+                edited={this.state.role}
+                back={this.back}
+                canSave={this.canSave}
+                save={this.save}
+                onEditedChanged={this.onEditedChanged}
+                HeadPanel={RoleHeadPanel}
+                Panels={[RoleRightsPanel]}
+                isRequiredFieldsEmpty={this.isRequiredFieldsEmpty()}
+                saveTooltip={formatMessage(
+                  intl,
+                  "core",
+                  `roleManagement.saveButton.tooltip.${this.canSave() ? "enabled" : "disabled"}`,
+                )}
+                isReadOnly={!!this.state.isSystemRole || !rights.includes(RIGHT_ROLE_UPDATE) || this.state.isLocked}
+                reset={this.state.reset}
+                roleUuid={roleUuid}
+                openDirty={rights.includes(RIGHT_ROLE_UPDATE) ? this.save : null}
+              />
+            </div>
+          )}
+      </StyledRole>
     );
   }
 }
@@ -218,5 +220,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withHistory(
-  withModulesManager(injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Role))))),
+  withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(Role))),
 );
