@@ -3,7 +3,7 @@ import { injectIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 
 import { MenuItem, Tooltip, Button, Typography } from "@mui/material";
-import withStyles from "@mui/styles/withStyles";
+import { styled } from "@mui/material/styles";
 import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { closeExportConfigDialog, openExportConfigDialog } from "../../actions";
@@ -11,17 +11,17 @@ import { EXPORT_FILE_FORMATS } from "../../constants";
 import { formatMessage } from "../../helpers/i18n";
 import ExportConfigDialog from "../dialogs/ExportConfigDialog";
 
-const styles = (theme) => ({
-  error: {
+const StyledSearcherExport = styled('div')(({ theme }) => ({
+  '& .error': {
     padding: theme.spacing(2),
   },
-  errorHeader: {
+  '& .errorHeader': {
     color: theme.palette.error.main,
   },
-  errorDetail: {
+  '& .errorDetail': {
     color: theme.palette.error.main,
   },
-});
+}));
 
 function SearcherExport(props) {
   const {
@@ -101,7 +101,7 @@ function SearcherExport(props) {
   ];
 
   return (
-    <>
+    <StyledSearcherExport>
       {(chooseExportableColumns || chooseFileFormat) && (
         <ExportConfigDialog
           confirmState={isExportConfigDialogOpen}
@@ -142,8 +142,8 @@ function SearcherExport(props) {
           </Tooltip>
         ))}
       </div>
-    </>
+    </StyledSearcherExport>
   );
 }
 
-export default injectIntl(withStyles(styles)(SearcherExport));
+export default injectIntl(SearcherExport);

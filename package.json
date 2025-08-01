@@ -6,7 +6,6 @@
   "repository": "git://github.com/openimis/openimis-fe-core_js.git",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
-
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -24,6 +23,7 @@
     "react-intl": "^5.8.1"
   },
   "dependencies": {
+    "@mui/x-date-pickers": "^8.9.0",
     "react-multi-date-picker": "^4.5.2"
   },
   "devDependencies": {
@@ -36,6 +36,11 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.9.6",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/material": "^7.2.0",
+    "@mui/styles": "^5.15.14",
     "@vitejs/plugin-react": "^4.5.2",
     "history": "^5.2.0",
     "lodash-uuid": "^0.0.3",
@@ -47,11 +52,7 @@
     "redux": "^4.0.5",
     "redux-api-middleware": "^3.2.1",
     "vite": "^6.3.5",
-    "vite-plugin-svgr": "^4.3.0",
-    "@mui/material": "^5.15.14",
-    "@mui/icons-material": "^5.14.17",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0"
+    "vite-plugin-svgr": "^4.3.0"
   },
   "files": [
     "dist"

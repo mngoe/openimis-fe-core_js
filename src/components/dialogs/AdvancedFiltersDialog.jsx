@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import { formatMessage, SearcherActionButton } from "@openimis/fe-core";
-import { withStyles, withTheme } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AdvancedFilterRowValue from "./AdvancedFilterRowValue";
@@ -22,14 +22,18 @@ import {
   WHITE_SPACE
 } from "../../constants";
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-  paperHeaderAction: { ...theme.paper.action, display: "flex", justifyContent: "center", itemAlign: "center" },
-});
+const StyledDialog = styled('div')(({ theme }) => ({
+  '& .item': theme.paper.item,
+  '& .paperHeaderAction': { 
+    ...theme.paper.action, 
+    display: "flex", 
+    justifyContent: "center", 
+    itemAlign: "center" 
+  },
+}));
 
 const AdvancedFiltersDialog = ({
   intl,
-  classes,
   object,
   additionalParams,
   fetchCustomFilter,
@@ -185,8 +189,8 @@ const AdvancedFiltersDialog = ({
   }, [searchCriteria]);
 
   return (
-    <>
-      <Grid item className={classes.paperHeaderAction}>
+    <StyledDialog>
+      <Grid item className="paperHeaderAction">
         <SearcherActionButton
           startIcon={<FilterListIcon />}
           label={formatMessage(intl, "core", "advancedFilters")}
@@ -292,7 +296,7 @@ const AdvancedFiltersDialog = ({
           </div>
         </DialogActions>
       </Dialog>
-    </>
+    </StyledDialog>
   );
 };
 
@@ -309,4 +313,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchCustomFilter,
 }, dispatch);
 
-export default injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(AdvancedFiltersDialog))));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(AdvancedFiltersDialog));

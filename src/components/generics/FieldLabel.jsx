@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import FormattedMessage from "./FormattedMessage";
 
-const styles = (theme) => ({
-  label: theme.typography.label,
-});
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  ...theme.typography.label,
+}));
 
 class FieldLabel extends Component {
   render() {
-    const { classes, module, id } = this.props;
+    const { module, id } = this.props;
     return (
-      <Typography className={classes.label} variant="caption">
+      <StyledTypography variant="caption">
         <FormattedMessage module={module} id={id} />
-      </Typography>
+      </StyledTypography>
     );
   }
 }
 
-export default injectIntl(withTheme(withStyles(styles)(FieldLabel)));
+export default injectIntl(FieldLabel);

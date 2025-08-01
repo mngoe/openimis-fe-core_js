@@ -12,20 +12,19 @@ import {
   FormControlLabel,
   Typography,
 } from "@mui/material";
-import { withStyles, withTheme } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 import { useModulesManager, useTranslations } from "@openimis/fe-core";
 import { isEmptyObject } from "../../helpers/utils";
 
-const styles = (theme) => ({
-  primaryButton: theme.dialog.primaryButton,
-  secondaryButton: theme.dialog.secondaryButton,
-});
+const StyledDialog = styled('div')(({ theme }) => ({
+  '& .primaryButton': theme.dialog.primaryButton,
+  '& .secondaryButton': theme.dialog.secondaryButton,
+}));
 
 const ExportConfigDialog = ({
-  classes,
   module,
   confirmState,
   getFilteredFieldsAndColumn,
@@ -84,67 +83,69 @@ const ExportConfigDialog = ({
   const showFileFormats = chooseFileFormat && !isEmptyObject(exportFileFormats);
 
   return (
-    <Dialog open={confirmState} onClose={onClose}>
-      <DialogTitle>{formatMessage("exportConfigDialog.title")}</DialogTitle>
-      <Divider />
-      <DialogContent>
-        {showColumns && (
-          <div>
-            <Typography> {formatMessage("core.exportConfigDialog.selectColumns")} </Typography>
-            {columns &&
-              Object.entries(columns).map(([key, value], idx) => (
+    <StyledDialog>
+      <Dialog open={confirmState} onClose={onClose}>
+        <DialogTitle>{formatMessage("exportConfigDialog.title")}</DialogTitle>
+        <Divider />
+        <DialogContent>
+          {showColumns && (
+            <div>
+              <Typography> {formatMessage("core.exportConfigDialog.selectColumns")} </Typography>
+              {columns &&
+                Object.entries(columns).map(([key, value], idx) => (
+                  <FormControlLabel
+                    key={idx}
+                    control={
+                      <Checkbox
+                        color="primary"
+                        checked={columnBoolValues[key]}
+                        onChange={(event) => handleCheckboxChange(key, event.target.checked)}
+                      />
+                    }
+                    label={value}
+                  />
+                ))}
+            </div>
+          )}
+
+          {showFileFormats && (
+            <div>
+              <Typography> {formatMessage("core.exportConfigDialog.selectFormat")} </Typography>
+              {Object.entries(exportFileFormats).map(([key, value], idx) => (
                 <FormControlLabel
                   key={idx}
                   control={
                     <Checkbox
+                      icon={<RadioButtonUncheckedIcon />}
+                      checkedIcon={<RadioButtonCheckedIcon />}
                       color="primary"
-                      checked={columnBoolValues[key]}
-                      onChange={(event) => handleCheckboxChange(key, event.target.checked)}
+                      checked={exportFileFormat === key}
+                      onChange={() => setExportFileFormat(key)}
                     />
                   }
                   label={value}
                 />
               ))}
-          </div>
-        )}
-
-        {showFileFormats && (
-          <div>
-            <Typography> {formatMessage("core.exportConfigDialog.selectFormat")} </Typography>
-            {Object.entries(exportFileFormats).map(([key, value], idx) => (
-              <FormControlLabel
-                key={idx}
-                control={
-                  <Checkbox
-                    icon={<RadioButtonUncheckedIcon />}
-                    checkedIcon={<RadioButtonCheckedIcon />}
-                    color="primary"
-                    checked={exportFileFormat === key}
-                    onChange={() => setExportFileFormat(key)}
-                  />
-                }
-                label={value}
-              />
-            ))}
-          </div>
-        )}
-      </DialogContent>
-      <Divider />
-      <DialogActions>
-        {displayClearAllColsButton && showColumns && (
-          <Button onClick={() => fillCheckboxesWithValue(false)} className={classes.secondaryButton}>
-            {formatMessage("exportConfigDialog.clearAllColsButton")}
+            </div>
+          )}
+        </DialogContent>
+        <Divider />
+        <DialogActions>
+          {displayClearAllColsButton && showColumns && (
+            <Button onClick={() => fillCheckboxesWithValue(false)} className="secondaryButton">
+              {formatMessage("exportConfigDialog.clearAllColsButton")}
+            </Button>
+          )}
+          <Button onClick={handleConfirm} autoFocus className="primaryButton">
+            {formatMessage("exportConfigDialog.confirmButton")}
           </Button>
-        )}
-        <Button onClick={handleConfirm} autoFocus className={classes.primaryButton}>
-          {formatMessage("exportConfigDialog.confirmButton")}
-        </Button>
-        <Button onClick={handleCancel} className={classes.secondaryButton}>
-          {formatMessage("exportConfigDialog.cancelButton")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <Button onClick={handleCancel} className="secondaryButton">
+            {formatMessage("exportConfigDialog.cancelButton")}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </StyledDialog>
   );
 };
 
-export default injectIntl(withTheme(withStyles(styles)(ExportConfigDialog)));
+export default injectIntl(ExportConfigDialog);

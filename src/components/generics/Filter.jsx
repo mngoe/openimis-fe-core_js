@@ -6,7 +6,7 @@ import {
   
  
 } from '@mui/material';
-import { withStyles,withTheme} from '@mui/styles'
+import { styled } from '@mui/material/styles';
 import {
   formatMessage,
   TextInput,
@@ -34,13 +34,20 @@ export const useFilterChangeHandler = (onChangeFilters) => {
   return { onChangeStringFilter, onChangeFilter };
 };
 
-
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  '&.form': {
+    padding: 0,
+  },
+  '& .item': {
+    padding: theme.spacing(1),
+  },
+}));
 
 function FilterTextInput({
-  classes, module, label, value, onChange,
+  module, label, value, onChange,
 }) {
   return (
-    <Grid item xs={3} className={classes.item}>
+    <Grid item xs={3} className="item">
       <TextInput
         module={module}
         label={label}
@@ -52,10 +59,10 @@ function FilterTextInput({
 }
 
 function FilterCheckbox({
-  classes, module, checked, onChange, label, intl, filterName,
+  module, checked, onChange, label, intl, filterName,
 }) {
   return (
-    <Grid item xs={3} className={classes.item}>
+    <Grid item xs={3} className="item">
       <FormControlLabel
         control={(
           <Checkbox
@@ -73,7 +80,6 @@ function FilterCheckbox({
 function Filter({
   moduleName,
   intl,
-  classes,
   filters,
   onChangeFilters,
   filterFields,
@@ -84,10 +90,9 @@ function Filter({
   const { onChangeStringFilter, onChangeFilter } = useFilterChangeHandler(onChangeFilters);
 
   return (
-    <Grid container className={classes.form}>
+    <StyledGrid container className="form">
       {filterFields.map((field) => (
         <FilterTextInput
-          classes={classes}
           key={field.name}
           module={moduleName}
           label={field.label}
@@ -97,7 +102,7 @@ function Filter({
       ))}
 
       {pickerFields?.map((field) => (
-        <Grid item xs={3} key={field.name} className={classes.item}>
+        <Grid item xs={3} key={field.name} className="item">
           <field.component
             withLabel
             value={filters?.[field.name]?.value ?? null}
@@ -110,7 +115,6 @@ function Filter({
 
       {checkboxFields.map((field) => (
         <FilterCheckbox
-          classes={classes}
           key={field.name}
           checked={filters?.[field.name]?.value ?? false}
           onChange={(event) => onChangeFilter(field.name, event.target.checked)}
@@ -132,17 +136,8 @@ function Filter({
           />
         </Grid>
       )}
-    </Grid>
+    </StyledGrid>
   );
 }
 
-const defaultFilterStyles = (theme) => ({
-  form: {
-    padding: 0,
-  },
-  item: {
-    padding: theme.spacing(1),
-  },
-});
-
-export default injectIntl(withTheme(withStyles(defaultFilterStyles)(Filter)));
+export default injectIntl(Filter);

@@ -1,17 +1,16 @@
 import React from "react";
 import { injectIntl } from "react-intl";
 
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useTranslations, useModulesManager } from "@openimis/fe-core";
 
-const styles = (theme) => ({
-  primaryButton: theme.dialog.primaryButton,
-  secondaryButton: theme.dialog.secondaryButton,
-});
+const StyledDialog = styled('div')(({ theme }) => ({
+  '& .primaryButton': theme.dialog.primaryButton,
+  '& .secondaryButton': theme.dialog.secondaryButton,
+}));
 
 const SelectDialog = ({
-  classes,
   module,
   confirmationButton,
   rejectionButton,
@@ -27,25 +26,27 @@ const SelectDialog = ({
   const modulesManager = useModulesManager();
   const { formatMessage, formatMessageWithValues } = useTranslations(module, modulesManager);
   return (
-    <Dialog open={confirmState} onClose={onClose}>
-      <DialogTitle>{formatMessage(confirmTitle)}</DialogTitle>
-      <DialogContent>
-        {confirmMessage && <DialogContentText>{formatMessage(confirmMessage)}</DialogContentText>}
-        {confirmMessageWithValues && (
-          <DialogContentText>{formatMessageWithValues(confirmMessageWithValues, translationVariables)}</DialogContentText>
-        )}
-        <DialogContentText>{confirmMessageComponent}</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} className={classes.secondaryButton}>
-          {formatMessage(rejectionButton)}
-        </Button>
-        <Button onClick={onConfirm} autoFocus className={classes.primaryButton}>
-          {formatMessage(confirmationButton)}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <StyledDialog>
+      <Dialog open={confirmState} onClose={onClose}>
+        <DialogTitle>{formatMessage(confirmTitle)}</DialogTitle>
+        <DialogContent>
+          {confirmMessage && <DialogContentText>{formatMessage(confirmMessage)}</DialogContentText>}
+          {confirmMessageWithValues && (
+            <DialogContentText>{formatMessageWithValues(confirmMessageWithValues, translationVariables)}</DialogContentText>
+          )}
+          <DialogContentText>{confirmMessageComponent}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose} className="secondaryButton">
+            {formatMessage(rejectionButton)}
+          </Button>
+          <Button onClick={onConfirm} autoFocus className="primaryButton">
+            {formatMessage(confirmationButton)}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </StyledDialog>
   );
 };
 
-export default injectIntl(withTheme(withStyles(styles)(SelectDialog)));
+export default injectIntl(SelectDialog);

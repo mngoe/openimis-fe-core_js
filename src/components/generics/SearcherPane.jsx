@@ -3,7 +3,7 @@ import { injectIntl } from "react-intl";
 import _debounce from "lodash/debounce";
 
 import { Grid, Paper, Divider } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "@mui/icons-material";
 
 import { SearcherActionButton } from "@openimis/fe-core";
@@ -12,13 +12,23 @@ import { formatMessage } from "../../helpers/i18n";
 import AdvancedFiltersDialog from "../dialogs/AdvancedFiltersDialog";
 import FormattedMessage from "./FormattedMessage";
 
-const styles = (theme) => ({
-  paper: theme.paper.body,
-  paperHeader: { ...theme.paper.header, display: "flex", justifyContent: "flex-end", itemAlign: "center" },
-  paperHeaderTitle: theme.paper.title,
-  paperHeaderAction: { ...theme.paper.action, display: "flex", justifyContent: "center", itemAlign: "center" },
-  paperDivider: theme.paper.divider,
-});
+const StyledSearcherPane = styled('div')(({ theme }) => ({
+  '& .paper': theme.paper.body,
+  '& .paperHeader': { 
+    ...theme.paper.header, 
+    display: "flex", 
+    justifyContent: "flex-end", 
+    itemAlign: "center" 
+  },
+  '& .paperHeaderTitle': theme.paper.title,
+  '& .paperHeaderAction': { 
+    ...theme.paper.action, 
+    display: "flex", 
+    justifyContent: "center", 
+    itemAlign: "center" 
+  },
+  '& .paperDivider': theme.paper.divider,
+}));
 
 class SearcherPane extends Component {
   constructor(props) {
@@ -44,7 +54,6 @@ class SearcherPane extends Component {
 
   render() {
     const {
-      classes,
       module,
       del,
       title = "search.title",
@@ -68,85 +77,87 @@ class SearcherPane extends Component {
       applyNumberCircle = null,
     } = this.props;
     return (
-      <Paper className={classes.paper}>
-        <Grid container>
-          <Grid item xs={split} className={classes.paperHeaderTitle}>
-            <FormattedMessage module={module} id={title} />
-          </Grid>
-          <Grid item xs={12 - split} className={classes.paperHeader}>
-            {(!!actions || !!refresh) && (
-              <>
-                {isCustomFiltering === true ? (
-                  <AdvancedFiltersDialog
-                    object={objectForCustomFiltering}
-                    additionalParams={additionalCustomFilterParams}
-                    moduleName={moduleName}
-                    objectType={objectType}
-                    setAppliedCustomFilters={setAppliedCustomFilters}
-                    appliedCustomFilters={appliedCustomFilters}
-                    onChangeFilters={onChangeFilters}
-                    appliedFiltersRowStructure={appliedFiltersRowStructure}
-                    setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
-                    applyNumberCircle={applyNumberCircle}
-                    searchCriteria={filters}
-                    deleteFilter={del}
-                  />
-                ) : (
-                  <></>
-                )}
-                {!!actions &&
-                  actions.map((a, idx) => (
-                    <Grid item key={`action-${idx}`} className={classes.paperHeaderAction}>
+      <StyledSearcherPane>
+        <Paper className="paper">
+          <Grid container>
+            <Grid item xs={split} className="paperHeaderTitle">
+              <FormattedMessage module={module} id={title} />
+            </Grid>
+            <Grid item xs={12 - split} className="paperHeader">
+              {(!!actions || !!refresh) && (
+                <>
+                  {isCustomFiltering === true ? (
+                    <AdvancedFiltersDialog
+                      object={objectForCustomFiltering}
+                      additionalParams={additionalCustomFilterParams}
+                      moduleName={moduleName}
+                      objectType={objectType}
+                      setAppliedCustomFilters={setAppliedCustomFilters}
+                      appliedCustomFilters={appliedCustomFilters}
+                      onChangeFilters={onChangeFilters}
+                      appliedFiltersRowStructure={appliedFiltersRowStructure}
+                      setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
+                      applyNumberCircle={applyNumberCircle}
+                      searchCriteria={filters}
+                      deleteFilter={del}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {!!actions &&
+                    actions.map((a, idx) => (
+                      <Grid item key={`action-${idx}`} className="paperHeaderAction">
+                        <SearcherActionButton
+                          onClick={a.action}
+                          startIcon={a.icon}
+                          label={a.label || ''}
+                        />
+                      </Grid>
+                    ))}
+                  {!!reset && (
+                    <Grid item key={`action-reset`} className="paperHeaderAction">
                       <SearcherActionButton
-                        onClick={a.action}
-                        startIcon={a.icon}
-                        label={a.label || ''}
+                        startIcon={<ResetFilterIcon />}
+                        onClick={this.debouncedReset}
+                        label={formatMessage(this.props.intl, module, "resetFilterTooltip")}
                       />
                     </Grid>
-                  ))}
-                {!!reset && (
-                  <Grid item key={`action-reset`} className={classes.paperHeaderAction}>
-                    <SearcherActionButton
-                      startIcon={<ResetFilterIcon />}
-                      onClick={this.debouncedReset}
-                      label={formatMessage(this.props.intl, module, "resetFilterTooltip")}
-                    />
-                  </Grid>
-                )}
-                {!!refresh && (
-                  <Grid item key={`action-refresh`} className={classes.paperHeaderAction}>
-                    <SearcherActionButton
-                      startIcon={<DefaultSearchIcon />}
-                      onClick={this.debouncedRefresh}
-                      label={formatMessage(this.props.intl, module, "refreshFilterTooltip")}
-                    />
-                  </Grid>
-                )}
-              </>
+                  )}
+                  {!!refresh && (
+                    <Grid item key={`action-refresh`} className="paperHeaderAction">
+                      <SearcherActionButton
+                        startIcon={<DefaultSearchIcon />}
+                        onClick={this.debouncedRefresh}
+                        label={formatMessage(this.props.intl, module, "refreshFilterTooltip")}
+                      />
+                    </Grid>
+                  )}
+                </>
+              )}
+            </Grid>
+            {!!filterPane && (
+              <Fragment>
+                <Grid item xs={12} className="paperDivider">
+                  <Divider />
+                </Grid>
+                {filterPane}
+              </Fragment>
+            )}
+            {!!resultsPane && (
+              <Fragment>
+                <Grid item xs={12} className="paperDivider">
+                  <Divider />
+                </Grid>
+                <Grid item xs={12}>
+                  {resultsPane}
+                </Grid>
+              </Fragment>
             )}
           </Grid>
-          {!!filterPane && (
-            <Fragment>
-              <Grid item xs={12} className={classes.paperDivider}>
-                <Divider />
-              </Grid>
-              {filterPane}
-            </Fragment>
-          )}
-          {!!resultsPane && (
-            <Fragment>
-              <Grid item xs={12} className={classes.paperDivider}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
-                {resultsPane}
-              </Grid>
-            </Fragment>
-          )}
-        </Grid>
-      </Paper>
+        </Paper>
+      </StyledSearcherPane>
     );
   }
 }
 
-export default injectIntl(withTheme(withStyles(styles)(SearcherPane)));
+export default injectIntl(SearcherPane);

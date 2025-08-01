@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { injectIntl } from "react-intl";
 import {
   Dialog,
@@ -20,13 +20,13 @@ import FormattedMessage from "./FormattedMessage";
 import Table from "./Table";
 import FakeInput from "../inputs/FakeInput";
 
-const styles = (theme) => ({
-  label: {
+const StyledPicker = styled('div')(({ theme }) => ({
+  '& .label': {
     color: theme.palette.primary.main,
   },
-  dialogTitle: theme.dialog.title,
-  dialogContent: theme.dialog.content,
-});
+  '& .dialogTitle': theme.dialog.title,
+  '& .dialogContent': theme.dialog.content,
+}));
 
 class RawPickerDialog extends Component {
   keysFunction = (event) => {
@@ -45,7 +45,6 @@ class RawPickerDialog extends Component {
 
   render() {
     const {
-      classes,
       open,
       onClose,
       onSelect,
@@ -63,11 +62,11 @@ class RawPickerDialog extends Component {
     } = this.props;
     return (
       <Dialog open={open} fullWidth={true} maxWidth="md">
-        <DialogTitle className={classes.dialogTitle}>
+        <DialogTitle className="dialogTitle">
           <FormattedMessage module={module} id={title} />
         </DialogTitle>
         <Divider />
-        <DialogContent className={classes.dialogContent}>
+        <DialogContent className="dialogContent">
           {filter}
           <Divider />
           <Table
@@ -92,7 +91,7 @@ class RawPickerDialog extends Component {
   }
 }
 
-const PickerDialog = injectIntl(withTheme(withStyles(styles)(RawPickerDialog)));
+const PickerDialog = injectIntl(RawPickerDialog);
 
 class Picker extends Component {
   state = {
@@ -138,18 +137,18 @@ class Picker extends Component {
   }
 
   renderField() {
-    const { intl, classes, module, label, suggestionFormatter, value, readOnly = false, required = false } = this.props;
+    const { intl, module, label, suggestionFormatter, value, readOnly = false, required = false } = this.props;
     return (
       <FormControl fullWidth>
         <TextField
-          className={classes.picker}
+          className="picker"
           disabled={readOnly}
           required={required}
           label={!!label && formatMessage(intl, module, label)}
           onClick={(e) => this.setState({ open: true })}
           value={suggestionFormatter(value)}
           InputLabelProps={{
-            className: classes.label,
+            className: "label",
           }}
           InputProps={{
             startAdornment: !readOnly && (
@@ -187,7 +186,7 @@ class Picker extends Component {
       checked = true,
     } = this.props;
     return (
-      <Fragment>
+      <StyledPicker>
         {!readOnly && !!checked && (
           <PickerDialog
             open={this.state.open}
@@ -209,9 +208,9 @@ class Picker extends Component {
         )}
         {!!IconRender && this.renderIcon()}
         {!IconRender && this.renderField()}
-      </Fragment>
+      </StyledPicker>
     );
   }
 }
 
-export default injectIntl(withTheme(withStyles(styles)(Picker)));
+export default injectIntl(Picker);

@@ -1,32 +1,32 @@
 import React, { useState, useCallback } from "react";
 import clsx from "clsx";
 
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { IconButton, Popover, Typography, Tooltip } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { useTranslations } from "../../helpers/i18n";
 import { MODULE_NAME } from "../../constants";
 
-const useStyles = makeStyles((theme) => ({
-  popoverContent: {
+const StyledInfoButton = styled('div')(({ theme }) => ({
+  '& .popoverContent': {
     padding: theme.spacing(1),
   },
-  iconSmall: {
+  '& .iconSmall': {
     fontSize: 16,
   },
-  iconMedium: {
+  '& .iconMedium': {
     fontSize: 24,
   },
-  iconLarge: {
+  '& .iconLarge': {
     fontSize: 32,
   },
-  maxWidthSmall: {
+  '& .maxWidthSmall': {
     maxWidth: 300,
   },
-  maxWidthMedium: {
+  '& .maxWidthMedium': {
     maxWidth: 450,
   },
-  maxWidthLarge: {
+  '& .maxWidthLarge': {
     maxWidth: 600,
   },
 }));
@@ -46,7 +46,6 @@ export default function InfoButton({
     horizontal: "right",
   },
 }) {
-  const classes = useStyles();
   const { formatMessage } = useTranslations(MODULE_NAME);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -62,15 +61,15 @@ export default function InfoButton({
   const id = open ? "info-popover" : undefined;
 
   return (
-    <>
+    <StyledInfoButton>
       <Tooltip title={formatMessage("InfoButton.tooltip")}>
         <IconButton size={iconButtonSize} onClick={handleClick} aria-describedby={id}>
           <InfoIcon
             color={iconColor}
             className={clsx({
-              [classes.iconSmall]: iconSize === "small",
-              [classes.iconMedium]: iconSize === "medium",
-              [classes.iconLarge]: iconSize === "large",
+              'iconSmall': iconSize === "small",
+              'iconMedium': iconSize === "medium",
+              'iconLarge': iconSize === "large",
             })}
           />
         </IconButton>
@@ -86,15 +85,15 @@ export default function InfoButton({
         <Typography
           variant="body2"
           className={clsx({
-            [classes.popoverContent]: true,
-            [classes.maxWidthSmall]: maxWidth === "small",
-            [classes.maxWidthMedium]: maxWidth === "medium",
-            [classes.maxWidthLarge]: maxWidth === "large",
+            'popoverContent': true,
+            'maxWidthSmall': maxWidth === "small",
+            'maxWidthMedium': maxWidth === "medium",
+            'maxWidthLarge': maxWidth === "large",
           })}
         >
           {content}
         </Typography>
       </Popover>
-    </>
+    </StyledInfoButton>
   );
 }

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import {
   Typography,
   Divider,
@@ -24,36 +24,36 @@ import ProgressOrError from "./ProgressOrError";
 import withModulesManager from "../../helpers/modules";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
 
-const styles = (theme) => ({
-  table: theme.table,
-  tableTitle: theme.table.title,
-  tableHeader: theme.table.header,
-  tableRow: theme.table.row,
-  tableLockedRow: theme.table.lockedRow,
-  tableLockedCell: theme.table.lockedCell,
-  tableHighlightedRow: theme.table.highlightedRow,
-  tableHighlightedCell: theme.table.highlightedCell,
-  tableHighlightedAltRow: theme.table.highlightedAltRow,
-  tableSecondaryHighlightedRow: theme.table.secondaryHighlightedRow,
-  tableSecondaryHighlightedCell: theme.table.secondaryHighlightedCell,
-  tableHighlightedAltCell: theme.table.highlightedAltCell,
-  tableDisabledRow: theme.table.disabledRow,
-  tableDisabledCell: theme.table.disabledCell,
-  tableFooter: theme.table.footer,
-  pager: theme.table.pager,
-  left: {
+const StyledTable = styled('div')(({ theme }) => ({
+  '& .table': theme.table,
+  '& .tableTitle': theme.table.title,
+  '& .tableHeader': theme.table.header,
+  '& .tableRow': theme.table.row,
+  '& .tableLockedRow': theme.table.lockedRow,
+  '& .tableLockedCell': theme.table.lockedCell,
+  '& .tableHighlightedRow': theme.table.highlightedRow,
+  '& .tableHighlightedCell': theme.table.highlightedCell,
+  '& .tableHighlightedAltRow': theme.table.highlightedAltRow,
+  '& .tableSecondaryHighlightedRow': theme.table.secondaryHighlightedRow,
+  '& .tableSecondaryHighlightedCell': theme.table.secondaryHighlightedCell,
+  '& .tableHighlightedAltCell': theme.table.highlightedAltCell,
+  '& .tableDisabledRow': theme.table.disabledRow,
+  '& .tableDisabledCell': theme.table.disabledCell,
+  '& .tableFooter': theme.table.footer,
+  '& .pager': theme.table.pager,
+  '& .left': {
     textAlign: "left",
   },
-  right: {
+  '& .right': {
     textAlign: "right",
   },
-  center: {
+  '& .center': {
     textAlign: "center",
   },
-  clickable: {
+  '& .clickable': {
     cursor: "pointer",
   },
-  loader: {
+  '& .loader': {
     position: "absolute",
     top: 0,
     bottom: 0,
@@ -61,7 +61,7 @@ const styles = (theme) => ({
     right: 0,
     background: "rgba(0, 0, 0, 0.12)",
   },
-});
+}));
 
 class Table extends Component {
   state = {
@@ -174,7 +174,6 @@ class Table extends Component {
     const {
       intl,
       modulesManager,
-      classes,
       module,
       header,
       preHeaders,
@@ -245,195 +244,197 @@ class Table extends Component {
       localHeaders.unshift("core.Table.ordinalNumberHeader");
     }
     return (
-      <Box position="relative" overflow="auto">
-        {header && (
-          <Grid container alignItems="center" justify="space-between" className={classes.tableTitle}>
-            {extendHeader ? (
-              <>
-                <Grid item xs={6}>
+      <StyledTable>
+        <Box position="relative" overflow="auto">
+          {header && (
+            <Grid container alignItems="center" justify="space-between" className="tableTitle">
+              {extendHeader ? (
+                <>
+                  <Grid item xs={6}>
+                    <Typography variant="h6">{header}</Typography>
+                  </Grid>
+                  <Grid item container direction="row" alignItems="center" justify="space-between" xs={6}>
+                    {extendHeader && extendHeader()}
+                  </Grid>
+                </>
+              ) : (
+                <Grid item xs={12}>
                   <Typography variant="h6">{header}</Typography>
                 </Grid>
-                <Grid item container direction="row" alignItems="center" justify="space-between" xs={6}>
-                  {extendHeader && extendHeader()}
-                </Grid>
-              </>
-            ) : (
-              <Grid item xs={12}>
-                <Typography variant="h6">{header}</Typography>
-              </Grid>
+              )}
+            </Grid>
+          )}
+          <Divider />
+          <MUITable className="table" size={size}>
+            {!!localPreHeaders && localPreHeaders.length > 0 && (
+              <TableHead>
+                <TableRow>
+                  {localPreHeaders.map((h, idx) => {
+                    if (headerSpans.length > idx && !headerSpans[idx]) return null;
+                    return (
+                      <TableCell
+                        colSpan={headerSpans.length > idx ? headerSpans[idx] : 1}
+                        className={clsx("tableHeader", aligns.length > idx && aligns[idx])}
+                        key={`preh-${idx}`}
+                      >
+                        {!!h && h}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              </TableHead>
             )}
-          </Grid>
-        )}
-        <Divider />
-        <MUITable className={classes.table} size={size}>
-          {!!localPreHeaders && localPreHeaders.length > 0 && (
-            <TableHead>
-              <TableRow>
-                {localPreHeaders.map((h, idx) => {
-                  if (headerSpans.length > idx && !headerSpans[idx]) return null;
-                  return (
-                    <TableCell
-                      colSpan={headerSpans.length > idx ? headerSpans[idx] : 1}
-                      className={clsx(classes.tableHeader, aligns.length > idx && classes[aligns[idx]])}
-                      key={`preh-${idx}`}
-                    >
-                      {!!h && h}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            </TableHead>
-          )}
-          {!!localHeaders && localHeaders.length > 0 && (
-            <TableHead>
-              <TableRow>
-                {selectWithCheckbox && withSelection && (
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      indeterminate={numSelected > 0 && numSelected < count}
-                      checked={count > 0 && numSelected === count}
-                      onChange={(e) => this.selectAll(e)}
-                    />
-                  </TableCell>
-                )}
-                {localHeaders.map((h, idx) => {
-                  if (headerSpans.length > idx && !headerSpans[idx]) return null;
-                  return (
-                    <TableCell colSpan={headerSpans.length > idx ? headerSpans[idx] : 1} key={`h-${idx}`}>
-                      {!!h && (
-                        <Box
-                          style={{
-                            width: "100%",
-                            cursor: headerActions.length > idx && !!headerActions[idx][0] ? "pointer" : "",
-                          }}
-                          onClick={headerActions.length > idx ? headerActions[idx][0] : null}
-                          display="flex"
-                          className={classes.tableHeader}
-                          alignItems="center"
-                          justifyContent={aligns.length > idx ? aligns[idx] : "left"}
-                        >
-                          <Box>
-                            {typeof h === "function" ? (
-                              <Box>{() => h(this.state, this.props)}</Box>
-                            ) : (
-                              <FormattedMessage module={module} id={h} />
-                            )}
-                          </Box>
-                          {headerActions.length > idx ? this.headerAction(headerActions[idx][1]) : null}
-                        </Box>
-                      )}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            </TableHead>
-          )}
-          <TableBody>
-            {items &&
-              items.length > 0 &&
-              items.map((i, iidx) => (
-                <TableRow
-                  key={iidx}
-                  selected={this.isSelected(i)}
-                  onClick={(e) => !selectWithCheckbox && this.select(i, e)}
-                  onContextMenu={onDoubleClick ? () => onDoubleClick(i, true) : undefined}
-                  onDoubleClick={onDoubleClick ? () => onDoubleClick(i) : undefined}
-                  className={clsx(
-                    classes.tableRow,
-                    !!rowLocked && rowLocked(i) ? classes.tableLockedRow : null,
-                    !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedRow : null,
-                    !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltRow : null,
-                    !!rowSecondaryHighlighted && rowSecondaryHighlighted(i)
-                      ? classes.tableSecondaryHighlightedRow
-                      : null,
-                    !!rowDisabled && rowDisabled(i) ? classes.tableDisabledRow : null,
-                    !!onDoubleClick && classes.clickable,
-                  )}
-                >
+            {!!localHeaders && localHeaders.length > 0 && (
+              <TableHead>
+                <TableRow>
                   {selectWithCheckbox && withSelection && (
                     <TableCell padding="checkbox">
-                      <Checkbox checked={this.isSelected(i)} onChange={(e) => this.select(i, e)} color="primary" />
+                      <Checkbox
+                        color="primary"
+                        indeterminate={numSelected > 0 && numSelected < count}
+                        checked={count > 0 && numSelected === count}
+                        onChange={(e) => this.selectAll(e)}
+                      />
                     </TableCell>
                   )}
-                  {showOrdinalNumber && (
-                    <TableCell
-                      className={clsx(
-                        !!rowLocked && rowLocked(i) ? classes.tableLockedCell : null,
-                        !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null,
-                        !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null,
-                        !!rowSecondaryHighlighted && rowSecondaryHighlighted(i)
-                          ? classes.tableSecondaryHighlightedCell
-                          : null,
-                        !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null,
-                        aligns.length > 0 && classes[aligns[0]],
-                      )}
-                      key={`v-${this.calculateOrdinalNumber(iidx, withPagination, items.length)}-0`}
-                    >
-                      <span>{this.calculateOrdinalNumber(iidx, withPagination, items.length)}</span>
-                    </TableCell>
-                  )}
-                  {localItemFormatters &&
-                    localItemFormatters.map((f, fidx) => {
-                      if (colSpans.length > fidx && !colSpans[fidx]) return null;
-                      // NOTE: The 'f' function can explicitly be set to null, enabling the option to omit
-                      // a column  and suppress its display under specific conditions.
-                      if (f === null) return null;
-                      return (
-                        <TableCell
-                          colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
-                          className={clsx(
-                            !!rowLocked && rowLocked(i) ? classes.tableLockedCell : null,
-                            !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null,
-                            !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null,
-                            !!rowSecondaryHighlighted && rowSecondaryHighlighted(i)
-                              ? classes.tableSecondaryHighlightedCell
-                              : null,
-                            !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null,
-                            aligns.length > fidx && classes[aligns[fidx]],
-                          )}
-                          key={`v-${iidx}-${fidx}`}
-                        >
-                          {f(i, iidx)}
-                        </TableCell>
-                      );
-                    })}
+                  {localHeaders.map((h, idx) => {
+                    if (headerSpans.length > idx && !headerSpans[idx]) return null;
+                    return (
+                      <TableCell colSpan={headerSpans.length > idx ? headerSpans[idx] : 1} key={`h-${idx}`}>
+                        {!!h && (
+                          <Box
+                            style={{
+                              width: "100%",
+                              cursor: headerActions.length > idx && !!headerActions[idx][0] ? "pointer" : "",
+                            }}
+                            onClick={headerActions.length > idx ? headerActions[idx][0] : null}
+                            display="flex"
+                            className="tableHeader"
+                            alignItems="center"
+                            justifyContent={aligns.length > idx ? aligns[idx] : "left"}
+                          >
+                            <Box>
+                              {typeof h === "function" ? (
+                                <Box>{() => h(this.state, this.props)}</Box>
+                              ) : (
+                                <FormattedMessage module={module} id={h} />
+                              )}
+                            </Box>
+                            {headerActions.length > idx ? this.headerAction(headerActions[idx][1]) : null}
+                          </Box>
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
-              ))}
-          </TableBody>
-          {!!withPagination && !!count && (
-            <TableFooter className={classes.tableFooter}>
-              <TableRow>
-                <TablePagination
-                  className={classes.pager}
-                  colSpan={localItemFormatters.length + (selectWithCheckbox ? 1 : 0)}
-                  labelRowsPerPage={formatMessage(intl, "core", "rowsPerPage")}
-                  labelDisplayedRows={({ from, to, count }) => {
-                    if (this.state.ordinalNumberFrom !== from) this.setState({ ordinalNumberFrom: from });
-                    return `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`;
-                  }}
-                  count={count}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                  rowsPerPageOptions={rowsPerPageOptions}
-                  onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
-                  onPageChange={onChangePage}
-                  nextIconButtonText={formatMessage(intl, "core", "Table.nextPage")}
-                  backIconButtonText={formatMessage(intl, "core", "Table.previousPage")}
-                />
-              </TableRow>
-            </TableFooter>
+              </TableHead>
+            )}
+            <TableBody>
+              {items &&
+                items.length > 0 &&
+                items.map((i, iidx) => (
+                  <TableRow
+                    key={iidx}
+                    selected={this.isSelected(i)}
+                    onClick={(e) => !selectWithCheckbox && this.select(i, e)}
+                    onContextMenu={onDoubleClick ? () => onDoubleClick(i, true) : undefined}
+                    onDoubleClick={onDoubleClick ? () => onDoubleClick(i) : undefined}
+                    className={clsx(
+                      "tableRow",
+                      !!rowLocked && rowLocked(i) ? "tableLockedRow" : null,
+                      !!rowHighlighted && rowHighlighted(i) ? "tableHighlightedRow" : null,
+                      !!rowHighlightedAlt && rowHighlightedAlt(i) ? "tableHighlightedAltRow" : null,
+                      !!rowSecondaryHighlighted && rowSecondaryHighlighted(i)
+                        ? "tableSecondaryHighlightedRow"
+                        : null,
+                      !!rowDisabled && rowDisabled(i) ? "tableDisabledRow" : null,
+                      !!onDoubleClick && "clickable",
+                    )}
+                  >
+                    {selectWithCheckbox && withSelection && (
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={this.isSelected(i)} onChange={(e) => this.select(i, e)} color="primary" />
+                      </TableCell>
+                    )}
+                    {showOrdinalNumber && (
+                      <TableCell
+                        className={clsx(
+                          !!rowLocked && rowLocked(i) ? "tableLockedCell" : null,
+                          !!rowHighlighted && rowHighlighted(i) ? "tableHighlightedCell" : null,
+                          !!rowHighlightedAlt && rowHighlightedAlt(i) ? "tableHighlightedAltCell" : null,
+                          !!rowSecondaryHighlighted && rowSecondaryHighlighted(i)
+                            ? "tableSecondaryHighlightedCell"
+                            : null,
+                          !!rowDisabled && rowDisabled(i) ? "tableDisabledCell" : null,
+                          aligns.length > 0 && aligns[0],
+                        )}
+                        key={`v-${this.calculateOrdinalNumber(iidx, withPagination, items.length)}-0`}
+                      >
+                        <span>{this.calculateOrdinalNumber(iidx, withPagination, items.length)}</span>
+                      </TableCell>
+                    )}
+                    {localItemFormatters &&
+                      localItemFormatters.map((f, fidx) => {
+                        if (colSpans.length > fidx && !colSpans[fidx]) return null;
+                        // NOTE: The 'f' function can explicitly be set to null, enabling the option to omit
+                        // a column  and suppress its display under specific conditions.
+                        if (f === null) return null;
+                        return (
+                          <TableCell
+                            colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
+                            className={clsx(
+                              !!rowLocked && rowLocked(i) ? "tableLockedCell" : null,
+                              !!rowHighlighted && rowHighlighted(i) ? "tableHighlightedCell" : null,
+                              !!rowHighlightedAlt && rowHighlightedAlt(i) ? "tableHighlightedAltCell" : null,
+                              !!rowSecondaryHighlighted && rowSecondaryHighlighted(i)
+                                ? "tableSecondaryHighlightedCell"
+                                : null,
+                              !!rowDisabled && rowDisabled(i) ? "tableDisabledCell" : null,
+                              aligns.length > fidx && aligns[fidx],
+                            )}
+                            key={`v-${iidx}-${fidx}`}
+                          >
+                            {f(i, iidx)}
+                          </TableCell>
+                        );
+                      })}
+                  </TableRow>
+                ))}
+            </TableBody>
+            {!!withPagination && !!count && (
+              <TableFooter className="tableFooter">
+                <TableRow>
+                  <TablePagination
+                    className="pager"
+                    colSpan={localItemFormatters.length + (selectWithCheckbox ? 1 : 0)}
+                    labelRowsPerPage={formatMessage(intl, "core", "rowsPerPage")}
+                    labelDisplayedRows={({ from, to, count }) => {
+                      if (this.state.ordinalNumberFrom !== from) this.setState({ ordinalNumberFrom: from });
+                      return `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`;
+                    }}
+                    count={count}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
+                    onPageChange={onChangePage}
+                    nextIconButtonText={formatMessage(intl, "core", "Table.nextPage")}
+                    backIconButtonText={formatMessage(intl, "core", "Table.previousPage")}
+                  />
+                </TableRow>
+              </TableFooter>
+            )}
+          </MUITable>
+          {(fetching || error) && (
+            <Grid className="loader" container justifyContent="center" alignItems="center">
+              <ProgressOrError progress={items?.length && fetching} error={error} />{" "}
+              {/* We do not want to display the spinner with the empty table */}
+            </Grid>
           )}
-        </MUITable>
-        {(fetching || error) && (
-          <Grid className={classes.loader} container justifyContent="center" alignItems="center">
-            <ProgressOrError progress={items?.length && fetching} error={error} />{" "}
-            {/* We do not want to display the spinner with the empty table */}
-          </Grid>
-        )}
-      </Box>
+        </Box>
+      </StyledTable>
     );
   }
 }
 
-export default withModulesManager(injectIntl(withTheme(withStyles(styles)(Table))));
+export default withModulesManager(injectIntl(Table));

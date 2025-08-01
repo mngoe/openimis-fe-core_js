@@ -6,7 +6,7 @@ import { injectIntl } from "react-intl";
 
 import { withTheme, withStyles } from "@mui/styles";
 import { FormControl } from "@mui/material";
-import { DatePicker as MUIDatePicker } from "@material-ui/pickers";
+import { DatePicker as MUIDatePicker } from "@mui/x-date-pickers/DatePicker";
 import { formatMessage, toISODate } from "../helpers/i18n";
 import { withModulesManager, withHistory } from "@openimis/fe-core";
 import { DEFAULT } from "../constants";

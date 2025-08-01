@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
 import Error from "./Error";
 
-const styles = (theme) => ({
-  progress: {
+const StyledProgressOrError = styled('div')(({ theme }) => ({
+  '& .progress': {
     display: "block",
     marginLeft: "auto",
     marginRight: "auto",
@@ -12,18 +12,18 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(1),
     align: "center",
   },
-});
+}));
 
 class ProgressOrError extends Component {
   render() {
-    const { classes, progress, error, size } = this.props;
+    const { progress, error, size } = this.props;
     return (
-      <Fragment>
-        {!!progress && <CircularProgress size={size} className={classes.progress} />}
+      <StyledProgressOrError>
+        {!!progress && <CircularProgress size={size} className="progress" />}
         {!progress && !!error && <Error error={error} />}
-      </Fragment>
+      </StyledProgressOrError>
     );
   }
 }
 
-export default withTheme(withStyles(styles)(ProgressOrError));
+export default ProgressOrError;

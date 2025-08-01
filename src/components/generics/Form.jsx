@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { injectIntl } from "react-intl";
 import { Fab, Grid, Paper, IconButton, Typography, Divider, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,13 +11,13 @@ import withHistory from "../../helpers/history";
 import { withTooltip, formatMessage } from "../../helpers/i18n";
 import _ from "lodash";
 
-const styles = (theme) => ({
-  paper: theme.paper.paper,
-  paperHeader: theme.paper.header,
-  paperHeaderAction: theme.paper.action,
-  tooltipContainer: theme.tooltipContainer,
-  flexTooltip: theme.flexTooltip,
-});
+const StyledForm = styled('div')(({ theme }) => ({
+  '& .paper': theme.paper.paper,
+  '& .paperHeader': theme.paper.header,
+  '& .paperHeaderAction': theme.paper.action,
+  '& .tooltipContainer': theme.tooltipContainer,
+  '& .flexTooltip': theme.flexTooltip,
+}));
 
 class Form extends Component {
   state = {
@@ -51,7 +51,6 @@ class Form extends Component {
 
   render() {
     const {
-      classes,
       module,
       back,
       add,
@@ -120,12 +119,12 @@ class Form extends Component {
     const filteredTooltips = allTooltips.filter(tooltip => tooltip.condition);
 
     return (
-      <Fragment>
+      <StyledForm>
         <form noValidate autoComplete="off">
           <Grid container>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
+              <Paper className="paper">
+                <Grid container alignItems="center" direction="row" className="paperHeader">
                   <Grid item xs={8}>
                     <Grid container alignItems="center">
                       {!!back && (
@@ -151,7 +150,7 @@ class Form extends Component {
                           if (!!a.onlyIfDirty && !this.state.dirty) return null;
                           if (!!a.onlyIfNotDirty && !!this.state.dirty) return null;
                           return (
-                            <Grid item key={`form-action-${idx}`} className={classes.paperHeaderAction}>
+                            <Grid item key={`form-action-${idx}`} className="paperHeaderAction">
                               {withTooltip(
                                 !!a.button ? (
                                   a.button
@@ -213,17 +212,17 @@ class Form extends Component {
           )}
         </form>
         {!enableActionButtons && (
-          <div className={classes.tooltipContainer}>
+          <div className="tooltipContainer">
             {filteredTooltips.map((item, index) => (
-              <div className={classes.flexTooltip} key={index}>
+              <div className="flexTooltip" key={index}>
                 {withTooltip(item.content, item.tooltip, index === 0 ? "top" : "left")}
               </div>
             ))}
           </div>
         )}
-      </Fragment>
+      </StyledForm>
     );
   }
 }
 
-export default withHistory(injectIntl(withTheme(withStyles(styles)(Form))));
+export default withHistory(injectIntl(Form));

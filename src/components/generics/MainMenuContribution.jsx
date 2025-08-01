@@ -6,8 +6,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
-import { withTheme } from "@mui/styles";
-import { withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -15,61 +14,55 @@ import { Divider, List, IconButton, MenuList, MenuItem, Button, Popper, Grow, Pa
 import withModulesManager from "../../helpers/modules";
 import { _historyPush } from "../../helpers/history";
 
-
-const styles = (theme) => ({
-  panel: {
+const StyledMainMenu = styled('div')(({ theme }) => ({
+  '& .panel': {
     margin: "0 !important",
     padding: 0,
   },
-  drawerHeading: {
+  '& .drawerHeading': {
     fontSize: theme.menu.drawer.fontSize,
     fontWeight: theme.menu.drawer.fontWeight,
     color: theme.menu.drawer.textColor,
   },
-  drawerDivider: {
+  '& .drawerDivider': {
     // width: 100
   },
-  menuHeading: {
+  '& .menuHeading': {
     fontSize: theme.menu.appBar.fontSize,
     color: theme.palette.text.second,
     paddingTop: theme.menu.appBar.fontSize / 2,
     textTransform: "none",
   },
-  appBarMenuPaper: {
+  '& .appBarMenuPaper': {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
   },
-  popper: {
+  '& .popper': {
     zIndex: 1200,
+  },
+}));
+
+const Accordion = styled(MuiAccordion)({
+  boxShadow: "none",
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&:before": {
+    display: "none",
+  },
+  "&$expanded": {
+    margin: "auto",
   },
 });
 
-const Accordion = withStyles({
-  root: {
-    boxShadow: "none",
-    "&:not(:last-child)": {
-      borderBottom: 0,
-    },
-    "&:before": {
-      display: "none",
-    },
-    "&$expanded": {
-      margin: "auto",
-    },
-  },
-  expanded: {},
-})(MuiAccordion);
-
-const AccordionSummary = withStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.secondary.main,
+const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.secondary.main,
+  minHeight: 56,
+  "&$expanded": {
     minHeight: 56,
-    "&$expanded": {
-      minHeight: 56,
-    },
   },
-  content: {
+  "& .MuiAccordionSummary-content": {
     margin: "0",
     padding: "0",
     alignItems: 'center',
@@ -79,15 +72,12 @@ const AccordionSummary = withStyles((theme) => ({
     },
     color: theme.palette.secondary.main
   },
-  expanded: {},
-}))(MuiAccordionSummary);
+}));
 
-const AccordionDetails = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-    display: "block",
-  },
-}))(MuiAccordionDetails);
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  display: "block",
+}));
 
 const getIconComponent = (iconName) => {
   const IconComponent = Icons[iconName];
@@ -185,12 +175,12 @@ class MainMenuContribution extends Component {
   appBarMenu = (entries) => {
     return (
       <Fragment>
-        <Button ref={this.state.anchorRef} onClick={this.toggleExpanded} className={this.props.classes.menuHeading}>
+        <Button ref={this.state.anchorRef} onClick={this.toggleExpanded} className="menuHeading">
           {this.props.header}
           <ExpandMoreIcon />
         </Button>
         <Popper
-          className={this.props.classes.popper}
+          className="popper"
           open={this.state.expanded}
           anchorEl={this.state.anchorRef.current}
           transition
@@ -202,7 +192,7 @@ class MainMenuContribution extends Component {
                 transformOrigin: placement === "bottom" ? "center top" : "center bottom",
               }}
             >
-              <Paper className={this.props.classes.appBarMenuPaper} id={`${this.props.header}-menu-list`}>
+              <Paper className="appBarMenuPaper" id={`${this.props.header}-menu-list`}>
                 <ClickAwayListener onClickAway={this.handleMenuClose}>
                   <MenuList>
                     {entries.map((entry, idx) => (
@@ -215,7 +205,7 @@ class MainMenuContribution extends Component {
                         {entry.withDivider && (
                           <Divider
                             key={`${this.props.header}_${idx}_divider`}
-                            className={this.props.classes.drawerDivider}
+                            className="drawerDivider"
                           />
                         )}
                       </div>
@@ -232,10 +222,10 @@ class MainMenuContribution extends Component {
 
   drawerMenu = (entries) => {
     return (
-      <Accordion className={this.props.classes.panel} expanded={this.state.expanded} onChange={this.toggleExpanded}>
+      <Accordion className="panel" expanded={this.state.expanded} onChange={this.toggleExpanded}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} id={`${this.props.header}-header`}>
           <IconButton>{this.props.icon}</IconButton>
-          <Typography className={this.props.classes.drawerHeading}>{this.props.header}</Typography>
+          <Typography className="drawerHeading">{this.props.header}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <List component="nav">
@@ -252,7 +242,7 @@ class MainMenuContribution extends Component {
                   <ListItemText primary={entry.text}/>
                 </ListItem>
                 {entry.withDivider && (
-                  <Divider key={`${this.props.header}_${idx}_divider`} className={this.props.classes.drawerDivider} />
+                  <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
                 )}
               </Fragment>
             ))}
@@ -283,4 +273,4 @@ MainMenuContribution.propTypes = {
   menuId: PropTypes.object.isRequired,
 };
 
-export default withModulesManager(withTheme(withStyles(styles)(MainMenuContribution)));
+export default withModulesManager(MainMenuContribution);

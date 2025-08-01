@@ -7,7 +7,7 @@ import {
   SelectInput,
 } from "@openimis/fe-core";
 import { Grid } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import CustomFilterFieldStatusPicker from "../../pickers/CustomFilterFieldStatusPicker";
 import CustomFilterTypeStatusPicker from "../../pickers/CustomFilterTypeStatusPicker";
@@ -20,13 +20,12 @@ import {
   BOOLEAN
 } from "../../constants";
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  '& .item': theme.paper.item,
+}));
 
 const AdvancedFilterRowValue = ({
   intl,
-  classes,
   customFilters,
   currentFilter,
   setCurrentFilter,
@@ -110,10 +109,10 @@ const AdvancedFilterRowValue = ({
   };
 
   return (
-    <Grid 
+    <StyledGrid 
       container 
       direction="row" 
-      className={classes.item}
+      className="item"
       style={{ backgroundColor: "#DFEDEF" }}
     >
       {filters.length > 0 ? (
@@ -131,7 +130,7 @@ const AdvancedFilterRowValue = ({
         </div> 
       ) : (<></>)
       }
-      <Grid item xs={3} className={classes.item}>
+      <Grid item xs={3} className="item">
         <CustomFilterFieldStatusPicker
           module="core"
           label="core.advancedFilters.field"
@@ -141,7 +140,7 @@ const AdvancedFilterRowValue = ({
         />
       </Grid>
         {currentFilter.field !== "" ? (
-          <Grid item xs={3} className={classes.item}>
+          <Grid item xs={3} className="item">
             <CustomFilterTypeStatusPicker
               module="core"
               label="core.advancedFilters.filter"
@@ -153,12 +152,12 @@ const AdvancedFilterRowValue = ({
           </Grid>
         ) : (<></>) }
         {currentFilter.field !== "" && currentFilter.filter !== "" ? (
-          <Grid item xs={3} className={classes.item}>
+          <Grid item xs={3} className="item">
             {renderInputBasedOnType(currentFilter.type)}
           </Grid>
         ) : (<></>) }
-    </Grid>
+    </StyledGrid>
   );
 };
 
-export default injectIntl(withTheme(withStyles(styles)(connect(null, null)(AdvancedFilterRowValue))));
+export default injectIntl(connect(null, null)(AdvancedFilterRowValue));
