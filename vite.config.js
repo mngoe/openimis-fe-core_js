@@ -20,6 +20,7 @@ export default defineConfig({
     rollupOptions: {
       external: [
         'react',
+        'react/jsx-runtime',
         'react-dom',
         'redux',
         'redux-thunk',
@@ -59,6 +60,7 @@ export default defineConfig({
       output: {
         globals: {
           'react': 'React',
+          'react/jsx-runtime': 'jsxRuntime',
           'react-dom': 'ReactDOM'
         }
       }
