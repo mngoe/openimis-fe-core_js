@@ -4,7 +4,7 @@ import clsx from "clsx";
 import moment from "moment";
 import { injectIntl } from "react-intl";
 
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { FormControl } from "@mui/material";
 import { DatePicker as MUIDatePicker } from "@mui/x-date-pickers/DatePicker";
 import { formatMessage, toISODate } from "../helpers/i18n";
@@ -19,11 +19,11 @@ import nepali_np from "../calendars/NepaliLocaleNp";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 
-const styles = (theme) => ({
-  label: {
+const StyledDatePicker = styled('div')(({ theme }) => ({
+  '& .label': {
     color: theme.palette.primary.main,
   },
-  disabledStateVisibilityBoost: {
+  '& .disabledStateVisibilityBoost': {
     "& .MuiFormLabel-root.Mui-disabled": {
       color: "#181716",
     },
@@ -34,7 +34,7 @@ const styles = (theme) => ({
       borderBottom: `1px dotted #5E5B50`,
     },
   },
-});
+}));
 
 function fromISODate(s) {
   if (!s) return null;
@@ -113,7 +113,6 @@ class openIMISDatePicker extends Component {
   render() {
     const {
       intl,
-      classes,
       disablePast,
       module,
       label,
@@ -135,50 +134,54 @@ class openIMISDatePicker extends Component {
       const secondCalendarLocale = modulesManager.getConf("fe-core", "secondCalendarLocale", "nepali_en");
 
       return (
-        <FormControl fullWidth={fullWidth}>
-          <label className={classes.label}>
-            {!!label ? formatMessage(intl, module, label).concat(required ? " *" : "") : null}
-          </label>
-          <DatePicker
-            format={secondCalendarFormatting}
-            disabled={readOnly}
-            value={this.state.value ? this.moveByOneDay(new Date(this.state.value)) : null}
-            {...((!!minDate || disablePast) && this.setMinDate())}
-            {...(!!maxDate && { maxDate: this.moveByOneDay(new Date(maxDate)) })}
-            onChange={this.secondaryCalendarDateChange}
-            highlightToday={false}
-            calendar={this.getDictionaryValueOrDefault(this.secondaryCalendarsOptions, secondCalendarType)}
-            locale={this.getDictionaryValueOrDefault(this.secondaryCalendarsLocaleOptions, secondCalendarLocale)}
-          >
-            <button style={{ margin: "5px" }} onClick={(e) => this.clearDate(e)}>
-              {formatMessage(intl, "core", "calendar.clearButton")}
-            </button>
-          </DatePicker>
-        </FormControl>
+        <StyledDatePicker>
+          <FormControl fullWidth={fullWidth}>
+            <label className="label">
+              {!!label ? formatMessage(intl, module, label).concat(required ? " *" : "") : null}
+            </label>
+            <DatePicker
+              format={secondCalendarFormatting}
+              disabled={readOnly}
+              value={this.state.value ? this.moveByOneDay(new Date(this.state.value)) : null}
+              {...((!!minDate || disablePast) && this.setMinDate())}
+              {...(!!maxDate && { maxDate: this.moveByOneDay(new Date(maxDate)) })}
+              onChange={this.secondaryCalendarDateChange}
+              highlightToday={false}
+              calendar={this.getDictionaryValueOrDefault(this.secondaryCalendarsOptions, secondCalendarType)}
+              locale={this.getDictionaryValueOrDefault(this.secondaryCalendarsLocaleOptions, secondCalendarLocale)}
+            >
+              <button style={{ margin: "5px" }} onClick={(e) => this.clearDate(e)}>
+                {formatMessage(intl, "core", "calendar.clearButton")}
+              </button>
+            </DatePicker>
+          </FormControl>
+        </StyledDatePicker>
       );
     } else {
       return (
-        <FormControl fullWidth={fullWidth}>
-          <MUIDatePicker
-            {...otherProps}
-            maxDate={maxDate}
-            minDate={minDate}
-            format={format}
-            disabled={readOnly}
-            required={required}
-            className={clsx({
-              [classes.disabledStateVisibilityBoost]: this.disabledVisibilityBoost && readOnly,
-            })}
-            clearable
-            value={this.state.value}
-            InputLabelProps={{
-              className: classes.label,
-            }}
-            label={!!label ? formatMessage(intl, module, label) : null}
-            onChange={this.dateChange}
-            disablePast={disablePast}
-          />
-        </FormControl>
+        <StyledDatePicker>
+          <FormControl fullWidth={fullWidth}>
+            <MUIDatePicker
+              {...otherProps}
+              maxDate={maxDate}
+              minDate={minDate}
+              format={format}
+              disabled={readOnly}
+              required={required}
+              className={clsx({
+                "disabledStateVisibilityBoost": this.disabledVisibilityBoost && readOnly,
+              })}
+              clearable
+              value={this.state.value}
+              InputLabelProps={{
+                className: "label",
+              }}
+              label={!!label ? formatMessage(intl, module, label) : null}
+              onChange={this.dateChange}
+              disablePast={disablePast}
+            />
+          </FormControl>
+        </StyledDatePicker>
       );
     }
   }
@@ -189,5 +192,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default injectIntl(
-  withModulesManager(withHistory(connect(mapStateToProps, null)(withTheme(withStyles(styles)(openIMISDatePicker))))),
+  withModulesManager(withHistory(connect(mapStateToProps, null)(openIMISDatePicker))),
 );
