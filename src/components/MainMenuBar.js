@@ -3,14 +3,17 @@ import * as Icons from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useModulesManager } from "../helpers/modules";
+import { menuEntryMatchesLocationPath } from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
 
 function getMenus(modulesManager, key, rights, menuVariant) {
   const menus = modulesManager.getContribs(key);
   const menuConfig = modulesManager.getConf("fe-core", "menus", []);
+  const menuEntries = modulesManager.getMenuEntries();
+  const activeMenuId = findActiveMenuId(menuConfig, menuEntries);
   
   if (menuConfig?.length) {
-    const unmatchedMenus = getUnmatchedMenus(menuConfig, menus, rights, modulesManager, menuVariant);
+    const unmatchedMenus = getUnmatchedMenus(menuConfig, menus, rights, modulesManager, menuVariant, activeMenuId);
     let menuToProcess = [...menus, ...unmatchedMenus];
     menuToProcess = attachIcons(menuToProcess, menuConfig);
     const sortedMenus = sortMenus(menuToProcess, menuConfig);
@@ -39,7 +42,7 @@ function attachIcons(menus, menuConfig) {
   });
 }
 
-function getUnmatchedMenus(menuConfig, menus, rights, modulesManager, menuVariant) {
+function getUnmatchedMenus(menuConfig, menus, rights, modulesManager, menuVariant, activeMenuId) {
   const existingIds = menus
     .filter((menu) => typeof menu === 'object')
     .map((menu) => menu.name);
@@ -67,6 +70,7 @@ function getUnmatchedMenus(menuConfig, menus, rights, modulesManager, menuVarian
             history={history}
             entries={[]}
             icon={IconComponent ? <IconComponent /> : null}
+            isInitiallyOpen={menuVariant === "Drawer" && config.id === activeMenuId}
           />
         ),
       };
@@ -97,24 +101,43 @@ function sortMenus(menus, menuConfig) {
   return updatedMenus.sort((a, b) => a.position - b.position);
 }
 
+const findActiveMenuId = (menuConfig, menuEntries, pathname) => {
+  const matchingEntry = menuEntries.find(menuEntryMatchesLocationPath);
+
+  if (!matchingEntry) return null;
+
+  // Then find which parent menu contains this entry
+  for (const menu of menuConfig) {
+    if (menu.submenus?.some(submenu => submenu.id === matchingEntry.id)) {
+      return menu.id;
+    }
+  }
+  return null;
+};
+
 const MainMenuBar = ({ children = null, contributionKey, reverse = false, menuVariant, ...delegated }) => {
   const modulesManager = useModulesManager();
   const rights = useSelector((state) => state.core?.user?.i_user?.rights || []);
   const components = useMemo(() => {
-    const components = getMenus(modulesManager, contributionKey, rights, menuVariant);
-    if (reverse) {
-      components.reverse();
-    }
-    return components;
-  }, [contributionKey, reverse, rights, menuVariant]);
-  
+    const comps = getMenus(modulesManager, contributionKey, rights, menuVariant);
+      if (reverse) {
+        comps.reverse();
+      }
+      return comps;
+    }, [contributionKey, reverse, rights, menuVariant]
+  );
+
   return (
     <>
       {children}
       {components.map((Comp, idx) => {
-        return <Comp key={`${contributionKey}_${idx}`} modulesManager={modulesManager} menuVariant={menuVariant} {...delegated} />
-        }
-      )}
+        return (
+          <Comp
+            key={`${contributionKey}_${idx}`}
+            {...delegated}
+          />
+        )
+      })}
     </>
   );
 };
