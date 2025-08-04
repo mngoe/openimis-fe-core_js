@@ -233,7 +233,9 @@ const RequireAuth = (props) => {
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;
   }
-  if (cfg['openimis-fe-core_js']?.menuLeft === true) {
+
+  // TODO: deprecate openimis-fe-core_js as a module config key
+  if (cfg['openimis-fe-core_js']?.menuLeft || cfg['fe-core']?.menuLeft) {
     return (
     <>
       <AppBar position="fixed" className={classes.appBarDrawer}>
