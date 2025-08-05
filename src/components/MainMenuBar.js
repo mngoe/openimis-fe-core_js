@@ -11,11 +11,12 @@ function getMenus(modulesManager, key, rights, menuVariant) {
   const menuConfig = modulesManager.getConf("fe-core", "menus", []);
   const menuEntries = modulesManager.getMenuEntries();
   const activeMenuId = findActiveMenuId(menuConfig, menuEntries);
-  
+
   if (menuConfig?.length) {
     const unmatchedMenus = getUnmatchedMenus(menuConfig, menus, rights, modulesManager, menuVariant, activeMenuId);
     let menuToProcess = [...menus, ...unmatchedMenus];
-    menuToProcess = attachIcons(menuToProcess, menuConfig);
+    menuToProcess = filterNoConfig(menuToProcess, menuConfig);
+    menuToProcess = attachIconsAndSetInitialOpen(menuToProcess, menuConfig, menuVariant, activeMenuId);
     const sortedMenus = sortMenus(menuToProcess, menuConfig);
     return processMenu(sortedMenus);
   }
@@ -23,22 +24,26 @@ function getMenus(modulesManager, key, rights, menuVariant) {
   return processMenu(menus);
 }
 
-function attachIcons(menus, menuConfig) {
+function filterNoConfig(menus, menuConfig) {
+  const menusWithConfig = menuConfig.map(config => config.id);
+  return menus.filter((menu) => menusWithConfig.includes(menu.name));
+}
+
+function attachIconsAndSetInitialOpen(menus, menuConfig, menuVariant, activeMenuId) {
   return menus.map(menu => {
     const configMatch = menuConfig.find(config => config.id === menu.name);
+    const IconComponent = configMatch?.icon ? Icons[configMatch.icon] : null;
 
-    if (configMatch?.icon) {
-      const IconComponent = Icons[configMatch.icon] ? Icons[configMatch.icon] : null;
-
-      if (IconComponent) {
-        return {
-          ...menu,
-          component: (props) => <menu.component {...props} icon={<IconComponent />} />
-        };
-      }
-    }
-    
-    return menu;
+    return {
+      ...menu,
+      component: (props) => (
+        <menu.component
+          {...props}
+          icon={IconComponent &&<IconComponent />}
+          isInitiallyOpen={menuVariant === "Drawer" && configMatch.id === activeMenuId}
+        />
+      )
+    };
   });
 }
 
@@ -55,7 +60,7 @@ function getUnmatchedMenus(menuConfig, menus, rights, modulesManager, menuVarian
       if (config.filter && !config.filter(rights)) {
         return null;
       }
-      
+
       const IconComponent = config.icon && Icons[config.icon] ? Icons[config.icon] : null;
 
       return {
@@ -85,20 +90,13 @@ function processMenu(menus) {
 };
 
 function sortMenus(menus, menuConfig) {
-  const filteredMenus = menus.filter((menu) => {
-    const menuId = typeof menu === 'object' ? menu.name : menu;
-    return menuConfig.some(config => config.id === menuId);
-  });
+  const positionMap = new Map(menuConfig.map(config => [config.id, config.position]));
 
-  const updatedMenus = filteredMenus.map((menu) => {
-    const menuId = typeof menu === 'object' ? menu.name : menu;
-    const configMatch = menuConfig.find(config => config.id === menuId);
-    if (configMatch && typeof menu === 'object') {
-      return { ...menu, ...configMatch };
-    }
-    return menu;
+  return menus.sort((a, b) => {
+    const aPos = positionMap.get(typeof a === 'object' ? a.name : a) ?? Infinity;
+    const bPos = positionMap.get(typeof b === 'object' ? b.name : b) ?? Infinity;
+    return aPos - bPos;
   });
-  return updatedMenus.sort((a, b) => a.position - b.position);
 }
 
 const findActiveMenuId = (menuConfig, menuEntries, pathname) => {
