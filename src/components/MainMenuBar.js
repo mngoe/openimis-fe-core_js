@@ -132,6 +132,7 @@ const MainMenuBar = ({ children = null, contributionKey, reverse = false, menuVa
         return (
           <Comp
             key={`${contributionKey}_${idx}`}
+            menuVariant={menuVariant}
             {...delegated}
           />
         )
