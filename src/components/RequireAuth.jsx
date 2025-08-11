@@ -16,7 +16,6 @@ import {
   Divider,
   Tooltip,
   Button,
-  Hidden,
   ClickAwayListener,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -205,7 +204,9 @@ const RequireAuth = (props) => {
     setSecondaryCalendar,
     onEconomicDialogOpen,
     ...others
-  } = props;  const [isOpen, setOpen] = useBoolean();
+  } = props;
+  
+  const [isOpen, setOpen] = useBoolean();
   const [isDrawerOpen, setDrawerOpen] = useBoolean();
   const theme = useTheme();
   const history = useHistory();
@@ -220,11 +221,15 @@ const RequireAuth = (props) => {
   const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
   const showJournalSidebar = modulesManager.getConf("fe-core", "showJournalSidebar", DEFAULT.SHOW_JOURNAL_SIDEBAR);
 
+ 
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
+
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
 
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;
   }
+  
   if (cfg['openimis-fe-core_js']?.menuLeft === true) {
     return (
       <StyledRequireAuth>
@@ -246,21 +251,19 @@ const RequireAuth = (props) => {
           anchor="left"
         >
             <Button className="appName" onClick={(e) => (window.location.href = "/front")}>
-              {isAppBarMenu && (
-                <Hidden smDown implementation="css">
-                  <img className="logo" src={logo} alt="Logo of openIMIS" />
-                </Hidden>
+              {isAppBarMenu && isSmUp && (
+                <img className="logo" src={logo} alt="Logo of openIMIS" />
               )}
               {!disableTextLogo && (
                 <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
               )}
-              <Hidden smDown implementation="css">
-              <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
-                <Typography variant="caption" className="appVersions">
-                  {modulesManager.getOpenIMISVersion()}
-                </Typography>
-              </Tooltip>
-            </Hidden>
+              {isSmUp && (
+                <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
+                  <Typography variant="caption" className="appVersions">
+                    {modulesManager.getOpenIMISVersion()}
+                  </Typography>
+                </Tooltip>
+              )}
             </Button>
               <div className="drawerContainer"></div>
                 <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
@@ -277,6 +280,7 @@ const RequireAuth = (props) => {
       </StyledRequireAuth>
     )
   }
+  
   const { formatMessage } = useTranslations("core", modulesManager);
   return (
     <StyledRequireAuth>
@@ -296,28 +300,24 @@ const RequireAuth = (props) => {
             <MenuIcon />
           </IconButton>
           <Button className="appName" onClick={(e) => history.push("/")}>
-            {isAppBarMenu && (
-              <Hidden smDown implementation="css">
-                <img className="logo" src={logo} alt="Logo of openIMIS" />
-              </Hidden>
+            {isAppBarMenu && isSmUp && (
+              <img className="logo" src={logo} alt="Logo of openIMIS" />
             )}
             {!disableTextLogo && (
               <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
             )}
           </Button>
-          <Hidden smDown implementation="css">
+          {isSmUp && (
             <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
               <Typography variant="caption" className="appVersions">
                 {modulesManager.getOpenIMISVersion()}
               </Typography>
             </Tooltip>
-          </Hidden>
-          {isAppBarMenu && (
-            <Hidden smDown implementation="css">
-              <MainMenuBar {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
-                <div onClick={setOpen.off} />
-              </MainMenuBar>
-            </Hidden>
+          )}
+          {isAppBarMenu && isSmUp && (
+            <MainMenuBar {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
+              <div onClick={setOpen.off} />
+            </MainMenuBar>
           )}
           {isWorker ? (
             <div className="grow" />

@@ -8,7 +8,7 @@ import { debounce } from "lodash";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 
 import { TextAreaInput, useModulesManager, useTranslations } from "@openimis/fe-core";
-import { useStyles } from "../../styles";
+import { ValidIcon, InvalidIcon } from "../../styles";
 import { DEFAULT_DEBOUNCE_TIME } from "../../constants";
 
 const ValidatedTextAreaInput = ({
@@ -37,7 +37,7 @@ const ValidatedTextAreaInput = ({
   invalidValueFormat,
 }) => {
   const modulesManager = useModulesManager();
-  const classes = useStyles();
+
   const dispatch = useDispatch();
   const { formatMessage } = useTranslations(module, modulesManager);
   const shouldBeValidated = shouldValidate(value);
@@ -82,7 +82,7 @@ const ValidatedTextAreaInput = ({
           value={value}
           inputProps={inputProps}
           endAdornment={
-            <InputAdornment position="end" className={clsx(!error && classes.validIcon, error && classes.invalidIcon)}>
+            <InputAdornment position="end" component={!error ? ValidIcon : InvalidIcon}>
               <>
                 {isValidating && value && (
                   <Box mr={1}>
@@ -109,7 +109,7 @@ const ValidatedTextAreaInput = ({
           onChange={debounce(onChange, DEFAULT_DEBOUNCE_TIME)}
           inputProps={inputProps}
           endAdornment={
-            <InputAdornment position="end" className={clsx(!error && classes.validIcon, error && classes.invalidIcon)}>
+            <InputAdornment position="end" component={!error ? ValidIcon : InvalidIcon}>
               <>
                 {isValidating && value && (
                   <Box mr={1}>
