@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Autosuggest from "react-autosuggest";
-import { styled } from "@mui/material/styles";
+import { styled } from "@emotion/styled";
 import { FormControl, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Autocomplete } from "@mui/material";
 import SelectInput from "./SelectInput";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,7 +14,12 @@ const StyledAutoSuggestion = styled('div')(({ theme }) => ({
     margin: theme.spacing(1),
     marginLeft: 0,
   },
-  '& .header': theme.table.title,
+  '& .header': {
+    fontWeight: 500,
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.grey[100],
+    padding: theme.spacing(1),
+  },
   '& .label': {
     color: theme.palette.primary.main,
   },
@@ -35,14 +40,14 @@ const StyledAutoSuggestion = styled('div')(({ theme }) => ({
     padding: 0,
     margin: 0,
     width: "100%",
-    backgroundColor: theme.palette.text.second,
+    backgroundColor: theme.palette.background.paper,
     border: "solid 1px grey",
     zIndex: theme.zIndex.modal,
   },
   '& .suggestion': {
     display: "block",
     cursor: "pointer",
-    padding: "10px 20px",
+    padding: theme.spacing(1, 2),
   },
   '& .suggestionsList': {
     listStyleType: "none",
@@ -50,8 +55,8 @@ const StyledAutoSuggestion = styled('div')(({ theme }) => ({
     padding: 0,
   },
   '& .suggestionHighlighted': {
-    color: theme.palette.text.second,
-    backgroundColor: theme.palette.text.primary,
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.action.selected,
   },
 }));
 
@@ -81,14 +86,14 @@ class AutoSuggestion extends Component {
   };
 
   componentDidMount() {
-    if (!!this.props.value) {
+    if (this.props.value) {
       this.setState((state, props) => ({
         value: props.getSuggestionValue(props.value),
         selected: props.getSuggestionValue(props.value),
         suggestions: this._truncate(this._allItems()),
       }));
     }
-    if (!!this.props.items) {
+    if (this.props.items) {
       this.setState({
         suggestions: this._truncate(this._allItems()),
       });
@@ -102,39 +107,46 @@ class AutoSuggestion extends Component {
         value: props.value ? props.getSuggestionValue(props.value) : null,
         selected: props.value ? props.getSuggestionValue(props.value) : null,
       }));
-    } else {
-      if (!_.isEqual(prevProps.value, this.props.value)) {
-        this.setState((state, props) => ({
-          suggestions: this._truncate(this._allItems()),
-          value: props.value ? props.getSuggestionValue(props.value) : null,
-          selected: props.value ? props.getSuggestionValue(props.value) : null,
-        }));
-      } else if (!_.isEqual(prevProps.items, this.props.items)) {
-        this.setState({
-          suggestions: this._truncate(this._allItems()),
-        });
-      }
+    } else if (!_.isEqual(prevProps.value, this.props.value)) {
+      this.setState((state, props) => ({
+        suggestions: this._truncate(this._allItems()),
+        value: props.value ? props.getSuggestionValue(props.value) : null,
+        selected: props.value ? props.getSuggestionValue(props.value) : null,
+      }));
+    } else if (!_.isEqual(prevProps.items, this.props.items)) {
+      this.setState({
+        suggestions: this._truncate(this._allItems()),
+      });
     }
   }
 
-  onClear = (e) => {
+  onClear = () => {
     this.setState(
       {
         value: null,
         selected: null,
       },
-      (e) => (!!this.props.onClear ? this.props.onClear() : this.props.onSuggestionSelected(null)),
+      () => (this.props.onClear ? this.props.onClear() : this.props.onSuggestionSelected(null)),
     );
   };
 
-  _onAutoselectChange = (event, { newValue, method }) => {
-    this.setState({
-      value: newValue,
-    });
+  onChange = (event, { newValue }) => {
+    this.setState({ value: newValue });
+  };
+
+  onInputChange = (event, { newValue }) => {
+    this.setState({ value: newValue });
+    if (this.props.getSuggestions) {
+      this.props.getSuggestions(newValue);
+    } else {
+      this.setState({
+        suggestions: this._getSuggestions(newValue),
+      });
+    }
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
-    if (!!this.props.getSuggestions) {
+    if (this.props.getSuggestions) {
       this.props.getSuggestions(value);
     } else {
       this.setState({
@@ -162,7 +174,6 @@ class AutoSuggestion extends Component {
       return this._truncate(this._allItems());
     }
     const escapedValue = escapeRegexCharacters(value.trim());
-
     if (escapedValue === "") {
       return [];
     }
@@ -174,7 +185,7 @@ class AutoSuggestion extends Component {
     return this._truncate(this._allItems().filter((i) => regex.test(lookup(i))));
   };
 
-  renderInputComponent = (inputProps) => {
+  renderInputComponent = ({ inputRef, ...inputProps }) => {
     return (
       <FormControl fullWidth>
         <TextField
@@ -182,6 +193,7 @@ class AutoSuggestion extends Component {
             className: "label",
           }}
           {...inputProps}
+          inputRef={inputRef}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -201,24 +213,24 @@ class AutoSuggestion extends Component {
     );
   };
 
-  _shouldRenderSuggestions = () => {
-    return this.state.value !== this.state.selected;
+  _shouldRenderSuggestions = (value) => {
+    return value !== this.state.selected;
   };
 
-  _onSuggestionSelected = (e, i) => {
+  onSuggestionSelected = (event, { newValue }) => {
     this.setState(
       (state, props) => ({
-        selected: props.getSuggestionValue(i.suggestion),
+        selected: props.getSuggestionValue(newValue),
       }),
-      (e) => this.props.onSuggestionSelected(i.suggestion),
+      () => this.props.onSuggestionSelected(newValue),
     );
   };
 
-  _onOptionSelected = (selected) => {
-    this.setState({ selected }, (e) => this.props.onSuggestionSelected(selected));
+  onOptionSelected = (selected) => {
+    this.setState({ selected }, () => this.props.onSuggestionSelected(selected));
   };
 
-  _render = (s) => {
+  _renderSuggestion = (suggestion, { isHighlighted }) => {
     let styleCover = {
       marginTop: "-10px",
       marginBottom: "-10px",
@@ -231,8 +243,7 @@ class AutoSuggestion extends Component {
       marginLeft: "20px",
       marginRight: "20px",
     };
-
-    if (s === MORE) {
+    if (suggestion === MORE) {
       return (
         <div style={styleCover} onClick={(e) => e.stopPropagation()}>
           <span style={styleRevert} onClick={(e) => e.stopPropagation()}>
@@ -245,7 +256,11 @@ class AutoSuggestion extends Component {
     if (!render) {
       render = (s) => <span>{this.props.getSuggestionValue(s)}</span>;
     }
-    return render(s);
+    return (
+      <div className={isHighlighted ? "suggestionHighlighted" : "suggestion"}>
+        {render(suggestion)}
+      </div>
+    );
   };
 
   renderSelect = () => {
@@ -269,7 +284,7 @@ class AutoSuggestion extends Component {
         strLabel={label}
         options={options}
         value={selected}
-        onChange={this._onOptionSelected}
+        onChange={this.onOptionSelected}
         required={required}
         title={title}
       />
@@ -286,35 +301,35 @@ class AutoSuggestion extends Component {
       title = '',
     } = this.props;
     const { suggestions, value } = this.state;
-    const inputProps = {
-      className: "suggestionInputField",
-      placeholder,
-      // Value has to be a string
-      value: value ?? "",
-      label,
-      disabled,
-      onChange: this._onAutoselectChange,
-      required,
-      title,
-    };
+
     return (
-      <Autosuggest
-        theme={{
-          container: "suggestionContainer",
-          suggestionsContainerOpen: "suggestionsContainerOpen",
-          suggestionsList: "suggestionsList",
-          suggestion: "suggestion",
-          suggestionHighlighted: "suggestionHighlighted",
-        }}
-        renderInputComponent={this.renderInputComponent}
-        inputProps={inputProps}
-        suggestions={suggestions}
-        onSuggestionSelected={this._onSuggestionSelected}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={this._render}
-        shouldRenderSuggestions={this._shouldRenderSuggestions}
+      <Autocomplete
+        className="suggestionContainer"
+        options={suggestions}
+        getOptionLabel={(option) => (option ? getSuggestionValue(option) : '')}
+        value={value || ''}
+        onChange={(event, newValue) => this.onSuggestionSelected(event, { newValue })}
+        onInputChange={this.onInputChange}
+        filterOptions={(options) => options} // Custom filtering handled by _getSuggestions
+        renderInput={(params) => this.renderInputComponent(params)}
+        renderOption={(props, option, { selected }) => (
+          <li {...props} className={selected ? "suggestionHighlighted" : "suggestion"}>
+            {this._renderSuggestion(option, { isHighlighted: selected })}
+          </li>
+        )}
+        open={this._shouldRenderSuggestions(value)}
+        onOpen={() => this.onSuggestionsFetchRequested({ value })}
+        onClose={() => this.onSuggestionsClearRequested()}
+        disableClearable={true} // Handled by custom clear button
+        disabled={disabled}
+        PopperComponent={(props) => (
+          <div {...props} className="suggestionsContainerOpen" />
+        )}
+        ListboxProps={{ className: "suggestionsList" }}
+        freeSolo
+        inputValue={value || ''}
+        renderTags={() => null} // Disable tags for single selection
+        {...{ title }}
       />
     );
   };
@@ -328,23 +343,24 @@ class AutoSuggestion extends Component {
     } = this.props;
     const { value, suggestions } = this.state;
 
-    if (!!readOnly) {
+    if (readOnly) {
       return (
         <StyledAutoSuggestion>
           <TextField
             label={label}
             className="textField"
             disabled
-            value={value}
+            value={value || ''}
             title={title}
           />
         </StyledAutoSuggestion>
       );
     }
+
     if (
       !value &&
-      !!selectThreshold &&
-      !!suggestions &&
+      selectThreshold &&
+      suggestions &&
       suggestions.length > 0 &&
       suggestions.length < selectThreshold
     ) {

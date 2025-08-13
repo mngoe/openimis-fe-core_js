@@ -5,7 +5,7 @@
   "license": "AGPL-3.0-only",
   "repository": "git://github.com/openimis/openimis-fe-core_js.git",
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "module": "dist/index.es",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -20,7 +20,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-helmet": "^6.1.0",
-    "react-intl": "^5.8.1"
+    "react-intl": "^5.25.1"
   },
   "dependencies": {
     "@mui/x-date-pickers": "^8.9.0",

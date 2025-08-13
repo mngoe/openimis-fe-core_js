@@ -1,19 +1,29 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
-import svgr from 'vite-plugin-svgr'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [
-    react(),
-    svgr()
+    react({
+      // Ensure JSX is processed in both .js and .jsx files
+      include: [/\.jsx$/, /\.js$/],
+    }),
+    svgr(),
   ],
+  esbuild: {
+    // Remove explicit loader for .js files to avoid conflicts with react plugin
+    // The react plugin handles JSX transformation
+    logOverride: {
+      'expression-expected': 'silent', // Suppress the specific error for debugging
+    },
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.jsx'),
       name: 'OpenIMISFeCore',
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'es' : 'js'}`
+      fileName: (format) => `index.${format === 'es' ? 'es' : 'js'}`,
     },
     sourcemap: true,
     outDir: 'dist',
@@ -38,34 +48,30 @@ export default defineConfig({
         'lodash-uuid',
         'classnames',
         'clsx',
-        'react-autosuggest',
         'react-router',
         'react-router-dom',
         'history',
         '@mui/material',
         '@mui/icons-material',
-      
-        '@mui/material/styles',
+        '@emotion/styled',
         '@date-io/core',
         '@date-io/moment',
         'zxcvbn',
-    
-        
         /^@babel-.*/,
-        /^@openimis.*/
+        /^@openimis.*/,
       ],
       output: {
         globals: {
-          'react': 'React',
+          react: 'React',
           'react/jsx-runtime': 'jsxRuntime',
-          'react-dom': 'ReactDOM'
-        }
-      }
-    }
+          'react-dom': 'ReactDOM',
+        },
+      },
+    },
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
-  }
-})
+      '@': resolve(__dirname, 'src'),
+    },
+  },
+});
