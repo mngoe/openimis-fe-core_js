@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import clsx from "clsx";
 import moment from "moment";
+import dayjs from "dayjs";
 import { injectIntl } from "react-intl";
 
 import { styled } from "@mui/material/styles";
 import { FormControl } from "@mui/material";
-import { DatePicker as MUIDatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider, DatePicker as MUIDatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { formatMessage, toISODate } from "../helpers/i18n";
 import { withModulesManager, withHistory } from "@openimis/fe-core";
 import { DEFAULT } from "../constants";
@@ -36,9 +38,9 @@ const StyledDatePicker = styled('div')(({ theme }) => ({
   },
 }));
 
-function fromISODate(s) {
+function fromISODateToDayjs(s) {
   if (!s) return null;
-  return moment(s).toDate();
+  return dayjs(s);
 }
 
 class openIMISDatePicker extends Component {
@@ -56,17 +58,18 @@ class openIMISDatePicker extends Component {
   };
 
   componentDidMount() {
-    this.setState((state, props) => ({ value: props.value || null }));
+    this.setState((state, props) => ({ value: props.value ? fromISODateToDayjs(props.value) : null }));
   }
 
   componentDidUpdate(prevState, prevProps, snapshot) {
     if (prevState.value !== this.props.value) {
-      this.setState((state, props) => ({ value: fromISODate(props.value) }));
+      this.setState((state, props) => ({ value: props.value ? fromISODateToDayjs(props.value) : null }));
     }
   }
 
   dateChange = (d) => {
-    this.setState({ value: toISODate(d) }, (i) => (!!this.props.onChange ? this.props.onChange(toISODate(d)) : null));
+    const jsDate = d ? d.toDate() : null;
+    this.setState({ value: d }, () => (!!this.props.onChange ? this.props.onChange(toISODate(jsDate)) : null));
   };
 
   secondaryCalendarDateChange = (d) => {
@@ -161,17 +164,17 @@ class openIMISDatePicker extends Component {
       return (
         <StyledDatePicker>
           <FormControl fullWidth={fullWidth}>
-            <MUIDatePicker
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <MUIDatePicker
               {...otherProps}
-              maxDate={maxDate}
-              minDate={minDate}
+              maxDate={maxDate ? dayjs(maxDate) : undefined}
+              minDate={minDate ? dayjs(minDate) : undefined}
               format={format}
               disabled={readOnly}
               required={required}
               className={clsx({
                 "disabledStateVisibilityBoost": this.disabledVisibilityBoost && readOnly,
               })}
-              clearable
               value={this.state.value}
               InputLabelProps={{
                 className: "label",
@@ -179,7 +182,8 @@ class openIMISDatePicker extends Component {
               label={!!label ? formatMessage(intl, module, label) : null}
               onChange={this.dateChange}
               disablePast={disablePast}
-            />
+              />
+            </LocalizationProvider>
           </FormControl>
         </StyledDatePicker>
       );

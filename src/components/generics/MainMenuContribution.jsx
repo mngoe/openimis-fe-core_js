@@ -24,6 +24,17 @@ const StyledMainMenu = styled('div')(({ theme }) => ({
     fontWeight: theme.menu.drawer.fontWeight,
     color: theme.menu.drawer.textColor,
   },
+  // ensure drawer entries are readable on colored background
+  '& .MuiListItem-root': {
+    color: theme.menu.drawer.textColor,
+  },
+  '& .MuiListItemIcon-root': {
+    color: theme.menu.drawer.textColor,
+    minWidth: 36,
+  },
+  '& .MuiListItemText-root .MuiTypography-root': {
+    color: theme.menu.drawer.textColor,
+  },
   '& .drawerDivider': {
     // width: 100
   },

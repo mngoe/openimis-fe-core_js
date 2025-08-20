@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import clsx from "clsx";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import {
   CircularProgress,
   ClickAwayListener,
@@ -411,7 +411,7 @@ class JournalDrawer extends Component {
                     <ListItem key={`mutation-label${idx}`} className="jrnlItem">
                       {m.status == 0 && (
                         <ListItemIcon className="jrnlIcon">
-                          <CircularProgress size={theme.jrnlDrawer.iconSize} />
+                          <CircularProgress size={theme?.jrnlDrawer?.iconSize || 24} />
                         </ListItemIcon>
                       )}
                       <ListItemIcon
@@ -498,6 +498,12 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ fetchMutation, fetchHistoricalMutations }, dispatch);
 };
 
+
+const JournalDrawerWithTheme = (props) => {
+  const theme = useTheme();
+  return <JournalDrawer {...props} theme={theme} />;
+};
+
 export default withModulesManager(
-  connect(mapStateToProps, mapDispatchToProps)(JournalDrawer),
+  connect(mapStateToProps, mapDispatchToProps)(JournalDrawerWithTheme),
 );

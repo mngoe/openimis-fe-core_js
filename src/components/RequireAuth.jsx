@@ -37,9 +37,7 @@ export const MAIN_SEARCHER_CONTRIBUTION_KEY = "core.MainSearcher";
 export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY = "policyholder.EconomicUnitChangeButton";
 
 const StyledRequireAuth = styled('div')(({ theme }) => ({
-  '& .root': {
-    display: "flex",
-  },
+  display: "flex",
   '& .grow': {
     flexGrow: 1,
   },
@@ -62,8 +60,12 @@ const StyledRequireAuth = styled('div')(({ theme }) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: theme.palette.secondary.second,
-    color: theme.palette.text.primary
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+  },
+
+  '& .toolbarDrawer': {
+    color: theme.palette.secondary.main,
   },
   
   '& .toolbarDrawerLogout': {
@@ -86,34 +88,34 @@ const StyledRequireAuth = styled('div')(({ theme }) => ({
     margin: theme.spacing(0, 1, 0, 1),
     padding: 0,
   },
-  '& .autoHideMenuButton': {
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
+  // Fix the spacing - use more aggressive spacing to ensure proper distance from top bar
   '& .toolbar': {
-    ...theme.mixins.toolbar,
-    marginTop: theme.spacing(2),
+    minHeight: theme.spacing(16), // Increased significantly to provide more space
+    paddingTop: theme.spacing(3), // Add padding for extra spacing
+    marginTop: theme.spacing(6), // Increased margin for more space
   },
   '& .drawer': {
     [theme.breakpoints.up("sm")]: {
       width: theme.menu.drawer.width,
       flexShrink: 0,
     },
-    backgroundColor: theme.menu.drawer.backgroundColor
-  },
-  '& .drawerHeader': {
-    ...theme.mixins.toolbar,
-    margin: theme.spacing(1, 0, 1, 0),
-    backgroundColor: theme.menu.drawer.backgroundColor
+    backgroundColor: theme.menu.drawer.backgroundColor,
   },
   '& .drawerPaper': {
     width: theme.menu.drawer.width,
-    backgroundColor: theme.menu.drawer.backgroundColor
+    backgroundColor: theme.menu.drawer.backgroundColor,
+    color: theme.menu.drawer.textColor,
+  },
+  
+  '& .drawerHeader': {
+    ...theme.mixins.toolbar,
+    margin: theme.spacing(1, 0, 1, 0),
+    backgroundColor: theme.menu.drawer.backgroundColor,
   },
   '& .content': {
     flexGrow: 1,
     paddingRight: theme.jrnlDrawer.close.width - theme.spacing(1),
+    paddingTop: theme.spacing(2), // Add top padding to the main content area
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -125,6 +127,12 @@ const StyledRequireAuth = styled('div')(({ theme }) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: theme.menu.drawer.width,
+  },
+  // Add styling for the main element that contains children
+  '& main': {
+    paddingTop: theme.spacing(2), // Add padding to the main element
+    paddingLeft: theme.spacing(2), // Add left padding
+    paddingRight: theme.spacing(2), // Add right padding
   },
   '& .appName': {
     color: theme.palette.secondary.main,
@@ -295,7 +303,7 @@ const RequireAuth = (props) => {
           <IconButton
             color="inherit"
             onClick={setOpen.toggle}
-            className={clsx("menuButton", isAppBarMenu && "autoHideMenuButton", isOpen && "hide")}
+            className={clsx("menuButton", isOpen && "hide")}
           >
             <MenuIcon />
           </IconButton>
