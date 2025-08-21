@@ -60,3 +60,11 @@ export const getLanguageNameByCode = (languages, languageCode) => {
 export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
+
+export function menuEntryMatchesLocationPath(entry) {
+  const pathname = location.pathname
+  return (
+    pathname === `/front${entry.route}`
+    || pathname.startsWith(`/front${entry.route}/`)
+  )
+}

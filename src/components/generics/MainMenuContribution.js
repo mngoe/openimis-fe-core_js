@@ -24,6 +24,7 @@ import {
 } from "@material-ui/core";
 import withModulesManager from "../../helpers/modules";
 import { _historyPush } from "../../helpers/history";
+import { menuEntryMatchesLocationPath } from "../../helpers/utils";
 
 
 const styles = (theme) => ({
@@ -161,10 +162,13 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
 }
 
 class MainMenuContribution extends Component {
-  state = {
-    expanded: false,
-    anchorRef: React.createRef(),
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: props.isInitiallyOpen || false,
+      anchorRef: React.createRef(),
+    };
+  }
 
   toggleExpanded = (event) => {
     this.setState({ expanded: !this.state.expanded });
@@ -257,6 +261,7 @@ class MainMenuContribution extends Component {
                   onClick={(e) => {
                     this.redirect(entry.route);
                   }}
+                  selected={menuEntryMatchesLocationPath(entry)}
                 >
                   {entry.icon && <ListItemIcon>{entry.icon}</ListItemIcon>}
                   <ListItemText primary={entry.text}/>

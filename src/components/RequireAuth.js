@@ -219,7 +219,9 @@ const RequireAuth = (props) => {
   const history = useHistory();
   const modulesManager = useModulesManager();
   const auth = useAuthentication();
-  const cfg = children.props.modulesManager.cfg;
+  // TODO: deprecate openimis-fe-core_js as a module config key
+  const menuLeft = modulesManager.getConf("openimis-fe-core_js", "menuLeft")
+    || modulesManager.getConf("fe-core", "menuLeft") || false;
   const calendarSwitch = modulesManager.getConf(
     "fe-core",
     "allowSecondCalendar",
@@ -233,7 +235,8 @@ const RequireAuth = (props) => {
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;
   }
-  if (cfg['openimis-fe-core_js']?.menuLeft === true) {
+
+  if (menuLeft) {
     return (
     <>
       <AppBar position="fixed" className={classes.appBarDrawer}>
