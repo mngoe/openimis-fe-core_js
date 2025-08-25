@@ -24,7 +24,7 @@ const StyledMainMenu = styled('div')(({ theme }) => ({
     fontWeight: theme.menu.drawer.fontWeight,
     color: theme.menu.drawer.textColor,
   },
-  // ensure drawer entries are readable on colored background
+
   '& .MuiListItem-root': {
     color: theme.menu.drawer.textColor,
   },
@@ -40,16 +40,31 @@ const StyledMainMenu = styled('div')(({ theme }) => ({
   },
   '& .menuHeading': {
     fontSize: theme.menu.appBar.fontSize,
-    color: theme.palette.text.second,
-    paddingTop: theme.menu.appBar.fontSize / 2,
+    color: theme.palette.secondary.main,
     textTransform: "none",
+    whiteSpace: "nowrap",
+    display: "inline-flex",
+    alignItems: "center",
+    lineHeight: 1,
+    padding: theme.spacing(0, 1),
+    // minWidth: 0,
   },
   '& .appBarMenuPaper': {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
   },
   '& .popper': {
-    zIndex: 1200,
+    zIndex: 1500,
+  },
+
+  
+  '& .appBarMenuPaper .MuiListItemText-primary': {
+    color: theme.palette.text.primary,
+  },
+  '& .appBarMenuPaper .MuiListItemIcon-root': {
+    color: theme.palette.text.primary,
   },
 }));
 
@@ -169,7 +184,7 @@ class MainMenuContribution extends Component {
   };
 
   handleMenuSelect = (e, route) => {
-    // block normal href only for left click
+   
     if (e.type === 'click') {
       e.stopPropagation();
       e.preventDefault();
@@ -185,7 +200,7 @@ class MainMenuContribution extends Component {
 
   appBarMenu = (entries) => {
     return (
-      <Fragment>
+      <StyledMainMenu>
         <Button ref={this.state.anchorRef} onClick={this.toggleExpanded} className="menuHeading">
           {this.props.header}
           <ExpandMoreIcon />
@@ -195,6 +210,14 @@ class MainMenuContribution extends Component {
           open={this.state.expanded}
           anchorEl={this.state.anchorRef.current}
           transition
+          placement="bottom-start"
+          disablePortal={false}
+          modifiers={[
+            { name: 'preventOverflow', options: { boundary: 'viewport' } },
+            { name: 'flip', options: { fallbackPlacements: ['bottom-end', 'top-start'] } },
+            { name: 'offset', options: { offset: [0, 8] } },
+          ]}
+          style={{ zIndex: 2000 }}
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -227,12 +250,13 @@ class MainMenuContribution extends Component {
             </Grow>
           )}
         </Popper>
-      </Fragment>
+      </StyledMainMenu>
     );
   };
-
+   
   drawerMenu = (entries) => {
     return (
+      <StyledMainMenu>
       <Accordion className="panel" expanded={this.state.expanded} onChange={this.toggleExpanded}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} id={`${this.props.header}-header`}>
           <IconButton>{this.props.icon}</IconButton>
@@ -260,6 +284,7 @@ class MainMenuContribution extends Component {
           </List>
         </AccordionDetails>
       </Accordion>
+      </StyledMainMenu>
     );
   };
 

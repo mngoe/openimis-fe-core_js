@@ -39,11 +39,20 @@ const StyledJournalDrawer = styled('div')(({ theme }) => ({
     minHeight: 80,
   },
   '& .drawer': {
-    width: theme.jrnlDrawer.width,
+    position: "fixed",
+    right: 0,
+    top: 0,
+    height: "100vh",
     flexShrink: 0,
     whiteSpace: "nowrap",
+    width: 0,
+    zIndex: theme.zIndex.drawer,
   },
   '& .drawerOpen': {
+    position: "fixed",
+    right: 0,
+    top: 0,
+    height: "100vh",
     width: theme.jrnlDrawer.open.width,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -51,6 +60,10 @@ const StyledJournalDrawer = styled('div')(({ theme }) => ({
     }),
   },
   '& .drawerClose': {
+    position: "fixed",
+    right: 0,
+    top: 0,
+    height: "100vh",
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -399,7 +412,7 @@ class JournalDrawer extends Component {
               }}
               open={open}
             >
-              <Grid container className="toolbar" justify="center" alignItems="center">
+              <Grid container className="toolbar" justifyContent="center" alignItems="center">
                 <Grid item>
                   <IconButton onClick={handleDrawer}>{open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
                 </Grid>
@@ -452,14 +465,14 @@ class JournalDrawer extends Component {
                                   className="jrnlItemDetail"
                                   key={`mdet-${detailIndex}`}
                                   primary={detail}
-                                  primaryTypographyProps={{ class: "jrnlItemDetailText" }}
+                                  primaryTypographyProps={{ className: "jrnlItemDetailText" }}
                                 />
                               ));
                             } catch (error) {
                               return (
                                 <ListItemText
                                   className="jrnlItemDetailsError"
-                                  primaryTypographyProps={{ class: "jrnlItemDetailText" }}
+                                  primaryTypographyProps={{ className: "jrnlItemDetailText" }}
                                   primary={`Mutation details not available. ${error}`}
                                 />
                               );

@@ -31,14 +31,30 @@ import Table from "./Table";
 import InfoButton from "./InfoButton";
 
 const StyledSearcher = styled('div')(({ theme }) => ({
+  width: "100%",
+  maxWidth: "100%",
+  overflow: "hidden",
+  boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  gap: theme.spacing(2),
   '& .root': {
     width: "100%",
   },
   '& .paper': { 
     ...theme.paper.body, 
-    boxShadow: "none" 
+    boxShadow: "none",
+    width: "100%",
+    maxWidth: "100%",
+    overflow: "hidden",
+    boxSizing: "border-box",
   },
-  '& .paperHeader': theme.paper.header,
+  '& .paperHeader': {
+    ...theme.paper.header,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   '& .paperHeaderTitle': theme.paper.title,
   '& .paperHeaderMessage': theme.paper.message,
   '& .paperHeaderAction': {
@@ -54,10 +70,15 @@ const StyledSearcher = styled('div')(({ theme }) => ({
     gap: theme.spacing(1),
     backgroundColor: theme.palette.background.default,
     border: 0,
+    display: "flex",
+    justifyContent: "flex-end",
   },
   '& .tableContainer': {
     ...theme.table.container,
     boxShadow: theme.shadows[2],
+    width: "100%",
+    maxWidth: "100%",
+    overflow: "auto",
   },
   '& .infoSection': {
     display: 'flex',

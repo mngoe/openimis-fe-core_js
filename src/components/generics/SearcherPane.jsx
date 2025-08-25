@@ -13,19 +13,26 @@ import AdvancedFiltersDialog from "../dialogs/AdvancedFiltersDialog";
 import FormattedMessage from "./FormattedMessage";
 
 const StyledSearcherPane = styled('div')(({ theme }) => ({
-  '& .paper': theme.paper.body,
+  '& .paper': {
+    ...theme.paper.body,
+    width: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box',
+  },
   '& .paperHeader': { 
     ...theme.paper.header, 
     display: "flex", 
     justifyContent: "flex-end", 
-    itemAlign: "center" 
+    alignItems: "center",
+    gap: theme.spacing(1),
   },
   '& .paperHeaderTitle': theme.paper.title,
   '& .paperHeaderAction': { 
     ...theme.paper.action, 
     display: "flex", 
     justifyContent: "center", 
-    itemAlign: "center" 
+    alignItems: "center" 
   },
   '& .paperDivider': theme.paper.divider,
 }));
@@ -79,61 +86,60 @@ class SearcherPane extends Component {
     return (
       <StyledSearcherPane>
         <Paper className="paper">
-          <Grid container>
-            <Grid item xs={split} className="paperHeaderTitle">
-              <FormattedMessage module={module} id={title} />
-            </Grid>
-            <Grid item xs={12 - split} className="paperHeader">
-              {(!!actions || !!refresh) && (
-                <>
-                  {isCustomFiltering === true ? (
-                    <AdvancedFiltersDialog
-                      object={objectForCustomFiltering}
-                      additionalParams={additionalCustomFilterParams}
-                      moduleName={moduleName}
-                      objectType={objectType}
-                      setAppliedCustomFilters={setAppliedCustomFilters}
-                      appliedCustomFilters={appliedCustomFilters}
-                      onChangeFilters={onChangeFilters}
-                      appliedFiltersRowStructure={appliedFiltersRowStructure}
-                      setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
-                      applyNumberCircle={applyNumberCircle}
-                      searchCriteria={filters}
-                      deleteFilter={del}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                  {!!actions &&
-                    actions.map((a, idx) => (
-                      <Grid item key={`action-${idx}`} className="paperHeaderAction">
+          <Grid container sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Grid container item sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1 }}>
+              <Grid item xs={split} className="paperHeaderTitle">
+                <FormattedMessage module={module} id={title} />
+              </Grid>
+              <Grid item xs={12 - split} className="paperHeader" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+                {(!!actions || !!refresh) && (
+                  <>
+                    {isCustomFiltering === true ? (
+                      <AdvancedFiltersDialog
+                        object={objectForCustomFiltering}
+                        additionalParams={additionalCustomFilterParams}
+                        moduleName={moduleName}
+                        objectType={objectType}
+                        setAppliedCustomFilters={setAppliedCustomFilters}
+                        appliedCustomFilters={appliedCustomFilters}
+                        onChangeFilters={onChangeFilters}
+                        appliedFiltersRowStructure={appliedFiltersRowStructure}
+                        setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
+                        applyNumberCircle={applyNumberCircle}
+                        searchCriteria={filters}
+                        deleteFilter={del}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {!!actions &&
+                      actions.map((a, idx) => (
                         <SearcherActionButton
+                          key={`action-${idx}`}
                           onClick={a.action}
                           startIcon={a.icon}
                           label={a.label || ''}
                         />
-                      </Grid>
-                    ))}
-                  {!!reset && (
-                    <Grid item key={`action-reset`} className="paperHeaderAction">
+                      ))}
+                    {!!reset && (
                       <SearcherActionButton
+                        key="action-reset"
                         startIcon={<ResetFilterIcon />}
                         onClick={this.debouncedReset}
                         label={formatMessage(this.props.intl, module, "resetFilterTooltip")}
                       />
-                    </Grid>
-                  )}
-                  {!!refresh && (
-                    <Grid item key={`action-refresh`} className="paperHeaderAction">
+                    )}
+                    {!!refresh && (
                       <SearcherActionButton
+                        key="action-refresh"
                         startIcon={<DefaultSearchIcon />}
                         onClick={this.debouncedRefresh}
                         label={formatMessage(this.props.intl, module, "refreshFilterTooltip")}
                       />
-                    </Grid>
-                  )}
-                </>
-              )}
+                    )}
+                  </>
+                )}
+              </Grid>
             </Grid>
             {!!filterPane && (
               <Fragment>

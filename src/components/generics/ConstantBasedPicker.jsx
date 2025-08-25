@@ -1,7 +1,35 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
+import { styled } from "@mui/material/styles";
 import SelectInput from "../inputs/SelectInput";
 import { formatMessage } from "../../helpers/i18n";
+
+const StyledConstantBasedPicker = styled('div')(({ theme }) => ({
+  '& .MuiFormControl-root': {
+    minWidth: '200px',
+  },
+  '& .MuiInputLabel-root': {
+    fontSize: '1rem',
+    fontWeight: 500,
+  },
+  '& .MuiSelect-select': {
+    minHeight: '48px',
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '1rem',
+    padding: theme.spacing(1.5, 2),
+  },
+  '& .MuiMenuItem-root': {
+    fontSize: '1rem',
+    padding: theme.spacing(1.5, 2),
+    minHeight: '48px',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  '& .MuiPaper-root': {
+    minWidth: '200px',
+  },
+}));
 
 const INIT_STATE = {
   value: null,
@@ -64,17 +92,19 @@ class ConstantBasedPicker extends Component {
         }))
     );
     return (
-      <SelectInput
-        module={module}
-        label={!!withLabel && label ? label : " "}
-        withLabel={withLabel}
-        options={options}
-        name={name}
-        value={value}
-        onChange={this._onChange}
-        readOnly={readOnly}
-        required={required}
-      />
+      <StyledConstantBasedPicker>
+        <SelectInput
+          module={module}
+          label={!!withLabel && label ? label : " "}
+          withLabel={withLabel}
+          options={options}
+          name={name}
+          value={value}
+          onChange={this._onChange}
+          readOnly={readOnly}
+          required={required}
+        />
+      </StyledConstantBasedPicker>
     );
   }
 }

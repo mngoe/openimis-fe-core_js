@@ -29,6 +29,7 @@ const StyledAutoSuggestion = styled('div')(({ theme }) => ({
   '& .suggestionContainer': {
     flexGrow: 1,
     position: "relative",
+    width: '100%',
   },
   '& .suggestionInputField': {
     margin: 0,
@@ -305,6 +306,7 @@ class AutoSuggestion extends Component {
     return (
       <Autocomplete
         className="suggestionContainer"
+        fullWidth
         options={suggestions}
         getOptionLabel={(option) => (option ? getSuggestionValue(option) : '')}
         value={value || ''}

@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
-import { useTheme, alpha } from "@mui/material/styles"; 
+import { useTheme, alpha, styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { styled } from "@mui/material/styles";
 import { Redirect, useHistory } from "../helpers/history";
 import { useModulesManager } from "../helpers/modules";
 import LogoutButton from "./LogoutButton";
@@ -25,58 +24,72 @@ import MainMenuBar from "./MainMenuBar";
 import JournalDrawer from "./JournalDrawer";
 import { useBoolean, useAuthentication } from "../helpers/hooks";
 import LanguageQuickPicker from "../pickers/LanguageQuickPicker";
-import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControlLabel from "@mui/material/FormControlLabel";
 import { Switch } from "@mui/material";
 import { useTranslations } from "../helpers/i18n";
 import { DEFAULT } from "../constants";
 
-
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
 export const MAIN_SEARCHER_CONTRIBUTION_KEY = "core.MainSearcher";
-export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY = "policyholder.EconomicUnitChangeButton";
+export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY =
+  "policyholder.EconomicUnitChangeButton";
 
-const StyledRequireAuth = styled('div')(({ theme }) => ({
+const StyledRequireAuth = styled("div")(({ theme }) => ({
   display: "flex",
-  '& .grow': {
+  "& .grow": {
     flexGrow: 1,
   },
-  '& .logo': {
+  "& .logo": {
     verticalAlign: "middle",
     margin: theme.typography.title.fontSize / 2,
     maxHeight: theme.typography.title.fontSize * 2,
   },
-  '& .appBar': {
-    paddingRight: theme.jrnlDrawer.close.width,
+  "& .appBar": {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    overflow: "visible",
+    zIndex: theme.zIndex.appBar,
+    minHeight: "auto",
   },
-  '& .appBarDrawer': {
+  "& .MuiToolbar-root": {
+    flexWrap: "wrap",
+    rowGap: theme.spacing(1),
+    columnGap: theme.spacing(2),
+    minHeight: "64px !important",
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    [theme.breakpoints.down("md")]: {
+      minHeight: "80px !important", 
+    },
+  },
+  "& .appBarDrawer": {
     margin: theme.spacing(-1, 0, -1, 0),
-    paddingRight: theme.jrnlDrawer.close.width,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.main,
+    zIndex: theme.zIndex.appBar,
+    minHeight: "auto",
   },
 
-  '& .toolbarDrawer': {
+  "& .toolbarDrawer": {
     color: theme.palette.secondary.main,
   },
-  
-  '& .toolbarDrawerLogout': {
+
+  "& .toolbarDrawerLogout": {
     color: theme.palette.text.primary,
     button: {
       margin: theme.spacing(2),
       color: theme.palette.text.primary,
     },
   },
-  
-  '& .appBarShift': {
+
+  "& .appBarShift": {
     width: `calc(100% - ${theme.menu.drawer.width})`,
     marginLeft: theme.menu.drawer.width,
     transition: theme.transitions.create(["margin", "width"], {
@@ -84,73 +97,82 @@ const StyledRequireAuth = styled('div')(({ theme }) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  '& .menuButton': {
+  "& .menuButton": {
     margin: theme.spacing(0, 1, 0, 1),
     padding: 0,
   },
-  // Fix the spacing - use more aggressive spacing to ensure proper distance from top bar
-  '& .toolbar': {
-    minHeight: theme.spacing(16), // Increased significantly to provide more space
-    paddingTop: theme.spacing(3), // Add padding for extra spacing
-    marginTop: theme.spacing(6), // Increased margin for more space
+  "& .hide": {
+    display: "none",
   },
-  '& .drawer': {
+  "& .toolbar": {
+    minHeight: theme.spacing(16),
+    paddingTop: theme.spacing(3),
+    marginTop: theme.spacing(22), 
+  },
+  "& .drawerRoot": {
     [theme.breakpoints.up("sm")]: {
       width: theme.menu.drawer.width,
       flexShrink: 0,
     },
-    backgroundColor: theme.menu.drawer.backgroundColor,
+    // backgroundColor: theme.menu.drawer.backgroundColor,
   },
-  '& .drawerPaper': {
+  "& .drawerPaper": {
     width: theme.menu.drawer.width,
+    flexShrink: 0,
     backgroundColor: theme.menu.drawer.backgroundColor,
     color: theme.menu.drawer.textColor,
   },
-  
-  '& .drawerHeader': {
+
+  "& .drawerHeader": {
     ...theme.mixins.toolbar,
     margin: theme.spacing(1, 0, 1, 0),
     backgroundColor: theme.menu.drawer.backgroundColor,
   },
-  '& .content': {
+  "& .content": {
     flexGrow: 1,
-    paddingRight: theme.jrnlDrawer.close.width - theme.spacing(1),
-    paddingTop: theme.spacing(2), // Add top padding to the main content area
+    paddingTop: theme.spacing(18),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    [theme.breakpoints.down("md")]: {
+      paddingTop: theme.spacing(25),
+    },
   },
-  '& .contentShift': {
+  "& .contentShift": {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: theme.menu.drawer.width,
   },
-  // Add styling for the main element that contains children
-  '& main': {
-    paddingTop: theme.spacing(2), // Add padding to the main element
-    paddingLeft: theme.spacing(2), // Add left padding
-    paddingRight: theme.spacing(2), // Add right padding
+  "& main": {
+    paddingTop: theme.spacing(22),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.down("md")]: {
+      paddingTop: theme.spacing(25),
+    },
   },
-  '& .appName': {
+  "& .appName": {
     color: theme.palette.secondary.main,
     textTransform: "none",
     fontSize: theme.typography.title.fontSize,
   },
-  '& .appVersionsBox': {
+  "& .appVersionsBox": {
     padding: 0,
     margin: 0,
     minWidth: theme.typography.title.fontSize / 2,
   },
-  '& .appVersions': {
+  "& .appVersions": {
     color: theme.palette.secondary.main,
     fontSize: theme.typography.title.fontSize / 2,
     verticalAlign: "text-bottom",
     marginRight: theme.spacing(2),
   },
-  '& .search': {
+  "& .search": {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -164,7 +186,7 @@ const StyledRequireAuth = styled('div')(({ theme }) => ({
       width: "auto",
     },
   },
-  '& .searchIcon': {
+  "& .searchIcon": {
     width: theme.spacing(9),
     height: "100%",
     position: "absolute",
@@ -173,11 +195,11 @@ const StyledRequireAuth = styled('div')(({ theme }) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  '& .inputRoot': {
+  "& .inputRoot": {
     color: "inherit",
     width: "100%",
   },
-  '& .inputInput': {
+  "& .inputInput": {
     padding: theme.spacing(1, 1, 1, 10),
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -189,16 +211,30 @@ const StyledRequireAuth = styled('div')(({ theme }) => ({
     },
   },
 
-  '& .drawerContainer': {
-    overflow: 'auto',
+  "& .drawerContainer": {
+    overflow: "auto",
   },
-  '& .contentShiftLeftSideMenu': {
+  "& .contentShiftLeftSideMenu": {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: theme.menu.drawer.width,
-    marginRight: theme.jrnlDrawer.close.width
+    marginLeft: 0,
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    paddingTop: theme.spacing(22),
+    [theme.breakpoints.down("md")]: {
+      paddingTop: theme.spacing(25),
+    },
+  },
+  "& .jrnlContentShift": {
+    // marginLeft: theme.menu.drawer.width,
+    position: "relative",
+    zIndex: 1,
+    paddingTop: theme.spacing(22), 
+    [theme.breakpoints.down("md")]: {
+      paddingTop: theme.spacing(25), 
+    },
   },
 }));
 
@@ -213,7 +249,7 @@ const RequireAuth = (props) => {
     onEconomicDialogOpen,
     ...others
   } = props;
-  
+
   const [isOpen, setOpen] = useBoolean();
   const [isDrawerOpen, setDrawerOpen] = useBoolean();
   const theme = useTheme();
@@ -224,21 +260,32 @@ const RequireAuth = (props) => {
   const calendarSwitch = modulesManager.getConf(
     "fe-core",
     "allowSecondCalendar",
-    false,
+    false
   );
-  const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
-  const showJournalSidebar = modulesManager.getConf("fe-core", "showJournalSidebar", DEFAULT.SHOW_JOURNAL_SIDEBAR);
+  const isWorker = modulesManager.getConf(
+    "fe-core",
+    "isWorker",
+    DEFAULT.IS_WORKER
+  );
+  const showJournalSidebar = modulesManager.getConf(
+    "fe-core",
+    "showJournalSidebar",
+    DEFAULT.SHOW_JOURNAL_SIDEBAR
+  );
 
- 
-  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
+  const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
-  const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
+  const isAppBarMenu = useMemo(
+    () => theme.menu.variant.toUpperCase() === "APPBAR",
+    [theme.menu.variant]
+  );
 
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;
   }
-  
-  if (cfg['openimis-fe-core_js']?.menuLeft === true) {
+
+  if (cfg["openimis-fe-core_js"]?.menuLeft === true) {
     return (
       <StyledRequireAuth>
         <AppBar position="fixed" className="appBarDrawer">
@@ -246,73 +293,86 @@ const RequireAuth = (props) => {
             <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
               <div className="grow" />
             </Contributions>
-            <LogoutButton className="toolbarDrawerLogout"/>
+            <LogoutButton className="toolbarDrawerLogout" />
             <Help />
           </Toolbar>
         </AppBar>
         <Drawer
-          className="drawer"
+          className="drawerRoot"
           variant="permanent"
-          classes={{
-            paper: "drawerPaper",
-          }}
+          PaperProps={{ className: "drawerPaper" }}
           anchor="left"
         >
-            <Button className="appName" onClick={(e) => (window.location.href = "/front")}>
-              {isAppBarMenu && isSmUp && (
-                <img className="logo" src={logo} alt="Logo of openIMIS" />
-              )}
-              {!disableTextLogo && (
-                <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
-              )}
-              {isSmUp && (
-                <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
-                  <Typography variant="caption" className="appVersions">
-                    {modulesManager.getOpenIMISVersion()}
-                  </Typography>
-                </Tooltip>
-              )}
-            </Button>
-              <div className="drawerContainer"></div>
-                <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
-                  <Divider />
-                </MainMenuBar>
-              <div/>
-              </Drawer>  
-            <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
-        <main
-          className="contentShiftLeftSideMenu"
-        >
-          {children}
-        </main>
+          <Button
+            className="appName"
+            onClick={() => (window.location.href = "/front")}
+          >
+            {isAppBarMenu && isSmUp && (
+              <img className="logo" src={logo} alt="Logo of openIMIS" />
+            )}
+            {!disableTextLogo && (
+              <FormattedMessage
+                module="core"
+                id="appName"
+                defaultMessage={<FormattedMessage id="root.appName" />}
+              />
+            )}
+            {isSmUp && (
+              <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
+                <Typography variant="caption" className="appVersions">
+                  {modulesManager.getOpenIMISVersion()}
+                </Typography>
+              </Tooltip>
+            )}
+          </Button>
+          <div className="drawerContainer"></div>
+          <MainMenuBar
+            {...others}
+            menuVariant="Drawer"
+            contributionKey={MAIN_MENU_CONTRIBUTION_KEY}
+          >
+            <Divider />
+          </MainMenuBar>
+          <div />
+        </Drawer>
+        <JournalDrawer
+          open={isDrawerOpen}
+          handleDrawer={setDrawerOpen.toggle}
+        />
+        <div className="toolbar" />
+        <main className="contentShiftLeftSideMenu">{children}</main>
       </StyledRequireAuth>
-    )
+    );
   }
-  
+
   const { formatMessage } = useTranslations("core", modulesManager);
   return (
     <StyledRequireAuth>
       <AppBar
         position="fixed"
         className={clsx({
-          "appBarShift": isOpen && theme.breakpoints.up("md"),
-          "appBar": showJournalSidebar,
+          appBarShift: isOpen && isMdUp,
+          appBar: showJournalSidebar,
         })}
       >
         <Toolbar>
           <IconButton
             color="inherit"
             onClick={setOpen.toggle}
-            className={clsx("menuButton", isOpen && "hide")}
+            className={clsx("menuButton", (isOpen || isMdUp) && "hide")}
           >
             <MenuIcon />
           </IconButton>
-          <Button className="appName" onClick={(e) => history.push("/")}>
+          <Button className="appName" onClick={() => history.push("/")}>
             {isAppBarMenu && isSmUp && (
               <img className="logo" src={logo} alt="Logo of openIMIS" />
             )}
             {!disableTextLogo && (
-              <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
+              <FormattedMessage
+                module="core"
+                id="appName"
+                defaultMessage={<FormattedMessage id="root.appName" />}
+              />
             )}
           </Button>
           {isSmUp && (
@@ -323,7 +383,11 @@ const RequireAuth = (props) => {
             </Tooltip>
           )}
           {isAppBarMenu && isSmUp && (
-            <MainMenuBar {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
+            <MainMenuBar
+              {...others}
+              menuVariant="AppBar"
+              contributionKey={MAIN_MENU_CONTRIBUTION_KEY}
+            >
               <div onClick={setOpen.off} />
             </MainMenuBar>
           )}
@@ -337,7 +401,11 @@ const RequireAuth = (props) => {
           {!!calendarSwitch && (
             <FormControlLabel
               control={
-                <Switch color="secondary" checked={isSecondaryCalendar} onChange={setSecondaryCalendar.toggle} />
+                <Switch
+                  color="secondary"
+                  checked={isSecondaryCalendar}
+                  onChange={setSecondaryCalendar.toggle}
+                />
               }
               label={formatMessage("core.calendarSwitcher")}
               labelPlacement="start"
@@ -354,29 +422,33 @@ const RequireAuth = (props) => {
       </AppBar>
       {isOpen && (
         <ClickAwayListener onClickAway={setOpen.off}>
-          <nav className="drawer">
+          <nav className="drawerRoot">
             <Drawer
-              className="drawer"
+              className="drawerRoot"
               variant="persistent"
               anchor="left"
               open={isOpen}
-              classes={{
-                paper: "drawerPaper",
-              }}
+              PaperProps={{ className: "drawerPaper" }}
             >
-              <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
+              <MainMenuBar
+                {...others}
+                menuVariant="Drawer"
+                contributionKey={MAIN_MENU_CONTRIBUTION_KEY}
+              >
                 <Divider />
               </MainMenuBar>
             </Drawer>
           </nav>
         </ClickAwayListener>
       )}
-      {showJournalSidebar && <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />}
+      {showJournalSidebar && (
+        <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
+      )}
       <div className="toolbar" />
       <main
         className={clsx({
-          "jrnlContentShift": isDrawerOpen,
-          "content": showJournalSidebar,
+          jrnlContentShift: isDrawerOpen,
+          content: showJournalSidebar,
         })}
       >
         {children}
