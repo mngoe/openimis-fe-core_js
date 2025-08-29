@@ -6,6 +6,7 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
   plugins: [
     react({
+      jsxRuntime: 'automatic',
       // Ensure JSX is processed in both .js and .jsx files
       include: [/\.jsx$/, /\.js$/],
     }),
@@ -58,7 +59,7 @@ export default defineConfig({
         '@date-io/moment',
         'zxcvbn',
         /^@babel-.*/,
-        /^@openimis.*/,
+        /^@openimis\/(?!fe-core).*/,
       ],
       output: {
         globals: {

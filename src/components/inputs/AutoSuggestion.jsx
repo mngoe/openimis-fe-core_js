@@ -25,11 +25,13 @@ const StyledAutoSuggestion = styled('div')(({ theme }) => ({
   },
   '& .textField': {
     width: "100%",
+    minWidth: '120px',
   },
   '& .suggestionContainer': {
     flexGrow: 1,
     position: "relative",
     width: '100%',
+    minWidth: '120px',
   },
   '& .suggestionInputField': {
     margin: 0,

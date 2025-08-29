@@ -10,6 +10,14 @@ const StyledAutocomplete = styled('div')(({ theme }) => ({
   '& .label': {
     color: theme.palette.primary.main,
   },
+  '& .MuiAutocomplete-root': {
+    minWidth: '150px',
+    width: "100%",
+  },
+  '& .MuiTextField-root': {
+    minWidth: '150px',
+    width: "100%",
+  },
 }));
 
 const defaultGetOptionSelected = (option, v) => option.id === v?.id;

@@ -121,8 +121,8 @@ function SearcherExport(props) {
 
       <div>
         {entries.map((item, idx) => (
-          <Tooltip title={formatMessage(intl, "core", "exportSearchResult.tooltip")}>
-            <div key={`selectionsMenu-export-${idx}`}>
+          <Tooltip key={`selectionsMenu-export-${idx}`} title={formatMessage(intl, "core", "exportSearchResult.tooltip")}>
+            <div>
               {downloadWithIconButton ? (
                 <Button
                   onClick={(e) => item.action()}

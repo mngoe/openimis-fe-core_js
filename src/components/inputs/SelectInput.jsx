@@ -15,6 +15,11 @@ const StyledSelectInput = styled('div')(({ theme }) => ({
   },
   '& .formControl': {
     position: "relative",
+    minWidth: '120px',
+    width: '100%',
+  },
+  '& .MuiSelect-select': {
+    minWidth: '120px',
   },
   '& .iconButton': {
     position: "absolute",
