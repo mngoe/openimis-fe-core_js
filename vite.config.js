@@ -59,7 +59,7 @@ export default defineConfig({
         '@date-io/moment',
         'zxcvbn',
         /^@babel-.*/,
-        /^@openimis\/(?!fe-core).*/,
+        /^@openimis/,
       ],
       output: {
         globals: {
