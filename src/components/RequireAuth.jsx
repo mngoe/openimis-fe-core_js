@@ -277,8 +277,8 @@ const RequireAuth = (props) => {
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const isAppBarMenu = useMemo(
-    () => theme.menu.variant.toUpperCase() === "APPBAR",
-    [theme.menu.variant]
+    () => theme.menu?.variant?.toUpperCase() === "APPBAR",
+    [theme.menu?.variant]
   );
 
   if (!auth.isAuthenticated) {

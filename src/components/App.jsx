@@ -77,7 +77,7 @@ const App = (props) => {
 
   const locale = useMemo(() => {
     if (user) {
-      localesManager.getLocale(user.language);
+      return localesManager.getLocale(user.language);
     }
   }, [user?.language]);
 
@@ -130,7 +130,7 @@ const App = (props) => {
 
   if (error) {
     return (
-      <IntlProvider locale={locale} messages={allMessages}>
+      <IntlProvider locale={locale || "en"} messages={allMessages}>
         <FatalErrorPage error={error} />
       </IntlProvider>
     );
@@ -143,7 +143,7 @@ const App = (props) => {
       <CssBaseline />
       <ModulesManagerProvider value={modulesManager}>
         <PublicPageLanguageProvider>
-          <IntlProvider locale={locale} messages={allMessages}>
+          <IntlProvider locale={locale || "en"} messages={allMessages}>
             <ToastProvider>
               <AlertDialog />
               <ConfirmDialog confirm={confirm} onConfirm={clearConfirm} />

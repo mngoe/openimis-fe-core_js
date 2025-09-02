@@ -168,7 +168,8 @@ const LoginPage = ({ logo }) => {
                       <TextInput
                         required
                         readOnly={isAuthenticating}
-                        label={formatMessage("username.label")}
+                        module={"core.LoginPage"}
+                        label={"username.label"}
                         fullWidth
                         defaultValue={credentials.username}
                         onChange={(username) => setCredentials({ ...credentials, username })}
@@ -179,7 +180,8 @@ const LoginPage = ({ logo }) => {
                         required
                         readOnly={isAuthenticating}
                         type="password"
-                        label={formatMessage("password.label")}
+                        module={"core.LoginPage"}
+                        label={"password.label"}
                         fullWidth
                         onChange={(password) => setCredentials({ ...credentials, password })}
                       />

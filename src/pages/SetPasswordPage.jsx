@@ -140,7 +140,8 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
                   <TextInput
                     required
                     type="text"
-                    label={formatMessage("username.label")}
+                    module={"core.SetPasswordPage"}
+                    label={"username.label"}
                     fullWidth
                     onChange={(username) => setCredentials({ ...credentials, username })}
                   />
@@ -149,7 +150,8 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
                   <TextInput
                     required
                     type={showPassword ? "text" : "password"}
-                    label={formatMessage("password.label")}
+                    module={"core.SetPasswordPage"}
+                    label={"password.label"}
                     fullWidth
                     onChange={(password) => handlePasswordChange(password)}
                     value={credentials.password || ""}
