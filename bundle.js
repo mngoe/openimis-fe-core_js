@@ -7584,7 +7584,10 @@ var SearcherPane = /*#__PURE__*/function (_Component) {
     _this = _callSuper$d(this, SearcherPane, [props]);
     _defineProperty__default["default"](_this, "handleKeyDown", function (event) {
       if (event.key === ENTER_KEY) {
-        _this.debouncedRefresh();
+        console.log(event.target.value);
+        if (!event.target.value) {
+          _this.debouncedRefresh();
+        }
       }
     });
     var _this$props = _this.props,
@@ -7646,6 +7649,7 @@ var SearcherPane = /*#__PURE__*/function (_Component) {
         setAppliedFiltersRowStructure = _this$props2$setAppli2 === void 0 ? null : _this$props2$setAppli2,
         _this$props2$applyNum = _this$props2.applyNumberCircle,
         applyNumberCircle = _this$props2$applyNum === void 0 ? null : _this$props2$applyNum;
+        _this$props2.isFiltering;
       return /*#__PURE__*/React__default["default"].createElement(core.Paper, {
         className: classes.paper
       }, /*#__PURE__*/React__default["default"].createElement(core.Grid, {
@@ -7937,7 +7941,8 @@ var Searcher = /*#__PURE__*/function (_Component3) {
       selectAll: 0,
       clearAll: 0,
       menuAnchor: null,
-      enter: false
+      enter: false,
+      isFiltering: false
     });
     _defineProperty__default["default"](_this2, "filtersToQueryParams", function () {
       var _this2$state = _this2.state,
@@ -8295,7 +8300,8 @@ var Searcher = /*#__PURE__*/function (_Component3) {
         onChangeFilters: this.onChangeFilters,
         appliedFiltersRowStructure: appliedFiltersRowStructure,
         setAppliedFiltersRowStructure: setAppliedFiltersRowStructure,
-        applyNumberCircle: applyNumberCircle
+        applyNumberCircle: applyNumberCircle,
+        isFiltering: this.state.isFiltering
       }), !!contributionKey && /*#__PURE__*/React__default["default"].createElement(Contributions, {
         contributionKey: contributionKey
       }), /*#__PURE__*/React__default["default"].createElement(core.Paper, {
