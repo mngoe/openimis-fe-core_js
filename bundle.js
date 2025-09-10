@@ -6447,6 +6447,7 @@ var Table$1 = /*#__PURE__*/function (_Component) {
             return s(i, iidx);
           })));
         } else {
+          var cleanedHeaders = localHeaders.filter(Boolean);
           return /*#__PURE__*/React__default["default"].createElement(core.Box, {
             style: {
               width: "100%"
@@ -6455,19 +6456,14 @@ var Table$1 = /*#__PURE__*/function (_Component) {
             style: {
               width: "100%"
             }
-          }, items.length - iidx == items.length && /*#__PURE__*/React__default["default"].createElement("tr", null, /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localHeaders[0]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localHeaders[1]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localHeaders[2]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localHeaders[3]
-          }))), /*#__PURE__*/React__default["default"].createElement("tr", null, localItemFormatters && localItemFormatters.map(function (f, fidx) {
+          }, items.length - iidx == items.length && /*#__PURE__*/React__default["default"].createElement("tr", null, cleanedHeaders.map(function (header, index) {
+            return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
+              key: index
+            }, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+              module: module,
+              id: header
+            }));
+          })), /*#__PURE__*/React__default["default"].createElement("tr", null, localItemFormatters && localItemFormatters.map(function (f, fidx) {
             if (colSpans.length > fidx && !colSpans[fidx]) return null;
             return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
               colSpan: colSpans.length > fidx ? colSpans[fidx] : 1,
