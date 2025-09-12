@@ -14,6 +14,7 @@ class FormattedNumberInput extends Component {
       isEdited: false,
       rawValue: props.value != null ? this.formatNumber(props.value, props.intl) : "",
     };
+    this.pricesAreDecimal = props.modulesManager.getConf("fe-core", "pricesAreDecimal", true);
   }
 
   componentDidUpdate(prevProps) {
@@ -34,6 +35,7 @@ class FormattedNumberInput extends Component {
 
   handleKeyPress = (event) => {
     const { allowDecimals = true } = this.props;
+
     if (event.key === "." && !allowDecimals) {
       event.preventDefault();
     }
@@ -48,30 +50,33 @@ class FormattedNumberInput extends Component {
     this.props.onChange(isNaN(value) ? undefined : value);
   };
 
-  handleBlur = () => {
-    const { intl, displayNa } = this.props;
-    const { rawValue } = this.state;
-
-    this.setState({ isEdited: false });
-
-    if ((rawValue === "" || isNaN(Number(rawValue))) && displayNa) {
-      this.setState({
-        rawValue: formatMessage(intl, this.props.module, "core.NumberInput.notApplicable"),
-      });
-      return;
+  formatInput = (value, displayZero, displayNa, decimal) => {
+    if (!value) {
+      if (displayNa && !this.state.isEdited) {
+        return formatMessage(this.props.intl, this.props.module, "core.NumberInput.notApplicable");
+      }
+      return displayZero && value === 0 ? "0" : "";
     }
 
-    const number = parseFloat(rawValue.replace(/\s/g, "").replace(",", "."));
-    if (isNaN(number)) {
-      this.setState({ rawValue: "" });
-      return;
+    const numericValue = Number(value);
+
+    if (isNaN(numericValue)) return "";
+
+    if (decimal) {
+      if (typeof value === "string" && value.includes(".") && value.split(".")[1].length > 2) {
+        return parseFloat(value).toFixed(2);
+      }
+      return value;
     }
 
-    this.setState({ rawValue: this.formatNumber(number, intl) });
+    return parseFloat(value);
   };
 
-  handleFocus = () => {
-    this.setState({ isEdited: true });
+  handleNaBlur = () => {
+    if ((isNaN(this.props.value) || this.props.value === "") && this.state.isEdited) {
+      this.props.onChange(undefined);
+    }
+    this.setState({ isEdited: false });
   };
 
   render() {
@@ -80,28 +85,34 @@ class FormattedNumberInput extends Component {
       module = "core",
       min = null,
       max = null,
+      value,
       error,
-      allowDecimals = true,
       thousandSeparator,
       numberOfDecimals,
       pricesAreDecimal,
+      displayZero = false,
+      displayNa = false,
+      allowDecimals = this.pricesAreDecimal,
       ...others
     } = this.props;
-
-    let inputProps = {
-      ...this.props.inputProps,
-      type: "text",
-      onKeyPress: this.handleKeyPress,
-    };
-
+    let inputProps = { ...this.props.inputProps, type: "number", onKeyPress: this.handleKeyPress };
     let err = error;
 
-    const numericValue = parseFloat(this.state.rawValue.replace(/\s/g, "").replace(",", "."));
-    if (min != null && numericValue < min) {
-      err = formatMessageWithValues(intl, module, "validation.minValue", { value: numericValue, min });
+    if (min !== null) {
+      inputProps.min = min;
+      if (value < min)
+        err = formatMessageWithValues(intl, module, "validation.minValue", {
+          value,
+          min,
+        });
     }
-    if (max != null && numericValue > max) {
-      err = formatMessageWithValues(intl, module, "validation.maxValue", { value: numericValue, max });
+    if (max !== null) {
+      inputProps.max = max;
+      if (value > max)
+        err = formatMessageWithValues(intl, module, "validation.maxValue", {
+          value,
+          max,
+        });
     }
 
     return (
@@ -114,7 +125,8 @@ class FormattedNumberInput extends Component {
           inputProps={inputProps}
           onChange={this.handleChange}
           onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
+          formatInput={(v) => this.formatInput(v, displayZero, displayNa, allowDecimals)}
+          onFocus={this.handleFocus} // this.setState({ isEdited: true })}
         />
       </StyledFormattedNumberInput>
     );
