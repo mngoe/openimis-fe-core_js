@@ -24,8 +24,16 @@ export function formatMessageWithValues(intl, module, id, values) {
   }
 }
 
-export function formatAmount(intl, amount) {
-  return `${intl.formatMessage({ id: "currency" })} ${amount || 0}`;
+export function formatAmount(mm, intl, amount) {
+  const number = amount || 0;
+  const pricesAreDecimal = mm.getConf("fe-core", "pricesAreDecimal", true);
+
+  const formattedAmount = new Intl.NumberFormat(intl, {
+    minimumFractionDigits: pricesAreDecimal ? 2 : 0,
+    maximumFractionDigits: pricesAreDecimal ? 2 : 0,
+  }).format(number);
+
+  return `${intl.formatMessage({ id: "currency" })} ${formattedAmount}`;
 }
 
 export function formatDateFromISO(mm, intl, date) {
