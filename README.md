@@ -179,6 +179,12 @@ Whenever the **individual** global schema changes (you add or remove a filter fi
 - `formatMessage`: provide the translation of a module-prefixed key (fall back on openimis-fe_js/translations/ref.json)
 - `formatMessageWithValues`: provide the translation of a module-prefixed key, for messages with vairable parts
 - `formatAmount`: format an amount as a string
+    with config
+    - `fe-core`, "thousandSeparator", "fr"
+    - `fe-core`, "numberOfDecimals", 2
+    - `fe-core`, "pricesAreDecimal", true
+    the config thousandSeparator set the locale use by Intl.NumberFormat (e.g. "en") if you don't want formatting, set default value ""
+    
 - `formatDateFromISO`: parse ISO date into (local) datetime
 
   Note: depends on the selected calendar (Gregorian vs. Nepali)
