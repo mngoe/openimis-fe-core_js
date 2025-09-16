@@ -7,9 +7,6 @@ import { withModulesManager } from "@openimis/fe-core";
 class FormattedNumberInput extends Component {
   constructor(props) {
     super(props);
-
-    this.pricesAreDecimal = props.modulesManager.getConf("fe-core", "pricesAreDecimal", true);
-
     this.state = {
       isEdited: false,
       rawValue: props.value != null
@@ -19,7 +16,6 @@ class FormattedNumberInput extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // Si la valeur du serveur change et que l’utilisateur n’édite pas, on reformate
     if (prevProps.value !== this.props.value && !this.state.isEdited) {
       this.setState({
         rawValue: this.props.value != null
@@ -31,9 +27,9 @@ class FormattedNumberInput extends Component {
 
   formatNumber = (value, intl) => {
     if (value == null || isNaN(value)) return "";
-    return new Intl.NumberFormat(intl, {
-      minimumFractionDigits: this.pricesAreDecimal ? 2 : 0,
-      maximumFractionDigits: this.pricesAreDecimal ? 2 : 0,
+    return new Intl.NumberFormat(this.props.thousandSeparator, {
+      minimumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
+      maximumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
     }).format(value);
   };
 
@@ -87,6 +83,9 @@ class FormattedNumberInput extends Component {
       max = null,
       error,
       allowDecimals = true,
+      thousandSeparator,
+      numberOfDecimals,
+      pricesAreDecimal,
       ...others
     } = this.props;
 

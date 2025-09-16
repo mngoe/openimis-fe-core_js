@@ -25,14 +25,19 @@ export function formatMessageWithValues(intl, module, id, values) {
 }
 
 export function formatAmount(mm, intl, amount) {
+  const thousandSeparator = mm.getConf("fe-core", "thousandSeparator", "fr");
   const number = amount || 0;
   const pricesAreDecimal = mm.getConf("fe-core", "pricesAreDecimal", true);
+  const numberOfDecimals = mm.getConf("fe-core", "numberOfDecimals", 2);
+  if (!!thousandSeparator) {
+    const formattedAmount = new Intl.NumberFormat(thousandSeparator, {
+      minimumFractionDigits: pricesAreDecimal ? numberOfDecimals : 0,
+      maximumFractionDigits: pricesAreDecimal ? numberOfDecimals : 0,
+    }).format(number);
+    return `${intl.formatMessage({ id: "currency" })} ${formattedAmount}`;
+  } 
 
-  const formattedAmount = new Intl.NumberFormat(intl, {
-    minimumFractionDigits: pricesAreDecimal ? 2 : 0,
-    maximumFractionDigits: pricesAreDecimal ? 2 : 0,
-  }).format(number);
-
+  const formattedAmount = parseFloat(amount).toFixed(pricesAreDecimal ? numberOfDecimals : 0);
   return `${intl.formatMessage({ id: "currency" })} ${formattedAmount}`;
 }
 
