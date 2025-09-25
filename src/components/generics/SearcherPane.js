@@ -24,7 +24,7 @@ import FormattedMessage from "./FormattedMessage";
 
 const styles = (theme) => ({
   panel: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0),
     backgroundColor: theme.palette.common.white,
     "&:before": {
       display: "none",
@@ -50,6 +50,12 @@ const styles = (theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
+  },
+  panelDetails: {
+    backgroundColor: theme.paper.body.backgroundColor,
+    padding: theme.spacing(2),
+    width: "100%",
+    display: "block",
   },
   expanded: {},
   panelTitle: theme.paper.title, // on remet comme avant
@@ -194,7 +200,7 @@ class SearcherPane extends Component {
           </ExpansionPanelSummary>
 
           {/* --- CONTENU DÉROULANT --- */}
-          <ExpansionPanelDetails style={{ display: "block", width: "100%" }}>
+          <ExpansionPanelDetails className={classes.panelDetails}>
             <Grid container spacing={1}>
               {/* Zone des filtres */}
               {!!filterPane && (
