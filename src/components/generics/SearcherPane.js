@@ -33,16 +33,16 @@ const styles = (theme) => ({
   panelSummary: {
     backgroundColor: theme.paper.header.backgroundColor,
     color: theme.palette.primary.main,
-    minHeight: "36px !important",   // hauteur fermée
+    minHeight: "36px !important",
     "&$expanded": {
-      minHeight: "36px !important", // hauteur ouverte
+      minHeight: "36px !important",
     },
   },
   panelExpandIcon: {
     color: theme.palette.primary.main,
   },
   panelSummaryContent: {
-    margin: "0px 0", // réduit les marges verticales
+    margin: "0px 0",
     "&$expanded": {
       margin: "0px 0",
     },
@@ -58,7 +58,7 @@ const styles = (theme) => ({
     display: "block",
   },
   expanded: {},
-  panelTitle: theme.paper.title, // on remet comme avant
+  panelTitle: theme.paper.title,
   paper: theme.paper.body,
   paperDivider: theme.paper.divider,
   paperHeaderAction: {
@@ -139,7 +139,6 @@ class SearcherPane extends Component {
           expanded={this.state.expanded}
           onChange={this.handleChange}
         >
-          {/* --- HEADER TOUJOURS VISIBLE --- */}
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon className={classes.panelExpandIcon} />}
             classes={{
@@ -148,12 +147,9 @@ class SearcherPane extends Component {
               expanded: classes.expanded,
             }}
           >
-            {/* Titre à gauche */}
             <Grid item xs className={classes.panelTitle}>
               <FormattedMessage module={module} id={title} />
             </Grid>
-
-            {/* Boutons affichés seulement si expanded === true */}
             {this.state.expanded && (
               <Grid item className={classes.paperHeader}>
                 {isCustomFiltering && (
@@ -199,26 +195,22 @@ class SearcherPane extends Component {
             )}
           </ExpansionPanelSummary>
 
-          {/* --- CONTENU DÉROULANT --- */}
           <ExpansionPanelDetails className={classes.panelDetails}>
             <Grid container spacing={1}>
-              {/* Zone des filtres */}
               {!!filterPane && (
                 <Fragment>
                   <Grid item xs={12} className={classes.paperDivider}>
                     <Divider />
                   </Grid>
-                  <Grid item xs={12}>{filterPane}</Grid>
+                  {filterPane}
                 </Fragment>
               )}
-
-              {/* Zone des résultats */}
               {!!resultsPane && (
                 <Fragment>
                   <Grid item xs={12} className={classes.paperDivider}>
                     <Divider />
                   </Grid>
-                  <Grid item xs={12}>{resultsPane}</Grid>
+                  {resultsPane}
                 </Fragment>
               )}
             </Grid>
