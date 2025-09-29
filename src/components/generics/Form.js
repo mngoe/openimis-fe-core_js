@@ -96,8 +96,7 @@ class Form extends Component {
               disabled={!!this.state.saving || (!!canSave && !canSave())}
               onClick={(e) => this.save(this.props.edited)}
             >
-              save
-              {/*<SaveIcon />*/}
+              <SaveIcon />
             </Fab>
           </span>
         ),
