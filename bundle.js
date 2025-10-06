@@ -6431,19 +6431,14 @@ var Table$1 = /*#__PURE__*/function (_Component) {
               marginTop: 10,
               width: "90%"
             }
-          }, /*#__PURE__*/React__default["default"].createElement("tr", null, /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[0]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[1]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[2]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[3]
-          }))), localsubServicesItemsFormattersReview && localsubServicesItemsFormattersReview.map(function (s, sfidx) {
+          }, /*#__PURE__*/React__default["default"].createElement("tr", null, localSubServiceHeaders.map(function (header, index) {
+            return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
+              key: index
+            }, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+              module: module,
+              id: header
+            }));
+          })), localsubServicesItemsFormattersReview && localsubServicesItemsFormattersReview.map(function (s, sfidx) {
             return s(i, iidx);
           })));
         } else {
@@ -6475,19 +6470,14 @@ var Table$1 = /*#__PURE__*/function (_Component) {
               marginTop: 10,
               width: "90%"
             }
-          }, /*#__PURE__*/React__default["default"].createElement("tr", null, /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[0]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[1]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[2]
-          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-            module: module,
-            id: localSubServiceHeaders[3]
-          }))), localSubServicesItemsFormatters && localSubServicesItemsFormatters.map(function (s, sfidx) {
+          }, /*#__PURE__*/React__default["default"].createElement("tr", null, localSubServiceHeaders.map(function (header, index) {
+            return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
+              key: index
+            }, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+              module: module,
+              id: header
+            }));
+          })), localSubServicesItemsFormatters && localSubServicesItemsFormatters.map(function (s, sfidx) {
             return s(i, iidx);
           })));
         }
