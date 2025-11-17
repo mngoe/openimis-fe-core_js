@@ -1,4 +1,5 @@
 {
+  "core.noOptions": "No options available",
   "core.roleManagement.label": "Roles Management",
   "core.roleManagement.searcher.results.title": "{rolesTotalCount} Roles Found",
   "core.roleManagement.roleName": "Role Name",
