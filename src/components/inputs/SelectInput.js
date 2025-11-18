@@ -70,6 +70,7 @@ class SelectInput extends Component {
       required = false,
       placeholder,
       title = '',
+      noOptionsText = <FormattedMessage module="core" id="noOptions" />
     } = this.props;
     if (!options) return null;
     let valueStr = null;
@@ -106,7 +107,7 @@ class SelectInput extends Component {
 
               {options.length === 0 && (
                 <MenuItem disabled>
-                  <FormattedMessage module="core" id="noOptions" />
+                  {noOptionsText}
                 </MenuItem>
               )}
 
