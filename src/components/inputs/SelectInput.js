@@ -76,6 +76,9 @@ class SelectInput extends Component {
     if (!!readOnly) {
       valueStr = options.filter((o) => JSON.stringify(o.value) === JSON.stringify(value)).map((o) => o.label);
     }
+    const moduleProp = this.props.intl.messages[`${module}.pickerNoOptionsLabel`] ? module : "core";
+    console.log("moduleProp", moduleProp);
+    console.log("module", module);
     return (
       <Fragment>
         {!readOnly && (
@@ -106,7 +109,7 @@ class SelectInput extends Component {
 
               {options.length === 0 && (
                 <MenuItem disabled key={`${module}-${name}-option-0`}>
-                  <FormattedMessage module={module} id="pickerNoOptionsLabel" />
+                  <FormattedMessage module={moduleProp} id="pickerNoOptionsLabel" />
                 </MenuItem>
               )}
 
