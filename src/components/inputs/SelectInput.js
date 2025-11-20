@@ -70,7 +70,6 @@ class SelectInput extends Component {
       required = false,
       placeholder,
       title = '',
-      pickerNoOptionsLabel = <FormattedMessage module="core" id="pickerNoOptionsLabel" />
     } = this.props;
     if (!options) return null;
     let valueStr = null;
@@ -106,8 +105,8 @@ class SelectInput extends Component {
               )}
 
               {options.length === 0 && (
-                <MenuItem disabled>
-                  {pickerNoOptionsLabel}
+                <MenuItem disabled key={`${module}-${name}-option-0`}>
+                  <FormattedMessage module={module} id="pickerNoOptionsLabel" />
                 </MenuItem>
               )}
 
