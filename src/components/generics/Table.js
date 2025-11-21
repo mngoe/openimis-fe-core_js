@@ -39,7 +39,10 @@ const styles = (theme) => ({
   tableHighlightedAltCell: theme.table.highlightedAltCell,
   tableDisabledRow: theme.table.disabledRow,
   tableDisabledCell: theme.table.disabledCell,
-  tableFooter: theme.table.footer,
+  tableFooter: {
+    ...theme.table.footer,
+    display: 'flex',
+  },
   pager: theme.table.pager,
   left: {
     textAlign: "left",
