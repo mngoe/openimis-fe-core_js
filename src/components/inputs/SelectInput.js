@@ -77,8 +77,7 @@ class SelectInput extends Component {
       valueStr = options.filter((o) => JSON.stringify(o.value) === JSON.stringify(value)).map((o) => o.label);
     }
     const moduleProp = this.props.intl.messages[`${module}.pickerNoOptionsLabel`] ? module : "core";
-    console.log("moduleProp", moduleProp);
-    console.log("module", module);
+    
     return (
       <Fragment>
         {!readOnly && (
