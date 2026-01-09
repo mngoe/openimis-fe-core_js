@@ -44,6 +44,7 @@ class ConstantBasedPicker extends Component {
       withNull = true,
       readOnly = false,
       required = false,
+      onlyConstants = false,
     } = this.props;
     const { value } = this.state;
     if (!withNull && value === null && !!!constants) return null;
@@ -60,7 +61,7 @@ class ConstantBasedPicker extends Component {
         .filter((c) => !filtered.includes(c) || value === c)
         .map((v) => ({
           value: v,
-          label: this._formatValue(v),
+          label: onlyConstants ? v : this._formatValue(v),
         }))
     );
     return (
