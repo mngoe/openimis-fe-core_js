@@ -76,6 +76,8 @@ class SelectInput extends Component {
     if (!!readOnly) {
       valueStr = options.filter((o) => JSON.stringify(o.value) === JSON.stringify(value)).map((o) => o.label);
     }
+    const moduleProp = this.props.intl.messages[`${module}.pickerNoOptionsLabel`] ? module : "core";
+    
     return (
       <Fragment>
         {!readOnly && (
@@ -90,13 +92,12 @@ class SelectInput extends Component {
                 id: `${_.uuid()}-input`,
                 title: title,
               }}
-              value={!!value ? JSON.stringify(value) : null}
+              value={!!value ? JSON.stringify(value) : ""}
               onChange={this._onChange}
               IconComponent={this.renderIconComponent()}
               disabled={disabled}
               endAdornment={this.renderEndAdornment()}
               displayEmpty
-              //NOTE: We want to get rid of default styling (marginTop) if label is not rendered
               {...(withLabel ? null : { style: { marginTop: "0px" } })}
             >
               {placeholder && (
@@ -104,11 +105,20 @@ class SelectInput extends Component {
                   <FormattedMessage module={module} id={placeholder} />
                 </MenuItem>
               )}
-              {options.map((option, idx) => (
-                <MenuItem key={`${module}-${name}-option-${idx}`} value={JSON.stringify(option.value)}>
-                  {option.label}
+
+              {options.length === 0 && (
+                <MenuItem disabled key={`${module}-${name}-option-0`}>
+                  <FormattedMessage module={moduleProp} id="pickerNoOptionsLabel" />
                 </MenuItem>
-              ))}
+              )}
+
+              {options.length > 0 &&
+                options.map((option, idx) => (
+                  <MenuItem key={`${module}-${name}-option-${idx}`} value={JSON.stringify(option.value)}>
+                    {option.label}
+                  </MenuItem>
+                ))
+              }
             </Select>
           </FormControl>
         )}
