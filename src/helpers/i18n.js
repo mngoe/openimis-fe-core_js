@@ -25,7 +25,7 @@ export function formatMessageWithValues(intl, module, id, values) {
 }
 
 export function formatAmount(mm, intl, amount) {
-  const thousandSeparator = mm.getConf("fe-core", "thousandSeparator", "fr");
+  const thousandSeparator = mm.getConf("fe-core", "thousandSeparator", "en");
   const number = amount || 0;
   const pricesAreDecimal = mm.getConf("fe-core", "pricesAreDecimal", true);
   const numberOfDecimals = mm.getConf("fe-core", "numberOfDecimals", 2);

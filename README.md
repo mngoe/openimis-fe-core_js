@@ -180,7 +180,7 @@ Whenever the **individual** global schema changes (you add or remove a filter fi
 - `formatMessageWithValues`: provide the translation of a module-prefixed key, for messages with vairable parts
 - `formatAmount`: format an amount as a string
     with config
-    - `fe-core`, "thousandSeparator", "fr"
+    - `fe-core`, "thousandSeparator", "en"
     - `fe-core`, "numberOfDecimals", 2
     - `fe-core`, "pricesAreDecimal", true
     the config thousandSeparator set the locale use by Intl.NumberFormat (e.g. "en") if you don't want formatting, set default value ""
