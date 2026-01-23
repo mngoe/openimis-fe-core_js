@@ -7,7 +7,9 @@ import clsx from "clsx";
 import { debounce } from "lodash";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 
-import { TextInput, useModulesManager, useTranslations } from "@openimis/fe-core";
+import TextInput from "./TextInput";
+import { useModulesManager } from "../../helpers/modules";
+import { useTranslations } from "../../helpers/i18n";
 import { ValidIcon, InvalidIcon } from "../../styles";
 import { DEFAULT_DEBOUNCE_TIME } from "../../constants";
 

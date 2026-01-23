@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { injectIntl } from "react-intl";
-import { formatMessage, SelectInput, withModulesManager } from "@openimis/fe-core";
+import { formatMessage } from "../helpers/i18n";
+import SelectInput from "../components/inputs/SelectInput";
+import withModulesManager from "../helpers/modules";
 import { fetchLanguages } from "../actions";
 
 class LanguagePicker extends Component {

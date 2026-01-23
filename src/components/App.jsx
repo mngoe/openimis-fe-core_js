@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState , ErrorBoundary } from "react";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
@@ -17,7 +17,6 @@ import LoginPage from "../pages/LoginPage";
 import { useAuthentication, useBoolean } from "../helpers/hooks";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SetPasswordPage from "../pages/SetPasswordPage";
-import { ErrorBoundary } from "@openimis/fe-core";
 import { onLogout } from "../helpers/utils";
 import { RIGHT_VIEW_EU_MODAL } from "../constants";
 import NotFoundPage from "./NotFoundPage";

@@ -1,5 +1,7 @@
 import { Grid } from "@mui/material";
-import { PublishedComponent, useModulesManager, useTranslations } from "@openimis/fe-core";
+import PublishedComponent from "../components/generics/PublishedComponent";
+import withModulesManager, { useModulesManager } from "../helpers/modules";
+import { useTranslations } from "../helpers/i18n";
 import React from "react";
 
 const RegistersStatusReport = (props) => {

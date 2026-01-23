@@ -3,7 +3,8 @@ import { injectIntl } from "react-intl";
 
 import { styled } from "@mui/material/styles";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { useTranslations, useModulesManager } from "@openimis/fe-core";
+import { useModulesManager } from "../../helpers/modules";
+import { useTranslations } from "../../helpers/i18n";
 
 const StyledDialog = styled('div')(({ theme }) => ({
   '& .primaryButton': theme.dialog.primaryButton,

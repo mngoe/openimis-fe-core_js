@@ -25,7 +25,7 @@ import {
   PublishedComponent,
   SelectInput,
   clearCurrentPaginationPage,
-} from "@openimis/fe-core";
+} from "../index";
 import { fetchRoles, deleteRole } from "../actions";
 import {
   DEFAULT_PAGE_SIZE,

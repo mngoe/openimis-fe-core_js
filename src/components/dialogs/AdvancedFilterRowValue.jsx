@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
-import {
-  PublishedComponent,
-  TextInput,
-  NumberInput,
-  SelectInput,
-} from "@openimis/fe-core";
+import PublishedComponent from "../generics/PublishedComponent";
+import TextInput from "../inputs/TextInput";
+import NumberInput from "../inputs/NumberInput";
+import SelectInput from "../inputs/SelectInput";
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { connect } from "react-redux";

@@ -1,6 +1,9 @@
 import React, { useState, useMemo } from "react";
 
-import { useModulesManager, useTranslations, Autocomplete, useGraphqlQuery } from "@openimis/fe-core";
+import { useModulesManager } from "../helpers/modules";
+import { useTranslations } from "../helpers/i18n";
+import Autocomplete from "../components/inputs/Autocomplete";
+import { useGraphqlQuery } from "../helpers/hooks";
 import { MODULE_NAME } from "../constants";
 import { formatRoleLabel } from "../helpers/role-label-formatter";
 

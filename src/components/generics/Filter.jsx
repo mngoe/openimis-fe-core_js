@@ -3,15 +3,13 @@ import {
   FormControlLabel,
   Checkbox,
   Grid,
-  
- 
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   formatMessage,
-  TextInput,
-  PublishedComponent,
-} from '@openimis/fe-core';
+} from '../../helpers/i18n';
+import TextInput from '../inputs/TextInput';
+import PublishedComponent from './PublishedComponent';
 import _debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl';
 

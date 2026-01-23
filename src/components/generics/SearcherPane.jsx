@@ -6,7 +6,7 @@ import { Grid, Paper, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "@mui/icons-material";
 
-import { SearcherActionButton } from "@openimis/fe-core";
+import SearcherActionButton from "./SearcherActionButton";
 import { DEFAULT_DEBOUNCE_TIME, ENTER_KEY } from "../../constants";
 import { formatMessage } from "../../helpers/i18n";
 import AdvancedFiltersDialog from "../dialogs/AdvancedFiltersDialog";

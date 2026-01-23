@@ -1,5 +1,8 @@
 import React, { Fragment } from "react";
-import { FormPanel, ProgressOrError, FormattedMessage, formatMessage } from "@openimis/fe-core";
+import FormPanel from "./generics/FormPanel";
+import ProgressOrError from "./generics/ProgressOrError";
+import FormattedMessage from "./generics/FormattedMessage";
+import { formatMessage } from "../helpers/i18n";
 import {
   Grid,
   Paper,

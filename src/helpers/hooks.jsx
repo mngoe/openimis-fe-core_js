@@ -1,4 +1,4 @@
-import { useModulesManager } from "@openimis/fe-core";
+import { useModulesManager } from "./modules";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {

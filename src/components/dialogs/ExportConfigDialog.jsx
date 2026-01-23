@@ -16,7 +16,8 @@ import { styled } from "@mui/material/styles";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
-import { useModulesManager, useTranslations } from "@openimis/fe-core";
+import { useModulesManager } from "../../helpers/modules";
+import { useTranslations } from "../../helpers/i18n";
 import { isEmptyObject } from "../../helpers/utils";
 
 const StyledDialog = styled('div')(({ theme }) => ({

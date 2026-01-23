@@ -10,7 +10,8 @@ import { FormControl } from "@mui/material";
 import { LocalizationProvider, DatePicker as MUIDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { formatMessage, toISODate } from "../helpers/i18n";
-import { withModulesManager, withHistory } from "@openimis/fe-core";
+import withModulesManager from "../helpers/modules";
+import withHistory from "../helpers/history";
 import { DEFAULT } from "../constants";
 
 import DatePicker from "react-multi-date-picker";

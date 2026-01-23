@@ -11,7 +11,7 @@ import {
   TextInput,
   ValidatedTextInput,
   withModulesManager,
-} from "@openimis/fe-core";
+} from "../index";
 import { roleNameValidationCheck, roleNameValidationClear, roleNameSetValid } from "../actions";
 
 const StyledRoleHeadPanel = styled('div')(({ theme }) => ({

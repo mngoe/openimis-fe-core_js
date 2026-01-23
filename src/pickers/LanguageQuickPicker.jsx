@@ -5,7 +5,7 @@ import { Button, Typography, MenuList, MenuItem, Popper, Paper, Grow, ClickAwayL
 import Globe from "@mui/icons-material/Public";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import { SelectDialog } from "@openimis/fe-core";
+import SelectDialog from "../components/dialogs/SelectDialog";
 import { changeUserLanguage, fetchLanguages } from "../actions";
 import { getLanguageNameByCode } from "../helpers/utils";
 
