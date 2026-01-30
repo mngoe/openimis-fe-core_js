@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react({
       jsxRuntime: 'automatic',
-    jsxImportSource: '@emotion/react',
+      jsxImportSource: '@emotion/react',
       // Ensure JSX is processed in both .js and .jsx files
       include: [/\.jsx$/, /\.js$/],
     }),
