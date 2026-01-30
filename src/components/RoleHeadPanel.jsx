@@ -39,7 +39,7 @@ class RoleHeadPanel extends FormPanel {
             </Fragment>
           )}
           <Grid container>
-            <Grid item className="item">
+            <Grid className="item">
               <ValidatedTextInput
                 itemQueryIdentifier="roleName"
                 codeTakenLabel={"core.roleManagement.duplicateButton.tooltip"}
@@ -57,7 +57,7 @@ class RoleHeadPanel extends FormPanel {
                 readOnly={!!isReadOnly}
               />
             </Grid>
-            <Grid item className="item">
+            <Grid className="item">
               <TextInput
                 module="core"
                 label="roleManagement.altLanguage"
@@ -66,7 +66,7 @@ class RoleHeadPanel extends FormPanel {
                 readOnly={!!isReadOnly}
               />
             </Grid>
-            <Grid item className="item">
+            <Grid className="item">
               <FormControlLabel
                 label={formatMessage(intl, "core", "roleManagement.isSystem")}
                 control={
@@ -78,7 +78,7 @@ class RoleHeadPanel extends FormPanel {
                 }
               />
             </Grid>
-            <Grid item className="item">
+            <Grid className="item">
               <FormControlLabel
                 label={formatMessage(intl, "core", "roleManagement.isBlocked")}
                 control={
@@ -104,4 +104,5 @@ const mapStateToProps = (state) => ({
   savedRoleName: state.core?.role?.name,
 });
 
+export { StyledRoleHeadPanel };
 export default withModulesManager(connect(mapStateToProps)(RoleHeadPanel));

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Link } from 'react-router-dom';
 import * as Icons from "@mui/icons-material";
 import PropTypes from "prop-types";
 import MuiAccordion from "@mui/material/Accordion";
@@ -10,9 +11,8 @@ import { styled } from "@mui/material/styles";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Divider, List, IconButton, MenuList, MenuItem, Button, Popper, Grow, Paper, ClickAwayListener } from "@mui/material";
+import { Divider, List, IconButton, MenuList, MenuItem, Button, Popper, Paper, ClickAwayListener } from "@mui/material";
 import withModulesManager from "../../helpers/modules";
-import { _historyPush } from "../../helpers/history";
 
 const StyledMainMenu = styled('div')(({ theme }) => ({
   '& .panel': {
@@ -176,27 +176,7 @@ class MainMenuContribution extends Component {
     this.setState({ expanded: !this.state.expanded });
   };
 
-  handleMenuClose = (event) => {
-    if (this.state.anchorRef.current && this.state.anchorRef.current.contains(event.target)) {
-      return;
-    }
-    this.toggleExpanded(event);
-  };
 
-  handleMenuSelect = (e, route) => {
-   
-    if (e.type === 'click') {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-    this.toggleExpanded(e);
-    this.redirect(route);
-  };
-  
-  redirect(route) {
-    const { modulesManager, history } = this.props;
-    _historyPush(modulesManager, history, route);
-  }
 
   appBarMenu = (entries) => {
     return (
@@ -209,46 +189,30 @@ class MainMenuContribution extends Component {
           className="popper"
           open={this.state.expanded}
           anchorEl={this.state.anchorRef.current}
-          transition
           placement="bottom-start"
           disablePortal={false}
-          modifiers={[
-            { name: 'preventOverflow', options: { boundary: 'viewport' } },
-            { name: 'flip', options: { fallbackPlacements: ['bottom-end', 'top-start'] } },
-            { name: 'offset', options: { offset: [0, 8] } },
-          ]}
           style={{ zIndex: 2000 }}
         >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin: placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper className="appBarMenuPaper" id={`${this.props.header}-menu-list`}>
-                <ClickAwayListener onClickAway={this.handleMenuClose}>
-                  <MenuList>
-                    {entries.map((entry, idx) => (
-                      <div key={`${this.props.header}_${idx}_menuItem`}>
-                        <MenuItem onClick={(e) => this.handleMenuSelect(e, entry.route)}  component="a"  href={`${process.env.PUBLIC_URL || ""}${entry.route}`} passHref>
-                          <ListItemIcon>{entry.icon}</ListItemIcon>
-                          <ListItemText primary={entry.text}/>
-                          
-                        </MenuItem>
-                        {entry.withDivider && (
-                          <Divider
-                            key={`${this.props.header}_${idx}_divider`}
-                            className="drawerDivider"
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
+          <Paper className="appBarMenuPaper" id={`${this.props.header}-menu-list`}>
+            <ClickAwayListener onClickAway={this.toggleExpanded}>
+              <MenuList>
+                {entries.map((entry, idx) => (
+                  <div key={`${this.props.header}_${idx}_menuItem`}>
+                    <MenuItem component={Link} to={entry.route} onClick={this.toggleExpanded}>
+                      <ListItemIcon>{entry.icon}</ListItemIcon>
+                      <ListItemText primary={entry.text}/>
+                    </MenuItem>
+                    {entry.withDivider && (
+                      <Divider
+                        key={`${this.props.header}_${idx}_divider`}
+                        className="drawerDivider"
+                      />
+                    )}
+                  </div>
+                ))}
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
         </Popper>
       </StyledMainMenu>
     );
@@ -269,9 +233,9 @@ class MainMenuContribution extends Component {
                 <ListItem
                   button
                   key={`${this.props.header}_${idx}_item`}
-                  onClick={(e) => {
-                    this.redirect(entry.route);
-                  }}
+                  component={Link}
+                  to={entry.route}
+                  onClick={this.toggleExpanded}
                 >
                   {entry.icon && <ListItemIcon>{entry.icon}</ListItemIcon>}
                   <ListItemText primary={entry.text}/>
@@ -306,7 +270,8 @@ MainMenuContribution.propTypes = {
   header: PropTypes.string.isRequired,
   entries: PropTypes.array.isRequired,
   history: PropTypes.object.isRequired,
-  menuId: PropTypes.object.isRequired,
+  menuId: PropTypes.string.isRequired,
 };
 
+export { StyledMainMenu };
 export default withModulesManager(MainMenuContribution);

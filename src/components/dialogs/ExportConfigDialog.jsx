@@ -149,4 +149,5 @@ const ExportConfigDialog = ({
   );
 };
 
+export { StyledDialog };
 export default injectIntl(ExportConfigDialog);

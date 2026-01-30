@@ -11,4 +11,5 @@ class ControlledField extends Component {
   }
 }
 
+export { ControlledField };
 export default withModulesManager(ControlledField);

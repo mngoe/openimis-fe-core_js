@@ -146,4 +146,5 @@ function SearcherExport(props) {
   );
 }
 
+export { StyledSearcherExport };
 export default injectIntl(SearcherExport);

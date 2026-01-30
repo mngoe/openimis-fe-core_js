@@ -213,4 +213,6 @@ class Picker extends Component {
   }
 }
 
+export { StyledPicker };
+export { RawPickerDialog };
 export default injectIntl(Picker);

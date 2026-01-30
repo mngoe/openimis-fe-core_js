@@ -376,4 +376,5 @@ class Table extends Component {
   }
 }
 
+export { StyledTableServiceReview };
 export default withModulesManager(injectIntl(Table));

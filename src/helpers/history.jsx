@@ -5,8 +5,8 @@ import { Link, NavLink, Redirect } from "react-router-dom";
 export { Link, NavLink, Redirect };
 export { useLocation, useHistory, useParams, useRouteMatch };
 
+export { withHistory };
 export default function withHistory(C) {
-  console.warn("[Deprecated]: Prefer using directly the `useHistory` hook to get the history");
   return (props) => {
     const history = useHistory();
     return <C {...props} history={history} />;

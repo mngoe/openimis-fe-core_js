@@ -128,7 +128,7 @@ const AdvancedFilterRowValue = ({
         </div> 
       ) : (<></>)
       }
-      <Grid item xs={3} className="item">
+      <Grid size={3} className="item">
         <CustomFilterFieldStatusPicker
           module="core"
           label="core.advancedFilters.field"
@@ -138,7 +138,7 @@ const AdvancedFilterRowValue = ({
         />
       </Grid>
         {currentFilter.field !== "" ? (
-          <Grid item xs={3} className="item">
+          <Grid size={3} className="item">
             <CustomFilterTypeStatusPicker
               module="core"
               label="core.advancedFilters.filter"
@@ -150,7 +150,7 @@ const AdvancedFilterRowValue = ({
           </Grid>
         ) : (<></>) }
         {currentFilter.field !== "" && currentFilter.filter !== "" ? (
-          <Grid item xs={3} className="item">
+          <Grid size={3} className="item">
             {renderInputBasedOnType(currentFilter.type)}
           </Grid>
         ) : (<></>) }
@@ -158,4 +158,5 @@ const AdvancedFilterRowValue = ({
   );
 };
 
+export { StyledGrid };
 export default injectIntl(connect(null, null)(AdvancedFilterRowValue));

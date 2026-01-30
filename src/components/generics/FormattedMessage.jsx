@@ -21,4 +21,5 @@ class FormattedMessage extends Component {
   }
 }
 
+export { FormattedMessage };
 export default injectIntl(FormattedMessage);

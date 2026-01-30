@@ -13,7 +13,7 @@ const UserActivityReport = (props) => {
 
   return (
     <Grid container direction="column" spacing={1}>
-      <Grid item>
+      <Grid>
         <PublishedComponent
           pubRef="core.DatePicker"
           value={values.dateFrom}
@@ -23,7 +23,7 @@ const UserActivityReport = (props) => {
           onChange={(dateFrom) => setValues({ ...values, dateFrom })}
         />
       </Grid>
-      <Grid item>
+      <Grid>
         <PublishedComponent
           pubRef="core.DatePicker"
           value={values.dateTo}
@@ -33,7 +33,7 @@ const UserActivityReport = (props) => {
           onChange={(dateTo) => setValues({ ...values, dateTo })}
         />
       </Grid>
-      <Grid item>
+      <Grid>
         <PublishedComponent
           pubRef="admin.UserPicker"
           value={values.user}
@@ -42,7 +42,7 @@ const UserActivityReport = (props) => {
           onChange={(user) => setValues({ ...values, user })}
         />
       </Grid>
-      <Grid item>
+      <Grid>
         <ConstantBasedPicker
           module="core"
           value={values.action}
@@ -51,7 +51,7 @@ const UserActivityReport = (props) => {
           onChange={(action) => setValues({ ...values, action })}
         />
       </Grid>
-      <Grid item>
+      <Grid>
         <ConstantBasedPicker
           module="core"
           value={values.entity}

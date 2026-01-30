@@ -11,7 +11,7 @@ const RegistersStatusReport = (props) => {
 
   return (
     <Grid container direction="column" spacing={1}>
-      <Grid item>
+      <Grid>
         <PublishedComponent
           pubRef="location.LocationPicker"
           onChange={(region) =>
@@ -25,7 +25,7 @@ const RegistersStatusReport = (props) => {
           label={formatMessage("RegistersStatusReport.region")}
         />
       </Grid>
-      <Grid item>
+      <Grid>
         <PublishedComponent
           pubRef="location.LocationPicker"
           onChange={(district) =>
@@ -43,4 +43,5 @@ const RegistersStatusReport = (props) => {
   );
 };
 
+export { RegistersStatusReport };
 export default RegistersStatusReport;

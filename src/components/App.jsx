@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState , ErrorBoundary } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
@@ -173,9 +173,7 @@ const App = (props) => {
                         key={route.path}
                         path={"/" + route.path}
                         render={(props) => (
-                          <ErrorBoundary>
-                            <route.component modulesManager={modulesManager} {...props} {...others} />
-                          </ErrorBoundary>
+                          <route.component modulesManager={modulesManager} {...props} {...others} />
                         )}
                       />
                     ))}
@@ -185,25 +183,23 @@ const App = (props) => {
                         key={route.path}
                         path={"/" + route.path}
                         render={(props) => (
-                          <ErrorBoundary>
-                            <RequireAuth
-                              {...props}
+                          <RequireAuth
+                            {...props}
+                            {...others}
+                            redirectTo={"/login"}
+                            onEconomicDialogOpen={() => setEconomicUnitDialogOpen(true)}
+                            isSecondaryCalendar={isSecondaryCalendar}
+                            setSecondaryCalendar={setSecondaryCalendar}
+                          >
+                            <PermissionCheck
+                              modulesManager={modulesManager}
+                              userRights={rights}
+                              requiredRights={route.requiredRights}
                               {...others}
-                              redirectTo={"/login"}
-                              onEconomicDialogOpen={() => setEconomicUnitDialogOpen(true)}
-                              isSecondaryCalendar={isSecondaryCalendar}
-                              setSecondaryCalendar={setSecondaryCalendar}
                             >
-                              <PermissionCheck
-                                modulesManager={modulesManager}
-                                userRights={rights}
-                                requiredRights={route.requiredRights}
-                                {...others}
-                              >
-                                <route.component modulesManager={modulesManager} {...props} {...others} />
-                              </PermissionCheck>
-                            </RequireAuth>
-                          </ErrorBoundary>
+                              <route.component modulesManager={modulesManager} {...props} {...others} />
+                            </PermissionCheck>
+                          </RequireAuth>
                         )}
                       />
                     ))}

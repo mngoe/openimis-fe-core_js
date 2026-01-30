@@ -14,14 +14,14 @@ const StyledTextInput = styled('div')(({ theme }) => ({
   // NOTE: This is used to hide the increment/decrement arrows from the number input
   '& .numberInput': {
     "& input[type=number]": {
-      "-moz-appearance": "textfield",
+      MozAppearance: "textfield",
     },
     "& input[type=number]::-webkit-outer-spin-button": {
-      "-webkit-appearance": "none",
+      WebkitAppearance: "none",
       margin: 0,
     },
     "& input[type=number]::-webkit-inner-spin-button": {
-      "-webkit-appearance": "none",
+      WebkitAppearance: "none",
       margin: 0,
     },
   },
@@ -52,7 +52,7 @@ class TextInput extends Component {
     value: "",
   };
   componentDidMount() {
-    let value = this.props.value;
+    let value = this.props.value ?? "";
     if (!!this.props.formatInput) {
       value = this.props.formatInput(value);
     }
@@ -62,7 +62,7 @@ class TextInput extends Component {
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.reset !== this.props.reset || prevProps.value !== this.props.value) {
-      let value = this.props.value;
+      let value = this.props.value ?? "";
       if (!!this.props.formatInput) {
         value = this.props.formatInput(value);
       }
@@ -93,6 +93,7 @@ class TextInput extends Component {
       formatInput = null,
       helperText,
       type,
+      modulesManager,
       ...others
     } = this.props;
     return (
@@ -121,4 +122,5 @@ class TextInput extends Component {
   }
 }
 
+export { StyledTextInput };
 export default withModulesManager(injectIntl(TextInput));

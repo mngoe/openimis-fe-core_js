@@ -95,7 +95,7 @@ class SelectInput extends Component {
                   id: `${_.uuid()}-input`,
                   title: title,
                 }}
-                value={!!value ? JSON.stringify(value) : null}
+                value={!!value ? JSON.stringify(value) : ""}
                 onChange={this._onChange}
                 IconComponent={this.renderIconComponent()}
                 disabled={disabled}
@@ -134,4 +134,5 @@ class SelectInput extends Component {
   }
 }
 
+export { StyledSelectInput };
 export default injectIntl(SelectInput);

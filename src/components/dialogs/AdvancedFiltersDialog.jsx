@@ -191,7 +191,7 @@ const AdvancedFiltersDialog = ({
 
   return (
     <StyledDialog>
-      <Grid item className="paperHeaderAction">
+      <Grid className="paperHeaderAction">
         <SearcherActionButton
           startIcon={<FilterListIcon />}
           label={formatMessage(intl, "core", "advancedFilters")}
@@ -221,6 +221,7 @@ const AdvancedFiltersDialog = ({
         <DialogContent>
           {filters.map((filter, index) => {
             return (<AdvancedFilterRowValue
+              key={index}
               customFilters={customFilters}
               currentFilter={filter}
               setCurrentFilter={setCurrentFilter}
@@ -314,4 +315,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchCustomFilter,
 }, dispatch);
 
+export { StyledDialog };
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(AdvancedFiltersDialog));

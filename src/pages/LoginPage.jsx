@@ -119,7 +119,7 @@ const LoginPage = ({ logo }) => {
             <Box p={6} width={380}>
               <Grid container spacing={2} direction="column" alignItems="stretch">
                 {enablePublicPage && (
-                  <Grid item container direction="row" alignItems="center">
+                  <Grid container direction="row" alignItems="center">
                     <Button
                       onClick={() => history.push("/")}
                       startIcon={<ArrowBackIcon />}
@@ -130,7 +130,7 @@ const LoginPage = ({ logo }) => {
                     </Button>
                   </Grid>
                 )}
-                <Grid item container direction="row" alignItems="center">
+                <Grid container direction="row" alignItems="center">
                   <img className="logo" src={logo} />
                   {!isWorker && (
                     <Box pl={2} fontWeight="fontWeightMedium" fontSize="h4.fontSize">
@@ -139,7 +139,7 @@ const LoginPage = ({ logo }) => {
                   )}
                 </Grid>
                 {showMPassProvider ? (
-                  <Grid item>
+                  <Grid>
                     <Box display="flex" alignItems="center" justifyContent="center" my={2}>
                       <Typography style={{ textTransform: "uppercase" }} variant="body2">
                         {formatMessage("loginCaption")}
@@ -164,7 +164,7 @@ const LoginPage = ({ logo }) => {
                   </Grid>
                 ) : (
                   <>
-                    <Grid item>
+                    <Grid>
                       <TextInput
                         required
                         readOnly={isAuthenticating}
@@ -175,7 +175,7 @@ const LoginPage = ({ logo }) => {
                         onChange={(username) => setCredentials({ ...credentials, username })}
                       />
                     </Grid>
-                    <Grid item>
+                    <Grid>
                       <TextInput
                         required
                         readOnly={isAuthenticating}
@@ -187,11 +187,11 @@ const LoginPage = ({ logo }) => {
                       />
                     </Grid>
                     {serverResponse?.message && (
-                    <Grid item>
+                    <Grid>
                       <Box color="error.main">{getErrorMessage(serverResponse.message)}</Box>
                     </Grid>
                     )}
-                    <Grid item>
+                    <Grid>
                       <Button
                         fullWidth
                         type="submit"
@@ -202,7 +202,7 @@ const LoginPage = ({ logo }) => {
                         {formatMessage("loginBtn")}
                       </Button>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                       <Button onClick={redirectToForgotPassword}>{formatMessage("forgotPassword")}</Button>
                       <Contributions contributionKey={LOGIN_PAGE_CONTRIBUTION_KEY} />
                     </Grid>

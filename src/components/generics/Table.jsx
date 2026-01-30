@@ -66,7 +66,6 @@ const StyledTable = styled('div')(({ theme }) => ({
 class Table extends Component {
   state = {
     selection: {},
-    ordinalNumberFrom: null,
   };
 
   _atom = (a) =>
@@ -156,13 +155,10 @@ class Table extends Component {
     </Box>
   );
 
-  calculateOrdinalNumber = (iidx, isPaginationEnabled, arrayLength) => {
-    const { ordinalNumberFrom } = this.state;
+  calculateOrdinalNumber = (iidx, isPaginationEnabled, arrayLength, page, rowsPerPage) => {
     let currentIndex = 0;
     if (isPaginationEnabled) {
-      if (isNaN(ordinalNumberFrom)) {
-        currentIndex = 0;
-      }
+      const ordinalNumberFrom = page * rowsPerPage + 1;
       currentIndex = iidx + ordinalNumberFrom;
     } else {
       currentIndex = iidx + 1;
@@ -207,7 +203,7 @@ class Table extends Component {
       selectWithCheckbox = false,
       withSelection = false,
     } = this.props;
-    const { ordinalNumberFrom } = this.state;
+
     let localHeaders = [...(headers || [])];
     let localPreHeaders = !!preHeaders ? [...preHeaders] : null;
     let localItemFormatters = [...itemFormatters];
@@ -250,15 +246,15 @@ class Table extends Component {
             <Grid container alignItems="center" justify="space-between" className="tableTitle">
               {extendHeader ? (
                 <>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <Typography variant="h6">{header}</Typography>
                   </Grid>
-                  <Grid item container direction="row" alignItems="center" justify="space-between" xs={6}>
+                  <Grid container direction="row" alignItems="center" justify="space-between" size={6}>
                     {extendHeader && extendHeader()}
                   </Grid>
                 </>
               ) : (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography variant="h6">{header}</Typography>
                 </Grid>
               )}
@@ -370,7 +366,7 @@ class Table extends Component {
                         )}
                         key={`v-${this.calculateOrdinalNumber(iidx, withPagination, items.length)}-0`}
                       >
-                        <span>{this.calculateOrdinalNumber(iidx, withPagination, items.length)}</span>
+                        <span>{this.calculateOrdinalNumber(iidx, withPagination, items.length, page, rowsPerPage)}</span>
                       </TableCell>
                     )}
                     {localItemFormatters &&
@@ -408,18 +404,15 @@ class Table extends Component {
                     className="pager"
                     colSpan={localItemFormatters.length + (selectWithCheckbox ? 1 : 0)}
                     labelRowsPerPage={formatMessage(intl, "core", "rowsPerPage")}
-                    labelDisplayedRows={({ from, to, count }) => {
-                      if (this.state.ordinalNumberFrom !== from) this.setState({ ordinalNumberFrom: from });
-                      return `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`;
-                    }}
+                    labelDisplayedRows={({ from, to, count }) =>
+                      `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`
+                    }
                     count={count}
                     page={page}
                     rowsPerPage={rowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions}
                     onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
                     onPageChange={onChangePage}
-                    nextIconButtonText={formatMessage(intl, "core", "Table.nextPage")}
-                    backIconButtonText={formatMessage(intl, "core", "Table.previousPage")}
                   />
                 </TableRow>
               </TableFooter>
@@ -437,4 +430,5 @@ class Table extends Component {
   }
 }
 
+export { StyledTable };
 export default withModulesManager(injectIntl(Table));

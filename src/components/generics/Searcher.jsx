@@ -119,10 +119,10 @@ class SelectionMenu extends Component {
     this.setState({ anchorEl: null }, (e) => this.props.triggerAction(a));
   };
   renderButtons = (entries, contributionKey) => (
-    <Grid item className="paperHeader">
+    <Grid className="paperHeader">
       <Grid container alignItems="center" className="paperHeaderAction">
         {entries.map((i, idx) => (
-          <Grid key={`selectionsButtons-${idx}`} item className="paperHeaderAction">
+          <Grid key={`selectionsButtons-${idx}`} className="paperHeaderAction">
             <Button onClick={(e) => this.action(i.action)}>{i.text}</Button>
           </Grid>
         ))}
@@ -162,9 +162,9 @@ class SelectionMenu extends Component {
 
   renderMenu = (entries, contributionKey) => {
     return (
-      <Grid item className="paperHeader">
+      <Grid className="paperHeader">
         <Grid container alignItems="center">
-          <Grid item className="paperHeaderAction">
+          <Grid className="paperHeaderAction">
             <IconButton onClick={this.openMenu}>
               <MoreHoriz />
             </IconButton>
@@ -480,7 +480,7 @@ class Searcher extends Component {
 
     return searcherActions.map((action, idx) =>
       action.authorized && (
-        <Grid item key={`searcher-action-${idx}`}>
+        <Grid key={`searcher-action-${idx}`}>
           <Button
             key={action.label}
             onClick={action.onClick}
@@ -602,16 +602,16 @@ class Searcher extends Component {
               <ProgressOrError error={errorItems} />
             ) : (
               <Fragment>
-                <Grid container item alignItems="center" xs={this.isWorker ? 7 : 8} className="paperHeader">
-                  <Grid item xs={8} className="paperHeaderTitle">
+                <Grid container alignItems="center" size={this.isWorker ? 7 : 8} className="paperHeader">
+                  <Grid size={8} className="paperHeaderTitle">
                     <div className="infoSection">
                       {infoButtonContent && <InfoButton content={infoButtonContent} />}
-                      <Grid item>
+                      <Grid>
                         {!fetchingItems ? tableTitle : formatMessage(intl, "core", "table.resultsLoading")}
                       </Grid>
                     </div>
                   </Grid>
-                  <Grid item xs={4} className="paperHeaderMessage">
+                  <Grid size={4} className="paperHeaderMessage">
                     <SelectionPane
                       module={module}
                       selectionMessage={selectionMessage}
@@ -619,11 +619,11 @@ class Searcher extends Component {
                     />
                   </Grid>
                 </Grid>
-                <Grid container alignItems="center" item xs={this.isWorker ? 5 : 4} className="paperHeader">
+                <Grid container alignItems="center" size={this.isWorker ? 5 : 4} className="paperHeader">
                   {fetchedItems && (
                     <Grid container direction="row" justify="flex-end" className="paperHeaderAction">
                       {searcherActionsPosition === "header-right" && this.renderSearcherActions()}
-                      <Grid item>
+                      <Grid>
                         <StyledSelectionMenu
                           selectWithCheckbox={selectWithCheckbox}
                           refetch={this.applyFilters}
@@ -657,7 +657,7 @@ class Searcher extends Component {
                   )}
                 </Grid>
                 <Divider />
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Table
                     size="small"
                     module={module}
@@ -713,6 +713,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ cacheFilters, resetCacheFilters, saveCurrentPaginationPage }, dispatch);
 };
 
+export { StyledSearcher };
+export { SelectionPane };
 export default withModulesManager(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(Searcher))
 );

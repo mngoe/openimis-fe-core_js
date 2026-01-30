@@ -50,4 +50,5 @@ const SelectDialog = ({
   );
 };
 
+export { StyledDialog };
 export default injectIntl(SelectDialog);

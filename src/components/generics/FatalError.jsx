@@ -9,12 +9,18 @@ const FatalErrorPage = (props) => {
 
   let title, description;
 
-  if (error && error.code === 429) {
-    title = formatMessage("core.FatalError.RateLimitExceeded.title");
-    description = formatMessage("core.FatalError.RateLimitExceeded.description");
-  } else {
-    title = formatMessage("core.FatalError.GenericError.title");
-    description = (error && error.message) || formatMessage("core.FatalError.GenericError.description");
+  try {
+    if (error && error.code === 429) {
+      title = formatMessage("core.FatalError.RateLimitExceeded.title");
+      description = formatMessage("core.FatalError.RateLimitExceeded.description");
+    } else {
+      title = formatMessage("core.FatalError.GenericError.title");
+      description = (error && error.message) || formatMessage("core.FatalError.GenericError.description");
+    }
+  } catch (e) {
+    // Fallback if translations are not available
+    title = "Fatal Error";
+    description = error?.message || "An unexpected error occurred";
   }
 
   return (

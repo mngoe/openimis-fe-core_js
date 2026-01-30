@@ -40,4 +40,5 @@ class YearPicker extends Component {
   }
 }
 
+export { YearPicker };
 export default injectIntl(YearPicker);

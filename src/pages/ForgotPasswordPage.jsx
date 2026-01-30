@@ -59,16 +59,16 @@ const ForgotPasswordPage = (props) => {
             <Box p={3} width={500}>
               {!isDone && (
                 <Grid container spacing={2} direction="column" alignItems="stretch">
-                  <Grid item>
+                  <Grid>
                     <h1>{formatMessage("recoverTitle")}</h1>
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <Typography>{formatMessage("explanationMessage")}</Typography>
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <Typography>{formatMessage("contactAdministrator")}</Typography>
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <TextInput
                       required
                       readOnly={isLoading}
@@ -78,7 +78,7 @@ const ForgotPasswordPage = (props) => {
                       onChange={(username) => setUsername(username)}
                     />
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <Button
                       fullWidth
                       type="submit"

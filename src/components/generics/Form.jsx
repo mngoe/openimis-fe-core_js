@@ -122,20 +122,20 @@ class Form extends Component {
       <StyledForm>
         <form noValidate autoComplete="off">
           <Grid container>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Paper className="paper">
                 <Grid container alignItems="center" direction="row" className="paperHeader">
-                  <Grid item xs={8}>
+                  <Grid size={8}>
                     <Grid container alignItems="center">
                       {!!back && (
-                        <Grid item>
+                        <Grid>
                           <IconButton onClick={back}>
                             <ChevronLeftIcon />
                           </IconButton>
                         </Grid>
                       )}
                       {!!title && (
-                        <Grid item>
+                        <Grid>
                           <Typography variant="h6">
                             <FormattedMessage module={module} id={title} values={titleParams} />
                           </Typography>
@@ -144,13 +144,13 @@ class Form extends Component {
                     </Grid>
                   </Grid>
                   {!!actions && (
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Grid container justify="flex-end">
                         {actions.map((a, idx) => {
                           if (!!a.onlyIfDirty && !this.state.dirty) return null;
                           if (!!a.onlyIfNotDirty && !!this.state.dirty) return null;
                           return (
-                            <Grid item key={`form-action-${idx}`} className="paperHeaderAction">
+                            <Grid key={`form-action-${idx}`} className="paperHeaderAction">
                               {withTooltip(
                                 !!a.button ? (
                                   a.button
@@ -168,11 +168,11 @@ class Form extends Component {
                     </Grid>
                   )}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Divider />
                 </Grid>
                 {(HeadPanel || headPanelContributionsKey) && (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     {!!HeadPanel && (
                       <HeadPanel
                         edited={this.props.edited}
@@ -191,7 +191,7 @@ class Form extends Component {
           </Grid>
           {!!Panels &&
             Panels.map((P, idx) => (
-              <Grid key={`form_panel_${idx}`} item xs={12}>
+              <Grid key={`form_panel_${idx}`} size={12}>
                 <P
                   {...others}
                   edited={this.props.edited}
@@ -225,4 +225,5 @@ class Form extends Component {
   }
 }
 
+export { StyledForm };
 export default withHistory(injectIntl(Form));

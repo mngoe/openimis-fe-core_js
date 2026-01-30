@@ -39,7 +39,7 @@ const Autocomplete = (props) => {
     label,
     filterOptions,
     getOptionLabel,
-    getOptionSelected = defaultGetOptionSelected,
+    isOptionEqualToValue = defaultGetOptionSelected,
     filterSelectedOptions,
     placeholder,
     onInputChange,
@@ -100,11 +100,11 @@ const Autocomplete = (props) => {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        limitTags={limitTags ? limitTags : Infinity}
+        limitTags={limitTags ?? -1}
         autoComplete
         value={value}
         getOptionLabel={getOptionLabel ?? ((option) => option.label)}
-        getOptionSelected={getOptionSelected}
+        isOptionEqualToValue={isOptionEqualToValue}
         onChange={handleChange}
         filterOptions={filterOptions}
         filterSelectedOptions={filterSelectedOptions}

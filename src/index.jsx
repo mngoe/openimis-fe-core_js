@@ -127,9 +127,10 @@ import { usePublicPageLanguage } from "./helpers/PublicPageLanguageContext";
 import { validatePassword } from "./helpers/passwordValidator";
 import { passwordGenerator } from "./helpers/passwordGenerator";
 import { createFieldsBasedOnJSON, renderInputComponent } from "./helpers/json-handler-utils";
-import withModulesManager, { useModulesManager } from "./helpers/modules";
+import withModulesManager, { useModulesManager, modulesManagerCtx } from "./helpers/modules";
 import { formatJsonField } from "./helpers/jsonExt";
 import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER, EXPORT_FILE_FORMATS } from "./constants";
+import { GRID_RESPONSIVE_STANDARD, GRID_RESPONSIVE_SMALL, GRID_RESPONSIVE_LARGE, GRID_RESPONSIVE_FULL, GRID_RESPONSIVE_HALF } from "./constants/responsiveGrid";
 import { authMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
 import UserActivityReport from "./reports/UserActivityReport";
@@ -257,6 +258,7 @@ export {
   encodeId,
   withModulesManager,
   useModulesManager,
+  modulesManagerCtx,
   formatQuery,
   formatPageQuery,
   formatPageQueryWithCount,
@@ -341,4 +343,9 @@ export {
   InfoButton,
   usePublicPageLanguage,
   LoginPage,
+  GRID_RESPONSIVE_STANDARD,
+  GRID_RESPONSIVE_SMALL,
+  GRID_RESPONSIVE_LARGE,
+  GRID_RESPONSIVE_FULL,
+  GRID_RESPONSIVE_HALF,
 };

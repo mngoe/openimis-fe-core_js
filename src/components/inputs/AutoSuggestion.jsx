@@ -379,4 +379,5 @@ class AutoSuggestion extends Component {
   }
 }
 
+export { StyledAutoSuggestion };
 export default injectIntl(withModulesManager(AutoSuggestion));

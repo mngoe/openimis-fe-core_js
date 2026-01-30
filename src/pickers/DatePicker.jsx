@@ -196,6 +196,8 @@ const mapStateToProps = (state) => ({
   isSecondaryCalendarEnabled: state.core.isSecondaryCalendarEnabled ?? false,
 });
 
+export { StyledDatePicker };
+export { openIMISDatePicker };
 export default injectIntl(
   withModulesManager(withHistory(connect(mapStateToProps, null)(openIMISDatePicker))),
 );

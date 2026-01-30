@@ -19,4 +19,5 @@ class FieldLabel extends Component {
   }
 }
 
+export { StyledTypography };
 export default injectIntl(FieldLabel);

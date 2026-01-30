@@ -109,7 +109,7 @@ class RawRoleFilter extends Component {
     const { intl } = this.props;
     return (
       <Grid container className="form">
-        <Grid item xs={3} className="item">
+        <Grid size={3} className="item">
           <TextInput
             module="core"
             label="roleManagement.roleName"
@@ -117,7 +117,7 @@ class RawRoleFilter extends Component {
             onChange={(v) => this._onChangeStringFilter("name", v, CONTAINS_LOOKUP)}
           />
         </Grid>
-        <Grid item xs={3} className="item">
+        <Grid size={3} className="item">
           <SelectInput
             module="core"
             label="roleManagement.isSystem"
@@ -126,7 +126,7 @@ class RawRoleFilter extends Component {
             onChange={(v) => this._onChangeFilter("isSystem", v)}
           />
         </Grid>
-        <Grid item xs={3} className="item">
+        <Grid size={3} className="item">
           <SelectInput
             module="core"
             label="roleManagement.isBlocked"
@@ -135,14 +135,14 @@ class RawRoleFilter extends Component {
             onChange={(v) => this._onChangeFilter("isBlocked", v)}
           />
         </Grid>
-        <Grid item xs={3} className="item">
+        <Grid size={3} className="item">
           <PublishedComponent
             pubRef="core.AuthorityPicker"
             value={this._filterValue("roleRight")}
             onChange={(roleRight) => this.onChangeRoleRight("roleRight", roleRight)}
           />
         </Grid>
-        <Grid item xs={3} className="item">
+        <Grid size={3} className="item">
           <FormControlLabel
             label={formatMessage(intl, "core", "roleManagement.showHistory")}
             control={
@@ -371,6 +371,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ fetchRoles, deleteRole, coreConfirm, journalize, clearCurrentPaginationPage }, dispatch);
 };
 
+export { StyledRoles };
+export { RawRoleFilter };
 export default withModulesManager(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(Roles)),
 );

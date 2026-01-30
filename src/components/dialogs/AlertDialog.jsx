@@ -36,15 +36,15 @@ class AlertDialog extends Component {
             <DialogTitle>{alert.title ?? formatMessage(intl, "core", "FatalError.title")}</DialogTitle>
             <DialogContent>
               <Grid container>
-                <Grid item onClick={this.toggleOpen}>
+                <Grid onClick={this.toggleOpen}>
                   {alert.detail && this.state.expanded && <ArrowDropDownIcon />}
                   {alert.detail && !this.state.expanded && <ArrowRightIcon />}
                 </Grid>
-                <Grid item>
+                <Grid>
                   <Grid container onClick={this.toggleOpen}>
                     {ensureArray(alert.message ?? formatMessage(intl, "core", "FatalError.message")).map(
                       (message, i) => (
-                        <Grid key={`message-${i}`} item>
+                        <Grid key={`message-${i}`}>
                           <DialogContentText>{message}</DialogContentText>
                         </Grid>
                       ),
@@ -79,4 +79,5 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { AlertDialog };
 export default injectIntl(connect((state) => ({ alert: state.core.alert }), mapDispatchToProps)(AlertDialog));

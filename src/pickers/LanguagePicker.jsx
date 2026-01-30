@@ -72,4 +72,5 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ fetchLanguages }, dispatch);
 };
 
+export { LanguagePicker };
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(withModulesManager(LanguagePicker)));

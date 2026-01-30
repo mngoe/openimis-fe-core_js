@@ -168,13 +168,13 @@ class Messages extends Component {
       );
     } else if (message.hasOwnProperty("clientMutationLabel")) {
       return (
-        <Grid key={`message-${idx}-panel`} item className="messagePanel">
+        <Grid key={`message-${idx}-panel`} className="messagePanel">
           {message.clientMutationLabel}
         </Grid>
       );
     } else {
       return (
-        <Grid key={`message-${idx}-panel`} item>
+        <Grid key={`message-${idx}-panel`}>
           {JSON.stringify(message)}
         </Grid>
       );
@@ -196,7 +196,7 @@ class Messages extends Component {
           <AccordionDetails className="groupMessagePanel">
             <Grid container spacing={0}>
               {message.list.map((m, i) => (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   {this.formatSingleMessage(m, `${idx}.${i}`)}
                 </Grid>
               ))}
@@ -413,7 +413,7 @@ class JournalDrawer extends Component {
               open={open}
             >
               <Grid container className="toolbar" justifyContent="center" alignItems="center">
-                <Grid item>
+                <Grid>
                   <IconButton onClick={handleDrawer}>{open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
                 </Grid>
               </Grid>
@@ -517,6 +517,8 @@ const JournalDrawerWithTheme = (props) => {
   return <JournalDrawer {...props} theme={theme} />;
 };
 
+export { StyledJournalDrawer };
+export { Messages };
 export default withModulesManager(
   connect(mapStateToProps, mapDispatchToProps)(JournalDrawerWithTheme),
 );

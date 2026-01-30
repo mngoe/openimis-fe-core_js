@@ -10,4 +10,5 @@ class MonthPicker extends Component {
   }
 }
 
+export { MonthPicker };
 export default injectIntl(MonthPicker);

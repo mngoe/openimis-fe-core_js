@@ -96,4 +96,5 @@ class NumberInput extends Component {
   }
 }
 
+export { NumberInput };
 export default injectIntl(NumberInput);

@@ -136,7 +136,7 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
           <form onSubmit={onSubmit}>
             <Box p={6} width={450}>
               <Grid container spacing={2} direction="column" alignItems="stretch">
-                <Grid item>
+                <Grid>
                   <TextInput
                     required
                     type="text"
@@ -146,7 +146,7 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
                     onChange={(username) => setCredentials({ ...credentials, username })}
                   />
                 </Grid>
-                <Grid item>
+                <Grid>
                   <TextInput
                     required
                     type={showPassword ? "text" : "password"}
@@ -167,7 +167,7 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
                     }
                   />
                 </Grid>
-                <Grid item>
+                <Grid>
                   <TextInput
                     required
                     type={showPassword ? "text" : "password"}
@@ -177,24 +177,24 @@ const SetPasswordPage = ({ fetchPasswordPolicy, passwordPolicy }) => {
                     value={credentials.confirmPassword || ""}
                   />
                 </Grid>
-                <Grid item className="buttonGroup">
+                <Grid className="buttonGroup">
                   <Button onClick={generatePassword} variant="contained">
                     {formatMessage("core.SetPasswordPage.generatePassword")}
                   </Button>
                 </Grid>
                 {passwordFeedback && (
-                  <Grid item>
+                  <Grid>
                     <Typography color={IS_PASSWORD_SECURED ? "primary" : "error"} className="passwordFeedback">
                       {passwordFeedback}
                     </Typography>
                   </Grid>
                 )}
                 {error && (
-                  <Grid item>
+                  <Grid>
                     <Box color="error.main">{error}</Box>
                   </Grid>
                 )}
-                <Grid item>
+                <Grid>
                   <Button fullWidth type="submit" disabled={!isValid} color="primary" variant="contained">
                     {formatMessage("submitBtn")}
                   </Button>
@@ -220,4 +220,5 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
+export { StyledSetPasswordPage };
 export default connect(mapStateToProps, mapDispatchToProps)(SetPasswordPage);

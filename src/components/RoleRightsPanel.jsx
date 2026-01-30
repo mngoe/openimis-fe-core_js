@@ -169,9 +169,9 @@ class RoleRightsPanel extends FormPanel {
         <Fragment>
           <Paper className="paper">
             <Grid container>
-              <Grid item className="item">
+              <Grid className="item">
                 <Paper>
-                  <Grid item className="item">
+                  <Grid className="item">
                     <TextField
                       className="filter"
                       variant="outlined"
@@ -190,8 +190,8 @@ class RoleRightsPanel extends FormPanel {
               </Grid>
             </Grid>
             <Grid container justify="space-between" alignItems="center">
-              <Grid item xs={6} className="item">
-                <Grid item className="item">
+              <Grid size={6} className="item">
+                <Grid className="item">
                   <Grid className="listTitle">
                     <Typography variant="h6">
                       <FormattedMessage module="core" id="roleManagement.role.availableRights" />
@@ -239,8 +239,8 @@ class RoleRightsPanel extends FormPanel {
                   </List>
                 </Paper>
               </Grid>
-              <Grid item xs={6} className="item">
-                <Grid item className="item">
+              <Grid size={6} className="item">
+                <Grid className="item">
                   <Grid className="listTitle">
                     <Tooltip title={<FormattedMessage module="core" id="roleManagement.role.removeAllPerms" />}>
                       <IconButton color="primary" disabled={isReadOnly} onClick={this.removeAllChosenPerms}>
@@ -311,4 +311,5 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ fetchModulesPermissions }, dispatch);
 };
 
+export { StyledRoleRightsPanel };
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(RoleRightsPanel));

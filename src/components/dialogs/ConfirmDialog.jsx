@@ -33,4 +33,5 @@ const ConfirmDialog = props => {
   );
 }
 
+export { StyledDialog };
 export default injectIntl(ConfirmDialog);

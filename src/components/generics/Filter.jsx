@@ -12,8 +12,9 @@ import TextInput from '../inputs/TextInput';
 import PublishedComponent from './PublishedComponent';
 import _debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl';
+import { GRID_RESPONSIVE_STANDARD, GRID_RESPONSIVE_SMALL, GRID_RESPONSIVE_FULL } from '../../constants/responsiveGrid';
 
-export const useFilterChangeHandler = (onChangeFilters) => {
+const useFilterChangeHandler = (onChangeFilters) => {
   const debouncedOnChangeFilters = _debounce(onChangeFilters, 300);
 
   const onChangeStringFilter = (filterName, lookup = null) => (value) => {
@@ -45,7 +46,7 @@ function FilterTextInput({
   module, label, value, onChange,
 }) {
   return (
-    <Grid item xs={3} className="item">
+    <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
       <TextInput
         module={module}
         label={label}
@@ -60,7 +61,7 @@ function FilterCheckbox({
   module, checked, onChange, label, intl, filterName,
 }) {
   return (
-    <Grid item xs={3} className="item">
+    <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
       <FormControlLabel
         control={(
           <Checkbox
@@ -100,7 +101,7 @@ function Filter({
       ))}
 
       {pickerFields?.map((field) => (
-        <Grid item xs={3} key={field.name} className="item">
+        <Grid size={GRID_RESPONSIVE_STANDARD} key={field.name} className="item">
           <field.component
             withLabel
             value={filters?.[field.name]?.value ?? null}
@@ -124,7 +125,7 @@ function Filter({
       ))}
 
       {withLocationFilter && (
-        <Grid item xs={12}>
+        <Grid size={GRID_RESPONSIVE_FULL}>
           <PublishedComponent
             pubRef="location.DetailedLocationFilter"
             withNull
@@ -138,4 +139,5 @@ function Filter({
   );
 }
 
+export { useFilterChangeHandler };
 export default injectIntl(Filter);

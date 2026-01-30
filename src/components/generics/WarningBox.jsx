@@ -13,7 +13,7 @@ const DEFAULT_STYLES = {
 
 const WarningBox = ({ title, description, styles, xs }) => {
   return (
-    <Grid item xs={xs || 12}>
+    <Grid size={xs || 12}>
       <Box
         style={{
           ...DEFAULT_STYLES,

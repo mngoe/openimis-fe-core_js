@@ -87,11 +87,11 @@ class SearcherPane extends Component {
       <StyledSearcherPane>
         <Paper className="paper">
           <Grid container sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Grid container item sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1 }}>
-              <Grid item xs={split} className="paperHeaderTitle">
+            <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1 }}>
+              <Grid size={{ xs: split }} className="paperHeaderTitle">
                 <FormattedMessage module={module} id={title} />
               </Grid>
-              <Grid item xs={12 - split} className="paperHeader" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+              <Grid size={{ xs: 12 - split }} className="paperHeader" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
                 {(!!actions || !!refresh) && (
                   <>
                     {isCustomFiltering === true ? (
@@ -143,7 +143,7 @@ class SearcherPane extends Component {
             </Grid>
             {!!filterPane && (
               <Fragment>
-                <Grid item xs={12} className="paperDivider">
+                <Grid size={{ xs: 12 }} className="paperDivider">
                   <Divider />
                 </Grid>
                 {filterPane}
@@ -151,10 +151,10 @@ class SearcherPane extends Component {
             )}
             {!!resultsPane && (
               <Fragment>
-                <Grid item xs={12} className="paperDivider">
+                <Grid size={{ xs: 12 }} className="paperDivider">
                   <Divider />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   {resultsPane}
                 </Grid>
               </Fragment>
@@ -166,4 +166,5 @@ class SearcherPane extends Component {
   }
 }
 
+export { StyledSearcherPane };
 export default injectIntl(SearcherPane);

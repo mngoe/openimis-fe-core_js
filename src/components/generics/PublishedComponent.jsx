@@ -11,4 +11,5 @@ class PublishedComponent extends Component {
   }
 }
 
+export { PublishedComponent };
 export default withModulesManager(PublishedComponent);

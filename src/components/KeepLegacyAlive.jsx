@@ -23,4 +23,5 @@ class KeepLegacyAlive extends Component {
   }
 }
 
+export { KeepLegacyAlive };
 export default withModulesManager(KeepLegacyAlive);

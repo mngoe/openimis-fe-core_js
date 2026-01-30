@@ -24,4 +24,5 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ coreAlert }, dispatch);
 };
 
+export { AlertForwarder };
 export default injectIntl(connect(null, mapDispatchToProps)(AlertForwarder));

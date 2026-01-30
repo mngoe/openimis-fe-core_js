@@ -109,4 +109,5 @@ class ConstantBasedPicker extends Component {
   }
 }
 
+export { StyledConstantBasedPicker };
 export default injectIntl(ConstantBasedPicker);

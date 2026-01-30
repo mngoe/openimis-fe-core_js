@@ -22,4 +22,5 @@ const AmountInput = ({ intl, inputMinValue = 0, ...props }) => {
   return <NumberInput {...props} {...extraProps} />;
 };
 
+export { AmountInput };
 export default injectIntl(AmountInput);

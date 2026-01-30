@@ -219,6 +219,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ createRole, updateRole, fetchRole, fetchRoleRights, journalize, coreConfirm }, dispatch);
 };
 
+export { StyledRole };
 export default withHistory(
   withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(Role))),
 );

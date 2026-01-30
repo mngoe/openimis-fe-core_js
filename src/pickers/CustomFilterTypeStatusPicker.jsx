@@ -55,4 +55,5 @@ const CustomFilterTypeStatusPicker = ({
   );
 };
 
+export { CustomFilterTypeStatusPicker };
 export default injectIntl(CustomFilterTypeStatusPicker);
