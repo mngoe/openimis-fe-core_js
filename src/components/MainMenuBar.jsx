@@ -3,6 +3,7 @@ import * as Icons from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useModulesManager } from "../helpers/modules";
+import { ErrorBoundary } from "@openimis/fe-core";
 import MainMenuContribution from "./generics/MainMenuContribution";
 
 function getMenus(modulesManager, key, rights, menuVariant) {
@@ -101,18 +102,29 @@ const MainMenuBar = ({ children = null, contributionKey, reverse = false, menuVa
   const modulesManager = useModulesManager();
   const rights = useSelector((state) => state.core?.user?.i_user?.rights || []);
   const components = useMemo(() => {
-    const components = getMenus(modulesManager, contributionKey, rights, menuVariant);
-    if (reverse) {
-      components.reverse();
+    try {
+      const components = getMenus(modulesManager, contributionKey, rights, menuVariant);
+      // Validate that we have valid components
+      const validComponents = components.filter(comp => comp && typeof comp === 'function');
+      if (reverse) {
+        validComponents.reverse();
+      }
+      return validComponents;
+    } catch (error) {
+      console.error('Error loading menu components:', error);
+      return [];
     }
-    return components;
   }, [contributionKey, reverse, rights, menuVariant]);
   
   return (
     <>
       {children}
       {components.map((Comp, idx) => {
-        return <Comp key={`${contributionKey}_${idx}`} modulesManager={modulesManager} menuVariant={menuVariant} {...delegated} />
+        return (
+          <ErrorBoundary key={`${contributionKey}_${idx}`} fallback={<div>Menu component failed to load</div>}>
+            <Comp modulesManager={modulesManager} menuVariant={menuVariant} {...delegated} />
+          </ErrorBoundary>
+        );
         }
       )}
     </>

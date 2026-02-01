@@ -223,7 +223,7 @@ class MainMenuContribution extends Component {
       <StyledMainMenu>
       <Accordion className="panel" expanded={this.state.expanded} onChange={this.toggleExpanded}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} id={`${this.props.header}-header`}>
-          <IconButton>{this.props.icon}</IconButton>
+          {this.props.icon}
           <Typography className="drawerHeading">{this.props.header}</Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -231,7 +231,6 @@ class MainMenuContribution extends Component {
             {entries.map((entry, idx) => (
               <Fragment key={`${this.props.header}_${idx}`}>
                 <ListItem
-                  button
                   key={`${this.props.header}_${idx}_item`}
                   component={Link}
                   to={entry.route}
@@ -253,11 +252,39 @@ class MainMenuContribution extends Component {
   };
 
   render() {
-    const { menuVariant, modulesManager } = this.props;
+    const { menuVariant, modulesManager, entries, rights, menuId } = this.props;
+
+    // Defensive checks
+    if (!modulesManager) {
+      console.warn('MainMenuContribution: modulesManager is not available');
+      return null;
+    }
+
+    if (!entries || !Array.isArray(entries)) {
+      console.warn('MainMenuContribution: entries is not a valid array');
+      return null;
+    }
+
+    if (!rights || !Array.isArray(rights)) {
+      console.warn('MainMenuContribution: rights is not a valid array');
+      return null;
+    }
+
     const allEntries = modulesManager.getMenuEntries();
+    if (!allEntries || !Array.isArray(allEntries)) {
+      console.warn('MainMenuContribution: getMenuEntries returned invalid data');
+      return null;
+    }
+
     const updatedEntries = fetchSubmenuConfig(
-      modulesManager, allEntries, this.props.entries, this.props.menuId, this.props.rights
+      modulesManager, allEntries, entries, menuId, rights
     );
+
+    // Don't render empty menus
+    if (!updatedEntries || updatedEntries.length === 0) {
+      return null;
+    }
+
     if (menuVariant === "AppBar") {
       return this.appBarMenu(updatedEntries);
     } else {
