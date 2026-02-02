@@ -32,8 +32,7 @@ import { DEFAULT } from "../constants";
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
 export const MAIN_SEARCHER_CONTRIBUTION_KEY = "core.MainSearcher";
-export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY =
-  "policyholder.EconomicUnitChangeButton";
+export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY = "policyholder.EconomicUnitChangeButton";
 
 const StyledRequireAuth = styled("div")(({ theme }) => ({
   display: "flex",
@@ -62,7 +61,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     [theme.breakpoints.down("md")]: {
-      minHeight: "80px !important", 
+      minHeight: "80px !important",
     },
   },
   "& .appBarDrawer": {
@@ -107,7 +106,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
   "& .toolbar": {
     minHeight: theme.spacing(16),
     paddingTop: theme.spacing(3),
-    marginTop: theme.spacing(22), 
+    marginTop: theme.spacing(22),
   },
   "& .drawerRoot": {
     [theme.breakpoints.up("sm")]: {
@@ -231,9 +230,9 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     // marginLeft: theme.menu.drawer.width,
     position: "relative",
     zIndex: 1,
-    paddingTop: theme.spacing(22), 
+    paddingTop: theme.spacing(22),
     [theme.breakpoints.down("md")]: {
-      paddingTop: theme.spacing(25), 
+      paddingTop: theme.spacing(25),
     },
   },
 }));
@@ -257,29 +256,17 @@ const RequireAuth = (props) => {
   const modulesManager = useModulesManager();
   const auth = useAuthentication();
   const cfg = children.props.modulesManager.cfg;
-  const calendarSwitch = modulesManager.getConf(
-    "fe-core",
-    "allowSecondCalendar",
-    false
-  );
-  const isWorker = modulesManager.getConf(
-    "fe-core",
-    "isWorker",
-    DEFAULT.IS_WORKER
-  );
-  const showJournalSidebar = modulesManager.getConf(
-    "fe-core",
-    "showJournalSidebar",
-    DEFAULT.SHOW_JOURNAL_SIDEBAR
-  );
+  const calendarSwitch = modulesManager.getConf("fe-core", "allowSecondCalendar", false);
+  const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
+  const showJournalSidebar = modulesManager.getConf("fe-core", "showJournalSidebar", DEFAULT.SHOW_JOURNAL_SIDEBAR);
 
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
-  const isAppBarMenu = useMemo(
-    () => theme.menu?.variant?.toUpperCase() === "APPBAR",
-    [theme.menu?.variant]
-  );
+  const isAppBarMenu = useMemo(() => {
+    const variant = theme.menu?.variant || "AppBar";
+    return typeof variant === "string" && variant.trim().toUpperCase() === "APPBAR";
+  }, [theme.menu?.variant]);
 
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;
@@ -297,25 +284,11 @@ const RequireAuth = (props) => {
             <Help />
           </Toolbar>
         </AppBar>
-        <Drawer
-          className="drawerRoot"
-          variant="permanent"
-          PaperProps={{ className: "drawerPaper" }}
-          anchor="left"
-        >
-          <Button
-            className="appName"
-            onClick={() => (window.location.href = "/front")}
-          >
-            {isAppBarMenu && isSmUp && (
-              <img className="logo" src={logo} alt="Logo of openIMIS" />
-            )}
+        <Drawer className="drawerRoot" variant="permanent" PaperProps={{ className: "drawerPaper" }} anchor="left">
+          <Button className="appName" onClick={() => (window.location.href = "/front")}>
+            {isAppBarMenu && isSmUp && <img className="logo" src={logo} alt="Logo of openIMIS" />}
             {!disableTextLogo && (
-              <FormattedMessage
-                module="core"
-                id="appName"
-                defaultMessage={<FormattedMessage id="root.appName" />}
-              />
+              <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
             )}
             {isSmUp && (
               <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
@@ -326,19 +299,12 @@ const RequireAuth = (props) => {
             )}
           </Button>
           <div className="drawerContainer"></div>
-          <MainMenuBar
-            {...others}
-            menuVariant="Drawer"
-            contributionKey={MAIN_MENU_CONTRIBUTION_KEY}
-          >
+          <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
             <Divider />
           </MainMenuBar>
           <div />
         </Drawer>
-        <JournalDrawer
-          open={isDrawerOpen}
-          handleDrawer={setDrawerOpen.toggle}
-        />
+        <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
         <div className="toolbar" />
         <main className="contentShiftLeftSideMenu">{children}</main>
       </StyledRequireAuth>
@@ -359,20 +325,14 @@ const RequireAuth = (props) => {
           <IconButton
             color="inherit"
             onClick={setOpen.toggle}
-            className={clsx("menuButton", (isOpen || isMdUp) && "hide")}
+            className={clsx("menuButton", (isOpen || (isMdUp && isAppBarMenu)) && "hide")}
           >
             <MenuIcon />
           </IconButton>
           <Button className="appName" onClick={() => history.push("/")}>
-            {isAppBarMenu && isSmUp && (
-              <img className="logo" src={logo} alt="Logo of openIMIS" />
-            )}
+            {isAppBarMenu && isSmUp && <img className="logo" src={logo} alt="Logo of openIMIS" />}
             {!disableTextLogo && (
-              <FormattedMessage
-                module="core"
-                id="appName"
-                defaultMessage={<FormattedMessage id="root.appName" />}
-              />
+              <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
             )}
           </Button>
           {isSmUp && (
@@ -383,11 +343,7 @@ const RequireAuth = (props) => {
             </Tooltip>
           )}
           {isAppBarMenu && isSmUp && (
-            <MainMenuBar
-              {...others}
-              menuVariant="AppBar"
-              contributionKey={MAIN_MENU_CONTRIBUTION_KEY}
-            >
+            <MainMenuBar {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
               <div onClick={setOpen.off} />
             </MainMenuBar>
           )}
@@ -401,11 +357,7 @@ const RequireAuth = (props) => {
           {!!calendarSwitch && (
             <FormControlLabel
               control={
-                <Switch
-                  color="secondary"
-                  checked={isSecondaryCalendar}
-                  onChange={setSecondaryCalendar.toggle}
-                />
+                <Switch color="secondary" checked={isSecondaryCalendar} onChange={setSecondaryCalendar.toggle} />
               }
               label={formatMessage("core.calendarSwitcher")}
               labelPlacement="start"
@@ -430,20 +382,14 @@ const RequireAuth = (props) => {
               open={isOpen}
               PaperProps={{ className: "drawerPaper" }}
             >
-              <MainMenuBar
-                {...others}
-                menuVariant="Drawer"
-                contributionKey={MAIN_MENU_CONTRIBUTION_KEY}
-              >
+              <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
                 <Divider />
               </MainMenuBar>
             </Drawer>
           </nav>
         </ClickAwayListener>
       )}
-      {showJournalSidebar && (
-        <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
-      )}
+      {showJournalSidebar && <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />}
       <div className="toolbar" />
       <main
         className={clsx({
