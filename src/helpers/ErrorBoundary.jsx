@@ -15,11 +15,18 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     // Just log for now, could be reported elsewhere
     console.error(error, errorInfo);
+    if (this.props.onError) {
+      this.props.onError(error, errorInfo);
+    }
   }
-  
+
   render() {
     if (this.state.hasError) {
-      return <InternalServerErrorPage logo={this.props.children.props.logo} />;
+      return this.props.fallback !== undefined ? (
+        this.props.fallback
+      ) : (
+        <InternalServerErrorPage logo={this.props.children?.props?.logo} />
+      );
     }
 
     return this.props.children;
