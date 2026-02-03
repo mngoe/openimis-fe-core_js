@@ -41,8 +41,8 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
   },
   "& .logo": {
     verticalAlign: "middle",
-    margin: theme.typography.title.fontSize / 2,
-    maxHeight: theme.typography.title.fontSize * 2,
+    margin: (theme.typography.title?.fontSize || 20) / 2,
+    maxHeight: (theme.typography.title?.fontSize || 20) * 2,
   },
   "& .appBar": {
     transition: theme.transitions.create(["margin", "width"], {
@@ -158,16 +158,16 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
   "& .appName": {
     color: theme.palette.secondary.main,
     textTransform: "none",
-    fontSize: theme.typography.title.fontSize,
+    fontSize: theme.typography.title?.fontSize || 20,
   },
   "& .appVersionsBox": {
     padding: 0,
     margin: 0,
-    minWidth: theme.typography.title.fontSize / 2,
+    minWidth: (theme.typography.title?.fontSize || 20) / 2,
   },
   "& .appVersions": {
     color: theme.palette.secondary.main,
-    fontSize: theme.typography.title.fontSize / 2,
+    fontSize: (theme.typography.title?.fontSize || 20) / 2,
     verticalAlign: "text-bottom",
     marginRight: theme.spacing(2),
   },

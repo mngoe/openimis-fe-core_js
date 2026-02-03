@@ -14,27 +14,27 @@ import FormattedMessage from "./FormattedMessage";
 
 const StyledSearcherPane = styled('div')(({ theme }) => ({
   '& .paper': {
-    ...theme.paper.body,
+    ...theme.paper?.body,
     width: '100%',
     maxWidth: '100%',
     overflow: 'hidden',
     boxSizing: 'border-box',
   },
   '& .paperHeader': { 
-    ...theme.paper.header, 
+    ...theme.paper?.header, 
     display: "flex", 
     justifyContent: "flex-end", 
     alignItems: "center",
-    gap: theme.spacing(1),
+    gap: theme.spacing?.(1),
   },
-  '& .paperHeaderTitle': theme.paper.title,
+  '& .paperHeaderTitle': theme.paper?.title,
   '& .paperHeaderAction': { 
-    ...theme.paper.action, 
+    ...theme.paper?.action, 
     display: "flex", 
     justifyContent: "center", 
     alignItems: "center" 
   },
-  '& .paperDivider': theme.paper.divider,
+  '& .paperDivider': theme.paper?.divider,
 }));
 
 class SearcherPane extends Component {

@@ -42,7 +42,7 @@ const StyledSearcher = styled('div')(({ theme }) => ({
     width: "100%",
   },
   '& .paper': { 
-    ...theme.paper.body, 
+    ...theme.paper?.body, 
     boxShadow: "none",
     width: "100%",
     maxWidth: "100%",
@@ -50,17 +50,17 @@ const StyledSearcher = styled('div')(({ theme }) => ({
     boxSizing: "border-box",
   },
   '& .paperHeader': {
-    ...theme.paper.header,
+    ...theme.paper?.header,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  '& .paperHeaderTitle': theme.paper.title,
-  '& .paperHeaderMessage': theme.paper.message,
+  '& .paperHeaderTitle': theme.paper?.title,
+  '& .paperHeaderMessage': theme.paper?.message,
   '& .paperHeaderAction': {
     paddingInline: 5,
   },
-  '& .tableHeaderAction': theme.table.headerAction,
+  '& .tableHeaderAction': theme.table?.headerAction,
   '& .processing': {
     margin: theme.spacing(1),
   },

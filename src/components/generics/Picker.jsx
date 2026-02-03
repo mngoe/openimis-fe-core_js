@@ -24,8 +24,8 @@ const StyledPicker = styled('div')(({ theme }) => ({
   '& .label': {
     color: theme.palette.primary.main,
   },
-  '& .dialogTitle': theme.dialog.title,
-  '& .dialogContent': theme.dialog.content,
+  '& .dialogTitle': theme.dialog?.title,
+  '& .dialogContent': theme.dialog?.content,
 }));
 
 class RawPickerDialog extends Component {
