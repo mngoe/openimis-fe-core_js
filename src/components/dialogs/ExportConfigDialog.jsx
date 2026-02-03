@@ -21,8 +21,8 @@ import { useTranslations } from "../../helpers/i18n";
 import { isEmptyObject } from "../../helpers/utils";
 
 const StyledDialog = styled('div')(({ theme }) => ({
-  '& .primaryButton': theme.dialog.primaryButton,
-  '& .secondaryButton': theme.dialog.secondaryButton,
+  '& .primaryButton': theme?.dialog?.primaryButton ?? {},
+  '& .secondaryButton': theme?.dialog?.secondaryButton ?? {},
 }));
 
 const ExportConfigDialog = ({

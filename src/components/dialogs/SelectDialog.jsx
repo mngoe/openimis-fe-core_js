@@ -7,8 +7,8 @@ import { useModulesManager } from "../../helpers/modules";
 import { useTranslations } from "../../helpers/i18n";
 
 const StyledDialog = styled('div')(({ theme }) => ({
-  '& .primaryButton': theme.dialog.primaryButton,
-  '& .secondaryButton': theme.dialog.secondaryButton,
+  '& .primaryButton': theme?.dialog?.primaryButton ?? {},
+  '& .secondaryButton': theme?.dialog?.secondaryButton ?? {},
 }));
 
 const SelectDialog = ({

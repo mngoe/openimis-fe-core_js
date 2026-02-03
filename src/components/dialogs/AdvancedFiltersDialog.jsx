@@ -24,9 +24,9 @@ import {
 } from "../../constants";
 
 const StyledDialog = styled('div')(({ theme }) => ({
-  '& .item': theme.paper.item,
+  '& .item': theme?.paper?.item ?? {},
   '& .paperHeaderAction': { 
-    ...theme.paper.action, 
+    ...(theme?.paper?.action ?? {}), 
     display: "flex", 
     justifyContent: "center", 
     itemAlign: "center" 
