@@ -145,7 +145,7 @@ class Form extends Component {
                   </Grid>
                   {!!actions && (
                     <Grid size={4}>
-                      <Grid container justify="flex-end">
+                      <Grid container justifyContent="flex-end">
                         {actions.map((a, idx) => {
                           if (!!a.onlyIfDirty && !this.state.dirty) return null;
                           if (!!a.onlyIfNotDirty && !!this.state.dirty) return null;
