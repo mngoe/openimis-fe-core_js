@@ -13,8 +13,9 @@ import {
   MenuItem,
   Paper,
   Typography,
+  Box,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
 
 import { cacheFilters, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
@@ -30,41 +31,65 @@ import SearcherPane from "./SearcherPane";
 import Table from "./Table";
 import InfoButton from "./InfoButton";
 
-const StyledSearcher = styled('div')(({ theme }) => ({
+const StyledSearcher = styled("div")(({ theme }) => ({
   width: "100%",
   maxWidth: "100%",
   overflow: "hidden",
   boxSizing: "border-box",
   display: "flex",
   flexDirection: "column",
-  gap: theme.spacing(2),
-  '& .root': {
+  gap: theme.spacing(1),
+  "& .root": {
     width: "100%",
   },
-  '& .paper': { 
-    ...theme.paper?.body, 
+  "& .paper": {
+    ...theme.paper?.body,
     boxShadow: "none",
     width: "100%",
     maxWidth: "100%",
     overflow: "hidden",
     boxSizing: "border-box",
   },
-  '& .paperHeader': {
-    ...theme.paper?.header,
-    display: "flex",
+  "& .paperHeader": {
+    display: "flex", // removed alignItems: stretch
     alignItems: "center",
     justifyContent: "space-between",
+    padding: theme.spacing(0, 1),
+    minHeight: "40px",
+    width: "100%",
+    backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
+    color: theme.paper?.header?.color || theme.palette.primary.main,
+    ...theme.paper?.header,
+    // Ensure background is applied even if spread overrides it
+    backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
+    padding: theme.spacing(0, 1),
   },
-  '& .paperHeaderTitle': theme.paper?.title,
-  '& .paperHeaderMessage': theme.paper?.message,
-  '& .paperHeaderAction': {
+  "& .paperHeaderTitle": {
+    ...theme.paper?.title,
+    backgroundColor: "transparent",
+    padding: theme.spacing(0.5, 1),
+    border: "none",
+    flexGrow: 1,
+    flexShrink: 0,
+    minWidth: "auto",
+    color: "inherit",
+    display: "flex",
+    alignItems: "center",
+  },
+  "& .paperHeaderMessage": {
+    ...theme.paper?.message,
+    backgroundColor: "transparent",
+  },
+  "& .paperHeaderAction": {
+    ...theme.paper?.action,
+    backgroundColor: "transparent",
     paddingInline: 5,
   },
-  '& .tableHeaderAction': theme.table?.headerAction,
-  '& .processing': {
+  "& .tableHeaderAction": theme.table?.headerAction,
+  "& .processing": {
     margin: theme.spacing(1),
   },
-  '& .searcherActions': {
+  "& .searcherActions": {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     gap: theme.spacing(1),
@@ -73,17 +98,19 @@ const StyledSearcher = styled('div')(({ theme }) => ({
     display: "flex",
     justifyContent: "flex-end",
   },
-  '& .tableContainer': {
-    ...theme.table?.container ?? {},
+  "& .tableContainer": {
+    ...(theme.table?.container ?? {}),
     boxShadow: theme.shadows[2],
     width: "100%",
     maxWidth: "100%",
     overflow: "auto",
+    display: "flex",
+    flexDirection: "column",
   },
-  '& .infoSection': {
-    display: 'flex',
-    justifyContent: 'start',
-    alignItems: 'center',
+  "& .infoSection": {
+    display: "flex",
+    justifyContent: "start",
+    alignItems: "center",
     gap: theme.spacing(1),
   },
 }));
@@ -119,57 +146,53 @@ class SelectionMenu extends Component {
     this.setState({ anchorEl: null }, (e) => this.props.triggerAction(a));
   };
   renderButtons = (entries, contributionKey) => (
-    <Grid className="paperHeader">
-      <Grid container alignItems="center" className="paperHeaderAction">
-        {entries.map((i, idx) => (
-          <Grid key={`selectionsButtons-${idx}`} className="paperHeaderAction">
-            <Button onClick={(e) => this.action(i.action)}>{i.text}</Button>
-          </Grid>
-        ))}
-        {this.props.exportable && (
-          <SearcherExport
-            selection={this.props.selection}
-            selectWithCheckbox={this.props.selectWithCheckbox}
-            filters={this.props.filters}
-            exportFetch={this.props.exportFetch}
-            additionalExportFields={this.props.additionalExportFields}
-            exportFields={this.props.exportFields}
-            exportFieldsColumns={this.props.exportFieldsColumns}
-            chooseExportableColumns={this.props.chooseExportableColumns}
-            label={this.props.exportFieldLabel}
-            chooseFileFormat={this.props.chooseFileFormat}
-            exportFileFormats={this.props.exportFileFormats}
-            exportFileFormat={this.props.exportFileFormat}
-            setExportFileFormat={this.props.setExportFileFormat}
-            downloadWithIconButton={this.props.downloadWithIconButton}
-            displayClearAllColsButton={this.props.displayClearAllColsButton}
-          />
-        )}
-        {!!contributionKey && (
-          <Contributions
-            actionHandler={this.action}
-            refetch={this.props.refetch}
-            clearSelected={this.props.clearSelected}
-            withSelection={this.props.withSelection}
-            selection={this.props.selection}
-            contributionKey={contributionKey}
-            downloadWithIconButton={this.props.downloadWithIconButton}
-          />
-        )}
-      </Grid>
-    </Grid>
+    <Box display="flex" alignItems="center">
+      {entries.map((i, idx) => (
+        <Box key={`selectionsButtons-${idx}`} className="paperHeaderAction">
+          <Button color="inherit" onClick={(e) => this.action(i.action)}>{i.text}</Button>
+        </Box>
+      ))}
+      {this.props.exportable && (
+        <SearcherExport
+          selection={this.props.selection}
+          selectWithCheckbox={this.props.selectWithCheckbox}
+          filters={this.props.filters}
+          exportFetch={this.props.exportFetch}
+          additionalExportFields={this.props.additionalExportFields}
+          exportFields={this.props.exportFields}
+          exportFieldsColumns={this.props.exportFieldsColumns}
+          chooseExportableColumns={this.props.chooseExportableColumns}
+          label={this.props.exportFieldLabel}
+          chooseFileFormat={this.props.chooseFileFormat}
+          exportFileFormats={this.props.exportFileFormats}
+          exportFileFormat={this.props.exportFileFormat}
+          setExportFileFormat={this.props.setExportFileFormat}
+          downloadWithIconButton={this.props.downloadWithIconButton}
+          displayClearAllColsButton={this.props.displayClearAllColsButton}
+        />
+      )}
+      {!!contributionKey && (
+        <Contributions
+          actionHandler={this.action}
+          refetch={this.props.refetch}
+          clearSelected={this.props.clearSelected}
+          withSelection={this.props.withSelection}
+          selection={this.props.selection}
+          contributionKey={contributionKey}
+          downloadWithIconButton={this.props.downloadWithIconButton}
+        />
+      )}
+    </Box>
   );
 
   renderMenu = (entries, contributionKey) => {
     return (
-      <Grid className="paperHeader">
-        <Grid container alignItems="center">
-          <Grid className="paperHeaderAction">
-            <IconButton onClick={this.openMenu}>
-              <MoreHoriz />
-            </IconButton>
-          </Grid>
-        </Grid>
+      <Box display="flex" alignItems="center">
+        <Box className="paperHeaderAction">
+          <IconButton onClick={this.openMenu}>
+            <MoreHoriz />
+          </IconButton>
+        </Box>
         <Menu open={!!this.state.anchorEl} anchorEl={this.state.anchorEl} onClose={this.closeMenu} keepMounted>
           {entries.map((i, idx) => (
             <MenuItem key={`selectionsMenu-${idx}`} onClick={(e) => this.action(i.action)}>
@@ -200,7 +223,7 @@ class SelectionMenu extends Component {
             />
           )}
         </Menu>
-      </Grid>
+      </Box>
     );
   };
   render() {
@@ -243,7 +266,7 @@ class SelectionMenu extends Component {
     if (entries.length > 2 || (this.props.exportable && entries.length >= 1)) {
       return this.renderMenu(entries, actionsContributionKey);
     }
-      
+
     return this.renderButtons(entries, actionsContributionKey);
   }
 }
@@ -281,14 +304,14 @@ class Searcher extends Component {
         if (this.fetchEnabled) {
           this.applyFilters();
         }
-      }
+      },
     );
   }
 
   componentWillUnmount() {
     if (this.props.resetFiltersOnUnmount) {
       const cacheKey = this._getCacheKey();
-      this.props.resetCacheFilters(cacheKey)
+      this.props.resetCacheFilters(cacheKey);
       this.resetFilters();
     }
   }
@@ -297,7 +320,6 @@ class Searcher extends Component {
     const { cachePerTab, cacheTabName, cacheFiltersKey } = this.props;
     return cachePerTab && cacheTabName ? `${cacheFiltersKey}-${cacheTabName}` : cacheFiltersKey;
   }
-
 
   filtersToQueryParams = () => {
     const { page, afterCursor, beforeCursor } = this.state;
@@ -330,7 +352,7 @@ class Searcher extends Component {
         filters: { ...this.props.defaultFilters },
         orderBy: props.defaultOrderBy,
       }),
-      (e) => this.applyFilters()
+      (e) => this.applyFilters(),
     );
   };
 
@@ -373,7 +395,7 @@ class Searcher extends Component {
         beforeCursor: null,
         clearAll: state.clearAll + 1,
       }),
-      this._cacheAndApply
+      this._cacheAndApply,
     );
   };
 
@@ -387,7 +409,7 @@ class Searcher extends Component {
         afterCursor: null,
         beforeCursor: null,
       },
-      this._cacheAndApply
+      this._cacheAndApply,
     );
   };
 
@@ -411,7 +433,7 @@ class Searcher extends Component {
         afterCursor: null,
         beforeCursor: null,
       },
-      (e) => this.props.fetch(this.filtersToQueryParams())
+      (e) => this.props.fetch(this.filtersToQueryParams()),
     );
   };
 
@@ -423,7 +445,7 @@ class Searcher extends Component {
           beforeCursor: null,
           afterCursor: props.itemsPageInfo.endCursor,
         }),
-        (e) => this.props.fetch(this.filtersToQueryParams())
+        (e) => this.props.fetch(this.filtersToQueryParams()),
       );
     } else if (nbr < this.state.page) {
       this.setState(
@@ -432,7 +454,7 @@ class Searcher extends Component {
           beforeCursor: props.itemsPageInfo.startCursor,
           afterCursor: null,
         }),
-        (e) => this.props.fetch(this.filtersToQueryParams())
+        (e) => this.props.fetch(this.filtersToQueryParams()),
       );
     }
   };
@@ -452,7 +474,7 @@ class Searcher extends Component {
         selection: [],
         clearAll: state.clearAll + 1,
       }),
-      (e) => a(s)
+      (e) => a(s),
     );
   };
 
@@ -465,11 +487,11 @@ class Searcher extends Component {
               () =>
                 this.setState(
                   (state, props) => ({ orderBy: sort(state.orderBy, s[0], s[1]) }),
-                  (e) => this.props.fetch(this.filtersToQueryParams())
+                  (e) => this.props.fetch(this.filtersToQueryParams()),
                 ),
               () => formatSorter(this.state.orderBy, s[0], s[1]),
             ]
-          : [null, () => null]
+          : [null, () => null],
       );
     }
     return [];
@@ -478,21 +500,22 @@ class Searcher extends Component {
   renderSearcherActions = () => {
     const { searcherActions } = this.props;
 
-    return searcherActions.map((action, idx) =>
-      action.authorized && (
-        <Grid key={`searcher-action-${idx}`}>
-          <Button
-            key={action.label}
-            onClick={action.onClick}
-            startIcon={action.icon}
-            variant="contained"
-            color="primary"
-            className="actionButton"
-          >
-            <Typography variant="body2">{action.label}</Typography>
-          </Button>
-        </Grid>
-      )
+    return searcherActions.map(
+      (action, idx) =>
+        action.authorized && (
+          <Grid key={`searcher-action-${idx}`}>
+            <Button
+              key={action.label}
+              onClick={action.onClick}
+              startIcon={action.icon}
+              variant="contained"
+              color="primary"
+              className="actionButton"
+            >
+              <Typography variant="body2">{action.label}</Typography>
+            </Button>
+          </Grid>
+        ),
     );
   };
 
@@ -530,7 +553,7 @@ class Searcher extends Component {
       withPagination = true,
       exportable = false,
       exportFetch = null,
-      exportFields = ['id'],
+      exportFields = ["id"],
       exportFieldsColumns,
       intl,
       isCustomFiltering = false,
@@ -556,8 +579,8 @@ class Searcher extends Component {
       searcherActions = [],
       downloadWithIconButton = false,
       displayClearAllColsButton,
-      infoButtonContent = '',
-      searcherActionsPosition = 'top-right',
+      infoButtonContent = "",
+      searcherActionsPosition = "top-right",
     } = this.props;
     return (
       <StyledSearcher>
@@ -597,33 +620,30 @@ class Searcher extends Component {
               {this.renderSearcherActions()}
             </Grid>
           )}
-          <Grid container className="tableContainer">
+          <Box className="tableContainer">
             {errorItems ? (
               <ProgressOrError error={errorItems} />
             ) : (
               <Fragment>
-                <Grid container alignItems="center" size={this.isWorker ? 7 : 8} className="paperHeader">
-                  <Grid size={8} className="paperHeaderTitle">
+                <Grid container alignItems="center" className="paperHeader" wrap="nowrap">
+                  <Grid item xs className="paperHeaderTitle" display="flex" alignItems="center">
                     <div className="infoSection">
                       {infoButtonContent && <InfoButton content={infoButtonContent} />}
-                      <Grid>
+                      <Typography variant="inherit" noWrap>
                         {!fetchingItems ? tableTitle : formatMessage(intl, "core", "table.resultsLoading")}
-                      </Grid>
+                      </Typography>
                     </div>
                   </Grid>
-                  <Grid size={4} className="paperHeaderMessage">
-                    <SelectionPane
-                      module={module}
-                      selectionMessage={selectionMessage}
-                      selection={this.state.selection}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container alignItems="center" size={this.isWorker ? 5 : 4} className="paperHeader">
-                  {fetchedItems && (
-                    <Grid container direction="row" justify="flex-end" className="paperHeaderAction">
-                      {searcherActionsPosition === "header-right" && this.renderSearcherActions()}
-                      <Grid>
+                  <Grid item display="flex" alignItems="center" justifyContent="flex-end">
+                    <Box className="paperHeaderMessage" px={1}>
+                      <SelectionPane
+                        module={module}
+                        selectionMessage={selectionMessage}
+                        selection={this.state.selection}
+                      />
+                    </Box>
+                    {fetchedItems && (
+                      <Box className="paperHeaderAction" px={1}>
                         <StyledSelectionMenu
                           selectWithCheckbox={selectWithCheckbox}
                           refetch={this.applyFilters}
@@ -652,9 +672,9 @@ class Searcher extends Component {
                           downloadWithIconButton={downloadWithIconButton}
                           displayClearAllColsButton={displayClearAllColsButton}
                         />
-                      </Grid>
-                    </Grid>
-                  )}
+                      </Box>
+                    )}
+                  </Grid>
                 </Grid>
                 <Divider />
                 <Grid size={12}>
@@ -688,12 +708,12 @@ class Searcher extends Component {
                     onChangePage={this.onChangePage}
                     rowsPerPageOptions={rowsPerPageOptions}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}
-                    showOrdinalNumber = {showOrdinalNumber}
+                    showOrdinalNumber={showOrdinalNumber}
                   />
                 </Grid>
               </Fragment>
             )}
-          </Grid>
+          </Box>
         </Paper>
       </StyledSearcher>
     );
@@ -706,7 +726,7 @@ const mapStateToProps = (state) => ({
   afterCursor: state.core?.savedPagination?.afterCursor,
   beforeCursor: state.core?.savedPagination?.beforeCursor,
   // This is not used directly, but is needed for Searcher component to be rerendered on change of calendar type
-  isSecondaryCalendarEnabled: state.core.isSecondaryCalendarEnabled ?? false
+  isSecondaryCalendarEnabled: state.core.isSecondaryCalendarEnabled ?? false,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -715,6 +735,4 @@ const mapDispatchToProps = (dispatch) => {
 
 export { StyledSearcher };
 export { SelectionPane };
-export default withModulesManager(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Searcher))
-);
+export default withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(Searcher)));

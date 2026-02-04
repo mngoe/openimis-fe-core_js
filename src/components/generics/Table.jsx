@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import {
   Typography,
   Divider,
@@ -24,36 +24,49 @@ import ProgressOrError from "./ProgressOrError";
 import withModulesManager from "../../helpers/modules";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
 
-const StyledTable = styled('div')(({ theme }) => ({
-  '& .table': theme.table ?? {},
-  '& .tableTitle': theme.table?.title,
-  '& .tableHeader': theme.table?.header,
-  '& .tableRow': theme.table?.row,
-  '& .tableLockedRow': theme.table?.lockedRow,
-  '& .tableLockedCell': theme.table?.lockedCell,
-  '& .tableHighlightedRow': theme.table?.highlightedRow,
-  '& .tableHighlightedCell': theme.table?.highlightedCell,
-  '& .tableHighlightedAltRow': theme.table?.highlightedAltRow,
-  '& .tableSecondaryHighlightedRow': theme.table?.secondaryHighlightedRow,
-  '& .tableSecondaryHighlightedCell': theme.table?.secondaryHighlightedCell,
-  '& .tableHighlightedAltCell': theme.table?.highlightedAltCell,
-  '& .tableDisabledRow': theme.table?.disabledRow,
-  '& .tableDisabledCell': theme.table?.disabledCell,
-  '& .tableFooter': theme.table?.footer,
-  '& .pager': theme.table?.pager,
-  '& .left': {
+const StyledTable = styled("div")(({ theme }) => ({
+  "& .table": {
+    ...(theme.table ?? {}),
+    width: "100%",
+  },
+  "& .MuiTableCell-root": {
+    padding: theme.spacing(0.5, 1),
+    borderColor: alpha(theme.palette.primary.main, 0.1),
+  },
+  "& .MuiTableRow-root:hover": {
+    backgroundColor: alpha(theme.palette.primary.main, 0.05),
+  },
+  "& .tableTitle": {
+    ...theme.table?.title,
+    padding: theme.spacing(1, 2),
+  },
+  "& .tableHeader": theme.table?.header,
+  "& .tableRow": theme.table?.row,
+  "& .tableLockedRow": theme.table?.lockedRow,
+  "& .tableLockedCell": theme.table?.lockedCell,
+  "& .tableHighlightedRow": theme.table?.highlightedRow,
+  "& .tableHighlightedCell": theme.table?.highlightedCell,
+  "& .tableHighlightedAltRow": theme.table?.highlightedAltRow,
+  "& .tableSecondaryHighlightedRow": theme.table?.secondaryHighlightedRow,
+  "& .tableSecondaryHighlightedCell": theme.table?.secondaryHighlightedCell,
+  "& .tableHighlightedAltCell": theme.table?.highlightedAltCell,
+  "& .tableDisabledRow": theme.table?.disabledRow,
+  "& .tableDisabledCell": theme.table?.disabledCell,
+  "& .tableFooter": theme.table?.footer,
+  "& .pager": theme.table?.pager,
+  "& .left": {
     textAlign: "left",
   },
-  '& .right': {
+  "& .right": {
     textAlign: "right",
   },
-  '& .center': {
+  "& .center": {
     textAlign: "center",
   },
-  '& .clickable': {
+  "& .clickable": {
     cursor: "pointer",
   },
-  '& .loader': {
+  "& .loader": {
     position: "absolute",
     top: 0,
     bottom: 0,
@@ -340,9 +353,7 @@ class Table extends Component {
                       !!rowLocked && rowLocked(i) ? "tableLockedRow" : null,
                       !!rowHighlighted && rowHighlighted(i) ? "tableHighlightedRow" : null,
                       !!rowHighlightedAlt && rowHighlightedAlt(i) ? "tableHighlightedAltRow" : null,
-                      !!rowSecondaryHighlighted && rowSecondaryHighlighted(i)
-                        ? "tableSecondaryHighlightedRow"
-                        : null,
+                      !!rowSecondaryHighlighted && rowSecondaryHighlighted(i) ? "tableSecondaryHighlightedRow" : null,
                       !!rowDisabled && rowDisabled(i) ? "tableDisabledRow" : null,
                       !!onDoubleClick && "clickable",
                     )}
@@ -366,7 +377,9 @@ class Table extends Component {
                         )}
                         key={`v-${this.calculateOrdinalNumber(iidx, withPagination, items.length)}-0`}
                       >
-                        <span>{this.calculateOrdinalNumber(iidx, withPagination, items.length, page, rowsPerPage)}</span>
+                        <span>
+                          {this.calculateOrdinalNumber(iidx, withPagination, items.length, page, rowsPerPage)}
+                        </span>
                       </TableCell>
                     )}
                     {localItemFormatters &&

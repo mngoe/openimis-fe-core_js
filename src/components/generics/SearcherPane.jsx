@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { injectIntl } from "react-intl";
 import _debounce from "lodash/debounce";
 
-import { Grid, Paper, Divider } from "@mui/material";
+import { Grid, Paper, Divider, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "@mui/icons-material";
 
@@ -12,29 +12,51 @@ import { formatMessage } from "../../helpers/i18n";
 import AdvancedFiltersDialog from "../dialogs/AdvancedFiltersDialog";
 import FormattedMessage from "./FormattedMessage";
 
-const StyledSearcherPane = styled('div')(({ theme }) => ({
-  '& .paper': {
+const StyledSearcherPane = styled("div")(({ theme }) => ({
+  "& .paper": {
     ...theme.paper?.body,
-    width: '100%',
-    maxWidth: '100%',
-    overflow: 'hidden',
-    boxSizing: 'border-box',
+    width: "100%",
+    maxWidth: "100%",
+    overflow: "hidden",
+    boxSizing: "border-box",
   },
-  '& .paperHeader': { 
-    ...theme.paper?.header, 
-    display: "flex", 
-    justifyContent: "flex-end", 
+  "& .paperHeader": {
+    display: "flex",
+    justifyContent: "flex-end",
     alignItems: "center",
     gap: theme.spacing?.(1),
+    backgroundColor: "transparent",
+    minHeight: "40px",
   },
-  '& .paperHeaderTitle': theme.paper?.title,
-  '& .paperHeaderAction': { 
-    ...theme.paper?.action, 
-    display: "flex", 
-    justifyContent: "center", 
-    alignItems: "center" 
+  "& .paperHeaderTitle": {
+    ...theme.paper?.title,
+    backgroundColor: "transparent",
+    padding: theme.spacing(0.5, 1),
+    display: "flex",
+    alignItems: "center",
+    color: "inherit",
+    minWidth: "auto",
+    flexShrink: 0,
   },
-  '& .paperDivider': theme.paper?.divider,
+  "& .paperHeaderRow": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
+    color: theme.paper?.header?.color || theme.palette.primary.main,
+    ...theme.paper?.header,
+    backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
+    minHeight: "40px",
+    padding: theme.spacing(1, 1),
+  },
+  "& .paperHeaderAction": {
+    ...theme.paper?.action,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  "& .paperDivider": theme.paper?.divider,
 }));
 
 class SearcherPane extends Component {
@@ -86,12 +108,12 @@ class SearcherPane extends Component {
     return (
       <StyledSearcherPane>
         <Paper className="paper">
-          <Grid container sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1 }}>
-              <Grid size={{ xs: split }} className="paperHeaderTitle">
+          <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+            <Grid container className="paperHeaderRow" wrap="nowrap" onKeyDown={this.handleKeyDown}>
+              <Grid item xs className="paperHeaderTitle">
                 <FormattedMessage module={module} id={title} />
               </Grid>
-              <Grid size={{ xs: 12 - split }} className="paperHeader" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+              <Grid item className="paperHeader">
                 {(!!actions || !!refresh) && (
                   <>
                     {isCustomFiltering === true ? (
@@ -118,7 +140,7 @@ class SearcherPane extends Component {
                           key={`action-${idx}`}
                           onClick={a.action}
                           startIcon={a.icon}
-                          label={a.label || ''}
+                          label={a.label || ""}
                         />
                       ))}
                     {!!reset && (
@@ -151,15 +173,13 @@ class SearcherPane extends Component {
             )}
             {!!resultsPane && (
               <Fragment>
-                <Grid size={{ xs: 12 }} className="paperDivider">
-                  <Divider />
+                <Grid container className="paperDivider">
+                  <Divider sx={{ width: "100%" }} />
                 </Grid>
-                <Grid size={{ xs: 12 }}>
-                  {resultsPane}
-                </Grid>
+                <Grid container>{resultsPane}</Grid>
               </Fragment>
             )}
-          </Grid>
+          </Box>
         </Paper>
       </StyledSearcherPane>
     );

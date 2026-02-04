@@ -127,8 +127,8 @@ function SearcherExport(props) {
                 <Button
                   onClick={(e) => item.action()}
                   disabled={!enabled(selection)}
-                  variant="contained"
-                  color="primary"
+                  variant="text"
+                  color="inherit"
                   startIcon={item.icon}
                 >
                   <Typography variant="body2"> {item.text} </Typography>

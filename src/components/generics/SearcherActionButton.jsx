@@ -10,8 +10,14 @@ const SearcherActionButton = ({ onClick, startIcon, label }) => {
   const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
 
   return (
-    <Button variant="outlined" style={{ border: 0 }} onClick={onClick} startIcon={startIcon}>
-      {label && <Typography variant={isWorker ? "body2" : "subtitle1"}>{label}</Typography>}
+    <Button 
+      variant="text" 
+      onClick={onClick} 
+      startIcon={startIcon} 
+      color="inherit"
+      size={isWorker ? "small" : "medium"}
+    >
+      {label}
     </Button>
   );
 };

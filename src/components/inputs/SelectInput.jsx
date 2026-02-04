@@ -2,17 +2,15 @@ import React, { Component, Fragment } from "react";
 import { injectIntl } from "react-intl";
 import _ from "lodash-uuid";
 
-import { FormControl, InputLabel, Select, MenuItem, IconButton } from "@mui/material";
+import { MenuItem, IconButton, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import FormattedMessage from "../generics/FormattedMessage";
 import TextInput from "./TextInput";
+import { formatMessage } from "../../helpers/i18n";
 
 const StyledSelectInput = styled('div')(({ theme }) => ({
-  '& .label': {
-    color: theme.palette.primary.main,
-  },
   '& .formControl': {
     position: "relative",
     minWidth: '120px',
@@ -33,9 +31,16 @@ function EmptyComponent() {
 }
 
 class SelectInput extends Component {
+  constructor(props) {
+    super(props);
+    this.uuid = props.name || _.uuid();
+  }
+
   _onChange = (e) => {
-    if (this.props.value !== e.target.value) {
-      this.props.onChange(JSON.parse(e.target.value));
+    const { value } = e.target;
+    if (this.props.value !== value) {
+      const parsedValue = (value === "" || value === null) ? null : JSON.parse(value);
+      this.props.onChange(parsedValue);
     }
   };
 
@@ -62,6 +67,7 @@ class SelectInput extends Component {
 
   render() {
     const {
+      intl,
       module,
       label,
       strLabel = null,
@@ -80,42 +86,46 @@ class SelectInput extends Component {
     if (!!readOnly) {
       valueStr = options.filter((o) => JSON.stringify(o.value) === JSON.stringify(value)).map((o) => o.label);
     }
+    const labelText = strLabel ?? (label ? formatMessage(intl, module, label) : null);
+    const selectValue = (value === null || value === undefined) ? "" : JSON.stringify(value);
     return (
       <StyledSelectInput>
         <Fragment>
           {!readOnly && (
-            <FormControl required={required} fullWidth className="formControl">
-              <InputLabel shrink={true} className="label">
-                {strLabel ?? <FormattedMessage module={module} id={label} />}
-              </InputLabel>
-              <Select
-                readOnly={readOnly}
-                inputProps={{
-                  name: name,
-                  id: `${_.uuid()}-input`,
-                  title: title,
-                }}
-                value={!!value ? JSON.stringify(value) : ""}
-                onChange={this._onChange}
-                IconComponent={this.renderIconComponent()}
-                disabled={disabled}
-                endAdornment={this.renderEndAdornment()}
-                displayEmpty
-                //NOTE: We want to get rid of default styling (marginTop) if label is not rendered
-                {...(withLabel ? null : { style: { marginTop: "0px" } })}
-              >
-                {placeholder && (
-                  <MenuItem disabled value="">
-                    <FormattedMessage module={module} id={placeholder} />
-                  </MenuItem>
-                )}
-                {options.map((option, idx) => (
-                  <MenuItem key={`${module}-${name}-option-${idx}`} value={JSON.stringify(option.value)}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <TextField
+              select
+              fullWidth
+              variant="outlined"
+              required={required}
+              disabled={disabled}
+              label={withLabel ? labelText : undefined}
+              id={this.uuid}
+              name={name}
+              value={selectValue}
+              onChange={this._onChange}
+              InputProps={{
+                endAdornment: this.renderEndAdornment(),
+              }}
+              SelectProps={{
+                labelId: `label-${this.uuid}`,
+                label: withLabel ? labelText : undefined,
+                IconComponent: this.renderIconComponent(),
+                displayEmpty: !!placeholder,
+                ...(withLabel ? null : { style: { marginTop: "0px" } }),
+              }}
+              title={title}
+            >
+              {placeholder && (
+                <MenuItem disabled value="">
+                  <FormattedMessage module={module} id={placeholder} />
+                </MenuItem>
+              )}
+              {options.map((option, idx) => (
+                <MenuItem key={`${module}-${name}-option-${idx}`} value={option.value === null ? "" : JSON.stringify(option.value)}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
           )}
           {!!readOnly && (
             <TextInput

@@ -5,29 +5,9 @@ import SelectInput from "../inputs/SelectInput";
 import { formatMessage } from "../../helpers/i18n";
 
 const StyledConstantBasedPicker = styled('div')(({ theme }) => ({
+  width: '100%',
   '& .MuiFormControl-root': {
-    minWidth: '200px',
-  },
-  '& .MuiInputLabel-root': {
-    fontSize: '1rem',
-    fontWeight: 500,
-  },
-  '& .MuiSelect-select': {
-    minHeight: '48px',
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1rem',
-    padding: theme.spacing(1.5, 2),
-  },
-  '& .MuiMenuItem-root': {
-    fontSize: '1rem',
-    padding: theme.spacing(1.5, 2),
-    minHeight: '48px',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  '& .MuiPaper-root': {
-    minWidth: '200px',
+    width: '100%',
   },
 }));
 
@@ -95,7 +75,7 @@ class ConstantBasedPicker extends Component {
       <StyledConstantBasedPicker>
         <SelectInput
           module={module}
-          label={!!withLabel && label ? label : " "}
+          label={withLabel ? label : undefined}
           withLabel={withLabel}
           options={options}
           name={name}

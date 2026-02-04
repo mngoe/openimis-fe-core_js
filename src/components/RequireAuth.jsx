@@ -37,6 +37,13 @@ export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY = "policyholder.EconomicUnitC
 
 const StyledRequireAuth = styled("div")(({ theme }) => ({
   display: "flex",
+  flexDirection: "column",
+  minHeight: "100vh",
+  "& .layoutWrapper": {
+    display: "flex",
+    flex: 1,
+    position: "relative",
+  },
   "& .grow": {
     flexGrow: 1,
   },
@@ -45,22 +52,12 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     marginRight: theme.spacing(2),
     maxHeight: 32,
   },
-  "& .appBarShift": {
-    width: `calc(100% - ${theme.menu.drawer.width})`,
-    marginLeft: theme.menu.drawer.width,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
   "& .appBar": {
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
     overflow: "visible",
     zIndex: theme.zIndex.appBar,
     minHeight: "auto",
+    position: "sticky",
+    top: 0,
   },
   "& .topToolbar": {
     display: "flex",
@@ -82,11 +79,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     "&.journalOpen": {
-      paddingRight: `calc(${theme.spacing(2)} + ${
-        typeof theme.jrnlDrawer?.close?.width === "number"
-          ? `${theme.jrnlDrawer.close.width}px`
-          : theme.jrnlDrawer?.close?.width || "73px"
-      })`,
+      paddingRight: theme.spacing(2),
       transition: theme.transitions.create("padding-right", {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -99,11 +92,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
           : theme.jrnlDrawer?.close?.width || "73px"
       })`,
       "&.journalOpen": {
-        paddingRight: `calc(${theme.spacing(2)} + ${
-          typeof theme.jrnlDrawer?.close?.width === "number"
-            ? `${theme.jrnlDrawer.close.width}px`
-            : theme.jrnlDrawer?.close?.width || "73px"
-        })`,
+        paddingRight: theme.spacing(2),
       },
     },
   },
@@ -130,11 +119,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     "&.journalOpen": {
-      paddingRight: `calc(${theme.spacing(2)} + ${
-        typeof theme.jrnlDrawer?.close?.width === "number"
-          ? `${theme.jrnlDrawer.close.width}px`
-          : theme.jrnlDrawer?.close?.width || "73px"
-      })`,
+      paddingRight: theme.spacing(2),
       transition: theme.transitions.create("padding-right", {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -145,15 +130,13 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     },
   },
   "& .appBarDrawer": {
-    margin: theme.spacing(-1, 0, -1, 0),
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+    margin: 0,
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.main,
     zIndex: theme.zIndex.appBar,
     minHeight: "auto",
+    position: "sticky",
+    top: 0,
   },
 
   "& .toolbarDrawer": {
@@ -206,6 +189,9 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     flexShrink: 0,
     backgroundColor: theme.menu.drawer.backgroundColor,
     color: theme.menu.drawer.textColor,
+    height: "100%",
+    position: "sticky",
+    top: "auto",
   },
 
   "& .drawerHeader": {
@@ -218,15 +204,19 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
   },
   "& .content": {
     flexGrow: 1,
-    paddingTop: theme.spacing(20),
+    paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
+    paddingRight: `calc(${theme.spacing(3)} + ${
+      typeof theme.jrnlDrawer?.close?.width === "number"
+        ? `${theme.jrnlDrawer.close.width}px`
+        : theme.jrnlDrawer?.close?.width || "73px"
+    })`,
+    transition: theme.transitions.create(["margin", "padding-right"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     [theme.breakpoints.down("md")]: {
-      paddingTop: theme.spacing(10),
+      paddingTop: theme.spacing(2),
     },
   },
   "& .contentShift": {
@@ -237,12 +227,30 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     marginLeft: theme.menu.drawer.width,
   },
   "& main": {
-    paddingTop: theme.spacing(20),
+    paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
+    paddingRight: `calc(${theme.spacing(3)} + ${
+      typeof theme.jrnlDrawer?.close?.width === "number"
+        ? `${theme.jrnlDrawer.close.width}px`
+        : theme.jrnlDrawer?.close?.width || "73px"
+    })`,
     flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    transition: theme.transitions.create("padding-right", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    "& > *": {
+      width: "100%",
+      maxWidth: "1800px",
+      padding: "0 !important",
+    },
     [theme.breakpoints.down("md")]: {
-      paddingTop: theme.spacing(10),
+      paddingTop: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
     },
   },
   "& .appName": {
@@ -280,14 +288,20 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     marginLeft: 0,
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(4),
   },
   "& .jrnlContentShift": {
     position: "relative",
     zIndex: 1,
-    paddingTop: theme.spacing(20),
+    paddingTop: theme.spacing(4),
+    paddingRight: theme.spacing(3),
+    transition: theme.transitions.create("padding-right", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
     [theme.breakpoints.down("md")]: {
-      paddingTop: theme.spacing(10),
+      paddingTop: theme.spacing(2),
+      paddingRight: theme.spacing(2),
     },
   },
 }));
@@ -330,7 +344,7 @@ const RequireAuth = (props) => {
   if (cfg["openimis-fe-core_js"]?.menuLeft === true) {
     return (
       <StyledRequireAuth>
-        <AppBar position="fixed" className="appBarDrawer">
+        <AppBar className="appBarDrawer">
           <Toolbar className="toolbarDrawer">
             <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
               <div className="grow" />
@@ -339,28 +353,30 @@ const RequireAuth = (props) => {
             <Help />
           </Toolbar>
         </AppBar>
-        <Drawer className="drawerRoot" variant="permanent" PaperProps={{ className: "drawerPaper" }} anchor="left">
-          <Button className="appName" onClick={() => (window.location.href = "/front")}>
-            {isAppBarMenu && isSmUp && <img className="logo" src={logo} alt="Logo of openIMIS" />}
-            {!disableTextLogo && (
-              <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
-            )}
-            {isSmUp && (
-              <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
-                <Typography variant="caption" className="appVersions">
-                  {modulesManager.getOpenIMISVersion()}
-                </Typography>
-              </Tooltip>
-            )}
-          </Button>
-          <div className="drawerContainer"></div>
-          <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
-            <Divider />
-          </MainMenuBar>
-          <div />
-        </Drawer>
-        <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
-        <main className="contentShiftLeftSideMenu">{children}</main>
+        <Box className="layoutWrapper">
+          <Drawer className="drawerRoot" variant="permanent" PaperProps={{ className: "drawerPaper" }} anchor="left">
+            <Button className="appName" onClick={() => (window.location.href = "/front")}>
+              {isAppBarMenu && isSmUp && <img className="logo" src={logo} alt="Logo" />}
+              {!disableTextLogo && (
+                <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
+              )}
+              {isSmUp && (
+                <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
+                  <Typography variant="caption" className="appVersions">
+                    {modulesManager.getOpenIMISVersion()}
+                  </Typography>
+                </Tooltip>
+              )}
+            </Button>
+            <div className="drawerContainer"></div>
+            <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
+              <Divider />
+            </MainMenuBar>
+            <div />
+          </Drawer>
+          <main className="contentShiftLeftSideMenu">{children}</main>
+          {showJournalSidebar && <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />}
+        </Box>
       </StyledRequireAuth>
     );
   }
@@ -369,7 +385,6 @@ const RequireAuth = (props) => {
   return (
     <StyledRequireAuth>
       <AppBar
-        position="fixed"
         className={clsx("appBar", {
           appBarShift: isOpen && isMdUp,
         })}
@@ -384,7 +399,7 @@ const RequireAuth = (props) => {
               <MenuIcon />
             </IconButton>
             <Button className="appName" onClick={() => history.push("/")}>
-              {isAppBarMenu && isSmUp && logo && <img className="logo" src={logo} alt="Logo of openIMIS" />}
+              {isAppBarMenu && isSmUp && logo && <img className="logo" src={logo} alt="Logo" />}
               {!disableTextLogo && (
                 <Box component="span" className="appNameText">
                   <FormattedMessage
@@ -438,41 +453,44 @@ const RequireAuth = (props) => {
           </Toolbar>
         )}
       </AppBar>
-      {isOpen && (
-        <ClickAwayListener onClickAway={setOpen.off}>
-          <nav className="drawerRoot">
-            <Drawer
-              className="drawerRoot"
-              variant="persistent"
-              anchor="left"
-              open={isOpen}
-              PaperProps={{ className: "drawerPaper" }}
-            >
-              <div className="drawerHeader">
-                <Button className="appName" onClick={() => history.push("/")}>
-                  {logo && <img className="logo" src={logo} alt="Logo" />}
-                  <FormattedMessage
-                    module="core"
-                    id="appName"
-                    defaultMessage={<FormattedMessage id="root.appName" />}
-                  />
-                </Button>
-              </div>
-              <Divider />
-              <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY} />
-            </Drawer>
-          </nav>
-        </ClickAwayListener>
-      )}
-      {showJournalSidebar && <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />}
-      <main
-        className={clsx({
-          jrnlContentShift: isDrawerOpen,
-          content: showJournalSidebar,
-        })}
-      >
-        {children}
-      </main>
+
+      <Box className="layoutWrapper">
+        {isOpen && (
+          <ClickAwayListener onClickAway={setOpen.off}>
+            <nav className="drawerRoot">
+              <Drawer
+                className="drawerRoot"
+                variant="persistent"
+                anchor="left"
+                open={isOpen}
+                PaperProps={{ className: "drawerPaper" }}
+              >
+                <div className="drawerHeader">
+                  <Button className="appName" onClick={() => history.push("/")}>
+                    {logo && <img className="logo" src={logo} alt="Logo" />}
+                    <FormattedMessage
+                      module="core"
+                      id="appName"
+                      defaultMessage={<FormattedMessage id="root.appName" />}
+                    />
+                  </Button>
+                </div>
+                <Divider />
+                <MainMenuBar {...others} menuVariant="Drawer" contributionKey={MAIN_MENU_CONTRIBUTION_KEY} />
+              </Drawer>
+            </nav>
+          </ClickAwayListener>
+        )}
+        <main
+          className={clsx({
+            jrnlContentShift: isDrawerOpen,
+            content: showJournalSidebar,
+          })}
+        >
+          {children}
+        </main>
+        {showJournalSidebar && <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />}
+      </Box>
     </StyledRequireAuth>
   );
 };

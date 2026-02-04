@@ -189,15 +189,19 @@ class AutoSuggestion extends Component {
   };
 
   renderInputComponent = ({ inputRef, ...inputProps }) => {
+    const { label } = this.props;
     return (
       <FormControl fullWidth>
         <TextField
+          {...inputProps}
+          label={label}
           InputLabelProps={{
+            ...inputProps.InputLabelProps,
             className: "label",
           }}
-          {...inputProps}
           inputRef={inputRef}
           InputProps={{
+            ...inputProps.InputProps,
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />
