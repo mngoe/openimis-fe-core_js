@@ -74,7 +74,7 @@ const StyledSearcher = styled('div')(({ theme }) => ({
     justifyContent: "flex-end",
   },
   '& .tableContainer': {
-    ...theme.table.container,
+    ...theme.table?.container ?? {},
     boxShadow: theme.shadows[2],
     width: "100%",
     maxWidth: "100%",

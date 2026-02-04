@@ -27,7 +27,7 @@ import NumberInput from "../inputs/NumberInput";
 import AmountInput from "../inputs/AmountInput";
 
 const StyledTableService = styled('div')(({ theme }) => ({
-  '& .table': theme.table,
+  '& .table': theme.table ?? {},
   '& .tableTitle': theme.table?.title,
   '& .tableHeader': theme.table?.header,
   '& .tableRow': theme.table?.row,

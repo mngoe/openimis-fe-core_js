@@ -24,8 +24,8 @@ import RoleHeadPanel from "../components/RoleHeadPanel";
 import RoleRightsPanel from "../components/RoleRightsPanel";
 
 const StyledRole = styled('div')(({ theme }) => ({
-  '& .page': theme.page,
-  '& .locked': theme.page.locked,
+  '& .page': theme.page ?? {},
+  '& .locked': theme.page?.locked ?? {},
 }));
 
 class Role extends Component {

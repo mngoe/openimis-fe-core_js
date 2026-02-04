@@ -28,9 +28,9 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { formatRoleLabel } from "../helpers/role-label-formatter";
 
 const StyledRoleRightsPanel = styled('div')(({ theme }) => ({
-  '& .item': theme.paper.item,
-  '& .paper': theme.paper.paper,
-  '& .paperHeader': theme.paper.paperHeader,
+  '& .item': theme.paper?.item ?? {},
+  '& .paper': theme.paper?.paper ?? {},
+  '& .paperHeader': theme.paper?.paperHeader ?? {},
   '& .list': {
     width: "100%",
     height: "500px",

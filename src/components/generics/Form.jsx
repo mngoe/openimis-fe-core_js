@@ -12,11 +12,11 @@ import { withTooltip, formatMessage } from "../../helpers/i18n";
 import _ from "lodash";
 
 const StyledForm = styled('div')(({ theme }) => ({
-  '& .paper': theme.paper.paper,
-  '& .paperHeader': theme.paper.header,
-  '& .paperHeaderAction': theme.paper.action,
-  '& .tooltipContainer': theme.tooltipContainer,
-  '& .flexTooltip': theme.flexTooltip,
+  '& .paper': theme.paper?.paper ?? {},
+  '& .paperHeader': theme.paper?.header ?? {},
+  '& .paperHeaderAction': theme.paper?.action ?? {},
+  '& .tooltipContainer': theme.tooltipContainer ?? {},
+  '& .flexTooltip': theme.flexTooltip ?? {},
 }));
 
 class Form extends Component {

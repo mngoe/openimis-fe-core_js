@@ -18,7 +18,7 @@ const StyledForgotPasswordPage = styled('div')(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
   },
-  '& .paper': theme.paper.paper,
+  '& .paper': theme.paper?.paper ?? {},
   '& .logo': {
     maxHeight: 100,
   },

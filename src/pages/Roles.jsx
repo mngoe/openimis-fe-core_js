@@ -42,14 +42,14 @@ import {
 } from "../constants";
 
 const StyledRoles = styled('div')(({ theme }) => ({
-  '& .page': theme.page,
+  '& .page': theme.page ?? {},
   '& .form': {
     padding: 0,
   },
   '& .item': {
     padding: theme.spacing(1),
   },
-  '& .fab': theme.fab,
+  '& .fab': theme.fab ?? {},
 }));
 
 const DEFAULT_ORDER_BY = "name";

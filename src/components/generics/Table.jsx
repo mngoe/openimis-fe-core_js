@@ -25,7 +25,7 @@ import withModulesManager from "../../helpers/modules";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
 
 const StyledTable = styled('div')(({ theme }) => ({
-  '& .table': theme.table,
+  '& .table': theme.table ?? {},
   '& .tableTitle': theme.table?.title,
   '& .tableHeader': theme.table?.header,
   '& .tableRow': theme.table?.row,

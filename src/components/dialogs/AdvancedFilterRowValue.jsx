@@ -19,7 +19,7 @@ import {
 } from "../../constants";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
-  '& .item': theme.paper.item,
+  '& .item': theme.paper?.item ?? {},
 }));
 
 const AdvancedFilterRowValue = ({

@@ -15,7 +15,7 @@ import {
 import { roleNameValidationCheck, roleNameValidationClear, roleNameSetValid } from "../actions";
 
 const StyledRoleHeadPanel = styled('div')(({ theme }) => ({
-  '& .item': theme.paper.item,
+  '& .item': theme.paper?.item ?? {},
 }));
 
 class RoleHeadPanel extends FormPanel {

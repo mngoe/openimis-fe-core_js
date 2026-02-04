@@ -24,7 +24,7 @@ const StyledLoginPage = styled('div')(({ theme }) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  '& .paper': theme.paper.paper,
+  '& .paper': theme.paper?.paper ?? {},
   '& .logo': {
     width: "100%",
     padding: theme.spacing(2),
