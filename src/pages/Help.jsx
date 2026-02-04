@@ -7,9 +7,8 @@ import { useModulesManager } from "../helpers/modules";
 import { CORE_MIS_CONFLUENCE_URL, DEFAULT_URL, MODULE_NAME } from "../constants";
 import { useTranslations } from "../helpers/i18n";
 
-const StyledHelp = styled('div')(({ theme }) => ({
-  '& .button': {
-    margin: theme.spacing(2),
+const StyledHelp = styled("div")(({ theme }) => ({
+  "& .button": {
     color: theme.palette.secondary.main,
   },
 }));

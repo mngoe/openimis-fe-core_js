@@ -11,9 +11,8 @@ import { useModulesManager } from "../helpers/modules";
 import { onLogout, redirectToSamlLogout } from "../helpers/utils";
 import { useTranslations } from "../helpers/i18n";
 
-const StyledLogoutButton = styled('div')(({ theme }) => ({
-  '& .button': {
-    margin: theme.spacing(2),
+const StyledLogoutButton = styled("div")(({ theme }) => ({
+  "& .button": {
     color: theme.palette.secondary.main,
   },
 }));
@@ -35,7 +34,7 @@ const LogoutButton = () => {
   const redirectToImisLogout = async () => {
     await onLogout(dispatch);
     history.push("/");
-  }
+  };
 
   return (
     <StyledLogoutButton>

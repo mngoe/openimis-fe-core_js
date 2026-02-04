@@ -7,47 +7,65 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Divider, List, IconButton, MenuList, MenuItem, Button, Popper, Paper, ClickAwayListener } from "@mui/material";
+import { Divider, List, IconButton, MenuList, MenuItem, Button, Popper, Paper, ClickAwayListener, Box } from "@mui/material";
 import withModulesManager from "../../helpers/modules";
 
 const StyledMainMenu = styled('div')(({ theme }) => ({
   '& .panel': {
     margin: "0 !important",
     padding: 0,
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.05),
+    },
+    '& .MuiAccordionSummary-root': {
+      padding: theme.spacing(0, 2),
+    },
   },
   '& .drawerHeading': {
     fontSize: theme.menu.drawer.fontSize,
-    fontWeight: theme.menu.drawer.fontWeight,
+    fontWeight: 500,
     color: theme.menu.drawer.textColor,
   },
 
   '& .MuiListItem-root': {
     color: theme.menu.drawer.textColor,
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.1),
+    },
   },
   '& .MuiListItemIcon-root': {
     color: theme.menu.drawer.textColor,
-    minWidth: 36,
+    minWidth: 40,
   },
   '& .MuiListItemText-root .MuiTypography-root': {
+    color: theme.menu.drawer.textColor,
+  },
+  '& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root': {
     color: theme.menu.drawer.textColor,
   },
   '& .drawerDivider': {
     // width: 100
   },
   '& .menuHeading': {
-    fontSize: theme.menu.appBar.fontSize,
+    fontSize: (theme.menu?.appBar?.fontSize || 14) + 1,
+    fontWeight: 500,
     color: theme.palette.secondary.main,
     textTransform: "none",
     whiteSpace: "nowrap",
     display: "inline-flex",
     alignItems: "center",
-    lineHeight: 1,
-    padding: theme.spacing(0, 1),
-    // minWidth: 0,
+    lineHeight: 1.2,
+    padding: theme.spacing(1, 1.8),
+    transition: "all 0.2s ease-in-out",
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.1),
+    },
   },
   '& .appBarMenuPaper': {
     borderTopLeftRadius: 0,
@@ -221,12 +239,16 @@ class MainMenuContribution extends Component {
   drawerMenu = (entries) => {
     return (
       <StyledMainMenu>
-      <Accordion className="panel" expanded={this.state.expanded} onChange={this.toggleExpanded}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} id={`${this.props.header}-header`}>
-          {this.props.icon}
-          <Typography className="drawerHeading">{this.props.header}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
+        <Accordion className="panel" expanded={this.state.expanded} onChange={this.toggleExpanded}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} id={`${this.props.header}-header`}>
+            <Box display="flex" alignItems="center">
+              <Box minWidth={40} display="flex" alignItems="center">
+                {this.props.icon}
+              </Box>
+              <Typography className="drawerHeading">{this.props.header}</Typography>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails>
           <List component="nav">
             {entries.map((entry, idx) => (
               <Fragment key={`${this.props.header}_${idx}`}>
