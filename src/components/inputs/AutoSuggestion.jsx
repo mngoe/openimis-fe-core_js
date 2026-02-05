@@ -37,16 +37,6 @@ const StyledAutoSuggestion = styled("div")(({ theme }) => ({
     margin: 0,
     border: 0,
   },
-  "& .suggestionsContainerOpen": {
-    position: "absolute",
-    top: 42,
-    padding: 0,
-    margin: 0,
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-    border: "solid 1px grey",
-    zIndex: theme.zIndex.modal,
-  },
   "& .suggestion": {
     display: "block",
     cursor: "pointer",
@@ -314,7 +304,6 @@ class AutoSuggestion extends Component {
         onClose={() => this.onSuggestionsClearRequested()}
         disableClearable={true} // Handled by custom clear button
         disabled={disabled}
-        PopperComponent={(props) => <div {...props} className="suggestionsContainerOpen" />}
         ListboxProps={{ className: "suggestionsList" }}
         freeSolo
         inputValue={value || ""}
