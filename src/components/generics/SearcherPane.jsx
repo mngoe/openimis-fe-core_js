@@ -43,7 +43,6 @@ const StyledSearcherPane = styled("div")(({ theme }) => ({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
     color: theme.paper?.header?.color || theme.palette.primary.main,
     ...theme.paper?.header,
     backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,

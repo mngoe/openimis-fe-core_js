@@ -51,16 +51,14 @@ const StyledSearcher = styled("div")(({ theme }) => ({
     boxSizing: "border-box",
   },
   "& .paperHeader": {
-    display: "flex", // removed alignItems: stretch
+    display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     padding: theme.spacing(0, 1),
     minHeight: "40px",
     width: "100%",
-    backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
     color: theme.paper?.header?.color || theme.palette.primary.main,
     ...theme.paper?.header,
-    // Ensure background is applied even if spread overrides it
     backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
     padding: theme.spacing(0, 1),
   },
