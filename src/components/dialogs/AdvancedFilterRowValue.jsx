@@ -20,6 +20,19 @@ import {
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   '& .item': theme.paper?.item ?? {},
+  backgroundColor: theme.paper?.paper?.backgroundColor ?? "#dbeef0",
+  '& .removeIcon': {
+    transform: 'translate(-50%, -50%)',
+    fontSize: '16px',
+    color: theme.palette.primary.main,
+    cursor: 'pointer',
+  },
+  '& .removeIconContainer': {
+    backgroundColor: theme.paper?.paper?.backgroundColor ?? "#dbeef0",
+    width: '25px',
+    height: '25px',
+    marginTop: '25px',
+  }
 }));
 
 const AdvancedFilterRowValue = ({
@@ -111,16 +124,11 @@ const AdvancedFilterRowValue = ({
       container 
       direction="row" 
       className="item"
-      style={{ backgroundColor: "#DFEDEF" }}
     >
       {filters.length > 0 ? (
-        <div style={{ backgroundColor: '#DFEDEF', width: '25px', height: '25px', marginTop: '25px' }}>
+        <div className="removeIconContainer">
           <span
-            style={{
-              transform: 'translate(-50%, -50%)',
-              fontSize: '16px',
-              color: '#006273',
-            }}
+            className="removeIcon"
             onClick={removeFilter}
           >
             &#x2716;
