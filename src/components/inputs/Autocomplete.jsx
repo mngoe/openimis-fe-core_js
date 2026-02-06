@@ -115,7 +115,6 @@ const Autocomplete = (props) => {
             : (inputProps) => (
                 <TextField
                   {...inputProps}
-                  variant="standard"
                   required={required}
                   InputLabelProps={{ shrink: value !== undefined, className: "label" }}
                   label={withLabel && (label || formatMessage("label"))}
