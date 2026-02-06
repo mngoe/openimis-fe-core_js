@@ -28,9 +28,7 @@
     "@mui/x-date-pickers": "^8.9.0",
     "dayjs": "^1.11.13",
     "redux": "^4.0.5",
-    "moment": "^2.25.3"
-  },
-  "dependencies": {
+    "moment": "^2.25.3",
     "react-multi-date-picker": "^4.5.2"
   },
   "devDependencies": {
