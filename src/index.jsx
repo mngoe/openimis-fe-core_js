@@ -67,7 +67,7 @@ import {
   prepareMutation,
   clearCurrentPaginationPage,
   fetchCustomFilter,
-  fetchPasswordPolicy
+  fetchPasswordPolicy,
 } from "./actions";
 import {
   formatMessage,
@@ -98,11 +98,9 @@ import {
   sort,
   formatSorter,
   formatGQLString,
-  formatNodeQuery
+  formatNodeQuery,
 } from "./helpers/api";
-import {
-  downloadExport
-} from "./helpers/downloadExport";
+import { downloadExport } from "./helpers/downloadExport";
 import {
   useDebounceCb,
   usePrevious,
@@ -130,7 +128,13 @@ import { createFieldsBasedOnJSON, renderInputComponent } from "./helpers/json-ha
 import withModulesManager, { useModulesManager, modulesManagerCtx } from "./helpers/modules";
 import { formatJsonField } from "./helpers/jsonExt";
 import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER, EXPORT_FILE_FORMATS } from "./constants";
-import { GRID_RESPONSIVE_STANDARD, GRID_RESPONSIVE_SMALL, GRID_RESPONSIVE_LARGE, GRID_RESPONSIVE_FULL, GRID_RESPONSIVE_HALF } from "./constants/responsiveGrid";
+import {
+  GRID_RESPONSIVE_STANDARD,
+  GRID_RESPONSIVE_SMALL,
+  GRID_RESPONSIVE_LARGE,
+  GRID_RESPONSIVE_FULL,
+  GRID_RESPONSIVE_HALF,
+} from "./constants/responsiveGrid";
 import { authMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
 import UserActivityReport from "./reports/UserActivityReport";
@@ -141,8 +145,6 @@ import LoginPage from "./pages/LoginPage";
 
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
-
-
 
 const DEFAULT_CONFIG = {
   "translations": [{ key: "en", messages: messages_en }],
@@ -201,11 +203,11 @@ const DEFAULT_CONFIG = {
   ],
   "admin.MainMenu": [
     {
-      text: "roleManagement.label",
+      text: <FormattedMessage module="core" id="roleManagement.label" />,
       icon: <AccountBox />,
       route: "/" + ROUTE_ROLES,
       filter: (rights) => rights.includes(RIGHT_ROLE_SEARCH),
-      id: 'admin.roleManagement',
+      id: "admin.roleManagement",
     },
   ],
 };
