@@ -244,7 +244,6 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     }),
     "& > *": {
       width: "100%",
-      maxWidth: "1800px",
       padding: "0 !important",
     },
     [theme.breakpoints.down("md")]: {
