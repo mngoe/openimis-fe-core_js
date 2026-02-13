@@ -286,6 +286,7 @@ class Searcher extends Component {
   };
   constructor(props) {
     super(props);
+    this.miniFilterPane = props.modulesManager.getConf("fe-core", "miniFilterPane", false);
     this.fetchEnabled = props.modulesManager.getConf("fe-core", "shouldFetchInitially", true);
     this.isWorker = props.modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
   }
@@ -582,6 +583,7 @@ class Searcher extends Component {
     } = this.props;
     return (
       <StyledSearcher>
+
         {!!FilterPane && (
           <SearcherPane
             module={module}
@@ -702,7 +704,7 @@ class Searcher extends Component {
                     onDoubleClick={onDoubleClick}
                     page={this.state.page}
                     pageSize={this.state.pageSize}
-                    count={itemsPageInfo.totalCount}
+                    count={itemsPageInfo?.totalCount}
                     onChangePage={this.onChangePage}
                     rowsPerPageOptions={rowsPerPageOptions}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}

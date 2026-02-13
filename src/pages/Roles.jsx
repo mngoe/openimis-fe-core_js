@@ -233,9 +233,9 @@ class Roles extends Component {
       result.push((role) =>
         withTooltip(
           <div>
-            <IconButton href={this.roleUpdatePageUrl(role)} disabled={this.isRowDisabled(null, role)}>
-              <EditIcon />
-            </IconButton>
+            <Button startIcon={<EditIcon />} onClick={() => this.onUpdate(role)} disabled={this.isRowDisabled(null, role)}>
+              {formatMessage(intl, "core", "roleManagement.editButton.buttonText")}
+            </Button>
           </div>,
           formatMessage(intl, "core", "roleManagement.editButton.tooltip"),
         ),
@@ -245,9 +245,9 @@ class Roles extends Component {
       result.push((role) =>
         withTooltip(
           <div>
-            <IconButton href={this.roleDuplicatePageUrl(role)} disabled={this.isRowDisabled(null, role)}>
-              <SupervisedUserCircleIcon />
-            </IconButton>
+            <Button startIcon={<SupervisedUserCircleIcon />} onClick={() => this.onDuplicate(role)} disabled={this.isRowDisabled(null, role)}>
+              {formatMessage(intl, "core", "roleManagement.duplicateButton.buttonText")}
+            </Button>
           </div>,
           formatMessage(intl, "core", "roleManagement.duplicateButton.tooltip"),
         ),
@@ -257,9 +257,9 @@ class Roles extends Component {
       result.push((role) =>
         withTooltip(
           <div>
-            <IconButton onClick={() => this.onDelete(role)} disabled={this.isRowDisabled(null, role)}>
-              <DeleteIcon />
-            </IconButton>
+            <Button startIcon={<DeleteIcon />} onClick={() => this.onDelete(role)} disabled={this.isRowDisabled(null, role)}>
+              {formatMessage(intl, "core", "roleManagement.deleteButton.buttonText")}
+            </Button>
           </div>,
           formatMessage(intl, "core", "roleManagement.deleteButton.tooltip"),
         ),

@@ -251,20 +251,101 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
   };
 }
 
+import * as Sentry from "@sentry/react";
+
 export function fetch(config) {
-  const csrfToken = localStorage.getItem('csrfToken');
+  const csrfToken = localStorage.getItem("csrfToken");
+
   return async (dispatch) => {
-    return dispatch({
-      [RSAA]: {
-        ...config,
-        headers: {
-          "Content-Type": "application/json",
-          'X-Requested-With': REQUESTED_WITH,
-          "X-CSRFToken": csrfToken,
-          ...config.headers,
+    let action;
+
+    try {
+      action = await dispatch({
+        [RSAA]: {
+          ...config,
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": csrfToken,
+            ...config.headers,
+          },
         },
-      },
-    });
+      });
+    } catch (err) {
+      const errorMessage = "Server not responding";
+      Sentry.captureException(new Error(errorMessage), {
+        level: "error",
+        tags: {
+          endpoint: config.endpoint,
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint: config.endpoint,
+          body: config.body,
+          originalError: err,
+        },
+      });
+      return {
+        error: true,
+        payload: { message: errorMessage },
+      };
+    }
+
+    const endpoint = config.endpoint;
+    const response = action?.payload?.response;
+    const status = response?.status;
+    const statusText = response?.statusText;
+    const gqlErrors = response?.errors;
+    const message = action?.payload?.message || action?.error?.message;
+    
+    if (action.error) {
+      let errorMessage = "";
+      if (!response && !message) {
+        errorMessage = "Server not responding";
+      }
+      if (status) {
+        errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
+      } else if (gqlErrors?.length > 0) {
+        errorMessage = `GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`;
+      } else if (message) {
+        errorMessage = `Network or API Error: ${message}`;
+      } else {
+        errorMessage = "Unknown error during API call";
+      }
+
+      Sentry.captureException(new Error(errorMessage), {
+        level: "error",
+        tags: {
+          endpoint,
+          status: status || "no-status",
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint,
+          status,
+          statusText,
+          body: config.body,
+          response: action.payload,
+        },
+      });
+    }
+
+    if (!action.error && gqlErrors && gqlErrors.length > 0) {
+      Sentry.captureException(new Error(`GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`), {
+        level: "error",
+        tags: {
+          endpoint,
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint,
+          errors: gqlErrors,
+          query: config.body,
+        },
+      });
+    }
+
+    return action;
   };
 }
 

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import TextInput from "./TextInput";
 import { injectIntl } from "react-intl";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
+import { withModulesManager } from "@openimis/fe-core";
+import FormattedNumberInput from "./FormattedNumberInput";
 
 class NumberInput extends Component {
   constructor(props) {
@@ -9,6 +11,9 @@ class NumberInput extends Component {
     this.state = {
       isEdited: false,
     };
+    this.numberOfDecimals = props.modulesManager.getConf("fe-core", "numberOfDecimals", 2)
+    this.pricesAreDecimal = props.modulesManager.getConf("fe-core", "pricesAreDecimal", true)
+    this.thousandSeparator = props.modulesManager.getConf("fe-core", "thousandSeparator", "fr")
   }
 
   handleKeyPress = (event) => {
@@ -32,8 +37,8 @@ class NumberInput extends Component {
     if (isNaN(numericValue)) return "";
 
     if (decimal) {
-      if (typeof value === "string" && value.includes(".") && value.split(".")[1].length > 2) {
-        return parseFloat(value).toFixed(2);
+      if (typeof value === "string" && value.includes(".") && value.split(".")[1].length > 0) {
+        return parseFloat(value).toFixed(this.numberOfDecimals);
       }
       return value;
     }
@@ -58,7 +63,7 @@ class NumberInput extends Component {
       error,
       displayZero = false,
       displayNa = false,
-      allowDecimals = true,
+      allowDecimals = this.pricesAreDecimal,
       ...others
     } = this.props;
     let inputProps = { ...this.props.inputProps, type: "number", onKeyPress: this.handleKeyPress };
@@ -82,19 +87,31 @@ class NumberInput extends Component {
     }
 
     return (
-      <TextInput
-        {...others}
-        module={module}
-        value={value}
-        error={err}
-        inputProps={inputProps}
-        formatInput={(v) => this.formatInput(v, displayZero, displayNa, allowDecimals)}
-        onFocus={() => this.setState({ isEdited: true })}
-        onBlur={() => this.handleNaBlur()}
-      />
+      <>
+        {!!this.thousandSeparator ? (
+          <FormattedNumberInput
+            {...this.props} 
+            thousandSeparator = {this.thousandSeparator}
+            numberOfDecimals = {this.numberOfDecimals}
+            pricesAreDecimal = {this.pricesAreDecimal}
+          />
+        ) : (
+          <TextInput
+            {...others}
+            module={module}
+            value={value}
+            error={err}
+            inputProps={inputProps}
+            formatInput={(v) => this.formatInput(v, displayZero, displayNa, allowDecimals)}
+            onFocus={() => this.setState({ isEdited: true })}
+            onBlur={() => this.handleNaBlur()}
+          />
+        )}
+      </>
     );
+    
   }
 }
 
 export { NumberInput };
-export default injectIntl(NumberInput);
+export default withModulesManager(injectIntl(NumberInput));

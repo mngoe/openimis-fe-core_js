@@ -1,4 +1,5 @@
 {
+  "core.pickerNoOptionsLabel": "No options available",
   "core.roleManagement.label": "Roles Management",
   "core.roleManagement.searcher.results.title": "{rolesTotalCount} Roles Found",
   "core.roleManagement.roleName": "Role Name",
@@ -222,5 +223,15 @@
   "api_fhir_r4.R4_fhir_subscription_config_fhir_sub_update_perms": "Api Fhir R4 | Subscription Config Fhir Sub Update",
   "api_fhir_r4.R4_fhir_subscription_config_fhir_sub_delete_perms": "Api Fhir R4 | Subscription Config Fhir Sub Delete",
   "api_etl.gql_query_api_etl_rule_perms": "Api Etl | Query Api Etl Rule",
-  "api_etl.gql_mutation_execute_api_etl_rule_perms": "Api Etl | Mutation Execute Api Etl Rule"
+  "api_etl.gql_mutation_execute_api_etl_rule_perms": "Api Etl | Mutation Execute Api Etl Rule",
+  "core.openNewTab.buttonText": "Open",
+  "core.delete.buttonText": "Delete",
+  "core.create.buttonText": "Create New",
+  "core.edit.buttonText": "Edit",
+  "core.cancel.buttonText": "Cancel",
+  "core.save.buttonText": "Save",
+  "core.back.buttonText": "Back",
+  "roleManagement.editButton.buttonText": "Edit",
+  "roleManagement.duplicateButton.buttonText": "Duplicate",
+  "roleManagement.deleteButton.buttonText": "Delete"
 }
