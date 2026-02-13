@@ -65,6 +65,7 @@ export default defineConfig({
         'zxcvbn',
         /^@babel-.*/,
         /^@openimis/,
+        '@sentry/react',
       ],
       output: {
         globals: {
