@@ -9,6 +9,7 @@ import {
   formatMutation,
   formatServerError,
 } from "./helpers/api";
+import * as Sentry from "@sentry/react";
 
 const REQUESTED_WITH = "webapp";
 
@@ -278,12 +279,25 @@ export function fetch(config) {
       });
     } catch (err) {
       const errorMessage = "Server not responding";
+      Sentry.captureException(new Error(errorMessage), {
+        level: "error",
+        tags: {
+          endpoint: config.endpoint,
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint: config.endpoint,
+          body: config.body,
+          originalError: err,
+        },
+      });
       return {
         error: true,
         payload: { message: errorMessage },
       };
     }
 
+    const endpoint = config.endpoint;
     const response = action?.payload?.response;
     const status = response?.status;
     const statusText = response?.statusText;
@@ -304,6 +318,37 @@ export function fetch(config) {
       } else {
         errorMessage = "Unknown error during API call";
       }
+
+      Sentry.captureException(new Error(errorMessage), {
+        level: "error",
+        tags: {
+          endpoint,
+          status: status || "no-status",
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint,
+          status,
+          statusText,
+          body: config.body,
+          response: action.payload,
+        },
+      });
+    }
+
+    if (!action.error && gqlErrors && gqlErrors.length > 0) {
+      Sentry.captureException(new Error(`GraphQL Error: ${gqlErrors.map((e) => e.message).join("; ")}`), {
+        level: "error",
+        tags: {
+          endpoint,
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint,
+          errors: gqlErrors,
+          query: config.body,
+        },
+      });
     }
 
     return action;
