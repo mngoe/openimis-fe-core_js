@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 
-import { Grid, FormControlLabel, Checkbox, Fab, IconButton } from "@mui/material";
+import { Grid, FormControlLabel, Checkbox, Fab, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -41,15 +41,15 @@ import {
   MODULE_NAME,
 } from "../constants";
 
-const StyledRoles = styled('div')(({ theme }) => ({
-  '& .page': theme.page ?? {},
-  '& .form': {
+const StyledRoles = styled("div")(({ theme }) => ({
+  "& .page": theme.page ?? {},
+  "& .form": {
     padding: 0,
   },
-  '& .item': {
+  "& .item": {
     padding: theme.spacing(1),
   },
-  '& .fab': theme.fab ?? {},
+  "& .fab": theme.fab ?? {},
 }));
 
 const DEFAULT_ORDER_BY = "name";
@@ -233,7 +233,11 @@ class Roles extends Component {
       result.push((role) =>
         withTooltip(
           <div>
-            <Button startIcon={<EditIcon />} onClick={() => this.onUpdate(role)} disabled={this.isRowDisabled(null, role)}>
+            <Button
+              startIcon={<EditIcon />}
+              onClick={() => this.onUpdate(role)}
+              disabled={this.isRowDisabled(null, role)}
+            >
               {formatMessage(intl, "core", "roleManagement.editButton.buttonText")}
             </Button>
           </div>,
@@ -245,7 +249,11 @@ class Roles extends Component {
       result.push((role) =>
         withTooltip(
           <div>
-            <Button startIcon={<SupervisedUserCircleIcon />} onClick={() => this.onDuplicate(role)} disabled={this.isRowDisabled(null, role)}>
+            <Button
+              startIcon={<SupervisedUserCircleIcon />}
+              onClick={() => this.onDuplicate(role)}
+              disabled={this.isRowDisabled(null, role)}
+            >
               {formatMessage(intl, "core", "roleManagement.duplicateButton.buttonText")}
             </Button>
           </div>,
@@ -257,7 +265,11 @@ class Roles extends Component {
       result.push((role) =>
         withTooltip(
           <div>
-            <Button startIcon={<DeleteIcon />} onClick={() => this.onDelete(role)} disabled={this.isRowDisabled(null, role)}>
+            <Button
+              startIcon={<DeleteIcon />}
+              onClick={() => this.onDelete(role)}
+              disabled={this.isRowDisabled(null, role)}
+            >
               {formatMessage(intl, "core", "roleManagement.deleteButton.buttonText")}
             </Button>
           </div>,
@@ -307,8 +319,7 @@ class Roles extends Component {
   };
 
   render() {
-    const { intl, rights, fetchingRoles, fetchedRoles, errorRoles, roles, rolesPageInfo, rolesTotalCount } =
-      this.props;
+    const { intl, rights, fetchingRoles, fetchedRoles, errorRoles, roles, rolesPageInfo, rolesTotalCount } = this.props;
     return (
       <StyledRoles>
         {rights.includes(RIGHT_ROLE_SEARCH) && (
@@ -373,6 +384,4 @@ const mapDispatchToProps = (dispatch) => {
 
 export { StyledRoles };
 export { RawRoleFilter };
-export default withModulesManager(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Roles)),
-);
+export default withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(Roles)));

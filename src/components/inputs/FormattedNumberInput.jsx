@@ -1,26 +1,25 @@
 import React, { Component } from "react";
+import { styled } from "@mui/material/styles";
 import TextInput from "./TextInput";
 import { injectIntl } from "react-intl";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
-import { withModulesManager } from "@openimis/fe-core";
+import withModulesManager from "../../helpers/modules";
+
+const StyledFormattedNumberInput = styled("div")(({ theme }) => ({}));
 
 class FormattedNumberInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isEdited: false,
-      rawValue: props.value != null
-        ? this.formatNumber(props.value, props.intl)
-        : "",
+      rawValue: props.value != null ? this.formatNumber(props.value, props.intl) : "",
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.value !== this.props.value && !this.state.isEdited) {
       this.setState({
-        rawValue: this.props.value != null
-          ? this.formatNumber(this.props.value, this.props.intl)
-          : "",
+        rawValue: this.props.value != null ? this.formatNumber(this.props.value, this.props.intl) : "",
       });
     }
   }
@@ -38,7 +37,7 @@ class FormattedNumberInput extends Component {
     if (event.key === "." && !allowDecimals) {
       event.preventDefault();
     }
-  };  
+  };
 
   handleChange = (val) => {
     const raw = val;
@@ -106,18 +105,21 @@ class FormattedNumberInput extends Component {
     }
 
     return (
-      <TextInput
-        {...others}
-        module={module}
-        value={this.state.rawValue}
-        error={err}
-        inputProps={inputProps}
-        onChange={this.handleChange}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-      />
+      <StyledFormattedNumberInput>
+        <TextInput
+          {...others}
+          module={module}
+          value={this.state.rawValue}
+          error={err}
+          inputProps={inputProps}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+        />
+      </StyledFormattedNumberInput>
     );
   }
 }
 
+export { StyledFormattedNumberInput };
 export default withModulesManager(injectIntl(FormattedNumberInput));

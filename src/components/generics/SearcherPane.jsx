@@ -68,7 +68,9 @@ class SearcherPane extends Component {
 
   handleKeyDown = (event) => {
     if (event.key === ENTER_KEY) {
-      this.debouncedRefresh();
+      if (!event.target.value) {
+        this.debouncedRefresh();
+      }
     }
   };
 

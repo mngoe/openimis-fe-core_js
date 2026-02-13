@@ -113,5 +113,4 @@ class NumberInput extends Component {
   }
 }
 
-export { NumberInput };
 export default withModulesManager(injectIntl(NumberInput));

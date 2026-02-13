@@ -79,6 +79,7 @@ const StyledTable = styled("div")(({ theme }) => ({
 class Table extends Component {
   state = {
     selection: {},
+    ordinalNumberFrom: null,
   };
 
   _atom = (a) =>
@@ -168,10 +169,13 @@ class Table extends Component {
     </Box>
   );
 
-  calculateOrdinalNumber = (iidx, isPaginationEnabled, arrayLength, page, rowsPerPage) => {
+  calculateOrdinalNumber = (iidx, isPaginationEnabled, arrayLength) => {
+    const { ordinalNumberFrom } = this.state;
     let currentIndex = 0;
     if (isPaginationEnabled) {
-      const ordinalNumberFrom = page * rowsPerPage + 1;
+      if (isNaN(ordinalNumberFrom)) {
+        currentIndex = 0;
+      }
       currentIndex = iidx + ordinalNumberFrom;
     } else {
       currentIndex = iidx + 1;
@@ -216,6 +220,7 @@ class Table extends Component {
       selectWithCheckbox = false,
       withSelection = false,
     } = this.props;
+    const { ordinalNumberFrom } = this.state;
 
     let localHeaders = [...(headers || [])];
     let localPreHeaders = !!preHeaders ? [...preHeaders] : null;
@@ -377,9 +382,7 @@ class Table extends Component {
                         )}
                         key={`v-${this.calculateOrdinalNumber(iidx, withPagination, items.length)}-0`}
                       >
-                        <span>
-                          {this.calculateOrdinalNumber(iidx, withPagination, items.length, page, rowsPerPage)}
-                        </span>
+                        <span>{this.calculateOrdinalNumber(iidx, withPagination, items.length)}</span>
                       </TableCell>
                     )}
                     {localItemFormatters &&
@@ -417,15 +420,18 @@ class Table extends Component {
                     className="pager"
                     colSpan={localItemFormatters.length + (selectWithCheckbox ? 1 : 0)}
                     labelRowsPerPage={formatMessage(intl, "core", "rowsPerPage")}
-                    labelDisplayedRows={({ from, to, count }) =>
-                      `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`
-                    }
+                    labelDisplayedRows={({ from, to, count }) => {
+                      if (this.state.ordinalNumberFrom !== from) this.setState({ ordinalNumberFrom: from });
+                      return `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`;
+                    }}
                     count={count}
                     page={page}
                     rowsPerPage={rowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions}
                     onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
                     onPageChange={onChangePage}
+                    nextIconButtonText={formatMessage(intl, "core", "Table.nextPage")}
+                    backIconButtonText={formatMessage(intl, "core", "Table.previousPage")}
                   />
                 </TableRow>
               </TableFooter>

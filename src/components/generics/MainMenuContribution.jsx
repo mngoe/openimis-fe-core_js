@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import * as Icons from "@mui/icons-material";
 import PropTypes from "prop-types";
 import MuiAccordion from "@mui/material/Accordion";
@@ -11,48 +11,60 @@ import { styled, alpha } from "@mui/material/styles";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Divider, List, IconButton, MenuList, MenuItem, Button, Popper, Paper, ClickAwayListener, Box } from "@mui/material";
+import {
+  Divider,
+  List,
+  IconButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Popper,
+  Paper,
+  ClickAwayListener,
+  Box,
+} from "@mui/material";
 import withModulesManager from "../../helpers/modules";
+import { menuEntryMatchesLocationPath } from "../../helpers/utils";
 
-const StyledMainMenu = styled('div')(({ theme }) => ({
-  '& .panel': {
+const StyledMainMenu = styled("div")(({ theme }) => ({
+  "& .panel": {
     margin: "0 !important",
     padding: 0,
-    backgroundColor: 'transparent',
-    boxShadow: 'none',
-    '&:hover': {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.05),
     },
-    '& .MuiAccordionSummary-root': {
+    "& .MuiAccordionSummary-root": {
       padding: theme.spacing(0, 2),
     },
   },
-  '& .drawerHeading': {
+  "& .drawerHeading": {
     fontSize: theme.menu.drawer.fontSize,
     fontWeight: 500,
     color: theme.menu.drawer.textColor,
   },
 
-  '& .MuiListItem-root': {
+  "& .MuiListItem-root": {
     color: theme.menu.drawer.textColor,
-    '&:hover': {
+    "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.1),
     },
   },
-  '& .MuiListItemIcon-root': {
+  "& .MuiListItemIcon-root": {
     color: theme.menu.drawer.textColor,
     minWidth: 40,
   },
-  '& .MuiListItemText-root .MuiTypography-root': {
+  "& .MuiListItemText-root .MuiTypography-root": {
     color: theme.menu.drawer.textColor,
   },
-  '& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root': {
+  "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
     color: theme.menu.drawer.textColor,
   },
-  '& .drawerDivider': {
+  "& .drawerDivider": {
     // width: 100
   },
-  '& .menuHeading': {
+  "& .menuHeading": {
     fontSize: (theme.menu?.appBar?.fontSize || 14) + 1,
     fontWeight: 500,
     color: theme.palette.secondary.main,
@@ -67,21 +79,20 @@ const StyledMainMenu = styled('div')(({ theme }) => ({
       backgroundColor: alpha(theme.palette.common.white, 0.1),
     },
   },
-  '& .appBarMenuPaper': {
+  "& .appBarMenuPaper": {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
   },
-  '& .popper': {
+  "& .popper": {
     zIndex: 1500,
   },
 
-  
-  '& .appBarMenuPaper .MuiListItemText-primary': {
+  "& .appBarMenuPaper .MuiListItemText-primary": {
     color: theme.palette.text.primary,
   },
-  '& .appBarMenuPaper .MuiListItemIcon-root': {
+  "& .appBarMenuPaper .MuiListItemIcon-root": {
     color: theme.palette.text.primary,
   },
 }));
@@ -109,12 +120,12 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
   "& .MuiAccordionSummary-content": {
     margin: "0",
     padding: "0",
-    alignItems: 'center',
-    justifyContent: 'start',
+    alignItems: "center",
+    justifyContent: "start",
     "&$expanded": {
       margin: "0",
     },
-    color: theme.palette.secondary.main
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -133,16 +144,16 @@ const getIconComponent = (iconName) => {
 
 function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights) {
   const menuConfig = modulesManager.getConf("fe-core", "menus", []);
-  const isMenuConfigEmpty = !(menuConfig?.length);
+  const isMenuConfigEmpty = !menuConfig?.length;
   const submenuMapping = {};
-  const menuIcons = {}; 
+  const menuIcons = {};
   const copyOfEntries = entries;
 
   if (!isMenuConfigEmpty) {
     menuConfig
-      .filter(menu => menu.id == menuId)
-      .forEach(menu => {
-        (menu.submenus || []).forEach(submenu => {
+      .filter((menu) => menu.id == menuId)
+      .forEach((menu) => {
+        (menu.submenus || []).forEach((submenu) => {
           submenuMapping[submenu.id] = submenu.position;
           if (submenu.icon) {
             menuIcons[submenu.id] = submenu.icon;
@@ -151,7 +162,7 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
       });
 
     const updatedEntries = allEntries
-      .map(entry => {
+      .map((entry) => {
         const customIcon = menuIcons[entry.id];
         return {
           ...entry,
@@ -159,23 +170,23 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
           icon: customIcon ? getIconComponent(customIcon) : entry.icon,
         };
       })
-      .filter(entry => entry.position !== null)
+      .filter((entry) => entry.position !== null)
       .sort((a, b) => a.position - b.position);
 
     const uniqueEntries = new Map();
-    updatedEntries.forEach(entry => {
+    updatedEntries.forEach((entry) => {
       if (!uniqueEntries.has(entry.id)) {
         uniqueEntries.set(entry.id, entry);
       }
     });
 
-    return Array.from(uniqueEntries.values()).filter(entry => {
+    return Array.from(uniqueEntries.values()).filter((entry) => {
       return !entry.filter || entry.filter(rights);
     });
   }
 
   const uniqueEntriesFallback = new Map();
-  copyOfEntries.forEach(entry => {
+  copyOfEntries.forEach((entry) => {
     if (!uniqueEntriesFallback.has(entry.id)) {
       uniqueEntriesFallback.set(entry.id, entry);
     }
@@ -186,7 +197,7 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
 
 class MainMenuContribution extends Component {
   state = {
-    expanded: false,
+    expanded: this.props.isInitiallyOpen || false,
     anchorRef: React.createRef(),
   };
 
@@ -194,7 +205,21 @@ class MainMenuContribution extends Component {
     this.setState({ expanded: !this.state.expanded });
   };
 
+  handleMenuClose = (event) => {
+    if (this.state.anchorRef.current && this.state.anchorRef.current.contains(event.target)) {
+      return;
+    }
+    this.toggleExpanded(event);
+  };
 
+  handleMenuSelect = (e, route) => {
+    if (e.type === "click") {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    this.toggleExpanded(e);
+    this.props.history.push(route);
+  };
 
   appBarMenu = (entries) => {
     return (
@@ -212,19 +237,16 @@ class MainMenuContribution extends Component {
           style={{ zIndex: 2000 }}
         >
           <Paper className="appBarMenuPaper" id={`${this.props.header}-menu-list`}>
-            <ClickAwayListener onClickAway={this.toggleExpanded}>
+            <ClickAwayListener onClickAway={this.handleMenuClose}>
               <MenuList>
                 {entries.map((entry, idx) => (
                   <div key={`${this.props.header}_${idx}_menuItem`}>
-                    <MenuItem component={Link} to={entry.route} onClick={this.toggleExpanded}>
+                    <MenuItem component={Link} to={entry.route} onClick={(e) => this.handleMenuSelect(e, entry.route)}>
                       <ListItemIcon>{entry.icon}</ListItemIcon>
-                      <ListItemText primary={entry.text}/>
+                      <ListItemText primary={entry.text} />
                     </MenuItem>
                     {entry.withDivider && (
-                      <Divider
-                        key={`${this.props.header}_${idx}_divider`}
-                        className="drawerDivider"
-                      />
+                      <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
                     )}
                   </div>
                 ))}
@@ -235,7 +257,7 @@ class MainMenuContribution extends Component {
       </StyledMainMenu>
     );
   };
-   
+
   drawerMenu = (entries) => {
     return (
       <StyledMainMenu>
@@ -249,26 +271,27 @@ class MainMenuContribution extends Component {
             </Box>
           </AccordionSummary>
           <AccordionDetails>
-          <List component="nav">
-            {entries.map((entry, idx) => (
-              <Fragment key={`${this.props.header}_${idx}`}>
-                <ListItem
-                  key={`${this.props.header}_${idx}_item`}
-                  component={Link}
-                  to={entry.route}
-                  onClick={this.toggleExpanded}
-                >
-                  {entry.icon && <ListItemIcon>{entry.icon}</ListItemIcon>}
-                  <ListItemText primary={entry.text}/>
-                </ListItem>
-                {entry.withDivider && (
-                  <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
-                )}
-              </Fragment>
-            ))}
-          </List>
-        </AccordionDetails>
-      </Accordion>
+            <List component="nav">
+              {entries.map((entry, idx) => (
+                <Fragment key={`${this.props.header}_${idx}`}>
+                  <ListItem
+                    key={`${this.props.header}_${idx}_item`}
+                    component={Link}
+                    to={entry.route}
+                    onClick={this.toggleExpanded}
+                    selected={menuEntryMatchesLocationPath(entry)}
+                  >
+                    {entry.icon && <ListItemIcon>{entry.icon}</ListItemIcon>}
+                    <ListItemText primary={entry.text} />
+                  </ListItem>
+                  {entry.withDivider && (
+                    <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
+                  )}
+                </Fragment>
+              ))}
+            </List>
+          </AccordionDetails>
+        </Accordion>
       </StyledMainMenu>
     );
   };
@@ -278,29 +301,27 @@ class MainMenuContribution extends Component {
 
     // Defensive checks
     if (!modulesManager) {
-      console.warn('MainMenuContribution: modulesManager is not available');
+      console.warn("MainMenuContribution: modulesManager is not available");
       return null;
     }
 
     if (!entries || !Array.isArray(entries)) {
-      console.warn('MainMenuContribution: entries is not a valid array');
+      console.warn("MainMenuContribution: entries is not a valid array");
       return null;
     }
 
     if (!rights || !Array.isArray(rights)) {
-      console.warn('MainMenuContribution: rights is not a valid array');
+      console.warn("MainMenuContribution: rights is not a valid array");
       return null;
     }
 
     const allEntries = modulesManager.getMenuEntries();
     if (!allEntries || !Array.isArray(allEntries)) {
-      console.warn('MainMenuContribution: getMenuEntries returned invalid data');
+      console.warn("MainMenuContribution: getMenuEntries returned invalid data");
       return null;
     }
 
-    const updatedEntries = fetchSubmenuConfig(
-      modulesManager, allEntries, entries, menuId, rights
-    );
+    const updatedEntries = fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights);
 
     // Don't render empty menus
     if (!updatedEntries || updatedEntries.length === 0) {

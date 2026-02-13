@@ -324,6 +324,8 @@ const RequireAuth = (props) => {
   const modulesManager = useModulesManager();
   const auth = useAuthentication();
   const cfg = children.props.modulesManager.cfg;
+  const menuLeft =
+    modulesManager.getConf("openimis-fe-core_js", "menuLeft") || modulesManager.getConf("fe-core", "menuLeft") || false;
   const calendarSwitch = modulesManager.getConf("fe-core", "allowSecondCalendar", false);
   const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
   const showJournalSidebar = modulesManager.getConf("fe-core", "showJournalSidebar", DEFAULT.SHOW_JOURNAL_SIDEBAR);
@@ -340,7 +342,7 @@ const RequireAuth = (props) => {
     return <Redirect to={redirectTo} />;
   }
 
-  if (cfg["openimis-fe-core_js"]?.menuLeft === true) {
+  if (menuLeft) {
     return (
       <StyledRequireAuth>
         <AppBar className="appBarDrawer">
@@ -448,7 +450,9 @@ const RequireAuth = (props) => {
 
         {isAppBarMenu && isMdUp && (
           <Toolbar className={clsx("menuToolbar", { journalOpen: isDrawerOpen })} variant="dense">
-            <MainMenuBar {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY} />
+            <MainMenuBar {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
+              <div onClick={setOpen.off} />
+            </MainMenuBar>
           </Toolbar>
         )}
       </AppBar>

@@ -10,16 +10,16 @@ import FormattedMessage from "../generics/FormattedMessage";
 import TextInput from "./TextInput";
 import { formatMessage } from "../../helpers/i18n";
 
-const StyledSelectInput = styled('div')(({ theme }) => ({
-  '& .formControl': {
+const StyledSelectInput = styled("div")(({ theme }) => ({
+  "& .formControl": {
     position: "relative",
-    minWidth: '120px',
-    width: '100%',
+    minWidth: "120px",
+    width: "100%",
   },
-  '& .MuiSelect-select': {
-    minWidth: '120px',
+  "& .MuiSelect-select": {
+    minWidth: "120px",
   },
-  '& .iconButton': {
+  "& .iconButton": {
     position: "absolute",
     right: 0,
     padding: "8px",
@@ -39,7 +39,7 @@ class SelectInput extends Component {
   _onChange = (e) => {
     const { value } = e.target;
     if (this.props.value !== value) {
-      const parsedValue = (value === "" || value === null) ? null : JSON.parse(value);
+      const parsedValue = value === "" || value === null ? null : JSON.parse(value);
       this.props.onChange(parsedValue);
     }
   };
@@ -79,7 +79,7 @@ class SelectInput extends Component {
       readOnly = false,
       required = false,
       placeholder,
-      title = '',
+      title = "",
     } = this.props;
     if (!options) return null;
     let valueStr = null;
@@ -87,7 +87,8 @@ class SelectInput extends Component {
       valueStr = options.filter((o) => JSON.stringify(o.value) === JSON.stringify(value)).map((o) => o.label);
     }
     const labelText = strLabel ?? (label ? formatMessage(intl, module, label) : null);
-    const selectValue = (value === null || value === undefined) ? "" : JSON.stringify(value);
+    const moduleProp = intl?.messages?.[`${module}.pickerNoOptionsLabel`] ? module : "core";
+    const selectValue = value === null || value === undefined ? "" : JSON.stringify(value);
     return (
       <StyledSelectInput>
         <Fragment>
@@ -120,8 +121,18 @@ class SelectInput extends Component {
                   <FormattedMessage module={module} id={placeholder} />
                 </MenuItem>
               )}
+
+              {options.length === 0 && (
+                <MenuItem disabled key={`${module}-${name}-option-0`}>
+                  <FormattedMessage module={moduleProp} id="pickerNoOptionsLabel" />
+                </MenuItem>
+              )}
+
               {options.map((option, idx) => (
-                <MenuItem key={`${module}-${name}-option-${idx}`} value={option.value === null ? "" : JSON.stringify(option.value)}>
+                <MenuItem
+                  key={`${module}-${name}-option-${idx}`}
+                  value={option.value === null ? "" : JSON.stringify(option.value)}
+                >
                   {option.label}
                 </MenuItem>
               ))}

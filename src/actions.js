@@ -10,7 +10,7 @@ import {
   formatServerError,
 } from "./helpers/api";
 
-const REQUESTED_WITH = 'webapp'
+const REQUESTED_WITH = "webapp";
 
 const ROLE_FULL_PROJECTION = () => [
   "id",
@@ -47,14 +47,14 @@ function getApiUrl() {
 export const baseApiUrl = getApiUrl();
 
 function getCsrfToken() {
-  const CSRF_TOKEN_NAME = 'csrftoken';
+  const CSRF_TOKEN_NAME = "csrftoken";
   const CSRF_NOT_FOUND = null;
 
   const cookies = document.cookie;
-  const cookieArray = cookies.split('; ');
-  
-  const csrfCookie = cookieArray.find(cookie => cookie.startsWith(CSRF_TOKEN_NAME));
-  return csrfCookie?.split('=')[1] ?? CSRF_NOT_FOUND;
+  const cookieArray = cookies.split("; ");
+
+  const csrfCookie = cookieArray.find((cookie) => cookie.startsWith(CSRF_TOKEN_NAME));
+  return csrfCookie?.split("=")[1] ?? CSRF_NOT_FOUND;
 }
 
 export function apiHeaders() {
@@ -155,7 +155,7 @@ export function graphqlWithVariables(operation, variables, type = "GRAPHQL_QUERY
         method: "POST",
         body: JSON.stringify({ query: operation, variables }),
         headers: {
-          ...customHeaders
+          ...customHeaders,
         },
         types: [
           {
@@ -231,7 +231,14 @@ export function waitForMutation(clientMutationId) {
   };
 }
 
-export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATION", params = {}, wait = true, customHeaders = {}) {
+export function graphqlMutation(
+  mutation,
+  variables,
+  type = "CORE_TRIGGER_MUTATION",
+  params = {},
+  wait = true,
+  customHeaders = {},
+) {
   let clientMutationId;
   if (variables?.input) {
     clientMutationId = uuid.uuid();
@@ -250,8 +257,6 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
     return response;
   };
 }
-
-import * as Sentry from "@sentry/react";
 
 export function fetch(config) {
   const csrfToken = localStorage.getItem("csrfToken");
@@ -273,31 +278,18 @@ export function fetch(config) {
       });
     } catch (err) {
       const errorMessage = "Server not responding";
-      Sentry.captureException(new Error(errorMessage), {
-        level: "error",
-        tags: {
-          endpoint: config.endpoint,
-          type: config.method || "unknown-method",
-        },
-        extra: {
-          endpoint: config.endpoint,
-          body: config.body,
-          originalError: err,
-        },
-      });
       return {
         error: true,
         payload: { message: errorMessage },
       };
     }
 
-    const endpoint = config.endpoint;
     const response = action?.payload?.response;
     const status = response?.status;
     const statusText = response?.statusText;
     const gqlErrors = response?.errors;
     const message = action?.payload?.message || action?.error?.message;
-    
+
     if (action.error) {
       let errorMessage = "";
       if (!response && !message) {
@@ -306,43 +298,12 @@ export function fetch(config) {
       if (status) {
         errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
       } else if (gqlErrors?.length > 0) {
-        errorMessage = `GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`;
+        errorMessage = `GraphQL Error: ${gqlErrors.map((e) => e.message).join("; ")}`;
       } else if (message) {
         errorMessage = `Network or API Error: ${message}`;
       } else {
         errorMessage = "Unknown error during API call";
       }
-
-      Sentry.captureException(new Error(errorMessage), {
-        level: "error",
-        tags: {
-          endpoint,
-          status: status || "no-status",
-          type: config.method || "unknown-method",
-        },
-        extra: {
-          endpoint,
-          status,
-          statusText,
-          body: config.body,
-          response: action.payload,
-        },
-      });
-    }
-
-    if (!action.error && gqlErrors && gqlErrors.length > 0) {
-      Sentry.captureException(new Error(`GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`), {
-        level: "error",
-        tags: {
-          endpoint,
-          type: config.method || "unknown-method",
-        },
-        extra: {
-          endpoint,
-          errors: gqlErrors,
-          query: config.body,
-        },
-      });
     }
 
     return action;
@@ -368,23 +329,27 @@ export function login(credentials) {
 
       try {
         const response = await dispatch(
-          graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"], {}, false, {
-            
-          }),
+          graphqlMutation(
+            mutation,
+            credentials,
+            ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"],
+            {},
+            false,
+            {},
+          ),
         );
         if (response.payload?.errors?.length > 0) {
           const errorMessage = response.payload.errors[0].message;
           dispatch(authError({ message: errorMessage }));
           return { loginStatus: "CORE_AUTH_ERR", message: errorMessage };
         }
-        
+
         const jwtToken = response.payload.data.tokenAuth.token;
         const csrfResponse = await dispatch(fetchCsrfToken(jwtToken));
         const csrfToken = csrfResponse?.payload?.data?.getCsrfToken?.csrfToken;
         if (csrfToken) {
-          localStorage.setItem('csrfToken', csrfToken);
+          localStorage.setItem("csrfToken", csrfToken);
         }
-
 
         const action = await dispatch(loadUser());
         return { loginStatus: action.type, message: action?.payload?.response?.detail ?? "" };
@@ -395,7 +360,10 @@ export function login(credentials) {
     } else {
       await dispatch(refreshAuthToken());
       const action = await dispatch(loadUser());
-      return { loginStatus: action.type, message: action?.payload?.response?.detail ?? "Error occurred while loading user." };
+      return {
+        loginStatus: action.type,
+        message: action?.payload?.response?.detail ?? "Error occurred while loading user.",
+      };
     }
   };
 }
@@ -409,9 +377,16 @@ export function fetchCsrfToken(jwtToken) {
     }`;
 
     return dispatch(
-      graphqlMutation(csrfQuery, {}, ["CORE_AUTH_CSRTOKEN_REQ", "CORE_AUTH_CSRTOKEN_RESP", "CORE_AUTH_ERR"], {}, false, {
-        "Authorization": `JWT ${jwtToken}`,
-      }),
+      graphqlMutation(
+        csrfQuery,
+        {},
+        ["CORE_AUTH_CSRTOKEN_REQ", "CORE_AUTH_CSRTOKEN_RESP", "CORE_AUTH_ERR"],
+        {},
+        false,
+        {
+          "Authorization": `JWT ${jwtToken}`,
+        },
+      ),
     );
   };
 }
@@ -480,7 +455,7 @@ export function fetchMutation(clientMutationId) {
       "clientMutationDetails",
       "requestDateTime",
       "jsonExt",
-      "autogeneratedCode"
+      "autogeneratedCode",
     ],
   );
   return graphql(payload, "CORE_MUTATION");
@@ -543,14 +518,14 @@ export function clearConfirm(confirmed) {
 
 export function openExportConfigDialog() {
   return (dispatch) => {
-    dispatch({ type: "CORE_OPEN_EXPORT_CONFIG_DIALOG"})
-  }
+    dispatch({ type: "CORE_OPEN_EXPORT_CONFIG_DIALOG" });
+  };
 }
 
 export function closeExportConfigDialog() {
   return (dispatch) => {
-    dispatch({type: "CORE_CLOSE_EXPORT_CONFIG_DIALOG"})
-  }
+    dispatch({ type: "CORE_CLOSE_EXPORT_CONFIG_DIALOG" });
+  };
 }
 
 export function fetchRoles(params) {
