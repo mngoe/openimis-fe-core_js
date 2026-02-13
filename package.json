@@ -29,8 +29,7 @@
     "dayjs": "^1.11.13",
     "redux": "^5.0.1",
     "moment": "^2.25.3",
-    "react-multi-date-picker": "^4.5.2",
-    "@sentry/react": "^10.17.0"
+    "react-multi-date-picker": "^4.5.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -42,6 +41,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.9.6",
+    "@sentry/react": "^10.17.0",
     "@vitejs/plugin-react": "^5.0.0",
     "history": "^5.2.0",
     "lodash-uuid": "^0.0.3",

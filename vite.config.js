@@ -64,8 +64,7 @@ export default defineConfig({
         '@date-io/moment',
         'zxcvbn',
         /^@babel-.*/,
-        /^@openimis/,
-        '@sentry/react',
+        /^@openimis/
       ],
       output: {
         globals: {
