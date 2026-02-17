@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { injectIntl } from "react-intl";
 import * as Icons from "@mui/icons-material";
 import PropTypes from "prop-types";
 import MuiAccordion from "@mui/material/Accordion";
@@ -161,7 +162,7 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
         });
       });
 
-    const updatedEntries = allEntries
+    let updatedEntries = allEntries
       .map((entry) => {
         const customIcon = menuIcons[entry.id];
         return {
@@ -173,6 +174,19 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
       .filter((entry) => entry.position !== null)
       .sort((a, b) => a.position - b.position);
 
+    // If no submenus processed, check for direct entries in the menu config
+    if (updatedEntries.length === 0) {
+      const menuWithEntries = menuConfig.find((m) => m.id === menuId && m.entries);
+      if (menuWithEntries) {
+        updatedEntries = menuWithEntries.entries
+          .filter((entry) => !entry.filter || entry.filter(rights))
+          .map((entry) => ({
+            ...entry,
+            icon: entry.icon ? getIconComponent(entry.icon) : entry.icon,
+          }));
+      }
+    }
+
     const uniqueEntries = new Map();
     updatedEntries.forEach((entry) => {
       if (!uniqueEntries.has(entry.id)) {
@@ -180,9 +194,7 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
       }
     });
 
-    return Array.from(uniqueEntries.values()).filter((entry) => {
-      return !entry.filter || entry.filter(rights);
-    });
+    return Array.from(uniqueEntries.values());
   }
 
   const uniqueEntriesFallback = new Map();
@@ -222,10 +234,13 @@ class MainMenuContribution extends Component {
   };
 
   appBarMenu = (entries) => {
+    const { intl } = this.props;
+    const translatedHeader = intl.formatMessage({ id: this.props.header, defaultMessage: this.props.header });
+
     return (
       <StyledMainMenu>
         <Button ref={this.state.anchorRef} onClick={this.toggleExpanded} className="menuHeading">
-          {this.props.header}
+          {translatedHeader}
           <ExpandMoreIcon />
         </Button>
         <Popper
@@ -239,17 +254,22 @@ class MainMenuContribution extends Component {
           <Paper className="appBarMenuPaper" id={`${this.props.header}-menu-list`}>
             <ClickAwayListener onClickAway={this.handleMenuClose}>
               <MenuList>
-                {entries.map((entry, idx) => (
-                  <div key={`${this.props.header}_${idx}_menuItem`}>
-                    <MenuItem component={Link} to={entry.route} onClick={(e) => this.handleMenuSelect(e, entry.route)}>
-                      <ListItemIcon>{entry.icon}</ListItemIcon>
-                      <ListItemText primary={entry.text} />
-                    </MenuItem>
-                    {entry.withDivider && (
-                      <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
-                    )}
-                  </div>
-                ))}
+                {entries.map((entry, idx) => {
+                  const translatedText = React.isValidElement(entry.text)
+                    ? entry.text  // Already a JSX element (old format)
+                    : intl.formatMessage({ id: entry.text, defaultMessage: entry.text });  // String key (new format)
+                  return (
+                    <div key={`${this.props.header}_${idx}_menuItem`}>
+                      <MenuItem component={Link} to={entry.route} onClick={(e) => this.handleMenuSelect(e, entry.route)}>
+                        <ListItemIcon>{entry.icon}</ListItemIcon>
+                        <ListItemText primary={translatedText} />
+                      </MenuItem>
+                      {entry.withDivider && (
+                        <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
+                      )}
+                    </div>
+                  );
+                })}
               </MenuList>
             </ClickAwayListener>
           </Paper>
@@ -259,6 +279,9 @@ class MainMenuContribution extends Component {
   };
 
   drawerMenu = (entries) => {
+    const { intl } = this.props;
+    const translatedHeader = intl.formatMessage({ id: this.props.header, defaultMessage: this.props.header });
+
     return (
       <StyledMainMenu>
         <Accordion className="panel" expanded={this.state.expanded} onChange={this.toggleExpanded}>
@@ -267,28 +290,33 @@ class MainMenuContribution extends Component {
               <Box minWidth={40} display="flex" alignItems="center">
                 {this.props.icon}
               </Box>
-              <Typography className="drawerHeading">{this.props.header}</Typography>
+              <Typography className="drawerHeading">{translatedHeader}</Typography>
             </Box>
           </AccordionSummary>
           <AccordionDetails>
             <List component="nav">
-              {entries.map((entry, idx) => (
-                <Fragment key={`${this.props.header}_${idx}`}>
-                  <ListItem
-                    key={`${this.props.header}_${idx}_item`}
-                    component={Link}
-                    to={entry.route}
-                    onClick={this.toggleExpanded}
-                    selected={menuEntryMatchesLocationPath(entry)}
-                  >
-                    {entry.icon && <ListItemIcon>{entry.icon}</ListItemIcon>}
-                    <ListItemText primary={entry.text} />
-                  </ListItem>
-                  {entry.withDivider && (
-                    <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
-                  )}
-                </Fragment>
-              ))}
+              {entries.map((entry, idx) => {
+                const translatedText = React.isValidElement(entry.text)
+                  ? entry.text  // Already a JSX element (old format)
+                  : intl.formatMessage({ id: entry.text, defaultMessage: entry.text });  // String key (new format)
+                return (
+                  <Fragment key={`${this.props.header}_${idx}`}>
+                    <ListItem
+                      key={`${this.props.header}_${idx}_item`}
+                      component={Link}
+                      to={entry.route}
+                      onClick={this.toggleExpanded}
+                      selected={menuEntryMatchesLocationPath(entry)}
+                    >
+                      {entry.icon && <ListItemIcon>{entry.icon}</ListItemIcon>}
+                      <ListItemText primary={translatedText} />
+                    </ListItem>
+                    {entry.withDivider && (
+                      <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
+                    )}
+                  </Fragment>
+                );
+              })}
             </List>
           </AccordionDetails>
         </Accordion>
@@ -344,4 +372,4 @@ MainMenuContribution.propTypes = {
 };
 
 export { StyledMainMenu };
-export default withModulesManager(MainMenuContribution);
+export default injectIntl(withModulesManager(MainMenuContribution));

@@ -60,7 +60,6 @@ const StyledSearcher = styled("div")(({ theme }) => ({
     color: theme.paper?.header?.color || theme.palette.primary.main,
     ...theme.paper?.header,
     backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
-    padding: theme.spacing(0, 1),
   },
   "& .paperHeaderTitle": {
     ...theme.paper?.title,

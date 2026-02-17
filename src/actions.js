@@ -8,6 +8,7 @@ import {
   formatGQLString,
   formatMutation,
   formatServerError,
+  decodeId,
 } from "./helpers/api";
 import * as Sentry from "@sentry/react";
 
@@ -693,3 +694,11 @@ export function changeUserLanguage(language, clientMutationLabel) {
     requestedDateTime,
   });
 }
+
+// Re-export API helpers
+export {
+  formatPageQuery,
+  formatPageQueryWithCount,
+  formatMutation,
+  decodeId,
+};

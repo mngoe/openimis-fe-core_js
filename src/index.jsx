@@ -1,7 +1,30 @@
 import App from "./components/App";
 import React from "react";
 import messages_en from "./translations/en.json";
+import messages_admin_en from "./admin/translations/en.json";
 import KeepLegacyAlive from "./components/KeepLegacyAlive";
+// Admin imports
+import UsersPage from "./admin/pages/UsersPage";
+import UserPage from "./admin/pages/UserPage";
+import UserPicker from "./admin/components/pickers/UserPicker";
+import EnrolmentOfficerPicker from "./admin/components/pickers/EnrolmentOfficerPicker";
+import SubstitutionEnrolmentOfficerPicker from "./admin/components/pickers/SubstitutionEnrolmentOfficerPicker";
+import UserRolesPicker from "./admin/components/pickers/UserRolesPicker";
+import UserTypesPicker from "./admin/components/pickers/UserTypesPicker";
+import PaymentPointManagerPicker from "./admin/components/pickers/PaymentPointManagerPicker";
+import AdminMainMenu from "./admin/components/AdminMainMenu";
+import adminReducer from "./admin/reducer";
+import { USER_PICKER_PROJECTION } from "./admin/actions";
+import {
+  RIGHT_PRODUCTS,
+  RIGHT_HEALTHFACILITIES,
+  RIGHT_PRICELISTMS,
+  RIGHT_PRICELISTMI,
+  RIGHT_MEDICALSERVICES,
+  RIGHT_MEDICALITEMS,
+  RIGHT_USERS,
+  RIGHT_LOCATIONS,
+} from "./admin/constants";
 import AutoSuggestion from "./components/inputs/AutoSuggestion";
 import Autocomplete from "./components/inputs/Autocomplete";
 import Contributions from "./components/generics/Contributions";
@@ -146,9 +169,20 @@ import LoginPage from "./pages/LoginPage";
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
+// Admin routes
+const ROUTE_ADMIN_USERS = "admin/users";
+const ROUTE_ADMIN_USER_OVERVIEW = "admin/users/overview";
+const ROUTE_ADMIN_USER_NEW = "admin/users/new";
+
 const DEFAULT_CONFIG = {
-  "translations": [{ key: "en", messages: messages_en }],
-  "reducers": [{ key: "core", reducer: reducer }],
+  "translations": [
+    { key: "en", messages: messages_en },
+    { key: "en", messages: messages_admin_en },
+  ],
+  "reducers": [
+    { key: "core", reducer: reducer },
+    { key: "admin", reducer: adminReducer },
+  ],
   "reports": [
     {
       key: "user_activity",
@@ -195,11 +229,104 @@ const DEFAULT_CONFIG = {
     { key: "core.LanguagePicker", ref: LanguagePicker },
     { key: "core.AuthorityPicker", ref: AuthorityPicker },
     { key: "core.route.role", ref: ROUTE_ROLE },
+    // Admin refs
+    { key: "admin.UserPicker", ref: UserPicker },
+    { key: "admin.EnrolmentOfficerPicker", ref: EnrolmentOfficerPicker },
+    { key: "admin.SubstitutionEnrolmentOfficerPicker", ref: SubstitutionEnrolmentOfficerPicker },
+    { key: "admin.UserRolesPicker", ref: UserRolesPicker },
+    { key: "admin.UserTypesPicker", ref: UserTypesPicker },
+    { key: "admin.UserPicker.projection", ref: USER_PICKER_PROJECTION },
+    { key: "admin.users", ref: ROUTE_ADMIN_USERS },
+    { key: "admin.userOverview", ref: ROUTE_ADMIN_USER_OVERVIEW },
+    { key: "admin.userNew", ref: ROUTE_ADMIN_USER_NEW },
+    { key: "admin.PaymentPointManagerPicker", ref: PaymentPointManagerPicker },
   ],
   "core.Boot": [KeepLegacyAlive, RefreshAuthToken],
   "core.Router": [
     { path: ROUTE_ROLES, component: Roles },
     { path: ROUTE_ROLE + "/:role_uuid?", component: Role },
+    // Admin routes
+    { path: ROUTE_ADMIN_USERS, component: UsersPage },
+    { path: ROUTE_ADMIN_USER_NEW, component: UserPage },
+    { path: `${ROUTE_ADMIN_USER_OVERVIEW}/:user_id`, component: UserPage },
+  ],
+  "core.MainMenu": [{ name: "AdminMainMenu", component: AdminMainMenu }],
+  "fe-core.menus": [
+    {
+      id: "admin",
+      name: "admin.mainMenu",
+      icon: "LocationCity",
+      position: 2,
+      contributionKey: "admin.MainMenu", // Allow other modules to add entries
+      entries: [
+        {
+          text: "admin.menu.products",
+          icon: "Tune",
+          route: "/admin/products",
+          id: "admin.products",
+          filter: (rights) => rights.includes(RIGHT_PRODUCTS),
+        },
+        {
+          text: "admin.menu.healthFacilities",
+          icon: "LocalHospital",
+          route: "/location/healthFacilities",
+          withDivider: true,
+          id: "admin.healthFacilities",
+          filter: (rights) => rights.includes(RIGHT_HEALTHFACILITIES),
+        },
+        {
+          text: "admin.menu.medicalServicesPrices",
+          icon: "HealingOutlined",
+          route: "/medical/pricelists/services",
+          id: "admin.services",
+          filter: (rights) => rights.includes(RIGHT_PRICELISTMS),
+        },
+        {
+          text: "admin.menu.medicalItemsPrices",
+          icon: "LocalPharmacyOutlined",
+          route: "/medical/pricelists/items",
+          id: "admin.items",
+          withDivider: true,
+          filter: (rights) => rights.includes(RIGHT_PRICELISTMI),
+        },
+        {
+          text: "admin.menu.medicalServices",
+          icon: "Healing",
+          route: "/medical/medicalServices",
+          id: "admin.medicalServices",
+          filter: (rights) => rights.includes(RIGHT_MEDICALSERVICES),
+        },
+        {
+          text: "admin.menu.medicalItems",
+          icon: "LocalPharmacy",
+          route: "/medical/medicalItems",
+          withDivider: true,
+          id: "admin.medicalItems",
+          filter: (rights) => rights.includes(RIGHT_MEDICALITEMS),
+        },
+        {
+          text: "admin.menu.users",
+          icon: "Person",
+          route: "/admin/users",
+          id: "admin.users",
+          filter: (rights) => rights.includes(RIGHT_USERS),
+        },
+        {
+          text: "admin.menu.locations",
+          icon: "PinDrop",
+          route: "/location/locations",
+          id: "admin.locations",
+          filter: (rights) => rights.includes(RIGHT_LOCATIONS),
+        },
+      ],
+    },
+  ],
+  "invoice.SubjectAndThirdpartyPicker": [
+    {
+      type: "user",
+      picker: UserPicker,
+      pickerProjection: USER_PICKER_PROJECTION,
+    },
   ],
   "admin.MainMenu": [
     {
