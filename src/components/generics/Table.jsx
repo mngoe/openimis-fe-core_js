@@ -79,7 +79,6 @@ const StyledTable = styled("div")(({ theme }) => ({
 class Table extends Component {
   state = {
     selection: {},
-    ordinalNumberFrom: null,
   };
 
   _atom = (a) =>
@@ -169,13 +168,12 @@ class Table extends Component {
     </Box>
   );
 
-  calculateOrdinalNumber = (iidx, isPaginationEnabled, arrayLength) => {
-    const { ordinalNumberFrom } = this.state;
-    let currentIndex = 0;
+  calculateOrdinalNumber = (iidx, isPaginationEnabled) => {
+    let currentIndex;
     if (isPaginationEnabled) {
-      if (isNaN(ordinalNumberFrom)) {
-        currentIndex = 0;
-      }
+      const page = this.props.page || 0;
+      const pageSize = this.props.pageSize || 10;
+      const ordinalNumberFrom = page * pageSize + 1;
       currentIndex = iidx + ordinalNumberFrom;
     } else {
       currentIndex = iidx + 1;
@@ -380,9 +378,9 @@ class Table extends Component {
                           !!rowDisabled && rowDisabled(i) ? "tableDisabledCell" : null,
                           aligns.length > 0 && aligns[0],
                         )}
-                        key={`v-${this.calculateOrdinalNumber(iidx, withPagination, items.length)}-0`}
+                        key={`v-${this.calculateOrdinalNumber(iidx, withPagination)}-0`}
                       >
-                        <span>{this.calculateOrdinalNumber(iidx, withPagination, items.length)}</span>
+                        <span>{this.calculateOrdinalNumber(iidx, withPagination)}</span>
                       </TableCell>
                     )}
                     {localItemFormatters &&
@@ -430,8 +428,7 @@ class Table extends Component {
                     rowsPerPageOptions={rowsPerPageOptions}
                     onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
                     onPageChange={onChangePage}
-                    nextIconButtonText={formatMessage(intl, "core", "Table.nextPage")}
-                    backIconButtonText={formatMessage(intl, "core", "Table.previousPage")}
+
                   />
                 </TableRow>
               </TableFooter>

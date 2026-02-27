@@ -2,7 +2,7 @@ import App from "./components/App";
 import React from "react";
 import messages_en from "./translations/en.json";
 import messages_admin_en from "./admin/translations/en.json";
-import KeepLegacyAlive from "./components/KeepLegacyAlive";
+
 // Admin imports
 import UsersPage from "./admin/pages/UsersPage";
 import UserPage from "./admin/pages/UserPage";
@@ -223,7 +223,6 @@ const DEFAULT_CONFIG = {
   "middlewares": [authMiddleware],
   "refs": [
     { key: "core.JournalDrawer.pollInterval", ref: 2000 },
-    { key: "core.KeepLegacyAlive.pollInterval", ref: 300000 },
     { key: "core.YearPicker", ref: YearPicker },
     { key: "core.MonthPicker", ref: MonthPicker },
     { key: "core.LanguagePicker", ref: LanguagePicker },
@@ -241,7 +240,7 @@ const DEFAULT_CONFIG = {
     { key: "admin.userNew", ref: ROUTE_ADMIN_USER_NEW },
     { key: "admin.PaymentPointManagerPicker", ref: PaymentPointManagerPicker },
   ],
-  "core.Boot": [KeepLegacyAlive, RefreshAuthToken],
+  "core.Boot": [RefreshAuthToken],
   "core.Router": [
     { path: ROUTE_ROLES, component: Roles },
     { path: ROUTE_ROLE + "/:role_uuid?", component: Role },
