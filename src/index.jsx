@@ -251,76 +251,7 @@ const DEFAULT_CONFIG = {
     { path: `${ROUTE_ADMIN_USER_OVERVIEW}/:user_id`, component: UserPage },
   ],
   "core.MainMenu": [{ name: "AdminMainMenu", component: AdminMainMenu }],
-  "fe-core.menus": [
-    {
-      id: "admin",
-      name: "admin.mainMenu",
-      icon: "LocationCity",
-      position: 2,
-      contributionKey: "admin.MainMenu", // Allow other modules to add entries
-      entries: [
-        {
-          text: "admin.menu.products",
-          icon: "Tune",
-          route: "/admin/products",
-          id: "admin.products",
-          filter: (rights) => rights.includes(RIGHT_PRODUCTS),
-        },
-        {
-          text: "admin.menu.healthFacilities",
-          icon: "LocalHospital",
-          route: "/location/healthFacilities",
-          withDivider: true,
-          id: "admin.healthFacilities",
-          filter: (rights) => rights.includes(RIGHT_HEALTHFACILITIES),
-        },
-        {
-          text: "admin.menu.medicalServicesPrices",
-          icon: "HealingOutlined",
-          route: "/medical/pricelists/services",
-          id: "admin.services",
-          filter: (rights) => rights.includes(RIGHT_PRICELISTMS),
-        },
-        {
-          text: "admin.menu.medicalItemsPrices",
-          icon: "LocalPharmacyOutlined",
-          route: "/medical/pricelists/items",
-          id: "admin.items",
-          withDivider: true,
-          filter: (rights) => rights.includes(RIGHT_PRICELISTMI),
-        },
-        {
-          text: "admin.menu.medicalServices",
-          icon: "Healing",
-          route: "/medical/medicalServices",
-          id: "admin.medicalServices",
-          filter: (rights) => rights.includes(RIGHT_MEDICALSERVICES),
-        },
-        {
-          text: "admin.menu.medicalItems",
-          icon: "LocalPharmacy",
-          route: "/medical/medicalItems",
-          withDivider: true,
-          id: "admin.medicalItems",
-          filter: (rights) => rights.includes(RIGHT_MEDICALITEMS),
-        },
-        {
-          text: "admin.menu.users",
-          icon: "Person",
-          route: "/admin/users",
-          id: "admin.users",
-          filter: (rights) => rights.includes(RIGHT_USERS),
-        },
-        {
-          text: "admin.menu.locations",
-          icon: "PinDrop",
-          route: "/location/locations",
-          id: "admin.locations",
-          filter: (rights) => rights.includes(RIGHT_LOCATIONS),
-        },
-      ],
-    },
-  ],
+  "fe-core.menus": [],
   "invoice.SubjectAndThirdpartyPicker": [
     {
       type: "user",
