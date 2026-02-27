@@ -30,6 +30,7 @@ import SearcherExport from "./SearcherExport";
 import SearcherPane from "./SearcherPane";
 import Table from "./Table";
 import InfoButton from "./InfoButton";
+import { GRID_RESPONSIVE_FULL } from "../../constants/responsiveGrid";
 
 const StyledSearcher = styled("div")(({ theme }) => ({
   width: "100%",
@@ -625,7 +626,7 @@ class Searcher extends Component {
             ) : (
               <Fragment>
                 <Grid container alignItems="center" className="paperHeader" wrap="nowrap">
-                  <Grid item xs className="paperHeaderTitle" display="flex" alignItems="center">
+                  <Grid size={GRID_RESPONSIVE_FULL} className="paperHeaderTitle" display="flex" alignItems="center">
                     <div className="infoSection">
                       {infoButtonContent && <InfoButton content={infoButtonContent} />}
                       <Typography variant="inherit" noWrap>
@@ -633,7 +634,7 @@ class Searcher extends Component {
                       </Typography>
                     </div>
                   </Grid>
-                  <Grid item display="flex" alignItems="center" justifyContent="flex-end">
+                  <Grid display="flex" alignItems="center" justifyContent="flex-end">
                     <Box className="paperHeaderMessage" px={1}>
                       <SelectionPane
                         module={module}

@@ -190,7 +190,7 @@ class Form extends Component {
             </Grid>
           </Grid>
           {!!Panels &&
-            Panels.map((P, idx) => (
+            Panels.filter(P => !!P).map((P, idx) => (
               <Grid key={`form_panel_${idx}`} size={12}>
                 <P
                   {...others}

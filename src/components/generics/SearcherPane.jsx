@@ -111,10 +111,10 @@ class SearcherPane extends Component {
         <Paper className="paper">
           <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
             <Grid container className="paperHeaderRow" wrap="nowrap" onKeyDown={this.handleKeyDown}>
-              <Grid item xs className="paperHeaderTitle">
+              <Grid size="grow" className="paperHeaderTitle">
                 <FormattedMessage module={module} id={title} />
               </Grid>
-              <Grid item className="paperHeader">
+              <Grid className="paperHeader">
                 {(!!actions || !!refresh) && (
                   <>
                     {isCustomFiltering === true ? (
@@ -166,7 +166,7 @@ class SearcherPane extends Component {
             </Grid>
             {!!filterPane && (
               <Fragment>
-                <Grid size={{ xs: 12 }} className="paperDivider">
+                <Grid size={12} className="paperDivider">
                   <Divider />
                 </Grid>
                 {filterPane}

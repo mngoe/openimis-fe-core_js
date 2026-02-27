@@ -6,14 +6,27 @@ export const modulesManagerCtx = React.createContext(null);
 // the modules manager and propagate it using the new API
 export const ModulesManagerProvider = modulesManagerCtx.Provider;
 
+// Mock modulesManager for dev when config empty/no backend
+const mockMM = {
+  getConf: (module, key, defaultValue = null) => defaultValue,
+  getContribs: () => [],
+  getMenuEntries: () => [],
+  getOpenIMISVersion: () => "dev",
+  getModulesVersions: () => [],
+  hideField: () => false,
+  getRef: () => null,
+  getReport: () => null,
+  getProjection: () => "",
+};
+
 export const useModulesManager = () => {
   const value = React.useContext(modulesManagerCtx);
-  return value;
+  return value || mockMM;
 };
 
 function withModulesManager(C) {
   return (props) => {
-    const modulesManager = React.useContext(modulesManagerCtx);
+    const modulesManager = React.useContext(modulesManagerCtx) || mockMM;
     return <C {...props} modulesManager={modulesManager} />;
   };
 }
