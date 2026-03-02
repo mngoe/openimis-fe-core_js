@@ -46,8 +46,8 @@ const StyledSearcherPane = styled("div")(({ theme }) => ({
     color: theme.paper?.header?.color || theme.palette.primary.main,
     ...theme.paper?.header,
     backgroundColor: theme.paper?.header?.backgroundColor || theme.palette.primary.light,
-    minHeight: "40px",
-    padding: theme.spacing(1, 1),
+    minHeight: "32px",
+    padding: theme.spacing(0.5, 1),
   },
   "& .paperHeaderAction": {
     ...theme.paper?.action,
@@ -111,7 +111,7 @@ class SearcherPane extends Component {
         <Paper className="paper">
           <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
             <Grid container className="paperHeaderRow" wrap="nowrap" onKeyDown={this.handleKeyDown}>
-              <Grid size="grow" className="paperHeaderTitle">
+              <Grid size={6} className="paperHeaderTitle">
                 <FormattedMessage module={module} id={title} />
               </Grid>
               <Grid className="paperHeader">
