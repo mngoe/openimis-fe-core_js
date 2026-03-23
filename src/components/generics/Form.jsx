@@ -53,7 +53,7 @@ class Form extends Component {
 
   render() {
     const {
-      hideSaveButton = false,
+      enableSaveButton = true,
       classes,
       module,
       back,
@@ -94,7 +94,7 @@ class Form extends Component {
         condition: (!!this.state.dirty || !!openDirty) && !!save,
         content: (
           <span>
-            {!hideSaveButton && (
+            {enableSaveButton && (
               <Fab
                 color="primary"
                 disabled={!!this.state.saving || (!!canSave && !canSave())}
