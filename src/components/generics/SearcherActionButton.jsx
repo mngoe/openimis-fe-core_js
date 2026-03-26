@@ -7,7 +7,6 @@ import { DEFAULT } from "../../constants";
 
 const SearcherActionButton = ({ onClick, startIcon, label }) => {
   const modulesManager = useModulesManager();
-  const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
 
   return (
     <Button 
@@ -15,7 +14,7 @@ const SearcherActionButton = ({ onClick, startIcon, label }) => {
       onClick={onClick} 
       startIcon={startIcon} 
       color="inherit"
-      size={isWorker ? "small" : "medium"}
+      size="medium"
     >
       {label}
     </Button>

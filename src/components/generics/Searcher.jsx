@@ -288,7 +288,6 @@ class Searcher extends Component {
     super(props);
     this.miniFilterPane = props.modulesManager.getConf("fe-core", "miniFilterPane", false);
     this.fetchEnabled = props.modulesManager.getConf("fe-core", "shouldFetchInitially", true);
-    this.isWorker = props.modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
   }
   componentDidMount() {
     const cacheKey = this._getCacheKey();

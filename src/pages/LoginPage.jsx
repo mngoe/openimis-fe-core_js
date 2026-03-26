@@ -44,7 +44,6 @@ const LoginPage = ({ logo }) => {
   const [isAuthenticating, setAuthenticating] = useState(false);
   const showMPassProvider = modulesManager.getConf("fe-core", "LoginPage.showMPassProvider", false);
   const linkToUserGuide = modulesManager.getConf("fe-core", "LoginPage.linkToUserGuide", "https://docs.openimis.org/");
-  const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
   const enablePublicPage = modulesManager.getConf("fe-core", "App.enablePublicPage", DEFAULT.ENABLE_PUBLIC_PAGE);
 
   useEffect(() => {
@@ -132,11 +131,11 @@ const LoginPage = ({ logo }) => {
                 )}
                 <Grid container direction="row" alignItems="center">
                   <img className="logo" src={logo} />
-                  {!isWorker && (
+                  {
                     <Box pl={2} fontWeight="fontWeightMedium" fontSize="h4.fontSize">
                       {formatMessage("appName")}
                     </Box>
-                  )}
+                  }
                 </Grid>
                 {showMPassProvider ? (
                   <Grid>

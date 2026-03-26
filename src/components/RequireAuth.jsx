@@ -327,7 +327,6 @@ const RequireAuth = (props) => {
   const menuLeft =
     modulesManager.getConf("openimis-fe-core_js", "menuLeft") || modulesManager.getConf("fe-core", "menuLeft") || false;
   const calendarSwitch = modulesManager.getConf("fe-core", "allowSecondCalendar", false);
-  const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
   const showJournalSidebar = modulesManager.getConf("fe-core", "showJournalSidebar", DEFAULT.SHOW_JOURNAL_SIDEBAR);
 
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
@@ -421,11 +420,11 @@ const RequireAuth = (props) => {
           </Box>
 
           <Box display="flex" alignItems="center" className="grow">
-            {!isWorker && (
+            {
               <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
                 <div className="grow" />
               </Contributions>
-            )}
+            }
           </Box>
 
           <Box display="flex" alignItems="center" gap={1}>
