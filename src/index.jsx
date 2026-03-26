@@ -68,6 +68,7 @@ import LanguagePicker from "./pickers/LanguagePicker";
 import AuthorityPicker from "./pickers/AuthorityPicker";
 import Helmet from "./helpers/Helmet";
 import AccountBox from "@mui/icons-material/AccountBox";
+import Person from "@mui/icons-material/Person";
 import Roles from "./pages/Roles";
 import Role from "./pages/Role";
 import reducer from "./reducer";
@@ -266,6 +267,13 @@ const DEFAULT_CONFIG = {
       filter: (rights) => rights.includes(RIGHT_ROLE_SEARCH),
       id: "admin.roleManagement",
     },
+    {
+      text: <FormattedMessage module="admin" id="menu.users" />,
+      icon: <Person />,
+      route: "/admin/users",
+      filter: (rights) => rights.includes(RIGHT_USERS),
+      id: "admin.users",
+    },
   ],
 };
 
@@ -407,4 +415,12 @@ export {
   GRID_RESPONSIVE_LARGE,
   GRID_RESPONSIVE_FULL,
   GRID_RESPONSIVE_HALF,
+  RIGHT_PRODUCTS,
+  RIGHT_HEALTHFACILITIES,
+  RIGHT_PRICELISTMS,
+  RIGHT_PRICELISTMI,
+  RIGHT_MEDICALSERVICES,
+  RIGHT_MEDICALITEMS,
+  RIGHT_USERS,
+  RIGHT_LOCATIONS,
 };
