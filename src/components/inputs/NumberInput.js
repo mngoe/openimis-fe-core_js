@@ -12,13 +12,12 @@ class NumberInput extends Component {
     this.state = {
       isEdited: false,
     };
-    this.defaultNumberOfDecimals = props.modulesManager.getConf("fe-core", "numberOfDecimals", 2)
     this.thousandSeparator = props.modulesManager.getConf("fe-core", "thousandSeparator", "fr")
   }
 
   getEffectiveNumberOfDecimals = () => {
     const { numberOfDecimals, allowDecimals = true } = this.props;
-    return !allowDecimals ? 0 : numberOfDecimals;
+    return allowDecimals ? numberOfDecimals : 0;
   };
 
   handleKeyPress = (event) => {

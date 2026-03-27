@@ -36,7 +36,7 @@ export function formatAmount(mm, intl, amount) {
     return `${intl.formatMessage({ id: "currency" })} ${formattedAmount}`;
   }
 
-  const formattedAmount = parseFloat(amount).toFixed(numberOfDecimals);
+  const formattedAmount = Number(amount).toFixed(numberOfDecimals);
   return `${intl.formatMessage({ id: "currency" })} ${formattedAmount}`;
 }
 

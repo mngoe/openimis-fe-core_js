@@ -30,9 +30,9 @@ class FormattedNumberInput extends Component {
     if (value == null || isNaN(value)) return "";
 
     const { numberOfDecimals, thousandSeparator } = this.props;
-    const decimals = numberOfDecimals !== undefined
-      ? numberOfDecimals
-      : getDecimalPlaces(value);
+    const decimals = numberOfDecimals === undefined
+      ? getDecimalPlaces(value)
+      : numberOfDecimals;
 
     return new Intl.NumberFormat(thousandSeparator, {
       minimumFractionDigits: decimals,
