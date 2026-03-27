@@ -28,14 +28,13 @@ class FormattedNumberInput extends Component {
   formatNumber = (value, intl) => {
     if (value == null || isNaN(value)) return "";
     return new Intl.NumberFormat(this.props.thousandSeparator, {
-      minimumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
-      maximumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
+      minimumFractionDigits: this.props.numberOfDecimals,
+      maximumFractionDigits: this.props.numberOfDecimals,
     }).format(value);
   };
 
   handleKeyPress = (event) => {
-    const { allowDecimals = true } = this.props;
-    if (event.key === "." && !allowDecimals) {
+    if (event.key === "." && this.props.numberOfDecimals === 0) {
       event.preventDefault();
     }
   };  
@@ -82,10 +81,8 @@ class FormattedNumberInput extends Component {
       min = null,
       max = null,
       error,
-      allowDecimals = true,
       thousandSeparator,
       numberOfDecimals,
-      pricesAreDecimal,
       ...others
     } = this.props;
 

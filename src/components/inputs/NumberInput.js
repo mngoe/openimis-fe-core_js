@@ -11,20 +11,21 @@ class NumberInput extends Component {
     this.state = {
       isEdited: false,
     };
-    this.numberOfDecimals = props.modulesManager.getConf("fe-core", "numberOfDecimals", 2)
-    this.pricesAreDecimal = props.modulesManager.getConf("fe-core", "pricesAreDecimal", true)
+    this.defaultNumberOfDecimals = props.modulesManager.getConf("fe-core", "numberOfDecimals", 2)
     this.thousandSeparator = props.modulesManager.getConf("fe-core", "thousandSeparator", "fr")
   }
 
-  handleKeyPress = (event) => {
-    const { allowDecimals = true } = this.props;
+  getNumberOfDecimals = () => {
+    return this.props.numberOfDecimals ?? this.defaultNumberOfDecimals;
+  }
 
-    if (event.key === "." && !allowDecimals) {
+  handleKeyPress = (event) => {
+    if (event.key === "." && this.getNumberOfDecimals() === 0) {
       event.preventDefault();
     }
   };
 
-  formatInput = (value, displayZero, displayNa, decimal) => {
+  formatInput = (value, displayZero, displayNa) => {
     if (!value) {
       if (displayNa && !this.state.isEdited) {
         return formatMessage(this.props.intl, this.props.module, "core.NumberInput.notApplicable");
@@ -36,9 +37,10 @@ class NumberInput extends Component {
 
     if (isNaN(numericValue)) return "";
 
-    if (decimal) {
+    const decimals = this.getNumberOfDecimals();
+    if (decimals > 0) {
       if (typeof value === "string" && value.includes(".") && value.split(".")[1].length > 0) {
-        return parseFloat(value).toFixed(this.numberOfDecimals);
+        return parseFloat(value).toFixed(decimals);
       }
       return value;
     }
@@ -63,7 +65,6 @@ class NumberInput extends Component {
       error,
       displayZero = false,
       displayNa = false,
-      allowDecimals = this.pricesAreDecimal,
       ...others
     } = this.props;
     let inputProps = { ...this.props.inputProps, type: "number", onKeyPress: this.handleKeyPress };
@@ -86,14 +87,15 @@ class NumberInput extends Component {
         });
     }
 
+    const numberOfDecimals = this.getNumberOfDecimals();
+
     return (
       <>
         {!!this.thousandSeparator ? (
           <FormattedNumberInput
-            {...this.props} 
-            thousandSeparator = {this.thousandSeparator}
-            numberOfDecimals = {this.numberOfDecimals}
-            pricesAreDecimal = {this.pricesAreDecimal}
+            {...this.props}
+            thousandSeparator={this.thousandSeparator}
+            numberOfDecimals={numberOfDecimals}
           />
         ) : (
           <TextInput
@@ -102,14 +104,13 @@ class NumberInput extends Component {
             value={value}
             error={err}
             inputProps={inputProps}
-            formatInput={(v) => this.formatInput(v, displayZero, displayNa, allowDecimals)}
+            formatInput={(v) => this.formatInput(v, displayZero, displayNa)}
             onFocus={() => this.setState({ isEdited: true })}
             onBlur={() => this.handleNaBlur()}
           />
         )}
       </>
     );
-    
   }
 }
 
