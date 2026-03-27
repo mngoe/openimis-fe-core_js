@@ -34,6 +34,13 @@ class NumberInput extends Component {
       return displayZero && value === 0 ? "0" : "";
     }
 
+    const strValue = String(value);
+
+    // Preserve raw string while user is mid-entry (e.g., "1.")
+    if (strValue.endsWith(".")) {
+      return value;
+    }
+
     const numericValue = Number(value);
 
     if (isNaN(numericValue)) return "";
@@ -44,7 +51,7 @@ class NumberInput extends Component {
       : getDecimalPlaces(numericValue);
 
     if (decimals > 0) {
-      if (typeof value === "string" && value.includes(".") && value.split(".")[1].length > 0) {
+      if (typeof value === "string" && strValue.includes(".") && strValue.split(".")[1].length > 0) {
         return parseFloat(value).toFixed(decimals);
       }
       return value;
