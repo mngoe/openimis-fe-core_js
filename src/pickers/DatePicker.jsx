@@ -172,7 +172,6 @@ class openIMISDatePicker extends Component {
               minDate={minDate ? dayjs(minDate) : undefined}
               format={format}
               disabled={readOnly}
-              required={required}
               className={clsx({
                 "disabledStateVisibilityBoost": this.disabledVisibilityBoost && readOnly,
               })}
@@ -180,7 +179,7 @@ class openIMISDatePicker extends Component {
               InputLabelProps={{
                 className: "label",
               }}
-              label={!!label ? formatMessage(intl, module, label) : null}
+              label={!!label ? formatMessage(intl, module, label).concat(required ? " *" : "") : null}
               onChange={this.dateChange}
               disablePast={disablePast}
               />
