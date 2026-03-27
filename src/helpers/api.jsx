@@ -9,6 +9,14 @@ function _entityAndFilters(entity, filters) {
   return `${entity}${!!filters && filters.length ? `(${filters.join(",")})` : ""}`;
 }
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function getOperationName(operation, entity) {
+  return `${operation}${capitalize(entity)}`;
+}
+
 function _pageAndEdges(projections) {
   return `
     pageInfo { hasNextPage, hasPreviousPage, startCursor, endCursor}
@@ -23,49 +31,49 @@ function _pageAndEdges(projections) {
 
 export function formatQuery(entity, filters, projections) {
   return `
-    {
-      ${_entityAndFilters(entity, filters)}
-      ${
-        !!projections
-          ? `{
-        ${projections.join(",")}
-      }`
-          : ""
-      }
-    }`;
+query ${getOperationName("Get", entity)} {
+  ${_entityAndFilters(entity, filters)}
+  ${
+    !!projections
+      ? `{
+    ${projections.join(",")}
+  }`
+      : ""
+  }
+}`;
 }
 
 export function formatNodeQuery(entityGQLType, nodeId, projections = ["id"]) {
   return `
-  {
-    node (id: "${nodeId}") {
-      ...on ${entityGQLType} {
-        ${projections.join(',')}
-      }
+query ${getOperationName("Get", "node")} {
+  node (id: "${nodeId}") {
+    ...on ${entityGQLType} {
+      ${projections.join(',')}
     }
   }
-  `
+}
+`
 }
 
 export function formatPageQuery(entity, filters, projections) {
   return `
-    {
-      ${_entityAndFilters(entity, filters)}
-      {
-        ${_pageAndEdges(projections)}
-      }
-    }`;
+query ${getOperationName("Get", entity)} {
+  ${_entityAndFilters(entity, filters)}
+  {
+    ${_pageAndEdges(projections)}
+  }
+}`;
 }
 
 export function formatPageQueryWithCount(entity, filters, projections) {
   return `
-    {
-      ${_entityAndFilters(entity, filters)}
-      {
-        totalCount
-        ${_pageAndEdges(projections)}
-      }
-    }`;
+query ${getOperationName("Get", entity)} {
+  ${_entityAndFilters(entity, filters)}
+  {
+    totalCount
+    ${_pageAndEdges(projections)}
+  }
+}`;
 }
 
 export function formatGQLString(str) {
@@ -84,7 +92,7 @@ export function formatGQLString(str) {
 export function formatMutation(operationName, input, clientMutationLabel, clientMutationDetails) {
   const clientMutationId = _.uuid();
   const payload = `
-    mutation {
+    mutation ${operationName} {
       ${operationName}(
         input: {
           clientMutationId: "${clientMutationId}"
