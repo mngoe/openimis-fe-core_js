@@ -325,7 +325,7 @@ class MainMenuContribution extends Component {
   };
 
   render() {
-    const { menuVariant, modulesManager, entries, rights, menuId } = this.props;
+    const { menuVariant, modulesManager, entries, rights, menuId, contributionKey } = this.props;
 
     // Defensive checks
     if (!modulesManager) {
@@ -333,8 +333,17 @@ class MainMenuContribution extends Component {
       return null;
     }
 
-    if (!entries || !Array.isArray(entries)) {
-      console.warn("MainMenuContribution: entries is not a valid array");
+    let combinedEntries = entries || [];
+
+    if (contributionKey) {
+      const contribs = modulesManager
+        .getContribs(contributionKey)
+        .filter((c) => !c.filter || c.filter(rights));
+      combinedEntries = [...combinedEntries, ...contribs];
+    }
+
+    if (!combinedEntries || !Array.isArray(combinedEntries)) {
+      console.warn("MainMenuContribution: combined entries is not a valid array");
       return null;
     }
 
@@ -349,7 +358,7 @@ class MainMenuContribution extends Component {
       return null;
     }
 
-    const updatedEntries = fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights);
+    const updatedEntries = fetchSubmenuConfig(modulesManager, allEntries, combinedEntries, menuId, rights);
 
     // Don't render empty menus
     if (!updatedEntries || updatedEntries.length === 0) {
@@ -366,9 +375,10 @@ class MainMenuContribution extends Component {
 
 MainMenuContribution.propTypes = {
   header: PropTypes.string.isRequired,
-  entries: PropTypes.array.isRequired,
+  entries: PropTypes.array,
   history: PropTypes.object.isRequired,
   menuId: PropTypes.string.isRequired,
+  contributionKey: PropTypes.string,
 };
 
 export { StyledMainMenu };
