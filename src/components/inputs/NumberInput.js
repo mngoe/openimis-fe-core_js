@@ -12,7 +12,7 @@ class NumberInput extends Component {
     this.state = {
       isEdited: false,
     };
-    this.thousandSeparator = props.modulesManager.getConf("fe-core", "thousandSeparator", "fr")
+    this.thousandSeparator = props.modulesManager.getConf("fe-core", "thousandSeparator", "en")
   }
 
   getEffectiveNumberOfDecimals = () => {
