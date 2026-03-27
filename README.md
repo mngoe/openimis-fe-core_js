@@ -192,6 +192,16 @@ Whenever the **individual** global schema changes (you add or remove a filter fi
 
   Note: depends on the selected calendar (Gregorian vs. Nepali)
 
+### Number Formatting
+
+`NumberInput` supports flexible decimal formatting:
+
+- **Auto-detection (default)**: When neither `numberOfDecimals` nor `allowDecimals` is specified, decimals are auto-detected from the value (integers display without decimals, decimal values preserve their precision)
+- **Fixed decimals**: Use `numberOfDecimals={N}` prop to enforce N decimal places
+- **Integer mode**: Use `allowDecimals={false}` prop to force integer-only input
+
+For monetary amounts that should always show decimals, `AmountInput` uses the global `fe-core.numberOfDecimals` config (default: 2).
+
 ### JSON handler
 
 - `createFieldsBasedOnJSON`: Creates additional fields from a JSON string and returns an array of field objects.
