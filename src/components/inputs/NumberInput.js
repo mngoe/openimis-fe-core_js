@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextInput from "./TextInput";
 import { injectIntl } from "react-intl";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
+import { getDecimalPlaces } from "../../helpers/utils";
 import { withModulesManager } from "@openimis/fe-core";
 import FormattedNumberInput from "./FormattedNumberInput";
 
@@ -15,12 +16,13 @@ class NumberInput extends Component {
     this.thousandSeparator = props.modulesManager.getConf("fe-core", "thousandSeparator", "fr")
   }
 
-  getNumberOfDecimals = () => {
-    return this.props.numberOfDecimals ?? this.defaultNumberOfDecimals;
-  }
+  getEffectiveNumberOfDecimals = () => {
+    const { numberOfDecimals, allowDecimals = true } = this.props;
+    return !allowDecimals ? 0 : numberOfDecimals;
+  };
 
   handleKeyPress = (event) => {
-    if (event.key === "." && this.getNumberOfDecimals() === 0) {
+    if (event.key === "." && this.getEffectiveNumberOfDecimals() === 0) {
       event.preventDefault();
     }
   };
@@ -37,7 +39,11 @@ class NumberInput extends Component {
 
     if (isNaN(numericValue)) return "";
 
-    const decimals = this.getNumberOfDecimals();
+    const effectiveDecimals = this.getEffectiveNumberOfDecimals();
+    const decimals = effectiveDecimals !== undefined
+      ? effectiveDecimals
+      : getDecimalPlaces(numericValue);
+
     if (decimals > 0) {
       if (typeof value === "string" && value.includes(".") && value.split(".")[1].length > 0) {
         return parseFloat(value).toFixed(decimals);
@@ -87,15 +93,13 @@ class NumberInput extends Component {
         });
     }
 
-    const numberOfDecimals = this.getNumberOfDecimals();
-
     return (
       <>
         {!!this.thousandSeparator ? (
           <FormattedNumberInput
             {...this.props}
             thousandSeparator={this.thousandSeparator}
-            numberOfDecimals={numberOfDecimals}
+            numberOfDecimals={this.getEffectiveNumberOfDecimals()}
           />
         ) : (
           <TextInput
