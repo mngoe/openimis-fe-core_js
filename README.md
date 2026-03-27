@@ -200,7 +200,7 @@ Whenever the **individual** global schema changes (you add or remove a filter fi
 - **Fixed decimals**: Use `numberOfDecimals={N}` prop to enforce N decimal places
 - **Integer mode**: Use `allowDecimals={false}` prop to force integer-only input
 
-For monetary amounts that should always show decimals, `AmountInput` uses the global `fe-core.numberOfDecimals` config (default: 2).
+Monetary amount decimal places can be controlled using the global `fe-core.numberOfDecimals` config (default: 2) or using the `numberOfDecimals` prop on `AmountInput` for individual input fields.
 
 ### JSON handler
 
