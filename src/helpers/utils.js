@@ -61,6 +61,16 @@ export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
 
+// value is expected to be a number, not string
+export function getDecimalPlaces(value) {
+  if (value == null || Number.isNaN(Number(value))) return 0;
+
+  const str = String(Number(value));
+  if (!str.includes('.')) return 0;
+  return str.split('.')[1]?.length || 0;
+}
+
+
 export function menuEntryMatchesLocationPath(entry) {
   const pathname = location.pathname
   return (
