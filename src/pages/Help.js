@@ -18,7 +18,7 @@ const styles = (theme) => ({
 const Help = ({ classes }) => {
   const modulesManager = useModulesManager();
   const { formatMessage } = useTranslations(MODULE_NAME, modulesManager);
-  const isCoreMISHelp = modulesManager.getConf("fe-core", "redirectToCoreMISConfluenceUrl", false);
+  const isCoreMISHelp = !!modulesManager ? modulesManager.getConf("fe-core", "redirectToCoreMISConfluenceUrl", false): false;
   const url = isCoreMISHelp ? CORE_MIS_CONFLUENCE_URL : DEFAULT_URL;
   const onClick = () => {
     window.open(url);

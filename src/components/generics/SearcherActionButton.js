@@ -7,7 +7,7 @@ import { DEFAULT } from "../../constants";
 
 const SearcherActionButton = ({ onClick, startIcon, label }) => {
   const modulesManager = useModulesManager();
-  const isWorker = modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER);
+  const isWorker = !!modulesManager ? modulesManager.getConf("fe-core", "isWorker", DEFAULT.IS_WORKER) : DEFAULT.IS_WORKER;
 
   return (
     <Button variant="outlined" style={{ border: 0 }} onClick={onClick} startIcon={startIcon}>
