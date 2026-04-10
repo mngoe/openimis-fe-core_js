@@ -21,13 +21,14 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import MoreIcon from "@mui/icons-material/KeyboardArrowDown";
-import CheckIcon from "@mui/icons-material/CheckCircleOutline";
-import ErrorIcon from "@mui/icons-material/ErrorOutline";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import GetIconComponent from "../helpers/icons";
+const ChevronLeftIcon = GetIconComponent("ChevronLeft");
+const ChevronRightIcon = GetIconComponent("ChevronRight")
+const MoreIcon = GetIconComponent("KeyboardArrowDown")
+const CheckIcon = GetIconComponent("CheckCircleOutline")
+const ErrorIcon = GetIconComponent("ErrorOutline")
+const ExpandLessIcon = GetIconComponent("ExpandLess")
+const ExpandMoreIcon = GetIconComponent("ExpandMore")
 import { fetchMutation, fetchHistoricalMutations } from "../actions";
 import withModulesManager from "../helpers/modules";
 import moment from "moment";

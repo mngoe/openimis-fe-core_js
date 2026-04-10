@@ -16,7 +16,9 @@ import {
   Box,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import MoreHoriz from "@mui/icons-material/MoreHoriz";
+import GetIconComponent from "../../helpers/icons";
+
+const MoreHoriz = GetIconComponent("MoreHoriz")
 
 import { cacheFilters, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
 import { DEFAULT } from "../../constants";

@@ -1,24 +1,5 @@
 import { baseApiUrl, logout } from "../actions";
 import { SAML_LOGOUT_PATH } from "../constants";
-import * as Icons from "./icon";
-export { Icons };
-
-export const getIconComponent = (iconName) => {
-  if (!iconName) {
-    console.warn(`Missing icon for menu: using default 'Adjust'`);
-    return <Icons.Adjust />;
-  }
-  let IconComponent = Icons[iconName];
-  if (IconComponent) {
-    return <IconComponent />;
-  }
-  IconComponent = Icons[iconName+ "Icon"];
-  if (IconComponent) {
-    return <IconComponent />;
-  }
-  console.warn(`Invalid icon name '${iconName}': using default 'Adjust'`);
-  return <Icons.Adjust />;
-};
 
 export const ensureArray = (maybeArray) => {
   if (Array.isArray(maybeArray)) {

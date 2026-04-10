@@ -4,8 +4,9 @@ import _ from "lodash-uuid";
 
 import { MenuItem, IconButton, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import GetIconComponent from "../../helpers/icons";
 
-import ClearIcon from "@mui/icons-material/Clear";
+const ClearIcon = GetIconComponent("Clear")
 import FormattedMessage from "../generics/FormattedMessage";
 import TextInput from "./TextInput";
 import { formatMessage } from "../../helpers/i18n";

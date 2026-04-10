@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { MenuItem, Tooltip, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import GetAppIcon from "@mui/icons-material/GetApp";
+import GetIconComponent from "../../helpers/icons";
+
+const GetAppIcon = GetIconComponent("GetApp")
 
 import { closeExportConfigDialog, openExportConfigDialog } from "../../actions";
 import { EXPORT_FILE_FORMATS } from "../../constants";

@@ -67,8 +67,10 @@ import MonthPicker from "./pickers/MonthPicker";
 import LanguagePicker from "./pickers/LanguagePicker";
 import AuthorityPicker from "./pickers/AuthorityPicker";
 import Helmet from "./helpers/Helmet";
-import AccountBox from "@mui/icons-material/AccountBox";
-import Person from "@mui/icons-material/Person";
+import GetIconComponent from "./helpers/icons";
+
+const AccountBox = GetIconComponent("AccountBox")
+const Person = GetIconComponent("Person")
 import Roles from "./pages/Roles";
 import Role from "./pages/Role";
 import reducer from "./reducer";
@@ -290,8 +292,8 @@ export function combine(...hocs) {
 }
 
 export * from "./helpers/utils";
-export * from "./helpers/icon";
 export {
+  GetIconComponent,
   Helmet,
   baseApiUrl,
   AdvancedFiltersDialog,

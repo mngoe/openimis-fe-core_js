@@ -2,9 +2,11 @@ import React, { Component, Fragment } from "react";
 import { styled } from "@mui/material/styles";
 import { injectIntl } from "react-intl";
 import { Fab, Grid, Paper, IconButton, Typography, Divider, Tooltip } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import SaveIcon from "@mui/icons-material/Save";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import GetIconComponent from "../../helpers/icons";
+
+const AddIcon = GetIconComponent("Add")
+const SaveIcon = GetIconComponent("Save")
+const ChevronLeftIcon = GetIconComponent("ChevronLeft")
 import FormattedMessage from "./FormattedMessage";
 import Contributions from "./Contributions";
 import withHistory from "../../helpers/history";

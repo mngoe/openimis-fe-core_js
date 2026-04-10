@@ -1,9 +1,11 @@
 import React from "react";
 import _ from "lodash-uuid";
 import { IconButton } from "@mui/material";
-import SortIcon from "@mui/icons-material/UnfoldMore";
-import SortAscIcon from "@mui/icons-material/ExpandLess";
-import SortDescIcon from "@mui/icons-material/ExpandMore";
+import  GetIconComponent from "./icons"
+
+const SortIcon = GetIconComponent("UnfoldMore")
+const SortAscIcon = GetIconComponent("ExpandLess")
+const SortDescIcon = GetIconComponent("ExpandMore")
 
 function _entityAndFilters(entity, filters) {
   return `${entity}${!!filters && filters.length ? `(${filters.join(",")})` : ""}`;

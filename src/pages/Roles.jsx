@@ -5,10 +5,12 @@ import { injectIntl } from "react-intl";
 
 import { Grid, FormControlLabel, Checkbox, Fab, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import GetIconComponent from "../helpers/icons";
+
+const AddIcon = GetIconComponent("Add")
+const DeleteIcon = GetIconComponent("Delete")
+const EditIcon = GetIconComponent("Edit")
+const SupervisedUserCircleIcon = GetIconComponent("SupervisedUserCircle")
 
 import {
   withModulesManager,

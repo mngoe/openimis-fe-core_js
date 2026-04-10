@@ -3,13 +3,15 @@ import { useDispatch } from "react-redux";
 
 import { IconButton, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { ExitToApp } from "@openimis/fe-core";
+import GetIconComponent from "../helpers/icons";
 
 import { MODULE_NAME } from "../constants";
 import { useHistory } from "../helpers/history";
 import { useModulesManager } from "../helpers/modules";
 import { onLogout, redirectToSamlLogout } from "../helpers/utils";
 import { useTranslations } from "../helpers/i18n";
+const ExitToApp = GetIconComponent("ExitToApp");
+
 
 const StyledLogoutButton = styled("div")(({ theme }) => ({
   "& .button": {

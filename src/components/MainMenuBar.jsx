@@ -5,9 +5,9 @@ import { injectIntl } from "react-intl";
 import { useModulesManager } from "../helpers/modules";
 import { ErrorBoundary } from "@openimis/fe-core";
 import { useToast } from "../helpers/ToastContext";
-import { menuEntryMatchesLocationPath, getIconComponent, Icons} from "../helpers/utils";
+import { menuEntryMatchesLocationPath} from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
-
+import GetIconComponent from "../helpers/icons";
 
 function mergeMenuConfigs(moduleConfigs, backendConfigs) {
   try {
@@ -89,7 +89,7 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
         entries = config.submenus.map(submenu => ({
           id: submenu.id,
           position: submenu.position || 99,
-          icon: submenu.icon ? getIconComponent(submenu.icon) : getIconComponent(null),
+          icon: typeof submenu.icon === 'string' ? GetIconComponent(submenu.icon) : submenu.icon,
           route: deriveRoute(config.id, submenu.id),  // e.g., /clientRegistry/individual.groups
           text: intl.formatMessage({ id: submenu.id, defaultMessage: deriveText(submenu.id) }),  // Derive text from id
           rights: submenu.rights || deriveRights(config.id, submenu.id),  // e.g., ['clientRegistry.individual.groups']
@@ -108,16 +108,14 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
         .filter((entry) => !entry.filter || entry.filter(rights))
         .map((entry) => ({
           ...entry,
-          icon: typeof entry.icon === 'string' && Icons[entry.icon]
-            ? React.createElement(Icons[entry.icon])
-            : entry.icon
+          icon: typeof entry.icon === 'string' ? GetIconComponent(entry.icon) : entry.icon
         }));
 
       // Skip empty menus
       if (!filteredEntries.length) return null;
 
       // Resolve icon
-      const IconComponent = config.icon && Icons[config.icon] ? Icons[config.icon] : null;
+      const IconComponent = typeof config.icon === 'string' ? GetIconComponent(config.icon) : config.icon;
 
       return (
         <MainMenuContribution
@@ -129,7 +127,7 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
           rights={rights}
           history={history}
           entries={filteredEntries}
-          icon={getIconComponent(IconComponent)}
+          icon={IconComponent}
           isInitiallyOpen={menuVariant === "Drawer" && config.id === activeMenuId}
         />
       );

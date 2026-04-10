@@ -18,7 +18,8 @@ import {
   ClickAwayListener,
   Box,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import GetIconComponent from "../helpers/icons";
+const MenuIcon = GetIconComponent("Menu")
 import Contributions from "./generics/Contributions";
 import FormattedMessage from "./generics/FormattedMessage";
 import MainMenuBar from "./MainMenuBar";

@@ -21,10 +21,12 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { fetchModulesPermissions } from "../actions";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import SearchIcon from "@mui/icons-material/Search";
-import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import GetIconComponent from "../helpers/icons";
+
+const ArrowBackIcon = GetIconComponent("ArrowBack")
+const ArrowForwardIcon = GetIconComponent("ArrowForward")
+const SearchIcon = GetIconComponent("Search")
+const DoubleArrowIcon = GetIconComponent("DoubleArrow")
 import { formatRoleLabel } from "../helpers/role-label-formatter";
 
 const StyledRoleRightsPanel = styled('div')(({ theme }) => ({

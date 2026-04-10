@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { withModulesManager, useTranslations, PublishedComponent, ProgressOrError } from "@openimis/fe-core";
-import DeleteIcon from "@mui/icons-material/Delete";
+import GetIconComponent from "../../helpers/icons";
+
+const DeleteIcon = GetIconComponent("Delete")
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import AddIcon from "@mui/icons-material/Add";
+const AddIcon = GetIconComponent("Add")
 import {
   TableContainer,
   TableHead,

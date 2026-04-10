@@ -5,7 +5,9 @@ import PropTypes from "prop-types";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import GetIconComponent from "../../helpers/icons";
+
+const ExpandMoreIcon = GetIconComponent("ExpandMore")
 import Typography from "@mui/material/Typography";
 import { styled, alpha } from "@mui/material/styles";
 import ListItem from "@mui/material/ListItem";
@@ -24,7 +26,7 @@ import {
   Box,
 } from "@mui/material";
 import withModulesManager from "../../helpers/modules";
-import { menuEntryMatchesLocationPath, getIconComponent } from "../../helpers/utils";
+import { menuEntryMatchesLocationPath } from "../../helpers/utils";
 
 const StyledMainMenu = styled("div")(({ theme }) => ({
   "& .panel": {
@@ -164,7 +166,7 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
         return {
           ...entry,
           position: submenuMapping[entry.id] || null,
-          icon: customIcon ? getIconComponent(customIcon) : (entry.icon || getIconComponent(null)),
+          icon: customIcon ? GetIconComponent(customIcon) : (entry.icon || GetIconComponent(null)),
         };
       })
       .filter((entry) => entry.position !== null)
@@ -178,7 +180,7 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
           .filter((entry) => !entry.filter || entry.filter(rights))
           .map((entry) => ({
             ...entry,
-            icon: entry.icon ? getIconComponent(entry.icon) : getIconComponent(null),
+            icon: entry.icon ? GetIconComponent(entry.icon) : GetIconComponent(null),
           }));
       }
     }
@@ -256,10 +258,10 @@ class MainMenuContribution extends Component {
                     : intl.formatMessage({ id: entry.text, defaultMessage: entry.text });  // String key (new format)
                   return (
                     <div key={`${this.props.header}_${idx}_menuItem`}>
-                      <MenuItem component={Link} to={entry.route} onClick={(e) => this.handleMenuSelect(e, entry.route)}>
-                        <ListItemIcon>{entry.icon}</ListItemIcon>
-                        <ListItemText primary={translatedText} />
-                      </MenuItem>
+                       <MenuItem component={Link} to={entry.route} onClick={(e) => this.handleMenuSelect(e, entry.route)}>
+                         <ListItemIcon>{typeof entry.icon === 'function' ? <entry.icon /> : entry.icon}</ListItemIcon>
+                         <ListItemText primary={translatedText} />
+                       </MenuItem>
                       {entry.withDivider && (
                         <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
                       )}
@@ -304,7 +306,7 @@ class MainMenuContribution extends Component {
                       onClick={this.toggleExpanded}
                       selected={menuEntryMatchesLocationPath(entry)}
                     >
-                      {entry.icon && <ListItemIcon>{entry.icon}</ListItemIcon>}
+                      {entry.icon && <ListItemIcon>{typeof entry.icon === 'function' ? <entry.icon /> : entry.icon}</ListItemIcon>}
                       <ListItemText primary={translatedText} />
                     </ListItem>
                     {entry.withDivider && (

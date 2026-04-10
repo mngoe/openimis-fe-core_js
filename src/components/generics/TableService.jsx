@@ -2,7 +2,9 @@ import React, { Component, Fragment } from "react";
 import clsx from "clsx";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
-import DeleteIcon from "@mui/icons-material/Delete";
+import GetIconComponent from "../../helpers/icons";
+
+const DeleteIcon = GetIconComponent("Delete")
 import { styled } from "@mui/material/styles";
 import {
   Typography,

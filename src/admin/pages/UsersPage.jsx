@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 
 import { Fab } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import GetIconComponent from "../../helpers/icons";
+const AddIcon = GetIconComponent("Add")
 import { useTheme, styled } from "@mui/material/styles";
 
 import {
