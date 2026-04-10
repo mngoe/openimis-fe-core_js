@@ -4,7 +4,7 @@ import _debounce from "lodash/debounce";
 
 import { Grid, Paper, Divider, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "@mui/icons-material";
+import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "../../helpers/icon";
 
 import SearcherActionButton from "./SearcherActionButton";
 import { DEFAULT_DEBOUNCE_TIME, ENTER_KEY } from "../../constants";

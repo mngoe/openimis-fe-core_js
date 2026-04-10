@@ -1,0 +1,136 @@
+// Centralized MUI Icons for openIMIS
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Add from "@mui/icons-material/Add";
+import Edit from "@mui/icons-material/Edit";
+import Group from "@mui/icons-material/Group";
+import Assignment from "@mui/icons-material/Assignment";
+import AssignmentInd from "@mui/icons-material/AssignmentInd";
+import Autorenew from "@mui/icons-material/Autorenew";
+import Ballot from "@mui/icons-material/Ballot";
+import Business from "@mui/icons-material/Business";
+import Clear from "@mui/icons-material/Clear";
+import Shuffle from "@mui/icons-material/Shuffle";
+import Close from "@mui/icons-material/Close";
+import Delete from "@mui/icons-material/Delete";
+import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
+import ExitToApp from "@mui/icons-material/ExitToApp";
+import Fingerprint from "@mui/icons-material/Fingerprint";
+import Folder from "@mui/icons-material/Folder";
+import GroupAdd from "@mui/icons-material/GroupAdd";
+import HelpOutline from "@mui/icons-material/HelpOutline";
+import ImportExport from "@mui/icons-material/ImportExport";
+import InsertEmoticon from "@mui/icons-material/InsertEmoticon";
+import Keyboard from "@mui/icons-material/Keyboard";
+import ListAlt from "@mui/icons-material/ListAlt";
+import LocalOffer from "@mui/icons-material/LocalOffer";
+import LocationCity from "@mui/icons-material/LocationCity";
+import MonetizationOn from "@mui/icons-material/MonetizationOn";
+import Pause from "@mui/icons-material/Pause";
+import People from "@mui/icons-material/People";
+import Person from "@mui/icons-material/Person";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import PersonPin from "@mui/icons-material/PersonPin";
+import PinDrop from "@mui/icons-material/PinDrop";
+import Remove from "@mui/icons-material/Remove";
+import Renew from "@mui/icons-material/Autorenew";
+import SaveAlt from "@mui/icons-material/SaveAlt";
+import ScreenShare from "@mui/icons-material/ScreenShare";
+import Search from "@mui/icons-material/Search";
+import SetHead from "@mui/icons-material/PersonPin";
+import Settings from "@mui/icons-material/Settings";
+import Subscriptions from "@mui/icons-material/Subscriptions";
+import Suspend from "@mui/icons-material/Pause";
+import Tab from "@mui/icons-material/Tab";
+import ThumbDown from "@mui/icons-material/ThumbDown";
+import ThumbUp from "@mui/icons-material/ThumbUp";
+import Tune from "@mui/icons-material/Tune";
+import YoutubeSearchedFor from "@mui/icons-material/YoutubeSearchedFor";
+import Healing from "@mui/icons-material/Healing";
+import HealingOutlined from "@mui/icons-material/HealingOutlined";
+import LocalHospital from "@mui/icons-material/LocalHospital";
+import LocalPharmacy from "@mui/icons-material/LocalPharmacy";
+import LocalPharmacyOutlined from "@mui/icons-material/LocalPharmacyOutlined";
+import Adjust from "@mui/icons-material/Adjust";
+import TableChart from "@mui/icons-material/TableChart";
+import Spa from "@mui/icons-material/Spa";
+import MedicalServices from "@mui/icons-material/MedicalServices";
+import Vaccines from "@mui/icons-material/Vaccines";
+import Map from "@mui/icons-material/Map";
+import AttachMoney from "@mui/icons-material/AttachMoney";
+import VpnKey from "@mui/icons-material/VpnKey";
+import Publish from "@mui/icons-material/Publish";
+import RequestPage from "@mui/icons-material/RequestPage";
+import PriceChange from "@mui/icons-material/PriceChange";
+import Timelapse from "@mui/icons-material/Timelapse";
+import Receipt from "@mui/icons-material/Receipt";
+import CorporateFare from "@mui/icons-material/CorporateFare";
+import Store from "@mui/icons-material/Store";
+
+export {
+  AccountCircle, AccountCircle as AccountCircleIcon,
+  Adjust, Adjust as AdjustIcon,
+  Add, Add as AddIcon,
+  Edit, Edit as EditIcon,
+  Assignment, Assignment as AssignmentIcon,
+  AssignmentInd, AssignmentInd as AssignmentIndIcon,
+  Autorenew, Autorenew as AutorenewIcon,
+  Ballot, Ballot as BallotIcon,
+  Business, Business as BusinessIcon,
+  Clear, Clear as ClearIcon,
+  Close, Close as CloseIcon,
+  Delete, Delete as DeleteIcon,
+  DeleteOutlined, DeleteOutlined as DeleteOutlinedIcon,
+  ExitToApp, ExitToApp as ExitToAppIcon,
+  Fingerprint, Fingerprint as FingerprintIcon,
+  Folder, Folder as FolderIcon,
+  GroupAdd, GroupAdd as GroupAddIcon,
+  HelpOutline, HelpOutline as HelpOutlineIcon,
+  ImportExport, ImportExport as ImportExportIcon,
+  InsertEmoticon, InsertEmoticon as InsertEmoticonIcon,
+  Keyboard, Keyboard as KeyboardIcon,
+  ListAlt, ListAlt as ListAltIcon,
+  LocalOffer, LocalOffer as LocalOfferIcon,
+  LocationCity, LocationCity as LocationCityIcon,
+  MonetizationOn, MonetizationOn as MonetizationOnIcon,
+  Pause, Pause as PauseIcon,
+  People, People as PeopleIcon,
+  Person, Person as PersonIcon,
+  Group, Group as GroupIcon,
+  PersonAdd, PersonAdd as PersonAddIcon,
+  PersonPin, PersonPin as PersonPinIcon,
+  PinDrop, PinDrop as PinDropIcon,
+  Remove, Remove as RemoveIcon,
+  Renew, Renew as RenewIcon,
+  SaveAlt, SaveAlt as SaveAltIcon,
+  ScreenShare, ScreenShare as ScreenShareIcon,
+  Search, Search as SearchIcon,
+  SetHead, SetHead as SetHeadIcon,
+  Settings, Settings as SettingsIcon,
+  Subscriptions, Subscriptions as SubscriptionsIcon,
+  Suspend, Suspend as SuspendIcon,
+  Tab, Tab as TabIcon,
+  ThumbDown, ThumbDown as ThumbDownIcon,
+  ThumbUp, ThumbUp as ThumbUpIcon,
+  Tune, Tune as TuneIcon,
+  Shuffle, Shuffle as ShuffleIcon,
+  YoutubeSearchedFor, YoutubeSearchedFor as YoutubeSearchedForIcon,
+  Healing, Healing as HealingIcon,
+  HealingOutlined, HealingOutlined as HealingOutlinedIcon,
+  LocalHospital, LocalHospital as LocalHospitalIcon,
+  LocalPharmacy, LocalPharmacy as LocalPharmacyIcon,
+  LocalPharmacyOutlined, LocalPharmacyOutlined as LocalPharmacyOutlinedIcon,
+  TableChart, TableChart as TableChartIcon,
+  Spa, Spa as SpaIcon,
+  MedicalServices, MedicalServices as MedicalServicesIcon,
+  Vaccines, Vaccines as VaccinesIcon,
+  Map, Map as MapIcon,
+  AttachMoney, AttachMoney as MoneyIcon,
+  VpnKey, VpnKey as PasswordIcon,
+  Publish, Publish as PublishIcon,
+  RequestPage, RequestPage as RequestPageIcon,
+  PriceChange, PriceChange as PriceChangeIcon,
+  Timelapse, Timelapse as TimelapseIcon,
+  Receipt, Receipt as ReceiptIcon,
+  CorporateFare, CorporateFare as CorporateFareIcon,
+  Store, Store as StoreIcon,
+};

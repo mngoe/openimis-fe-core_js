@@ -3,16 +3,7 @@ import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
 import {
   LocationCity,
-  Healing,
-  HealingOutlined,
-  LocalHospital,
-  LocalPharmacy,
-  LocalPharmacyOutlined,
-  Person,
-  People,
-  PinDrop,
-  Tune,
-} from "@mui/icons-material";
+} from "../../helpers/icon";
 import { formatMessage, MainMenuContribution, withModulesManager } from "@openimis/fe-core";
 import {
   RIGHT_PRODUCTS,

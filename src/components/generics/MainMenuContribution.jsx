@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { injectIntl } from "react-intl";
-import * as Icons from "@mui/icons-material";
 import PropTypes from "prop-types";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
@@ -25,7 +24,7 @@ import {
   Box,
 } from "@mui/material";
 import withModulesManager from "../../helpers/modules";
-import { menuEntryMatchesLocationPath } from "../../helpers/utils";
+import { menuEntryMatchesLocationPath, getIconComponent } from "../../helpers/utils";
 
 const StyledMainMenu = styled("div")(({ theme }) => ({
   "& .panel": {
@@ -135,17 +134,14 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   display: "block",
 }));
 
-const getIconComponent = (iconName) => {
-  const IconComponent = Icons[iconName];
-  if (IconComponent) {
-    return <IconComponent />;
-  }
-  return null;
-};
 
 function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights) {
   const menuConfig = modulesManager.getConf("fe-core", "menus", []);
-  const isMenuConfigEmpty = !menuConfig?.length;
+  if (!Array.isArray(menuConfig)) {
+    console.error("Malformed fe-core menus config: expected array, got", menuConfig);
+    return [];  // Fallback to empty
+  }
+  const isMenuConfigEmpty = !menuConfig.length;
   const submenuMapping = {};
   const menuIcons = {};
   const copyOfEntries = entries;
@@ -168,11 +164,11 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
         return {
           ...entry,
           position: submenuMapping[entry.id] || null,
-          icon: customIcon ? getIconComponent(customIcon) : entry.icon,
+          icon: customIcon ? getIconComponent(customIcon) : (entry.icon || getIconComponent(null)),
         };
       })
       .filter((entry) => entry.position !== null)
-      .sort((a, b) => a.position - b.position);
+      .sort((a, b) => (a.position || 99) - (b.position || 99));
 
     // If no submenus processed, check for direct entries in the menu config
     if (updatedEntries.length === 0) {
@@ -182,7 +178,7 @@ function fetchSubmenuConfig(modulesManager, allEntries, entries, menuId, rights)
           .filter((entry) => !entry.filter || entry.filter(rights))
           .map((entry) => ({
             ...entry,
-            icon: entry.icon ? getIconComponent(entry.icon) : entry.icon,
+            icon: entry.icon ? getIconComponent(entry.icon) : getIconComponent(null),
           }));
       }
     }

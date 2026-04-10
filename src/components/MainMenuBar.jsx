@@ -1,38 +1,48 @@
 import React, { useMemo } from "react";
-import * as Icons from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import { useModulesManager } from "../helpers/modules";
 import { ErrorBoundary } from "@openimis/fe-core";
 import { useToast } from "../helpers/ToastContext";
-import { menuEntryMatchesLocationPath } from "../helpers/utils";
+import { menuEntryMatchesLocationPath, getIconComponent, Icons} from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
 
+
 function mergeMenuConfigs(moduleConfigs, backendConfigs) {
-  // Create a map of backend configs by id for quick lookup
-  const backendMap = new Map(backendConfigs.map(config => [config.id, config]));
-
-  // Start with module configs as base
-  const merged = [...moduleConfigs];
-
-  // Apply backend overrides
-  merged.forEach(config => {
-    const backendOverride = backendMap.get(config.id);
-    if (backendOverride) {
-      // Merge: backend properties override module properties
-      Object.assign(config, backendOverride);
+  try {
+    if (!Array.isArray(backendConfigs)) {
+      console.error("Malformed backend menus: expected array, got", backendConfigs);
+      return moduleConfigs;  // Fallback to modules
     }
-  });
 
-  // Add any backend configs that don't exist in modules
-  backendConfigs.forEach(backendConfig => {
-    if (!merged.some(config => config.id === backendConfig.id)) {
-      merged.push(backendConfig);
-    }
-  });
+    // Create a map of backend configs by id for quick lookup
+    const backendMap = new Map(backendConfigs.map(config => [config.id, config]));
 
-  return merged;
+    // Start with module configs as base
+    const merged = [...moduleConfigs];
+
+    // Apply backend overrides
+    merged.forEach(config => {
+      const backendOverride = backendMap.get(config.id);
+      if (backendOverride) {
+        // Merge: backend properties override module properties
+        Object.assign(config, backendOverride);
+      }
+    });
+
+    // Add any backend configs that don't exist in modules
+    backendConfigs.forEach(backendConfig => {
+      if (!merged.some(config => config.id === backendConfig.id)) {
+        merged.push(backendConfig);
+      }
+    });
+
+    return merged;
+  } catch (error) {
+    console.error("Error merging menu configs:", error, { moduleConfigs, backendConfigs });
+    return moduleConfigs;  // Fallback
+  }
 }
 
 function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
@@ -45,8 +55,18 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   // Merge: modules as base, backend as overrides
   const menuConfigs = mergeMenuConfigs(moduleMenuConfigs, backendMenuConfigs);
 
-  // Sort by position
-  const sortedMenuConfigs = menuConfigs.sort((a, b) => (a.position || 0) - (b.position || 0));
+  // Default contributionKey to id for all configs (backend/module); override if specified
+  menuConfigs.forEach(config => {
+    if (!config.contributionKey) {
+      config.contributionKey = config.id;  // Use id as key to pull submenus, e.g., "individual.MainMenu"
+    }
+    if (!config.entries && !config.contributionKey) {
+      console.warn(`Menu ${config.id} has no entries or valid contributionKey.`);
+    }
+  });
+
+  // Sort by position (default 99 if missing; stable for duplicates)
+  const sortedMenuConfigs = menuConfigs.sort((a, b) => (a.position || 99) - (b.position || 99));
 
   // Get all menu entries for active menu detection
   const menuEntries = modulesManager.getMenuEntries();
@@ -64,7 +84,26 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
         entries = [...entries, ...contributedEntries];
       }
 
-      // Filter entries by rights and convert icon strings to components
+      // Fallback: If no contributions, generate entries from submenus
+      if (entries.length === 0 && config.submenus && Array.isArray(config.submenus)) {
+        entries = config.submenus.map(submenu => ({
+          id: submenu.id,
+          position: submenu.position || 99,
+          icon: submenu.icon ? getIconComponent(submenu.icon) : getIconComponent(null),
+          route: deriveRoute(config.id, submenu.id),  // e.g., /clientRegistry/individual.groups
+          text: intl.formatMessage({ id: submenu.id, defaultMessage: deriveText(submenu.id) }),  // Derive text from id
+          rights: submenu.rights || deriveRights(config.id, submenu.id),  // e.g., ['clientRegistry.individual.groups']
+          filter: submenu.rights ? (rights) => rights.some(r => submenu.rights.includes(r)) : () => true
+        }));
+        //console.warn(`Generated entries from submenus for new menu ${config.id}.`);
+      }
+
+      // If still empty, warn
+      if (entries.length === 0) {
+        console.warn(`New main menu ${config.id} has no entries or contributionKey submenus.`);
+      }
+
+      // Filter entries by rights and convert ico n strings to components
       const filteredEntries = entries
         .filter((entry) => !entry.filter || entry.filter(rights))
         .map((entry) => ({
@@ -90,7 +129,7 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
           rights={rights}
           history={history}
           entries={filteredEntries}
-          icon={IconComponent ? <IconComponent /> : null}
+          icon={getIconComponent(IconComponent)}
           isInitiallyOpen={menuVariant === "Drawer" && config.id === activeMenuId}
         />
       );
@@ -111,6 +150,21 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
 
   return allComponents;
 }
+
+const deriveRoute = (menuId, submenuId) => {
+  const module = menuId.replace('.mainMenu', '');
+  return `/${module}/${submenuId}`;
+};
+
+const deriveText = (submenuId) => {
+  // Simple derivation: capitalize and space camelCase
+  return submenuId.split('.').pop().replace(/([A-Z])/g, ' $1').trim();
+};
+
+const deriveRights = (menuId, submenuId) => {
+  const module = menuId.replace('.mainMenu', '');
+  return [`${module}.${submenuId}`];
+};
 
 const findActiveMenuId = (menuConfigs, menuEntries) => {
   const matchingEntry = menuEntries.find(menuEntryMatchesLocationPath);

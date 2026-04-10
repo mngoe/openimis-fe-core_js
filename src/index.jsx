@@ -290,6 +290,7 @@ export function combine(...hocs) {
 }
 
 export * from "./helpers/utils";
+export * from "./helpers/icon";
 export {
   Helmet,
   baseApiUrl,

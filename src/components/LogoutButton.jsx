@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { IconButton, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { ExitToApp } from "@mui/icons-material";
+import { ExitToApp } from "@openimis/fe-core";
 
 import { MODULE_NAME } from "../constants";
 import { useHistory } from "../helpers/history";

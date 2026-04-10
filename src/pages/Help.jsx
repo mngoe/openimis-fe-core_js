@@ -2,7 +2,7 @@ import React from "react";
 
 import { IconButton, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { HelpOutline } from "@mui/icons-material";
+import { HelpOutline } from "../helpers/icon";
 import { useModulesManager } from "../helpers/modules";
 import { CORE_MIS_CONFLUENCE_URL, DEFAULT_URL, MODULE_NAME } from "../constants";
 import { useTranslations } from "../helpers/i18n";
