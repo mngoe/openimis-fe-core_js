@@ -9,119 +9,100 @@ import { menuEntryMatchesLocationPath} from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
 import GetIconComponent from "../helpers/icons";
 
-function mergeMenuConfigs(moduleConfigs, backendConfigs) {
-  try {
-    if (!Array.isArray(backendConfigs)) {
-      console.error("Malformed backend menus: expected array, got", backendConfigs);
-      return moduleConfigs;  // Fallback to modules
-    }
 
-    // Create a map of backend configs by id for quick lookup
-    const backendMap = new Map(backendConfigs.map(config => [config.id, config]));
-
-    // Start with module configs as base
-    const merged = [...moduleConfigs];
-
-    // Apply backend overrides
-    merged.forEach(config => {
-      const backendOverride = backendMap.get(config.id);
-      if (backendOverride) {
-        // Merge: backend properties override module properties
-        Object.assign(config, backendOverride);
-      }
-    });
-
-    // Add any backend configs that don't exist in modules
-    backendConfigs.forEach(backendConfig => {
-      if (!merged.some(config => config.id === backendConfig.id)) {
-        merged.push(backendConfig);
-      }
-    });
-
-    return merged;
-  } catch (error) {
-    console.error("Error merging menu configs:", error, { moduleConfigs, backendConfigs });
-    return moduleConfigs;  // Fallback
+function getMenuText(text, intl) {
+  if (React.isValidElement(text)) {
+    return text;
+  }
+  if (text) {
+    const [module, ...rest] = text.split('.');
+    const message = rest.join('.').trim();   // rejoin the rest with dots
+    const fallback = intl.formatMessage({ module: module, id: message, defaultMessage: text });
+    return intl.formatMessage({  id: text, defaultMessage: fallback });
   }
 }
 
-function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
-  // Collect all declarative menu configs from modules
-  const moduleMenuConfigs = modulesManager.getContribs("fe-core.menus");
+function GetRightsFromId(conf, routes, id) {
+  return conf || routes[id]?.rights;
+}
+function GetTextFromId(conf, routes, id) {
+  return conf || routes[id]?.text;
+}
+function GetRouteFromId(conf, routes, id) {
+  return conf || routes[id]?.path;
+}
+function GetIconFromId(conf, routes, id) {
+  return conf || routes[id]?.icon;
+}
 
+export function prepareMenuEntries(modulesManager, menuConfig, rights, intl, entries, routes) {
+  const rightsSet = new Set(rights.map(r => String(r)))
+
+  // Filter entries by rights and convert icon strings to components
+  const filteredEntries = entries
+    .filter((entry) => {
+      const routeRef = entry.route || entry.id;
+      const entryRights = GetRightsFromId(entry.rights, routes, routeRef );
+      return (routeRef !== undefined) && (!entryRights || entryRights.some(er => rightsSet.has(String(er))));
+    })
+    .map((entry) => ({
+      ...entry,
+      icon: GetIconComponent(GetIconFromId(entry.icon, routes, entry.route || entry.id)),
+      text: getMenuText(GetTextFromId(entry.text, routes, entry.route || entry.id), intl),
+      route: "/" + GetRouteFromId(entry.route, routes, entry.id)
+    }));
+
+  // Sort by position (default 99 if missing; stable for duplicates)
+  filteredEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
+
+  return filteredEntries;
+}
+
+
+
+
+function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   // Get backend overrides
   const backendMenuConfigs = modulesManager.getConf("fe-core", "menus", []);
-
-  // Merge: modules as base, backend as overrides
-  const menuConfigs = mergeMenuConfigs(moduleMenuConfigs, backendMenuConfigs);
-
+  const routes = modulesManager.getRoutes()
+  // get default entries
+  const menuEntries = modulesManager.getMenuEntries();
+  const unsortedMenuEntries = backendMenuConfigs.length > 0 ? backendMenuConfigs : menuEntries;
   // Default contributionKey to id for all configs (backend/module); override if specified
-  menuConfigs.forEach(config => {
+  unsortedMenuEntries.forEach(config => {
     if (!config.contributionKey) {
       config.contributionKey = config.id;  // Use id as key to pull submenus, e.g., "individual.MainMenu"
     }
     if (!config.entries && !config.contributionKey) {
       console.warn(`Menu ${config.id} has no entries or valid contributionKey.`);
     }
+    config.text = getMenuText(config.text, intl)
+
   });
-
   // Sort by position (default 99 if missing; stable for duplicates)
-  const sortedMenuConfigs = menuConfigs.sort((a, b) => (a.position || 99) - (b.position || 99));
-
+  const sortedMenuConfigs = unsortedMenuEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
+  const mainMenuVariant = "icon_text"
   // Get all menu entries for active menu detection
-  const menuEntries = modulesManager.getMenuEntries();
-  const activeMenuId = findActiveMenuId(sortedMenuConfigs, menuEntries);
+  const activeMenuId = findActiveMenuId(sortedMenuConfigs);
 
   // Process each menu config into a MainMenuContribution component
-  const menuComponents = sortedMenuConfigs
+  const menuComponents = sortedMenuConfigs.filter(m => m.text !== undefined )
     .map((config) => {
-      // Collect base entries from config
-      let entries = [...(config.entries || [])];
-
-      // Add contributions from other modules if contributionKey is specified
-      if (config.contributionKey) {
-        const contributedEntries = modulesManager.getContribs(config.contributionKey);
-        entries = [...entries, ...contributedEntries];
-      }
-
-      // Fallback: If no contributions, generate entries from submenus
-      if (entries.length === 0 && config.submenus && Array.isArray(config.submenus)) {
-        entries = config.submenus.map(submenu => ({
-          id: submenu.id,
-          position: submenu.position || 99,
-          icon: typeof submenu.icon === 'string' ? GetIconComponent(submenu.icon) : submenu.icon,
-          route: deriveRoute(config.id, submenu.id),  // e.g., /clientRegistry/individual.groups
-          text: intl.formatMessage({ id: submenu.id, defaultMessage: deriveText(submenu.id) }),  // Derive text from id
-          rights: submenu.rights || deriveRights(config.id, submenu.id),  // e.g., ['clientRegistry.individual.groups']
-          filter: submenu.rights ? (rights) => rights.some(r => submenu.rights.includes(r)) : () => true
-        }));
-        //console.warn(`Generated entries from submenus for new menu ${config.id}.`);
-      }
-
-      // If still empty, warn
-      if (entries.length === 0) {
-        console.warn(`New main menu ${config.id} has no entries or contributionKey submenus.`);
-      }
-
-      // Filter entries by rights and convert ico n strings to components
-      const filteredEntries = entries
-        .filter((entry) => !entry.filter || entry.filter(rights))
-        .map((entry) => ({
-          ...entry,
-          icon: typeof entry.icon === 'string' ? GetIconComponent(entry.icon) : entry.icon
-        }));
+      const filteredEntries = prepareMenuEntries(modulesManager, config, rights, intl, config.entries, routes);
 
       // Skip empty menus
       if (!filteredEntries.length) return null;
 
       // Resolve icon
-      const IconComponent = typeof config.icon === 'string' ? GetIconComponent(config.icon) : config.icon;
+      const IconComponent = GetIconComponent(config.icon);
+
 
       return (
         <MainMenuContribution
           key={config.id}
+          mainMenuVariant={mainMenuVariant}
           menuVariant={menuVariant}
-          header={config.name} // Will be translated by MainMenuContribution
+          header={config.text}
           menuId={config.id}
           modulesManager={modulesManager}
           rights={rights}
@@ -134,38 +115,11 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
     })
     .filter(Boolean);
 
-  // BACKWARD COMPATIBILITY: Include old-style core.MainMenu components
-  // that don't have a matching fe-core.menus config
-  const oldStyleMenus = modulesManager.getContribs(key);
-  const existingMenuIds = new Set(sortedMenuConfigs.map(config => config.id));
-  const oldStyleComponents = oldStyleMenus
-    .filter(menu => !existingMenuIds.has(menu.name))
-    .map(menu => menu.component || menu)
-    .filter(Boolean);
-
-  // Combine new declarative menus with old-style components
-  const allComponents = [...menuComponents, ...oldStyleComponents];
-
-  return allComponents;
+  return menuComponents;
 }
 
-const deriveRoute = (menuId, submenuId) => {
-  const module = menuId.replace('.mainMenu', '');
-  return `/${module}/${submenuId}`;
-};
-
-const deriveText = (submenuId) => {
-  // Simple derivation: capitalize and space camelCase
-  return submenuId.split('.').pop().replace(/([A-Z])/g, ' $1').trim();
-};
-
-const deriveRights = (menuId, submenuId) => {
-  const module = menuId.replace('.mainMenu', '');
-  return [`${module}.${submenuId}`];
-};
-
-const findActiveMenuId = (menuConfigs, menuEntries) => {
-  const matchingEntry = menuEntries.find(menuEntryMatchesLocationPath);
+const findActiveMenuId = (menuConfigs) => {
+  const matchingEntry = menuConfigs.find(menuEntryMatchesLocationPath);
 
   if (!matchingEntry) return null;
 

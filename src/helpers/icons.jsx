@@ -12,15 +12,37 @@ const toIconName = (input) => {
   return ICON_MAP[name] || snake;
 };
 
-const MaterialIconSpan = ({ name, className = 'material-icons', style = {}, ...props }) => (
+const MaterialSymbolsSpan = ({ name, className = 'material-symbols-outlined', style = {}, ...props }) => (
   <span className={className} style={{ fontSize: 'inherit', verticalAlign: 'middle', ...style }} {...props}>
     {name}
   </span>
 );
 
+
 const GetIconComponent = (inputName) => {
-  const iconName = toIconName(inputName);
-  return (props) => <MaterialIconSpan name={iconName} {...props} />;
+  // === Handle null, undefined, or empty values ===
+  if (inputName == null || (typeof inputName === 'string' && !inputName.trim())) {
+    console.warn('GetIconComponent: Received empty/null input → falling back to Add icon');
+
+    return (props) => <MaterialSymbolsSpan name="add" {...props} />
+  }
+
+  // === Already a component ===
+  if ( React.isValidElement(inputName)) {
+    console.log(`GetIconComponent: Received component → ${inputName.displayName || inputName.name || 'Unknown'}`);
+    return inputName;   // return as-is (best for performance)
+  }
+
+  // === String case ===
+  if (typeof inputName === 'string') {
+    const iconName = toIconName(inputName);
+
+    return (props) => <MaterialSymbolsSpan name={iconName} {...props} />
+  }
+
+  // Safety fallback
+  console.warn('GetIconComponent: Unexpected input type', typeof inputName);
+  return (props) => <MaterialSymbolsSpan name="add" {...props} />
 };
 
 export default GetIconComponent;

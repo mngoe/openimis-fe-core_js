@@ -194,7 +194,7 @@ const App = (props) => {
                             <PermissionCheck
                               modulesManager={modulesManager}
                               userRights={rights}
-                              requiredRights={route.requiredRights}
+                              requiredRights={route.rights}
                               {...others}
                             >
                               <route.component modulesManager={modulesManager} {...props} {...others} />

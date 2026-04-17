@@ -233,13 +233,16 @@ class MainMenuContribution extends Component {
 
   appBarMenu = (entries) => {
     const { intl } = this.props;
-    const translatedHeader = intl.formatMessage({ id: this.props.header, defaultMessage: this.props.header });
 
     return (
       <StyledMainMenu>
         <Button ref={this.state.anchorRef} onClick={this.toggleExpanded} className="menuHeading">
-          {translatedHeader}
-          <ExpandMoreIcon />
+          {(this.props.mainMenuVariant === "icon" || this.props.mainMenuVariant === "icon_text") && this.props.icon && (
+            <ListItemIcon>
+              {typeof this.props.icon === 'function' ? (() => { const Icon = this.props.icon; return <Icon />; })() : this.props.icon}
+            </ListItemIcon>
+          )}
+          {(this.props.mainMenuVariant === "text" || this.props.mainMenuVariant === "icon_text") && this.props.header}
         </Button>
         <Popper
           className="popper"
@@ -253,15 +256,12 @@ class MainMenuContribution extends Component {
             <ClickAwayListener onClickAway={this.handleMenuClose}>
               <MenuList>
                 {entries.map((entry, idx) => {
-                  const translatedText = React.isValidElement(entry.text)
-                    ? entry.text  // Already a JSX element (old format)
-                    : intl.formatMessage({ id: entry.text, defaultMessage: entry.text });  // String key (new format)
                   return (
                     <div key={`${this.props.header}_${idx}_menuItem`}>
-                       <MenuItem component={Link} to={entry.route} onClick={(e) => this.handleMenuSelect(e, entry.route)}>
-                         <ListItemIcon>{typeof entry.icon === 'function' ? <entry.icon /> : entry.icon}</ListItemIcon>
-                         <ListItemText primary={translatedText} />
-                       </MenuItem>
+                        <MenuItem component={Link} to={entry.route} onClick={(e) => this.handleMenuSelect(e, entry.route)}>
+                          <ListItemIcon>{typeof entry.icon === 'function' ? (() => { const Icon = entry.icon; return <Icon />; })() : entry.icon}</ListItemIcon>
+                          <ListItemText primary={entry.text} />
+                        </MenuItem>
                       {entry.withDivider && (
                         <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
                       )}
@@ -278,25 +278,20 @@ class MainMenuContribution extends Component {
 
   drawerMenu = (entries) => {
     const { intl } = this.props;
-    const translatedHeader = intl.formatMessage({ id: this.props.header, defaultMessage: this.props.header });
 
     return (
       <StyledMainMenu>
         <Accordion className="panel" expanded={this.state.expanded} onChange={this.toggleExpanded}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id={`${this.props.header}-header`}>
             <Box display="flex" alignItems="center">
-              <Box minWidth={40} display="flex" alignItems="center">
-                {this.props.icon}
-              </Box>
-              <Typography className="drawerHeading">{translatedHeader}</Typography>
+              {this.props.icon && <ListItemIcon>{typeof this.props.icon === 'function' ? (() => { const Icon = this.props.icon; return <Icon />; })() : this.props.icon}</ListItemIcon>}
+              <Typography className="drawerHeading">{this.props.header}</Typography>
+
             </Box>
           </AccordionSummary>
           <AccordionDetails>
             <List component="nav">
               {entries.map((entry, idx) => {
-                const translatedText = React.isValidElement(entry.text)
-                  ? entry.text  // Already a JSX element (old format)
-                  : intl.formatMessage({ id: entry.text, defaultMessage: entry.text });  // String key (new format)
                 return (
                   <Fragment key={`${this.props.header}_${idx}`}>
                     <ListItem
@@ -306,8 +301,8 @@ class MainMenuContribution extends Component {
                       onClick={this.toggleExpanded}
                       selected={menuEntryMatchesLocationPath(entry)}
                     >
-                      {entry.icon && <ListItemIcon>{typeof entry.icon === 'function' ? <entry.icon /> : entry.icon}</ListItemIcon>}
-                      <ListItemText primary={translatedText} />
+                      {entry.icon && <ListItemIcon>{typeof entry.icon === 'function' ? (() => { const Icon = entry.icon; return <Icon />; })() : entry.icon}</ListItemIcon>}
+                      <ListItemText primary={entry.text} />
                     </ListItem>
                     {entry.withDivider && (
                       <Divider key={`${this.props.header}_${idx}_divider`} className="drawerDivider" />
@@ -323,50 +318,15 @@ class MainMenuContribution extends Component {
   };
 
   render() {
-    const { menuVariant, modulesManager, entries, rights, menuId, contributionKey } = this.props;
-
-    // Defensive checks
-    if (!modulesManager) {
-      console.warn("MainMenuContribution: modulesManager is not available");
-      return null;
-    }
-
-    let combinedEntries = entries || [];
-
-    if (contributionKey) {
-      const contribs = modulesManager
-        .getContribs(contributionKey)
-        .filter((c) => !c.filter || c.filter(rights));
-      combinedEntries = [...combinedEntries, ...contribs];
-    }
-
-    if (!combinedEntries || !Array.isArray(combinedEntries)) {
-      console.warn("MainMenuContribution: combined entries is not a valid array");
-      return null;
-    }
-
-    if (!rights || !Array.isArray(rights)) {
-      console.warn("MainMenuContribution: rights is not a valid array");
-      return null;
-    }
-
-    const allEntries = modulesManager.getMenuEntries();
-    if (!allEntries || !Array.isArray(allEntries)) {
-      console.warn("MainMenuContribution: getMenuEntries returned invalid data");
-      return null;
-    }
-
-    const updatedEntries = fetchSubmenuConfig(modulesManager, allEntries, combinedEntries, menuId, rights);
-
+    const { menuVariant, entries } = this.props;
     // Don't render empty menus
-    if (!updatedEntries || updatedEntries.length === 0) {
+    if (!entries || entries.length === 0) {
       return null;
     }
-
     if (menuVariant === "AppBar") {
-      return this.appBarMenu(updatedEntries);
+      return this.appBarMenu(entries);
     } else {
-      return this.drawerMenu(updatedEntries);
+      return this.drawerMenu(entries);
     }
   }
 }
@@ -377,6 +337,7 @@ MainMenuContribution.propTypes = {
   history: PropTypes.object.isRequired,
   menuId: PropTypes.string.isRequired,
   contributionKey: PropTypes.string,
+  mainMenuEntryVariant: PropTypes.oneOf(["icon", "text", "icon_text"]),
 };
 
 export { StyledMainMenu };

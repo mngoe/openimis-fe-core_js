@@ -12,7 +12,6 @@ import SubstitutionEnrolmentOfficerPicker from "./admin/components/pickers/Subst
 import UserRolesPicker from "./admin/components/pickers/UserRolesPicker";
 import UserTypesPicker from "./admin/components/pickers/UserTypesPicker";
 import PaymentPointManagerPicker from "./admin/components/pickers/PaymentPointManagerPicker";
-import AdminMainMenu from "./admin/components/AdminMainMenu";
 import adminReducer from "./admin/reducer";
 import { USER_PICKER_PROJECTION } from "./admin/actions";
 import {
@@ -168,6 +167,7 @@ import RegistersStatusReport from "./reports/RegistersStatusReport";
 import SearcherActionButton from "./components/generics/SearcherActionButton";
 import InfoButton from "./components/generics/InfoButton";
 import LoginPage from "./pages/LoginPage";
+import LogoutPage from "./pages/LogoutPage";
 
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
@@ -245,15 +245,24 @@ const DEFAULT_CONFIG = {
   ],
   "core.Boot": [RefreshAuthToken],
   "core.Router": [
-    { path: ROUTE_ROLES, component: Roles },
-    { path: ROUTE_ROLE + "/:role_uuid?", component: Role },
+    { 
+      path: ROUTE_ROLES,
+      text: "core.roleManagement.label",
+      id: "admin.roleManagement",
+      component: Roles,
+      rights: [RIGHT_ROLE_SEARCH],
+      icon: "AccountBox" 
+    },
+    { path: ROUTE_ROLE + "/:role_uuid?", component: Role, rights: [RIGHT_ROLE_SEARCH], icon: "AccountBox" },
     // Admin routes
-    { path: ROUTE_ADMIN_USERS, component: UsersPage },
-    { path: ROUTE_ADMIN_USER_NEW, component: UserPage },
-    { path: `${ROUTE_ADMIN_USER_OVERVIEW}/:user_id`, component: UserPage },
+    { path: ROUTE_ADMIN_USERS, text: "admin.menu.users", id: "admin.users", component: UsersPage, rights: [RIGHT_USERS], icon: "Person" },
+    { path: ROUTE_ADMIN_USER_NEW, component: UserPage, rights: [RIGHT_USERS], icon: "Person" },
+    { path: `${ROUTE_ADMIN_USER_OVERVIEW}/:user_id`, component: UserPage, rights: [RIGHT_USERS], icon: "Person" },
+    { path: "logout", component: LogoutPage, exact: true },
   ],
-  "core.MainMenu": [{ name: "AdminMainMenu", component: AdminMainMenu }],
+  "core.MainMenu": [{ name: "AdminMainMenu", id: "admin.MainMenu", text: "admin.mainMenu", icon: "LocationCity"}],
   "fe-core.menus": [],
+  "fe-core.menu_strategy": "default",
   "invoice.SubjectAndThirdpartyPicker": [
     {
       type: "user",
@@ -263,18 +272,11 @@ const DEFAULT_CONFIG = {
   ],
   "admin.MainMenu": [
     {
-      text: <FormattedMessage module="core" id="roleManagement.label" />,
-      icon: <AccountBox />,
-      route: "/" + ROUTE_ROLES,
-      filter: (rights) => rights.includes(RIGHT_ROLE_SEARCH),
-      id: "admin.roleManagement",
+      route:  ROUTE_ROLES,
     },
     {
-      text: <FormattedMessage module="admin" id="menu.users" />,
-      icon: <Person />,
-      route: "/admin/users",
-      filter: (rights) => rights.includes(RIGHT_USERS),
-      id: "admin.users",
+      route:  ROUTE_ADMIN_USERS,
+      withDivider: true,
     },
   ],
 };
