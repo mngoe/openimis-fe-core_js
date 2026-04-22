@@ -263,7 +263,9 @@ export function graphqlMutation(
 export function fetch(config) {
   const csrfToken = localStorage.getItem("csrfToken");
 
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const impersonatedUser = state.core?.impersonatedUser;
     let action;
 
     try {
@@ -274,6 +276,7 @@ export function fetch(config) {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": csrfToken,
+            ...(impersonatedUser && { "X-Impersonate-User": impersonatedUser.uuid }),
             ...config.headers,
           },
         },
@@ -693,6 +696,18 @@ export function changeUserLanguage(language, clientMutationLabel) {
     clientMutationLabel,
     requestedDateTime,
   });
+}
+
+export function impersonateUser(user) {
+  return (dispatch) => {
+    dispatch({ type: "CORE_IMPERSONATE_USER", payload: user });
+  };
+}
+
+export function stopImpersonation() {
+  return (dispatch) => {
+    dispatch({ type: "CORE_STOP_IMPERSONATION" });
+  };
 }
 
 // Re-export API helpers

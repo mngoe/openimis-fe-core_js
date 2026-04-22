@@ -29,7 +29,10 @@ import LanguageQuickPicker from "../pickers/LanguageQuickPicker";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Switch } from "@mui/material";
 import { useTranslations } from "../helpers/i18n";
-import { DEFAULT } from "../constants";
+import { DEFAULT, RIGHT_USERS } from "../admin/constants";
+import { useDispatch, useSelector } from "react-redux";
+import UserPicker from "../admin/components/pickers/UserPicker";
+import { impersonateUser, stopImpersonation } from "../actions";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
@@ -338,6 +341,9 @@ const RequireAuth = (props) => {
     return typeof variant === "string" && variant.trim().toUpperCase() === "APPBAR";
   }, [theme.menu?.variant]);
 
+  const dispatch = useDispatch();
+  const impersonatedUser = useSelector(state => state.core.impersonatedUser);
+
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;
   }
@@ -350,6 +356,21 @@ const RequireAuth = (props) => {
             <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
               <div className="grow" />
             </Contributions>
+            {auth.user?.is_superuser && (
+              <UserPicker
+                onChange={(user) => {
+                  if (user) {
+                    dispatch(impersonateUser(user));
+                  } else {
+                    dispatch(stopImpersonation());
+                  }
+                }}
+                value={impersonatedUser}
+                withLabel={false}
+                placeholder="Impersonate user"
+                multiple={false}
+              />
+            )}
             <LogoutButton className="toolbarDrawerLogout" />
             <Help />
           </Toolbar>
@@ -443,6 +464,21 @@ const RequireAuth = (props) => {
               contributionKey={ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY}
               onEconomicDialogOpen={onEconomicDialogOpen}
             />
+            {auth.user?.is_superuser && (
+              <UserPicker
+                onChange={(user) => {
+                  if (user) {
+                    dispatch(impersonateUser(user));
+                  } else {
+                    dispatch(stopImpersonation());
+                  }
+                }}
+                value={impersonatedUser}
+                withLabel={false}
+                placeholder="Impersonate user"
+                multiple={false}
+              />
+            )}
             <LogoutButton />
             <Help />
           </Box>
