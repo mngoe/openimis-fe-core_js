@@ -190,6 +190,10 @@ class Roles extends Component {
     }
   };
 
+  onUpdate = (role) => this.onDoubleClick(role, false);
+
+  onDuplicate = (role) => historyPush(this.props.modulesManager, this.props.history, "core.route.role", [role.uuid], false, `?${QUERY_STRING_DUPLICATE}`);
+
   fetch = (params) => this.props.fetchRoles(params);
 
   headers = (filters) => {
@@ -313,7 +317,7 @@ class Roles extends Component {
 
   isRowLocked = (_, role) => this.state.deleted.includes(role.id);
 
-  isOnDoubleClickEnabled = (role) => !this.isRowDisabled(_, role);
+  isOnDoubleClickEnabled = (role) => !this.isRowDisabled(null, role);
 
   componentDidMount = () => {
     const { module } = this.props;
