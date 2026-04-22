@@ -6,8 +6,9 @@ const ICON_MAP = {
 
 const toIconName = (input) => {
   let name = input.replace(/Icon$/, ''); // Strip 'Icon' suffix if present
+  name = name.replace(/Outlined$/, ''); // Strip 'Icon' suffix if present
   // Convert PascalCase to snake_case: split on capitals
-  const parts = name.match(/[A-Z][a-z]*/g) || [name];
+  const parts = name.match(/[A-Z][a-z0-9]*/g) || [name];
   const snake = parts.map(p => p.toLowerCase()).join('_');
   return ICON_MAP[name] || snake;
 };
@@ -36,6 +37,7 @@ const GetIconComponent = (inputName) => {
   // === String case ===
   if (typeof inputName === 'string') {
     const iconName = toIconName(inputName);
+
 
     return (props) => <MaterialSymbolsSpan name={iconName} {...props} />
   }

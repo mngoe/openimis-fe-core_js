@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import GetIconComponent from "../../helpers/icons";
 
 import { Box, CircularProgress, InputAdornment } from "@mui/material";
-const CheckOutlinedIcon = GetIconComponent("CheckOutlined")
+const CheckOutlinedIcon = GetIconComponent("Check")
 import clsx from "clsx";
 import { debounce } from "lodash";
-const ErrorOutlineOutlinedIcon = GetIconComponent("ErrorOutlineOutlined")
+const ErrorOutlineOutlinedIcon = GetIconComponent("Error")
 
 import TextAreaInput from "./TextAreaInput";
 import { useModulesManager } from "../../helpers/modules";

@@ -16,7 +16,7 @@ function getMenuText(text, intl) {
   }
   if (text) {
     const [module, ...rest] = text.split('.');
-    const message = rest.join('.').trim();   // rejoin the rest with dots
+    const message = rest.join('.').trim() || text;   // rejoin the rest with dots
     const fallback = intl.formatMessage({ module: module, id: message, defaultMessage: text });
     return intl.formatMessage({  id: text, defaultMessage: fallback });
   }
