@@ -276,7 +276,7 @@ export function fetch(config) {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": csrfToken,
-            ...(impersonatedUser && { "X-Impersonate-User": impersonatedUser.uuid }),
+            ...(impersonatedUser && { "X-Impersonate-User": decodeId(impersonatedUser.id) }),
             ...config.headers,
           },
         },
@@ -699,14 +699,16 @@ export function changeUserLanguage(language, clientMutationLabel) {
 }
 
 export function impersonateUser(user) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: "CORE_IMPERSONATE_USER", payload: user });
+    await dispatch(loadUser());
   };
 }
 
 export function stopImpersonation() {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: "CORE_STOP_IMPERSONATION" });
+    await dispatch(loadUser());
   };
 }
 
