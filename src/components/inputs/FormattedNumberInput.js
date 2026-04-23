@@ -38,15 +38,17 @@ class FormattedNumberInput extends Component {
     if (event.key === "." && !allowDecimals) {
       event.preventDefault();
     }
-  };  
+  };
 
   handleChange = (val) => {
-    const raw = val;
-    this.setState({ rawValue: raw });
+    if (!!val) {
+      const raw = val;
+      this.setState({ rawValue: raw });
 
-    const normalized = raw.replace(/\s/g, "").replace(",", ".");
-    const value = parseFloat(normalized);
-    this.props.onChange(isNaN(value) ? undefined : value);
+      const normalized = raw.replace(/\s/g, "").replace(",", ".");
+      const value = parseFloat(normalized);
+      this.props.onChange(isNaN(value) ? undefined : value);
+    }
   };
 
   handleBlur = () => {
