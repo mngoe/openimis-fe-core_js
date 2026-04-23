@@ -1,31 +1,40 @@
 import React from 'react';
 
-const ICON_MAP = {
-  // Exceptions: only add if toIconName doesn't work, e.g., 'SetHead': 'person_pin'
-};
-
 const toIconName = (input) => {
-  let name = input.replace(/Icon$/, ''); // Strip 'Icon' suffix if present
-  name = name.replace(/Outlined$/, ''); // Strip 'Icon' suffix if present
-  // Convert PascalCase to snake_case: split on capitals
-  const parts = name.match(/[A-Z][a-z0-9]*/g) || [name];
-  const snake = parts.map(p => p.toLowerCase()).join('_');
-  return ICON_MAP[name] || snake;
+  let name = input.replace(/Icon$/, '').replace(/Outlined$/, '');
+  let snake = name
+    .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+    .replace(/([a-zA-Z])([0-9]+)/g, '$1_$2')
+    .toLowerCase()
+    .replace(/__+/g, '_');
+  return snake;
 };
 
-const MaterialSymbolsSpan = ({ name, className = 'material-symbols-outlined', style = {}, ...props }) => (
-  <span className={className} style={{ fontSize: 'inherit', verticalAlign: 'middle', ...style }} {...props}>
-    {name}
-  </span>
-);
-
-
-const GetIconComponent = (inputName) => {
+const GetIconComponent = (inputName, options = {}) => {
+    const variant = options.variant || 'outlined';
+    const className = `material-symbols-${variant}`;
+    const transforms = [];
+    if (options.rotate !== undefined) transforms.push(`rotate(${options.rotate}deg)`);
+    if (options.flip === 'horizontal') transforms.push('scaleX(-1)');
+    if (options.flip === 'vertical') transforms.push('scaleY(-1)');
+    const transform = transforms.length > 0 ? transforms.join(' ') : undefined;
+    const style = {
+      fontSize: 'inherit',
+      verticalAlign: 'middle',
+      ...(transform && { transform }),
+      ...options.styleOverrides
+    };
   // === Handle null, undefined, or empty values ===
   if (inputName == null || (typeof inputName === 'string' && !inputName.trim())) {
     console.warn('GetIconComponent: Received empty/null input → falling back to Add icon');
 
-    return (props) => <MaterialSymbolsSpan name="add" {...props} />
+    return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>indeterminate_question_box</span>;
+  }
+
+  // === Already a component function ===
+  if (typeof inputName === 'function') {
+    console.log(`GetIconComponent: Received component function → ${inputName.name || 'Anonymous'}`);
+    return inputName;
   }
 
   // === Already a component ===
@@ -39,12 +48,12 @@ const GetIconComponent = (inputName) => {
     const iconName = toIconName(inputName);
 
 
-    return (props) => <MaterialSymbolsSpan name={iconName} {...props} />
+    return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>{iconName}</span>;
   }
 
   // Safety fallback
   console.warn('GetIconComponent: Unexpected input type', typeof inputName);
-  return (props) => <MaterialSymbolsSpan name="add" {...props} />
+  return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>indeterminate_question_box</span>;
 };
 
 export default GetIconComponent;

@@ -1,4 +1,5 @@
 import App from "./components/App";
+import AppBarIconButton from "./components/AppBarIconButton";
 import React from "react";
 import messages_en from "./translations/en.json";
 import messages_admin_en from "./admin/translations/en.json";
@@ -414,6 +415,7 @@ export {
   useToast,
   InfoButton,
   usePublicPageLanguage,
+  AppBarIconButton,
   LoginPage,
   GRID_RESPONSIVE_STANDARD,
   GRID_RESPONSIVE_SMALL,

@@ -8,55 +8,9 @@ import { useToast } from "../helpers/ToastContext";
 import { menuEntryMatchesLocationPath} from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
 import GetIconComponent from "../helpers/icons";
+import {getMenuText, prepareMenuEntries} from "../helpers/utils"
 
 
-function getMenuText(text, intl) {
-  if (React.isValidElement(text)) {
-    return text;
-  }
-  if (text) {
-    const [module, ...rest] = text.split('.');
-    const message = rest.join('.').trim() || text;   // rejoin the rest with dots
-    const fallback = intl.formatMessage({ module: module, id: message, defaultMessage: text });
-    return intl.formatMessage({  id: text, defaultMessage: fallback });
-  }
-}
-
-function GetRightsFromId(conf, routes, id) {
-  return conf || routes[id]?.rights;
-}
-function GetTextFromId(conf, routes, id) {
-  return conf || routes[id]?.text;
-}
-function GetRouteFromId(conf, routes, id) {
-  return conf || routes[id]?.path;
-}
-function GetIconFromId(conf, routes, id) {
-  return conf || routes[id]?.icon;
-}
-
-export function prepareMenuEntries(modulesManager, menuConfig, rights, intl, entries, routes) {
-  const rightsSet = new Set(rights.map(r => String(r)))
-
-  // Filter entries by rights and convert icon strings to components
-  const filteredEntries = entries
-    .filter((entry) => {
-      const routeRef = entry.route || entry.id;
-      const entryRights = GetRightsFromId(entry.rights, routes, routeRef );
-      return (routeRef !== undefined) && (!entryRights || entryRights.some(er => rightsSet.has(String(er))));
-    })
-    .map((entry) => ({
-      ...entry,
-      icon: GetIconComponent(GetIconFromId(entry.icon, routes, entry.route || entry.id)),
-      text: getMenuText(GetTextFromId(entry.text, routes, entry.route || entry.id), intl),
-      route: "/" + GetRouteFromId(entry.route, routes, entry.id)
-    }));
-
-  // Sort by position (default 99 if missing; stable for duplicates)
-  filteredEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
-
-  return filteredEntries;
-}
 
 
 
@@ -88,7 +42,7 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   // Process each menu config into a MainMenuContribution component
   const menuComponents = sortedMenuConfigs.filter(m => m.text !== undefined )
     .map((config) => {
-      const filteredEntries = prepareMenuEntries(modulesManager, config, rights, intl, config.entries, routes);
+      const filteredEntries = prepareMenuEntries(rights, intl, config.entries, routes);
 
       // Skip empty menus
       if (!filteredEntries.length) return null;
