@@ -179,6 +179,7 @@ const ROUTE_ADMIN_USER_OVERVIEW = "admin/users/overview";
 const ROUTE_ADMIN_USER_NEW = "admin/users/new";
 
 const DEFAULT_CONFIG = {
+  "showJournalSidebar": true,
   "translations": [
     { key: "en", messages: messages_en },
     { key: "en", messages: messages_admin_en },

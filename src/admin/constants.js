@@ -24,6 +24,7 @@ export const MODULE_NAME = "user";
 
 export const DEFAULT = {
   RENDER_LAST_NAME_FIRST: true,
+  SHOW_JOURNAL_SIDEBAR: true,
 };
 
 // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
