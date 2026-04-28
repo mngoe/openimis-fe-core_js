@@ -81,7 +81,7 @@ export function useTranslations(moduleName, modulesManager) {
   return {
     formatDateFromISO: formatDateFromISO.bind(null, modulesManager, intl),
     formatDateTimeFromISO: formatDateTimeFromISO.bind(null, modulesManager, intl),
-    formatAmount: formatAmount.bind(null, intl),
+    formatAmount: formatAmount.bind(null, modulesManager, intl),
     formatMessage: moduleName ? formatMessage.bind(null, intl, moduleName) : formatMessage.bind(null, intl),
     formatMessageWithValues: moduleName
       ? formatMessageWithValues.bind(null, intl, moduleName)
