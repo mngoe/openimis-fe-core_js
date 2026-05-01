@@ -16,20 +16,43 @@ class FormattedNumberInput extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.value !== this.props.value && !this.state.isEdited) {
-      this.setState({
-        rawValue: this.props.value != null
-          ? this.formatNumber(this.props.value, this.props.intl)
-          : "",
-      });
+    const { value, intl } = this.props;
+    const { isEdited, rawValue } = this.state;
+    const valueChanged = !Object.is(prevProps.value, value);
+    const hasValue = value !== null && value !== undefined;
+    if (valueChanged && isEdited === false) {
+      const formattedValue = hasValue
+        ? this.formatNumber(value, intl)
+        : "";
+      if (formattedValue !== rawValue) {
+        this.setState({ rawValue: formattedValue });
+      }
     }
   }
+  
+  normalizeNumberInput = (raw) => {
+    if (!raw) return "";
+    let normalized = raw.replace(/\s/g, "");
+    const hasComma = normalized.includes(",");
+    const hasDot = normalized.includes(".");
+    if (hasComma && hasDot) {
+      normalized = normalized.replace(/,/g, "");
+    } else if (hasComma && !hasDot) {
+      const parts = normalized.split(",");
+      if (parts[1]?.length === 3) {
+        normalized = normalized.replace(/,/g, "");
+      } else {
+        normalized = normalized.replace(",", ".");
+      }
+    }
+    return normalized;
+  };
 
   formatNumber = (value, intl) => {
-    if (value == null || isNaN(value)) return "";
+    if (!value || Number.isNaN(value)) return "";
     return new Intl.NumberFormat(this.props.thousandSeparator, {
-      minimumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
-      maximumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
+      minimumFractionDigits: this.props.allowDecimals ? this.props.numberOfDecimals : 0,
+      maximumFractionDigits: this.props.allowDecimals ? this.props.numberOfDecimals : 0,
     }).format(value);
   };
 
@@ -38,36 +61,34 @@ class FormattedNumberInput extends Component {
     if (event.key === "." && !allowDecimals) {
       event.preventDefault();
     }
-  };  
+  };
 
   handleChange = (val) => {
     const raw = val;
     this.setState({ rawValue: raw });
-
-    const normalized = raw.replace(/\s/g, "").replace(",", ".");
-    const value = parseFloat(normalized);
-    this.props.onChange(isNaN(value) ? undefined : value);
+    const normalized = this.normalizeNumberInput(raw);
+    const value = Number.parseFloat(normalized);
+    if (!Object.is(value, this.props.value)) {
+      this.props.onChange(Number.isNaN(value) ? undefined : value);
+    }
   };
 
   handleBlur = () => {
     const { intl, displayNa } = this.props;
-    const { rawValue } = this.state;
-
+    const { rawValue } = this.state
     this.setState({ isEdited: false });
-
-    if ((rawValue === "" || isNaN(Number(rawValue))) && displayNa) {
+    const normalized = this.normalizeNumberInput(rawValue);
+    const number = Number.parseFloat(normalized);
+    if ((rawValue === "" || Number.isNaN(number)) && displayNa) {
       this.setState({
         rawValue: formatMessage(intl, this.props.module, "core.NumberInput.notApplicable"),
       });
       return;
     }
-
-    const number = parseFloat(rawValue.replace(/\s/g, "").replace(",", "."));
     if (isNaN(number)) {
       this.setState({ rawValue: "" });
       return;
     }
-
     this.setState({ rawValue: this.formatNumber(number, intl) });
   };
 
@@ -85,7 +106,6 @@ class FormattedNumberInput extends Component {
       allowDecimals = true,
       thousandSeparator,
       numberOfDecimals,
-      pricesAreDecimal,
       ...others
     } = this.props;
 
@@ -97,7 +117,9 @@ class FormattedNumberInput extends Component {
 
     let err = error;
 
-    const numericValue = parseFloat(this.state.rawValue.replace(/\s/g, "").replace(",", "."));
+    const normalized = this.normalizeNumberInput(this.state.rawValue);
+    const numericValue = Number.parseFloat(normalized);
+
     if (min != null && numericValue < min) {
       err = formatMessageWithValues(intl, module, "validation.minValue", { value: numericValue, min });
     }
