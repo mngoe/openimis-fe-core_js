@@ -288,6 +288,7 @@ None
 - `secondCalendarLocale`: locale for secondary calendar picker (if enabled), default "nepali_en",
 - `Input.disabledVisibilityBoost`: This setting enhances the visibility of disabled input fields (e.g., text/number inputs, date pickers). When set to **true**, the label color changes to `#181716`, and the input value color to `#5E5B50`. The default is **false**.
 - `limitMutationLogsQuery`: This config to enalble or disable fetchMutationLogs query mutation in core,
+- 'shouldFetchInitially' : (bool: true or false ) This config will enable or disable default search (onload in Searcher component) to avoid unnecessary loading until user clicks on filter. Disables if it is set to false.
 
 ## Main Menu and Submenu Configuration
 
