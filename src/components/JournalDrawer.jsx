@@ -31,6 +31,7 @@ const ExpandLessIcon = GetIconComponent("ExpandLess")
 const ExpandMoreIcon = GetIconComponent("ExpandMore")
 import { fetchMutation, fetchHistoricalMutations } from "../actions";
 import withModulesManager from "../helpers/modules";
+import { getLocalStorage, setLocalStorage } from "../helpers/useLocalStorage";
 import moment from "moment";
 import _ from "lodash";
 import { CLAIM_STATS_ORDER, GLOBAL_UNDERSCORE, REQUEST_LIMIT, WHITE_SPACE } from "../constants";
@@ -305,7 +306,7 @@ class JournalDrawer extends Component {
     var clientMutationIds = this.state.displayedMutations.filter((m) => m.status === 0).map((m) => m.clientMutationId);
     //TODO: change for a "fetchMutationS(ids)"  > requires id_In backend implementation
     if(this.state.limitMutationLogsQuery){
-      var mutationLogs = localStorage.getItem('arrayMutations');
+      var mutationLogs = getLocalStorage('arrayMutations');
       if(mutationLogs==null){
         mutationLogs = {};
         mutationLogs.arrayMutations = [];
@@ -316,9 +317,9 @@ class JournalDrawer extends Component {
             time: 0
           });
         });
-        localStorage.setItem('arrayMutations', JSON.stringify(mutationLogs));
+        setLocalStorage('arrayMutations', mutationLogs);
       }else{
-        let parsedJson = JSON.parse(mutationLogs);
+        let parsedJson = mutationLogs; // already parsed by getLocalStorage
       for (let i = 0; i < parsedJson.arrayMutations.length; i++) {
         let mutationLog = parsedJson.arrayMutations[i];
         if(!clientMutationIds.includes(mutationLog.id)){
@@ -353,7 +354,7 @@ class JournalDrawer extends Component {
             })
           }
         }
-        localStorage.setItem('arrayMutations', JSON.stringify(parsedJson));
+        setLocalStorage('arrayMutations', parsedJson);
       }
     }else{
       clientMutationIds.forEach((id) => this.props.fetchMutation(id));

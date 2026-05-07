@@ -136,6 +136,13 @@ import {
   useAuthentication,
   useUserQuery,
 } from "./helpers/hooks";
+import {
+  useLocalStorage,
+  getLocalStorage,
+  setLocalStorage,
+  removeLocalStorage,
+  clearLocalStorage,
+} from "./helpers/useLocalStorage";
 import withHistory, {
   historyPush,
   useLocation,
@@ -407,6 +414,11 @@ export {
   ConfirmDialog,
   useAuthentication,
   useBoolean,
+  useLocalStorage,
+  getLocalStorage,
+  setLocalStorage,
+  removeLocalStorage,
+  clearLocalStorage,
   CLEARED_STATE_FILTER,
   createFieldsBasedOnJSON,
   renderInputComponent,

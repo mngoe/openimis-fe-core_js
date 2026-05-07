@@ -11,6 +11,7 @@ import {
   decodeId,
 } from "./helpers/api";
 import * as Sentry from "@sentry/react";
+import { getLocalStorage, setLocalStorage } from "./helpers/useLocalStorage";
 
 const REQUESTED_WITH = "webapp";
 
@@ -261,7 +262,7 @@ export function graphqlMutation(
 }
 
 export function fetch(config) {
-  const csrfToken = localStorage.getItem("csrfToken");
+  const csrfToken = getLocalStorage("csrfToken");
 
   return async (dispatch, getState) => {
     const state = getState();
@@ -397,7 +398,7 @@ export function login(credentials) {
         const csrfResponse = await dispatch(fetchCsrfToken(jwtToken));
         const csrfToken = csrfResponse?.payload?.data?.getCsrfToken?.csrfToken;
         if (csrfToken) {
-          localStorage.setItem("csrfToken", csrfToken);
+          setLocalStorage("csrfToken", csrfToken);
         }
 
         const action = await dispatch(loadUser());

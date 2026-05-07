@@ -2,6 +2,7 @@ import { baseApiUrl, logout } from "../actions";
 import { SAML_LOGOUT_PATH } from "../constants";
 import GetIconComponent from "./icons"
 import React from "react";
+import { clearLocalStorage } from "./useLocalStorage";
 
 export const ensureArray = (maybeArray) => {
   if (Array.isArray(maybeArray)) {
@@ -95,13 +96,13 @@ export function getTimeDifferenceInDaysFromToday(dateToCheck) {
 }
 
 export const onLogout = async (dispatch) => {
-  localStorage.clear();
+  clearLocalStorage();
   await dispatch(logout());
 };
 
 export const redirectToSamlLogout = (e) => {
   e.preventDefault();
-  localStorage.clear();
+  clearLocalStorage();
   const redirectToURL = new URL(`${window.location.origin}${baseApiUrl}${SAML_LOGOUT_PATH}`);
 
   window.location.href = redirectToURL.href;

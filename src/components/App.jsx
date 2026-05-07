@@ -15,6 +15,7 @@ import { bindActionCreators } from "redux";
 import Contributions from "./generics/Contributions";
 import LoginPage from "../pages/LoginPage";
 import { useAuthentication, useBoolean } from "../helpers/hooks";
+import { useLocalStorage, setLocalStorage } from "../helpers/useLocalStorage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SetPasswordPage from "../pages/SetPasswordPage";
 import { onLogout } from "../helpers/utils";
@@ -64,6 +65,7 @@ const App = (props) => {
 
   const [economicUnitDialogOpen, setEconomicUnitDialogOpen] = useState(false);
   const [isSecondaryCalendar, setSecondaryCalendar] = useBoolean(true);
+  const [economicUnit] = useLocalStorage(ECONOMIC_UNIT_STORAGE_KEY, null);
 
   const auth = useAuthentication();
   const routes = useMemo(() => {
@@ -112,7 +114,7 @@ const App = (props) => {
       economicUnitConfig &&
       userHasModalRight &&
       auth.isAuthenticated &&
-      !localStorage.getItem(ECONOMIC_UNIT_STORAGE_KEY)
+      !economicUnit
     ) {
       setEconomicUnitDialogOpen(true);
     }
@@ -120,10 +122,10 @@ const App = (props) => {
     if (!economicUnitConfig || (economicUnitConfig && !auth.isAuthenticated)) {
       setEconomicUnitDialogOpen(false);
     }
-  }, [auth, economicUnitDialogOpen, user]);
+  }, [auth, economicUnitDialogOpen, user, economicUnit]);
 
   useEffect(() => {
-    localStorage.setItem("isSecondaryCalendarEnabled", JSON.stringify(!isSecondaryCalendar));
+    setLocalStorage("isSecondaryCalendarEnabled", !isSecondaryCalendar);
     toggleCurrentCalendarType(!isSecondaryCalendar);
   }, [isSecondaryCalendar]);
 
