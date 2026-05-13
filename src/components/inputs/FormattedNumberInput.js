@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextInput from "./TextInput";
 import { injectIntl } from "react-intl";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
+import { getDecimalPlaces } from "../../helpers/utils";
 import { withModulesManager } from "@openimis/fe-core";
 
 class FormattedNumberInput extends Component {
@@ -27,15 +28,20 @@ class FormattedNumberInput extends Component {
 
   formatNumber = (value, intl) => {
     if (value == null || isNaN(value)) return "";
-    return new Intl.NumberFormat(this.props.thousandSeparator, {
-      minimumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
-      maximumFractionDigits: this.props.pricesAreDecimal ? this.props.numberOfDecimals : 0,
+
+    const { numberOfDecimals, thousandSeparator } = this.props;
+    const decimals = numberOfDecimals === undefined
+      ? getDecimalPlaces(value)
+      : numberOfDecimals;
+
+    return new Intl.NumberFormat(thousandSeparator, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
     }).format(value);
   };
 
   handleKeyPress = (event) => {
-    const { allowDecimals = true } = this.props;
-    if (event.key === "." && !allowDecimals) {
+    if (event.key === "." && this.props.numberOfDecimals === 0) {
       event.preventDefault();
     }
   };  
@@ -82,10 +88,8 @@ class FormattedNumberInput extends Component {
       min = null,
       max = null,
       error,
-      allowDecimals = true,
       thousandSeparator,
       numberOfDecimals,
-      pricesAreDecimal,
       ...others
     } = this.props;
 

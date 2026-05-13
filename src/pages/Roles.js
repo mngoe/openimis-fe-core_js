@@ -170,16 +170,24 @@ class Roles extends Component {
     if (prevProps.submittingMutation && !this.props.submittingMutation) {
       this.props.journalize(this.props.mutation);
       this.setState((state) => ({ deleted: state.deleted.concat(state.toDelete) }));
-    } else if (prevProps.confirmed !== this.props.confirmed && !!this.props.confirmed && !!this.state.confirmedAction) {
+    } else if (
+      prevProps.confirmed !== this.props.confirmed &&
+      !!this.props.confirmed &&
+      typeof this.state.confirmedAction === "function"
+    ) {
       this.state.confirmedAction();
     }
   }
 
+  onDuplicate = (role) => {
+    historyPush(this.props.modulesManager, this.props.history, "core.route.role", [`${role?.uuid}?${QUERY_STRING_DUPLICATE}`]);
+  }
+
+  onUpdate = (role) => {
+    historyPush(this.props.modulesManager, this.props.history, "core.route.role", [role?.uuid])
+  }
+
   onAdd = () => historyPush(this.props.modulesManager, this.props.history, "core.route.role");
-
-  roleUpdatePageUrl = (role) => `${this.props.modulesManager.getRef("core.route.role")}${"/" + role.uuid}`;
-
-  roleDuplicatePageUrl = (role) => `${this.roleUpdatePageUrl(role)}?${QUERY_STRING_DUPLICATE}`;
 
   onDoubleClick = (role, newTab = false) => {
     const { rights, modulesManager, history } = this.props;
