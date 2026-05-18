@@ -7,7 +7,7 @@ import { withTheme, withStyles } from "@material-ui/core/styles";
 import { YoutubeSearchedFor as ResetFilterIcon, Search as DefaultSearchIcon } from "@material-ui/icons";
 
 import { SearcherActionButton } from "@openimis/fe-core";
-import { DEFAULT_DEBOUNCE_TIME } from "../../constants";
+import { DEFAULT_DEBOUNCE_TIME, ENTER_KEY } from "../../constants";
 import { formatMessage } from "../../helpers/i18n";
 import AdvancedFiltersDialog from "../dialogs/AdvancedFiltersDialog";
 import FormattedMessage from "./FormattedMessage";
@@ -26,6 +26,22 @@ class SearcherPane extends Component {
     const { refresh = () => {}, reset = () => {} } = this.props;
     this.debouncedRefresh = _debounce(refresh, DEFAULT_DEBOUNCE_TIME);
     this.debouncedReset = _debounce(reset, DEFAULT_DEBOUNCE_TIME);
+  }
+
+  handleKeyDown = (event) => {
+    if (event.key === ENTER_KEY) {
+      if(!event.target.value){
+        this.debouncedRefresh();
+      }
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
   }
 
   render() {
