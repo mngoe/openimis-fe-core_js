@@ -28,7 +28,7 @@ import Contributions from "./Contributions";
 import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";
 import Table from "./Table";
-import { CLEARED_STATE_FILTER } from "../../constants";
+import { CLEARED_STATE_FILTER, ENTER_KEY } from "../../constants";
 import ExportColumnsDialog from "../dialogs/ExportColumnsDialog";
 
 const styles = (theme) => ({
@@ -199,6 +199,7 @@ class Searcher extends Component {
   };
 
   componentDidMount() {
+    document.addEventListener("keypress", this.handleEnter);
     const cacheKey = this._getCacheKey();
     var filters = this.props.filtersCache[cacheKey] || this.props.defaultFilters || {};
     this.setState(
@@ -282,7 +283,8 @@ class Searcher extends Component {
   };
 
   handleEnter = (event) => {
-    if (event.key == "Enter") {
+    const activeName = document.activeElement.name;
+    if (event.key === ENTER_KEY && !!activeName && activeName != 'enquiryField') {
       let filters = { ...this.state.filters };
       this.setState({ filters }, (e) => this.applyFilters())
     }
