@@ -30,7 +30,6 @@ var _$1 = require('lodash');
 var SortIcon = require('@material-ui/icons/UnfoldMore');
 var SortAscIcon = require('@material-ui/icons/ExpandLess');
 var ExpandMoreIcon = require('@material-ui/icons/ExpandMore');
-var Sentry = require('@sentry/react');
 var moment = require('moment');
 var _toConsumableArray = require('@babel/runtime/helpers/toConsumableArray');
 var NepaliDate = require('nepali-date-converter');
@@ -126,7 +125,6 @@ var ___default = /*#__PURE__*/_interopDefaultLegacy(_$1);
 var SortIcon__default = /*#__PURE__*/_interopDefaultLegacy(SortIcon);
 var SortAscIcon__default = /*#__PURE__*/_interopDefaultLegacy(SortAscIcon);
 var ExpandMoreIcon__default = /*#__PURE__*/_interopDefaultLegacy(ExpandMoreIcon);
-var Sentry__namespace = /*#__PURE__*/_interopNamespace(Sentry);
 var moment__default = /*#__PURE__*/_interopDefaultLegacy(moment);
 var _toConsumableArray__default = /*#__PURE__*/_interopDefaultLegacy(_toConsumableArray);
 var NepaliDate__default = /*#__PURE__*/_interopDefaultLegacy(NepaliDate);
@@ -775,110 +773,21 @@ function graphqlMutation(mutation, variables) {
   }();
 }
 function fetch$1(config) {
-  var csrfToken = localStorage.getItem("csrfToken");
   return /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee5(dispatch) {
-      var _action, _action2, _action3;
-      var action, errorMessage, endpoint, response, status, statusText, gqlErrors, message, _errorMessage;
       return _regeneratorRuntime__default["default"].wrap(function _callee5$(_context5) {
         while (1) switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
-            return dispatch(_defineProperty__default["default"]({}, reduxApiMiddleware.RSAA, _objectSpread$o(_objectSpread$o({}, config), {}, {
+            return _context5.abrupt("return", dispatch(_defineProperty__default["default"]({}, reduxApiMiddleware.RSAA, _objectSpread$o(_objectSpread$o({}, config), {}, {
               headers: _objectSpread$o({
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": csrfToken
+                "Content-Type": "application/json"
               }, config.headers)
-            })));
-          case 3:
-            action = _context5.sent;
-            _context5.next = 11;
-            break;
-          case 6:
-            _context5.prev = 6;
-            _context5.t0 = _context5["catch"](0);
-            errorMessage = "Server not responding";
-            Sentry__namespace.captureException(new Error(errorMessage), {
-              level: "error",
-              tags: {
-                endpoint: config.endpoint,
-                type: config.method || "unknown-method"
-              },
-              extra: {
-                endpoint: config.endpoint,
-                body: config.body,
-                originalError: _context5.t0
-              }
-            });
-            return _context5.abrupt("return", {
-              error: true,
-              payload: {
-                message: errorMessage
-              }
-            });
-          case 11:
-            endpoint = config.endpoint;
-            response = (_action = action) === null || _action === void 0 || (_action = _action.payload) === null || _action === void 0 ? void 0 : _action.response;
-            status = response === null || response === void 0 ? void 0 : response.status;
-            statusText = response === null || response === void 0 ? void 0 : response.statusText;
-            gqlErrors = response === null || response === void 0 ? void 0 : response.errors;
-            message = ((_action2 = action) === null || _action2 === void 0 || (_action2 = _action2.payload) === null || _action2 === void 0 ? void 0 : _action2.message) || ((_action3 = action) === null || _action3 === void 0 || (_action3 = _action3.error) === null || _action3 === void 0 ? void 0 : _action3.message);
-            if (action.error) {
-              _errorMessage = "";
-              if (!response && !message) {
-                _errorMessage = "Server not responding";
-              }
-              if (status) {
-                _errorMessage = "HTTP ".concat(status, ": ").concat(statusText || "Unknown status");
-              } else if ((gqlErrors === null || gqlErrors === void 0 ? void 0 : gqlErrors.length) > 0) {
-                _errorMessage = "GraphQL Error: ".concat(gqlErrors.map(function (e) {
-                  return e.message;
-                }).join("; "));
-              } else if (message) {
-                _errorMessage = "Network or API Error: ".concat(message);
-              } else {
-                _errorMessage = "Unknown error during API call";
-              }
-              Sentry__namespace.captureException(new Error(_errorMessage), {
-                level: "error",
-                tags: {
-                  endpoint: endpoint,
-                  status: status || "no-status",
-                  type: config.method || "unknown-method"
-                },
-                extra: {
-                  endpoint: endpoint,
-                  status: status,
-                  statusText: statusText,
-                  body: config.body,
-                  response: action.payload
-                }
-              });
-            }
-            if (!action.error && gqlErrors && gqlErrors.length > 0) {
-              Sentry__namespace.captureException(new Error("GraphQL Error: ".concat(gqlErrors.map(function (e) {
-                return e.message;
-              }).join("; "))), {
-                level: "error",
-                tags: {
-                  endpoint: endpoint,
-                  type: config.method || "unknown-method"
-                },
-                extra: {
-                  endpoint: endpoint,
-                  errors: gqlErrors,
-                  query: config.body
-                }
-              });
-            }
-            return _context5.abrupt("return", action);
-          case 20:
+            }))));
+          case 1:
           case "end":
             return _context5.stop();
         }
-      }, _callee5, null, [[0, 6]]);
+      }, _callee5);
     }));
     return function (_x5) {
       return _ref5.apply(this, arguments);
@@ -895,7 +804,7 @@ function loadUser() {
 function login(credentials) {
   return /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee6(dispatch) {
-      var mutation, csrfToken, _response$payload3, _action$payload$respo, _action$payload, response, errorMessage, action, _action4$payload$resp, _action4$payload, _action4;
+      var mutation, csrfToken, _response$payload3, _action$payload$respo, _action$payload, response, errorMessage, action, _action$payload$respo2, _action$payload2, _action;
       return _regeneratorRuntime__default["default"].wrap(function _callee6$(_context6) {
         while (1) switch (_context6.prev = _context6.next) {
           case 0:
@@ -953,10 +862,10 @@ function login(credentials) {
             _context6.next = 27;
             return dispatch(loadUser());
           case 27:
-            _action4 = _context6.sent;
+            _action = _context6.sent;
             return _context6.abrupt("return", {
-              loginStatus: _action4.type,
-              message: (_action4$payload$resp = _action4 === null || _action4 === void 0 || (_action4$payload = _action4.payload) === null || _action4$payload === void 0 || (_action4$payload = _action4$payload.response) === null || _action4$payload === void 0 ? void 0 : _action4$payload.detail) !== null && _action4$payload$resp !== void 0 ? _action4$payload$resp : "Error occurred while loading user."
+              loginStatus: _action.type,
+              message: (_action$payload$respo2 = _action === null || _action === void 0 || (_action$payload2 = _action.payload) === null || _action$payload2 === void 0 || (_action$payload2 = _action$payload2.response) === null || _action$payload2 === void 0 ? void 0 : _action$payload2.detail) !== null && _action$payload$respo2 !== void 0 ? _action$payload$respo2 : "Error occurred while loading user."
             });
           case 29:
           case "end":
@@ -8087,8 +7996,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
       }
     });
     _defineProperty__default["default"](_this2, "handleEnter", function (event) {
-      var activeName = document.activeElement.name;
-      if (event.key === ENTER_KEY && !!activeName && activeName != 'enquiryField') {
+      if (event.key == "Enter") {
         var filters = _objectSpread$8({}, _this2.state.filters);
         _this2.setState({
           filters: filters
@@ -8226,7 +8134,6 @@ var Searcher = /*#__PURE__*/function (_Component3) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this3 = this;
-      document.addEventListener("keypress", this.handleEnter);
       var cacheKey = this._getCacheKey();
       var filters = this.props.filtersCache[cacheKey] || this.props.defaultFilters || {};
       this.setState(function (state, props) {
@@ -9185,9 +9092,7 @@ var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
         _this$props$readOnly = _this$props.readOnly,
         readOnly = _this$props$readOnly === void 0 ? false : _this$props$readOnly,
         _this$props$required = _this$props.required,
-        required = _this$props$required === void 0 ? false : _this$props$required,
-        _this$props$onlyConst = _this$props.onlyConstants,
-        onlyConstants = _this$props$onlyConst === void 0 ? false : _this$props$onlyConst;
+        required = _this$props$required === void 0 ? false : _this$props$required;
       var value = this.state.value;
       if (!withNull && value === null && !!!constants) return null;
       var options = withNull ? [{
@@ -9199,7 +9104,7 @@ var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
       }).map(function (v) {
         return {
           value: v,
-          label: onlyConstants ? v : _this2._formatValue(v)
+          label: _this2._formatValue(v)
         };
       })));
       return /*#__PURE__*/React__default["default"].createElement(SelectInput$1, {
