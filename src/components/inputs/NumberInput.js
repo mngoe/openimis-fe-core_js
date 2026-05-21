@@ -93,7 +93,6 @@ class NumberInput extends Component {
             {...this.props} 
             thousandSeparator = {this.thousandSeparator}
             numberOfDecimals = {this.numberOfDecimals}
-            pricesAreDecimal = {this.pricesAreDecimal}
           />
         ) : (
           <TextInput
