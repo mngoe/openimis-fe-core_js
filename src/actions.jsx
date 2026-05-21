@@ -374,7 +374,7 @@ export function fetch(config) {
           originalError: err,
         },
       });
-
+    }
     const endpoint = config.endpoint;
     const response = action?.payload?.response;
     const status = response?.status;
@@ -431,6 +431,7 @@ export function fetch(config) {
 
     return action;
   };
+
 }
 
 export function loadUser() {
