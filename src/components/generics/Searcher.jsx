@@ -19,7 +19,7 @@ import { styled, alpha } from "@mui/material/styles";
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
 
 import { cacheFilters, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
-import { DEFAULT } from "../../constants";
+import { DEFAULT, ENTER_KEY } from "../../constants";
 import { formatSorter, sort } from "../../helpers/api";
 import { formatMessage } from "../../helpers/i18n";
 import withModulesManager from "../../helpers/modules";
@@ -290,6 +290,7 @@ class Searcher extends Component {
     this.fetchEnabled = props.modulesManager.getConf("fe-core", "shouldFetchInitially", true);
   }
   componentDidMount() {
+    document.addEventListener("keypress", this.handleEnter);
     const cacheKey = this._getCacheKey();
     var filters = this.props.filtersCache[cacheKey] || this.props.defaultFilters || {};
     this.setState(
@@ -516,6 +517,14 @@ class Searcher extends Component {
         ),
     );
   };
+
+  handleEnter = (event) => {
+    const activeName = document.activeElement.name;
+    if (event.key == ENTER_KEY && !!activeName && activeName != 'enquiryField'){
+      let filters = { ...this.state.filters };
+      this.setState({ filters }, (e) => this.applyFilters())
+    }
+  }
 
   render() {
     const {
