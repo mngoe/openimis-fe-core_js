@@ -11,6 +11,7 @@ import {
   decodeId,
 } from "./helpers/api";
 import * as Sentry from "@sentry/react";
+import { getLocalStorage, setLocalStorage } from "./helpers/useLocalStorage";
 
 const REQUESTED_WITH = "webapp";
 
@@ -261,9 +262,11 @@ export function graphqlMutation(
 }
 
 export function fetch(config) {
-  const csrfToken = localStorage.getItem("csrfToken");
+  const csrfToken = getLocalStorage("csrfToken");
 
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const impersonatedUser = state.core?.impersonatedUser;
     let action;
 
     try {
@@ -274,12 +277,91 @@ export function fetch(config) {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": csrfToken,
+            ...(impersonatedUser && { "X-Impersonate-User": decodeId(impersonatedUser.id) }),
             ...config.headers,
           },
         },
       });
+
+      const endpoint = config.endpoint;
+      const payload = action?.payload || {};
+      const response = payload?.response;
+      const status = response?.status;
+      const statusText = response?.statusText;
+      const gqlErrors = payload?.errors || response?.errors || [];
+      const message = payload?.message || action?.error?.message;
+
+      if (action.error) {
+        let errorMessage = "";
+
+        if (!response && !message) {
+          errorMessage = "Server not responding";
+        } else if (status) {
+          errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
+        } else if (gqlErrors?.length > 0) {
+          errorMessage = `GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`;
+        } else if (message) {
+          errorMessage = `Network or API Error: ${message}`;
+        } else {
+          errorMessage = "Unknown error during API call";
+        }
+
+        Sentry.captureException(new Error(errorMessage), {
+          level: "error",
+          tags: {
+            endpoint,
+            status: status || "no-status",
+            type: config.method || "unknown-method",
+          },
+          extra: {
+            endpoint,
+            status,
+            statusText,
+            body: config.body,
+            response: action.payload,
+          },
+        });
+      }
+
+      if (!action.error && gqlErrors?.length > 0) {
+        const gqlMessage = gqlErrors.map(e => e.message).join("; ");
+
+        Sentry.captureException(new Error(`GraphQL Error: ${gqlMessage}`), {
+          level: "error",
+          tags: {
+            endpoint,
+            type: config.method || "unknown-method",
+          },
+          extra: {
+            endpoint,
+            errors: gqlErrors,
+            query: config.body,
+          },
+        });
+      }
+
+      const norm = (m) => String(m || "").toLowerCase().replace(/['"]/g, "").trim();
+      const csrfError = gqlErrors.some((e) => {
+        const msg = norm(e?.message);
+        return msg === "csrftoken" 
+        || msg === "user not authorized for this operation" 
+        || msg === "unauthorized";
+      });
+
+      if (csrfError) {
+        dispatch(
+          coreConfirm(
+            "Session Expired",
+            "Your session has expired, You will be redirected to the login page.",
+            "csrf_logout"
+          )
+        );
+        return action;
+      }
+
     } catch (err) {
       const errorMessage = "Server not responding";
+
       Sentry.captureException(new Error(errorMessage), {
         level: "error",
         tags: {
@@ -292,12 +374,7 @@ export function fetch(config) {
           originalError: err,
         },
       });
-      return {
-        error: true,
-        payload: { message: errorMessage },
-      };
     }
-
     const endpoint = config.endpoint;
     const response = action?.payload?.response;
     const status = response?.status;
@@ -354,6 +431,7 @@ export function fetch(config) {
 
     return action;
   };
+
 }
 
 export function loadUser() {
@@ -394,7 +472,7 @@ export function login(credentials) {
         const csrfResponse = await dispatch(fetchCsrfToken(jwtToken));
         const csrfToken = csrfResponse?.payload?.data?.getCsrfToken?.csrfToken;
         if (csrfToken) {
-          localStorage.setItem("csrfToken", csrfToken);
+          setLocalStorage("csrfToken", csrfToken);
         }
 
         const action = await dispatch(loadUser());
@@ -550,9 +628,9 @@ export function clearAlert() {
   };
 }
 
-export function coreConfirm(title, message) {
+export function coreConfirm(title, message, intent = null) {
   return (dispatch) => {
-    dispatch({ type: "CORE_CONFIRM", payload: { title, message } });
+    dispatch({ type: "CORE_CONFIRM", payload: { title, message, intent } });
   };
 }
 
@@ -693,6 +771,20 @@ export function changeUserLanguage(language, clientMutationLabel) {
     clientMutationLabel,
     requestedDateTime,
   });
+}
+
+export function impersonateUser(user) {
+  return async (dispatch) => {
+    dispatch({ type: "CORE_IMPERSONATE_USER", payload: user });
+    await dispatch(loadUser());
+  };
+}
+
+export function stopImpersonation() {
+  return async (dispatch) => {
+    dispatch({ type: "CORE_STOP_IMPERSONATION" });
+    await dispatch(loadUser());
+  };
 }
 
 // Re-export API helpers

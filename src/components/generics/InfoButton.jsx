@@ -3,7 +3,9 @@ import clsx from "clsx";
 
 import { styled } from "@mui/material/styles";
 import { IconButton, Popover, Typography, Tooltip } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+import GetIconComponent from "../../helpers/icons";
+
+const InfoIcon = GetIconComponent("Info")
 import { useTranslations } from "../../helpers/i18n";
 import { MODULE_NAME } from "../../constants";
 

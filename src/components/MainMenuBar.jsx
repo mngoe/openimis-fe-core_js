@@ -1,119 +1,79 @@
 import React, { useMemo } from "react";
-import * as Icons from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { injectIntl } from "react-intl";
 import { useModulesManager } from "../helpers/modules";
 import { ErrorBoundary } from "@openimis/fe-core";
 import { useToast } from "../helpers/ToastContext";
-import { menuEntryMatchesLocationPath } from "../helpers/utils";
+import { menuEntryMatchesLocationPath} from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
+import GetIconComponent from "../helpers/icons";
+import {getMenuText, prepareMenuEntries} from "../helpers/utils"
 
-function mergeMenuConfigs(moduleConfigs, backendConfigs) {
-  // Create a map of backend configs by id for quick lookup
-  const backendMap = new Map(backendConfigs.map(config => [config.id, config]));
 
-  // Start with module configs as base
-  const merged = [...moduleConfigs];
 
-  // Apply backend overrides
-  merged.forEach(config => {
-    const backendOverride = backendMap.get(config.id);
-    if (backendOverride) {
-      // Merge: backend properties override module properties
-      Object.assign(config, backendOverride);
-    }
-  });
 
-  // Add any backend configs that don't exist in modules
-  backendConfigs.forEach(backendConfig => {
-    if (!merged.some(config => config.id === backendConfig.id)) {
-      merged.push(backendConfig);
-    }
-  });
 
-  return merged;
-}
 
 function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
-  // Collect all declarative menu configs from modules
-  const moduleMenuConfigs = modulesManager.getContribs("fe-core.menus");
-
   // Get backend overrides
   const backendMenuConfigs = modulesManager.getConf("fe-core", "menus", []);
-
-  // Merge: modules as base, backend as overrides
-  const menuConfigs = mergeMenuConfigs(moduleMenuConfigs, backendMenuConfigs);
-
-  // Sort by position
-  const sortedMenuConfigs = menuConfigs.sort((a, b) => (a.position || 0) - (b.position || 0));
-
-  // Get all menu entries for active menu detection
+  const routes = modulesManager.getRoutes()
+  // get default entries
   const menuEntries = modulesManager.getMenuEntries();
-  const activeMenuId = findActiveMenuId(sortedMenuConfigs, menuEntries);
+  const unsortedMenuEntries = backendMenuConfigs.length > 0 ? backendMenuConfigs : menuEntries;
+  // Default contributionKey to id for all configs (backend/module); override if specified
+  unsortedMenuEntries.forEach(config => {
+    if (!config.contributionKey) {
+      config.contributionKey = config.id;  // Use id as key to pull submenus, e.g., "individual.MainMenu"
+    }
+    if (!config.entries && !config.contributionKey) {
+      console.warn(`Menu ${config.id} has no entries or valid contributionKey.`);
+    }
+    config.text = getMenuText(config.text, intl)
+
+  });
+  // Sort by position (default 99 if missing; stable for duplicates)
+  const sortedMenuConfigs = unsortedMenuEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
+  const mainMenuVariant = "icon_text"
+  // Get all menu entries for active menu detection
+  const activeMenuId = findActiveMenuId(sortedMenuConfigs);
 
   // Process each menu config into a MainMenuContribution component
-  const menuComponents = sortedMenuConfigs
+  const menuComponents = sortedMenuConfigs.filter(m => m.text !== undefined )
     .map((config) => {
-      // Collect base entries from config
-      let entries = [...(config.entries || [])];
-
-      // Add contributions from other modules if contributionKey is specified
-      if (config.contributionKey) {
-        const contributedEntries = modulesManager.getContribs(config.contributionKey);
-        entries = [...entries, ...contributedEntries];
-      }
-
-      // Filter entries by rights and convert icon strings to components
-      const filteredEntries = entries
-        .filter((entry) => !entry.filter || entry.filter(rights))
-        .map((entry) => ({
-          ...entry,
-          icon: typeof entry.icon === 'string' && Icons[entry.icon]
-            ? React.createElement(Icons[entry.icon])
-            : entry.icon
-        }));
+      const filteredEntries = prepareMenuEntries(rights, intl, config.entries, routes);
 
       // Skip empty menus
       if (!filteredEntries.length) return null;
 
       // Resolve icon
-      const IconComponent = config.icon && Icons[config.icon] ? Icons[config.icon] : null;
+      const IconComponent = GetIconComponent(config.icon);
+
 
       return (
         <MainMenuContribution
           key={config.id}
+          mainMenuVariant={mainMenuVariant}
           menuVariant={menuVariant}
-          header={config.name} // Will be translated by MainMenuContribution
+          header={config.text}
           menuId={config.id}
           modulesManager={modulesManager}
           rights={rights}
           history={history}
           entries={filteredEntries}
-          icon={IconComponent ? <IconComponent /> : null}
+          icon={IconComponent}
           isInitiallyOpen={menuVariant === "Drawer" && config.id === activeMenuId}
         />
       );
     })
     .filter(Boolean);
 
-  // BACKWARD COMPATIBILITY: Include old-style core.MainMenu components
-  // that don't have a matching fe-core.menus config
-  const oldStyleMenus = modulesManager.getContribs(key);
-  const existingMenuIds = new Set(sortedMenuConfigs.map(config => config.id));
-  const oldStyleComponents = oldStyleMenus
-    .filter(menu => !existingMenuIds.has(menu.name))
-    .map(menu => menu.component || menu)
-    .filter(Boolean);
-
-  // Combine new declarative menus with old-style components
-  const allComponents = [...menuComponents, ...oldStyleComponents];
-
-  return allComponents;
+  return menuComponents;
 }
 
-const findActiveMenuId = (menuConfigs, menuEntries) => {
-  const matchingEntry = menuEntries.find(menuEntryMatchesLocationPath);
+const findActiveMenuId = (menuConfigs) => {
+  const matchingEntry = menuConfigs.find(menuEntryMatchesLocationPath);
 
   if (!matchingEntry) return null;
 

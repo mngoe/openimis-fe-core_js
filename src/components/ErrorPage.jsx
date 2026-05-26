@@ -2,7 +2,8 @@ import React from "react";
 
 import { Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import GetIconComponent from "../helpers/icons";
+const ArrowBackIcon = GetIconComponent("ArrowBack")
 
 import { useHistory } from "../helpers/history";
 

@@ -10,7 +10,9 @@ import { useAuthentication } from "../helpers/hooks";
 import Contributions from "./../components/generics/Contributions";
 import { baseApiUrl } from "../actions";
 import { DEFAULT, SAML_LOGIN_PATH } from "../constants";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import GetIconComponent from "../helpers/icons";
+
+const ArrowBackIcon = GetIconComponent("ArrowBack")
 
 const StyledLoginPage = styled('div')(({ theme }) => ({
   '& .container': {

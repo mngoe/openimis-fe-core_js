@@ -6,6 +6,7 @@ import { formatDateFromISO as adFormateDateFromISO } from "../pickers/AdDateForm
 import { formatDateTimeFromISO as adFormateDateTimeFromISO } from "../pickers/AdDateTimeFormatter";
 import { formatDateFromISO as neFormateDateFromISO } from "../pickers/NeDateFormatter";
 import { STORAGE_KEY_SECONDARY_CALENDAR, DEFAULT_SETTINGS} from "../constants";
+import { getLocalStorage } from "./useLocalStorage";
 
 //formatting with values is expansive.. so let's have separated methods
 export function formatMessage(intl, module, id) {
@@ -25,7 +26,7 @@ export function formatMessageWithValues(intl, module, id, values) {
 }
 
 export function formatAmount(mm, intl, amount) {
-  const thousandSeparator = mm.getConf("fe-core", "thousandSeparator", "en");
+  const thousandSeparator = mm.getConf("fe-core", "thousandSeparator", "fr");
   const number = amount || 0;
   const pricesAreDecimal = mm.getConf("fe-core", "pricesAreDecimal", true);
   const numberOfDecimals = mm.getConf("fe-core", "numberOfDecimals", 2);
@@ -42,7 +43,7 @@ export function formatAmount(mm, intl, amount) {
 }
 
 export function formatDateFromISO(mm, intl, date) {
-  const isSecondaryCalendar = JSON.parse(localStorage.getItem(STORAGE_KEY_SECONDARY_CALENDAR));
+  const isSecondaryCalendar = getLocalStorage(STORAGE_KEY_SECONDARY_CALENDAR, false);
   if (isSecondaryCalendar) {
     const secondCalendarFormatting = mm.getConf("fe-core", "secondCalendarFormatting", DEFAULT_SETTINGS.SECOND_CALENDAR_FORMAT);
     const secondCalendarFormattingLang = mm.getConf("fe-core", "secondCalendarFormattingLang", DEFAULT_SETTINGS.SECOND_CALENDAR_LANG);

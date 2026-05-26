@@ -5,7 +5,8 @@ import { injectIntl } from "react-intl";
 
 
 import { useTheme, styled } from "@mui/material/styles";
-import ReplayIcon from "@mui/icons-material/Replay";
+import GetIconComponent from "../../helpers/icons";
+const ReplayIcon = GetIconComponent("Replay")
 
 import {
   Helmet,

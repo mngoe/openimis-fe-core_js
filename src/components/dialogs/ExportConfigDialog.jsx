@@ -13,8 +13,9 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import GetIconComponent from "../../helpers/icons";
+const RadioButtonCheckedIcon = GetIconComponent("RadioButtonChecked")
+const RadioButtonUncheckedIcon = GetIconComponent("RadioButtonUnchecked")
 
 import { useModulesManager } from "../../helpers/modules";
 import { useTranslations } from "../../helpers/i18n";

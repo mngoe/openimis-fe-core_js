@@ -18,8 +18,11 @@ import {
   ClickAwayListener,
   Box,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import GetIconComponent from "../helpers/icons";
+const MenuIcon = GetIconComponent("Menu")
+import { prepareMenuEntries } from "../helpers/utils"
 import Contributions from "./generics/Contributions";
+import AppBarIconButton from './AppBarIconButton';
 import FormattedMessage from "./generics/FormattedMessage";
 import MainMenuBar from "./MainMenuBar";
 import JournalDrawer from "./JournalDrawer";
@@ -28,9 +31,14 @@ import LanguageQuickPicker from "../pickers/LanguageQuickPicker";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Switch } from "@mui/material";
 import { useTranslations } from "../helpers/i18n";
-import { DEFAULT } from "../constants";
+import { DEFAULT, RIGHT_USERS } from "../admin/constants";
+import { useDispatch, useSelector } from "react-redux";
+import UserPicker from "../admin/components/pickers/UserPicker";
+import { impersonateUser, stopImpersonation } from "../actions";
+import { injectIntl } from "react-intl";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
+export const APP_BAR_ICONS_CONTRIBUTION_KEY = "core.AppBarIcons";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
 export const MAIN_SEARCHER_CONTRIBUTION_KEY = "core.MainSearcher";
 export const ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY = "policyholder.EconomicUnitChangeButton";
@@ -314,9 +322,10 @@ const RequireAuth = (props) => {
     isSecondaryCalendar,
     setSecondaryCalendar,
     onEconomicDialogOpen,
+    intl,
     ...others
   } = props;
-
+  const rights = children.props.userRights;
   const [isOpen, setOpen] = useBoolean();
   const [isDrawerOpen, setDrawerOpen] = useBoolean();
   const theme = useTheme();
@@ -337,6 +346,23 @@ const RequireAuth = (props) => {
     return typeof variant === "string" && variant.trim().toUpperCase() === "APPBAR";
   }, [theme.menu?.variant]);
 
+  const dispatch = useDispatch();
+  const impersonatedUser = useSelector(state => state.core.impersonatedUser);
+
+  const preparedIcons = useMemo(() => {
+    const rightsSet = new Set(rights.map(r => String(r)))
+    const routes = modulesManager.getRoutes()
+    let iconsEntries = modulesManager.getContribs('core.AppBarIcons');
+    const backendAppBarIconsConfig = modulesManager.getConf("fe-core", "menus", []);
+    if (backendAppBarIconsConfig.length>0) {
+      // Merge backend entries with module contribs, backend overrides by id
+      iconsEntries = (backendAppBarIconsConfig.find(config => config.id === "core.AppBarIcons") || {})?.entries || []
+    }
+    // Sort by position
+    return prepareMenuEntries(rights, intl, iconsEntries.sort((a, b) => (a.position || 99) - (b.position || 99)), routes);
+  })
+
+
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;
   }
@@ -349,6 +375,21 @@ const RequireAuth = (props) => {
             <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
               <div className="grow" />
             </Contributions>
+            {auth.user?.is_superuser && (
+              <UserPicker
+                onChange={(user) => {
+                  if (user) {
+                    dispatch(impersonateUser(user));
+                  } else {
+                    dispatch(stopImpersonation());
+                  }
+                }}
+                value={impersonatedUser}
+                withLabel={false}
+                placeholder="Impersonate user"
+                multiple={false}
+              />
+            )}
             <LogoutButton className="toolbarDrawerLogout" />
             <Help />
           </Toolbar>
@@ -425,6 +466,7 @@ const RequireAuth = (props) => {
                 <div className="grow" />
               </Contributions>
             }
+            {preparedIcons.map((iconProps, idx) => <AppBarIconButton key={`appbar_icon_${idx}`} {...iconProps} />)}
           </Box>
 
           <Box display="flex" alignItems="center" gap={1}>
@@ -442,6 +484,21 @@ const RequireAuth = (props) => {
               contributionKey={ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY}
               onEconomicDialogOpen={onEconomicDialogOpen}
             />
+            {auth.user?.is_superuser && (
+              <UserPicker
+                onChange={(user) => {
+                  if (user) {
+                    dispatch(impersonateUser(user));
+                  } else {
+                    dispatch(stopImpersonation());
+                  }
+                }}
+                value={impersonatedUser}
+                withLabel={false}
+                placeholder="Impersonate user"
+                multiple={false}
+              />
+            )}
             <LogoutButton />
             <Help />
           </Box>
@@ -497,4 +554,4 @@ const RequireAuth = (props) => {
   );
 };
 
-export default RequireAuth;
+export default injectIntl(RequireAuth);

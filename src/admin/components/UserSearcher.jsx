@@ -5,7 +5,9 @@ import { injectIntl } from "react-intl";
 
 import { Button, Tooltip } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
-import { Tab as TabIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import GetIconComponent from "../../helpers/icons";
+const TabIcon = GetIconComponent("Tab")
+const DeleteIcon = GetIconComponent("Delete")
 
 import {
   withModulesManager,

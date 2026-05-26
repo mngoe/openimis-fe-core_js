@@ -4,8 +4,10 @@ import { connect, useDispatch } from "react-redux";
 
 import { useTheme, styled } from "@mui/material/styles";
 import { Grid, Divider, Typography, Button, InputAdornment, IconButton, Box } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import GetIconComponent from "../../helpers/icons";
+
+const VisibilityIcon = GetIconComponent("Visibility")
+const VisibilityOffIcon = GetIconComponent("VisibilityOff")
 
 import {
   withModulesManager,

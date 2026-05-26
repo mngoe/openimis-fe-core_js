@@ -12,9 +12,11 @@ import { bindActionCreators } from "redux";
 import { fetchPasswordPolicy } from "../actions";
 import { validatePassword } from '../helpers/passwordValidator';
 import { passwordGenerator } from "../helpers/passwordGenerator";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import ClearIcon from "@mui/icons-material/Clear";
+import GetIconComponent from "../helpers/icons";
+
+const VisibilityIcon = GetIconComponent("Visibility")
+const VisibilityOffIcon = GetIconComponent("VisibilityOff")
+const ClearIcon = GetIconComponent("Clear")
 
 const StyledSetPasswordPage = styled('div')(({ theme }) => ({
   '& .container': {
