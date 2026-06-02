@@ -366,7 +366,6 @@ class Searcher extends Component {
     let s = [...this.state.selection];
     this.setState(
       (state, props) => ({
-        selection: [],
         clearAll: state.clearAll + 1,
       }),
       (e) => a(s)
