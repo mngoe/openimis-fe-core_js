@@ -364,6 +364,7 @@ class Searcher extends Component {
 
   triggerAction = (a) => {
     let s = [...this.state.selection];
+    console.log(a);
     this.setState(
       (state, props) => ({
         // selection: [],
