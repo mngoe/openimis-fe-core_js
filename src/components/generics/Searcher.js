@@ -364,14 +364,17 @@ class Searcher extends Component {
 
   triggerAction = (a) => {
     let s = [...this.state.selection];
-    console.log(a);
-    this.setState(
-      (state, props) => ({
-        // selection: [],
-        // clearAll: state.clearAll + 1,
-      }),
-      (e) => a(s)
-    );
+    if(this.props.disableSelection == null){
+      this.setState(
+        (state, props) => ({
+          selection: [],
+          clearAll: state.clearAll + 1,
+        }),
+        (e) => a(s)
+      );
+    } else {
+      a(s);
+    }
   };
 
   headerActions = (filters) => {
