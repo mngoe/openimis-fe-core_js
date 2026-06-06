@@ -81,8 +81,9 @@ export function resetCacheFilters(key) {
 
 export function journalize(mutation, meta) {
   return (dispatch) => {
-    mutation.status = 0;
-    dispatch({ type: "CORE_MUTATION_ADD", payload: mutation, meta });
+    const mut = { ...mutation };
+    mut.status = 0;
+    dispatch({ type: "CORE_MUTATION_ADD", payload: mut, meta });
   };
 }
 
