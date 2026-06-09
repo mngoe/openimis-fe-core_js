@@ -229,7 +229,7 @@ export function waitForMutation(clientMutationId) {
       res = response.payload.data.mutationLogs?.edges[0]?.node;
     } while ((!res || res.status === 0) && attempts++ < 10);
     if (res && res.status === 1 && res.error) {
-      res.error = JSON.parse(res.error);
+      return { ...res, error: JSON.parse(res.error) };
     }
     return res;
   };

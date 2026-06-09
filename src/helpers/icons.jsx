@@ -28,7 +28,15 @@ const GetIconComponent = (inputName, options = {}) => {
   if (inputName == null || (typeof inputName === 'string' && !inputName.trim())) {
     console.warn('GetIconComponent: Received empty/null input → falling back to Add icon');
 
-    return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>indeterminate_question_box</span>;
+    return (props) => (
+      <span
+        {...props}
+        className={`${className} ${props.className || ''}`}
+        style={{ ...style, ...props.style }}
+      >
+        indeterminate_question_box
+      </span>
+    );
   }
 
   // === Already a component function ===
@@ -47,13 +55,27 @@ const GetIconComponent = (inputName, options = {}) => {
   if (typeof inputName === 'string') {
     const iconName = toIconName(inputName);
 
-
-    return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>{iconName}</span>;
+    return (props) => (
+      <span
+        {...props}
+        className={`${className} ${props.className || ''}`}
+        style={{ ...style, ...props.style }}
+      >
+        {iconName}
+      </span>
+    );
   }
 
   // Safety fallback
   console.warn('GetIconComponent: Unexpected input type', typeof inputName);
-  return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>indeterminate_question_box</span>;
-};
+  return (props) => (
+    <span
+      {...props}
+      className={`${className} ${props.className || ''}`}
+      style={{ ...style, ...props.style }}
+    >
+      indeterminate_question_box
+    </span>
+  );
 
 export default GetIconComponent;

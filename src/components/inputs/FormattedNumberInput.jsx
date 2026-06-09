@@ -4,14 +4,13 @@ import TextInput from "./TextInput";
 import { injectIntl } from "react-intl";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
 import withModulesManager from "../../helpers/modules";
+import { getDecimalPlaces } from "../../helpers/utils";
 
 const StyledFormattedNumberInput = styled("div")(({ theme }) => ({}));
 
 class FormattedNumberInput extends Component {
   constructor(props) {
     super(props);
-
-    this.pricesAreDecimal = props.modulesManager.getConf("fe-core", "pricesAreDecimal", true);
 
     this.state = {
       isEdited: false,
@@ -30,16 +29,20 @@ class FormattedNumberInput extends Component {
 
   formatNumber = (value) => {
     if (value == null || isNaN(value)) return "";
-    const { thousandSeparator, numberOfDecimals = 2, pricesAreDecimal = this.pricesAreDecimal } = this.props;
+
+    const { numberOfDecimals, thousandSeparator } = this.props;
+    const decimals = numberOfDecimals === undefined
+      ? getDecimalPlaces(value)
+      : numberOfDecimals;
+
     return new Intl.NumberFormat(thousandSeparator, {
-      minimumFractionDigits: pricesAreDecimal ? numberOfDecimals : 0,
-      maximumFractionDigits: pricesAreDecimal ? numberOfDecimals : 0,
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
     }).format(value);
   };
 
   handleKeyPress = (event) => {
-    const { allowDecimals = true } = this.props;
-    if (event.key === "." && !allowDecimals) {
+    if (event.key === "." && this.props.numberOfDecimals === 0) {
       event.preventDefault();
     }
   };  
@@ -120,10 +123,9 @@ class FormattedNumberInput extends Component {
       error,
       thousandSeparator,
       numberOfDecimals,
-      pricesAreDecimal,
       displayZero = false,
       displayNa = false,
-      allowDecimals = this.pricesAreDecimal,
+      allowDecimals = true,
       ...others
     } = this.props;
 

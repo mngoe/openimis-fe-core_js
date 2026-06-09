@@ -151,7 +151,10 @@ export function dispatchMutationResp(state, service, action) {
   return {
     ...state,
     submittingMutation: false,
-    mutation,
+    mutation: {
+      ...state.mutation,
+      id: action.payload?.data?.[service]?.internalId,
+    },
   };
 }
 

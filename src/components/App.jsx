@@ -148,9 +148,7 @@ const App = (props) => {
   }, [isSecondaryCalendar]);
 
   useEffect(() => {
-    if (confirm?.intent) {
-      setLastConfirmIntent(confirm.intent);
-    }
+    setLastConfirmIntent(confirm?.intent ?? null);
   }, [confirm]);
 
   useEffect(() => {
