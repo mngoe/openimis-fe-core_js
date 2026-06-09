@@ -46,7 +46,7 @@ class SelectInput extends Component {
   };
 
   handleClear = () => {
-    this.props.onChange("");
+    this.props.onChange(null);
   };
 
   // When there is a value, we pass a dummy div to effectively hide the default dropdown icon.

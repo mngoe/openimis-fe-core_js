@@ -43,14 +43,15 @@ const ClaimAdministratorFormPanel = (props) => {
 
   useEffect(() => {
     toggleUserRoles(
-      edited, 
-      data, 
-      isValid, 
-      isEnabled, 
-      hasClaimRole, 
-      onEditedChanged, 
-      CLAIM_ADMIN_IS_SYSTEM);
-  }, [isEnabled]);
+      edited,
+      data,
+      isValid,
+      isEnabled,
+      hasClaimRole,
+      onEditedChanged,
+      CLAIM_ADMIN_IS_SYSTEM,
+    );
+  }, [isEnabled, isValid]);
 
   useEffect(() => {
     toggleSwitchButton(

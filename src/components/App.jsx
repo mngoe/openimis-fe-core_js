@@ -29,14 +29,15 @@ import { PublicPageLanguageProvider } from "../helpers/PublicPageLanguageContext
 import { getCookie } from "../helpers/cookies";
 
 // Downgrade formatjs MISSING_TRANSLATION errors to warnings instead of errors.
-// Skip the stack trace and log only the short main warning message.
+// Defer logging so React does not append a component stack in development.
 const onIntlError = (err) => {
   if (err.code === "MISSING_TRANSLATION") {
     if (process.env.NODE_ENV !== "production") {
-      // err may contain .descriptor { id, ... }
       const id = err?.descriptor?.id ?? "unknown";
       const locale = err?.descriptor?.locale ?? "en";
-      console.warn(`Missing translation "${id}" for locale "${locale}"`);
+      queueMicrotask(() => {
+        console.warn(`Missing translation "${id}" for locale "${locale}"`);
+      });
     }
     return;
   }

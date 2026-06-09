@@ -52,7 +52,7 @@ const EnrolmentOfficerFormPanel = (props) => {
   const isValid = !isLoading;
   useEffect(() => {
     toggleUserRoles(edited, data, isValid, isEnabled, hasOfficerRole, onEditedChanged, OFFICER_ROLE_IS_SYSTEM);
-  }, [isEnabled]);
+  }, [isEnabled, isValid]);
 
   useEffect(() => {
     toggleSwitchButton(

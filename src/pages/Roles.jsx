@@ -181,14 +181,6 @@ class Roles extends Component {
     }
   }
 
-  onDuplicate = (role) => {
-    historyPush(this.props.modulesManager, this.props.history, "core.route.role", [`${role?.uuid}?${QUERY_STRING_DUPLICATE}`]);
-  }
-
-  onUpdate = (role) => {
-    historyPush(this.props.modulesManager, this.props.history, "core.route.role", [role?.uuid])
-  }
-
   onAdd = () => historyPush(this.props.modulesManager, this.props.history, "core.route.role");
 
   onDoubleClick = (role, newTab = false) => {
@@ -200,7 +192,15 @@ class Roles extends Component {
 
   onUpdate = (role) => this.onDoubleClick(role, false);
 
-  onDuplicate = (role) => historyPush(this.props.modulesManager, this.props.history, "core.route.role", [role.uuid], false, `?${QUERY_STRING_DUPLICATE}`);
+  onDuplicate = (role) =>
+    historyPush(
+      this.props.modulesManager,
+      this.props.history,
+      "core.route.role",
+      [role.uuid],
+      false,
+      `?${QUERY_STRING_DUPLICATE}`,
+    );
 
   fetch = (params) => this.props.fetchRoles(params);
 

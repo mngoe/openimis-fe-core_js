@@ -348,6 +348,7 @@ const RequireAuth = (props) => {
 
   const dispatch = useDispatch();
   const impersonatedUser = useSelector(state => state.core.impersonatedUser);
+  const showImpersonationPicker = auth.user?.is_superuser || Boolean(impersonatedUser);
 
   const preparedIcons = useMemo(() => {
     const rightsSet = new Set(rights.map(r => String(r)))
@@ -375,7 +376,7 @@ const RequireAuth = (props) => {
             <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
               <div className="grow" />
             </Contributions>
-            {auth.user?.is_superuser && (
+            {showImpersonationPicker && (
               <UserPicker
                 onChange={(user) => {
                   if (user) {
@@ -484,7 +485,7 @@ const RequireAuth = (props) => {
               contributionKey={ECONOMIC_UNIT_BUTTON_CONTRIBUTION_KEY}
               onEconomicDialogOpen={onEconomicDialogOpen}
             />
-            {auth.user?.is_superuser && (
+            {showImpersonationPicker && (
               <UserPicker
                 onChange={(user) => {
                   if (user) {
