@@ -197,9 +197,11 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     flexShrink: 0,
     backgroundColor: theme.menu.drawer.backgroundColor,
     color: theme.menu.drawer.textColor,
-    height: "100%",
-    position: "sticky",
-    top: "auto",
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: theme.zIndex.appBar + 1,
   },
 
   "& .drawerHeader": {
@@ -261,6 +263,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     },
   },
   "& .appName": {
+    ...theme.mixins.toolbar,
     color: theme.palette.secondary.main,
     textTransform: "none",
     fontSize: theme.typography.title?.fontSize || 20,
