@@ -53,7 +53,14 @@ const GetIconComponent = (inputName, options = {}) => {
 
   // Safety fallback
   console.warn('GetIconComponent: Unexpected input type', typeof inputName);
-  return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>indeterminate_question_box</span>;
-};
+  return (props) => (
+    <span
+      {...props}
+      className={`${className} ${props.className || ''}`}
+      style={{ ...style, ...props.style }}
+    >
+      indeterminate_question_box
+    </span>
+  );
 
 export default GetIconComponent;
