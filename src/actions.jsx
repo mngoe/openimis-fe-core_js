@@ -81,8 +81,8 @@ export function resetCacheFilters(key) {
 
 export function journalize(mutation, meta) {
   return (dispatch) => {
-    mutation.status = 0;
-    dispatch({ type: "CORE_MUTATION_ADD", payload: mutation, meta });
+    const toAdd = mutation ? { ...mutation, status: 0 } : { status: 0 };
+    dispatch({ type: "CORE_MUTATION_ADD", payload: toAdd, meta });
   };
 }
 
@@ -120,11 +120,11 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
           ],
         }),
       );
-      if (response.error) {
+      if (response?.error) {
         dispatch(coreAlert(formatServerError(response.payload)));
       }
 
-      const error = response.payload?.errors?.[0];
+      const error = response?.payload?.errors?.[0];
       if (error && isCsrfError(error)) {
         await dispatch(logout());
 
@@ -138,6 +138,7 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
       return response;
     } catch (err) {
       console.error(err);
+      return { error: true, payload: { message: err?.message || "Unknown error" } };
     }
   };
 }
@@ -291,7 +292,7 @@ export function fetch(config) {
       const gqlErrors = payload?.errors || response?.errors || [];
       const message = payload?.message || action?.error?.message;
 
-      if (action.error) {
+      if (action?.error) {
         let errorMessage = "";
 
         if (!response && !message) {
@@ -323,7 +324,7 @@ export function fetch(config) {
         });
       }
 
-      if (!action.error && gqlErrors?.length > 0) {
+      if (!action?.error && gqlErrors?.length > 0) {
         const gqlMessage = gqlErrors.map(e => e.message).join("; ");
 
         Sentry.captureException(new Error(`GraphQL Error: ${gqlMessage}`), {
@@ -374,6 +375,12 @@ export function fetch(config) {
           originalError: err,
         },
       });
+
+      // Ensure we have an action-like object for downstream code and return
+      action = action || {
+        error: true,
+        payload: { message: errorMessage, originalError: err },
+      };
     }
     const endpoint = config.endpoint;
     const response = action?.payload?.response;
@@ -382,7 +389,7 @@ export function fetch(config) {
     const gqlErrors = response?.errors;
     const message = action?.payload?.message || action?.error?.message;
 
-    if (action.error) {
+    if (action?.error) {
       let errorMessage = "";
       if (!response && !message) {
         errorMessage = "Server not responding";
@@ -414,7 +421,7 @@ export function fetch(config) {
       });
     }
 
-    if (!action.error && gqlErrors && gqlErrors.length > 0) {
+    if (!action?.error && gqlErrors && gqlErrors.length > 0) {
       Sentry.captureException(new Error(`GraphQL Error: ${gqlErrors.map((e) => e.message).join("; ")}`), {
         level: "error",
         tags: {
@@ -429,7 +436,7 @@ export function fetch(config) {
       });
     }
 
-    return action;
+    return action || { error: true, payload: null };
   };
 
 }
@@ -690,7 +697,7 @@ function formatRoleGQL(role) {
 
 export function createRole(role, clientMutationLabel) {
   let mutation = formatMutation("createRole", formatRoleGQL(role), clientMutationLabel);
-  var requestedDateTime = new Date();
+  var requestedDateTime = new Date().toISOString();
   return graphql(mutation.payload, ["CORE_ROLE_MUTATION_REQ", "CORE_CREATE_ROLE_RESP", "CORE_ROLE_MUTATION_ERR"], {
     clientMutationId: mutation.clientMutationId,
     clientMutationLabel,
@@ -700,7 +707,7 @@ export function createRole(role, clientMutationLabel) {
 
 export function updateRole(role, clientMutationLabel) {
   let mutation = formatMutation("updateRole", formatRoleGQL(role), clientMutationLabel);
-  var requestedDateTime = new Date();
+  var requestedDateTime = new Date().toISOString();
   return graphql(mutation.payload, ["CORE_ROLE_MUTATION_REQ", "CORE_UPDATE_ROLE_RESP", "CORE_ROLE_MUTATION_ERR"], {
     clientMutationId: mutation.clientMutationId,
     clientMutationLabel,
@@ -711,7 +718,7 @@ export function updateRole(role, clientMutationLabel) {
 export function deleteRole(role, clientMutationLabel, clientMutationDetails = null) {
   let roleUuids = `uuids: ["${role.uuid}"]`;
   let mutation = formatMutation("deleteRole", roleUuids, clientMutationLabel, clientMutationDetails);
-  var requestedDateTime = new Date();
+  var requestedDateTime = new Date().toISOString();
   return graphql(mutation.payload, ["CORE_ROLE_MUTATION_REQ", "CORE_DELETE_ROLE_RESP", "CORE_ROLE_MUTATION_ERR"], {
     clientMutationId: mutation.clientMutationId,
     clientMutationLabel,
@@ -763,7 +770,7 @@ export function toggleCurrentCalendarType(isSecondaryCalendarEnabled) {
 
 export function changeUserLanguage(language, clientMutationLabel) {
   const mutation = formatMutation("changeUserLanguage", `languageId: "${language}"`, clientMutationLabel);
-  const requestedDateTime = new Date();
+  const requestedDateTime = new Date().toISOString();
 
   return graphql(mutation.payload, ["CORE_MUTATION_REQ", "CHANGE_USER_LANGUAGE_RESP", "CORE_MUTATION_ERR"], {
     actionType: "CHANGE_USER_LANGUAGE_RESP",

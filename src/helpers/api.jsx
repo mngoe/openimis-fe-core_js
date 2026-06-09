@@ -125,16 +125,29 @@ export function parseData(data) {
 }
 
 export function dispatchMutationReq(state, action) {
+  const meta = action.meta || {};
+  // Sanitize common non-serializable values (e.g. Date objects from older call sites)
+  const requestedDateTime = meta.requestedDateTime instanceof Date
+    ? meta.requestedDateTime.toISOString()
+    : meta.requestedDateTime;
+  const cleanMeta = {
+    ...meta,
+    requestedDateTime,
+    id: meta.id || meta.clientMutationId || null,
+  };
   return {
     ...state,
     submittingMutation: true,
-    mutation: action.meta,
+    mutation: cleanMeta,
   };
 }
 
 export function dispatchMutationResp(state, service, action) {
-  var mutation = state.mutation;
-  mutation.id = action.payload.data[service].internalId;
+  const prevMutation = state.mutation || {};
+  const mutation = {
+    ...prevMutation,
+    id: action.payload?.data?.[service]?.internalId ?? prevMutation.id ?? null,
+  };
   return {
     ...state,
     submittingMutation: false,
