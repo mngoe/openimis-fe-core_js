@@ -77,5 +77,6 @@ const GetIconComponent = (inputName, options = {}) => {
       indeterminate_question_box
     </span>
   );
+};
 
 export default GetIconComponent;
