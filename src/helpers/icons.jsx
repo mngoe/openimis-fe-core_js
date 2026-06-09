@@ -55,8 +55,15 @@ const GetIconComponent = (inputName, options = {}) => {
   if (typeof inputName === 'string') {
     const iconName = toIconName(inputName);
 
-
-    return (props) => <span className={`${className} ${props.className || ''}`} style={style} {...props}>{iconName}</span>;
+    return (props) => (
+      <span
+        {...props}
+        className={`${className} ${props.className || ''}`}
+        style={{ ...style, ...props.style }}
+      >
+        {iconName}
+      </span>
+    );
   }
 
   // Safety fallback
