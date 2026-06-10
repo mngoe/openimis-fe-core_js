@@ -329,7 +329,7 @@ class Table extends Component {
                           >
                             <Box>
                               {typeof h === "function" ? (
-                                <Box>{() => h(this.state, this.props)}</Box>
+                                <Box>{h(this.state, this.props)}</Box>
                               ) : (
                                 <FormattedMessage module={module} id={h} />
                               )}
