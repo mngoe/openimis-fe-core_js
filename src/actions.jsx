@@ -349,13 +349,20 @@ export function fetch(config) {
       });
 
       if (csrfError) {
-        dispatch(
-          coreConfirm(
-            "Session Expired",
-            "Your session has expired, You will be redirected to the login page.",
-            "csrf_logout"
-          )
-        );
+        // Only treat this as a session-expired event if the user had a
+        // session to begin with. On an unauthenticated boot (e.g. landing
+        // on /front/login with empty storage) the backend may still reject
+        // bootstrap GraphQL queries as "unauthorized" — that's expected,
+        // not a session that just expired.
+        if (state.core?.user) {
+          dispatch(
+            coreConfirm(
+              "Session Expired",
+              "Your session has expired, You will be redirected to the login page.",
+              "csrf_logout"
+            )
+          );
+        }
         return action;
       }
 
