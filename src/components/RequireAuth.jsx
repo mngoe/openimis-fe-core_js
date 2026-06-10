@@ -237,29 +237,13 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     marginLeft: theme.menu.drawer.width,
   },
   "& main": {
-    paddingTop: theme.spacing(4),
-    paddingLeft: theme.spacing(3),
-    paddingRight: `calc(${theme.spacing(3)} + ${
-      typeof theme.jrnlDrawer?.close?.width === "number"
-        ? `${theme.jrnlDrawer.close.width}px`
-        : theme.jrnlDrawer?.close?.width || "73px"
-    })`,
     flexGrow: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    transition: theme.transitions.create("padding-right", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
     "& > *": {
       width: "100%",
       padding: "0 !important",
-    },
-    [theme.breakpoints.down("md")]: {
-      paddingTop: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
     },
   },
   "& .appName": {
@@ -296,9 +280,8 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
-    paddingTop: theme.spacing(4),
+    marginRight: theme.jrnlDrawer?.close?.width || 73,
+    padding: theme.spacing(3),
   },
   "& .jrnlContentShift": {
     position: "relative",
