@@ -1,43 +1,11 @@
 import { decodeId } from "../helpers/api";
 import { fetchSubstitutionEnrolmentOfficers } from "./actions";
-import {
-  CLAIM_ADMIN_USER_TYPE,
-  INTERACTIVE_USER_TYPE,
-  ENROLMENT_OFFICER_USER_TYPE,
-  CLAIM_ADMIN_IS_SYSTEM,
-  OFFICER_ROLE_IS_SYSTEM,
-} from "./constants";
-
-const addUserType = (user, userType) => {
-  if (!user.userTypes.includes(userType)) {
-    user.userTypes = [...user.userTypes, userType];
-  }
-};
-
-export function checkRolesAndGetUserTypes(user) {
-  if (!user) return console.warn("User not provided in checkRolesAndGetUserTypes function!");
-
-  const tempUser = user;
-  const initialUserTypes = [INTERACTIVE_USER_TYPE];
-
-  if (!tempUser.roles) {
-    tempUser.userTypes = initialUserTypes;
-  }
-
-  if (tempUser.roles?.some((role) => role.isSystem === CLAIM_ADMIN_IS_SYSTEM)) {
-    addUserType(tempUser, CLAIM_ADMIN_USER_TYPE);
-  }
-
-  if (tempUser.roles?.some((role) => role.isSystem === OFFICER_ROLE_IS_SYSTEM)) {
-    addUserType(tempUser, ENROLMENT_OFFICER_USER_TYPE);
-  }
-  return tempUser.userTypes;
-}
+import { INTERACTIVE_USER_TYPE } from "./constants";
 
 export const mapQueriesUserToStore = (u) => {
   // TODO: make this more generic
   u.hasLogin = false;
-  u.userTypes = checkRolesAndGetUserTypes(u);
+  u.userTypes = u.userTypes?.length ? [...u.userTypes] : [INTERACTIVE_USER_TYPE];
   if (u.iUser) {
     u.hasLogin = true;
     u.lastName = u.iUser.lastName;
@@ -97,20 +65,6 @@ export const mapUserValuesToInput = (values) => {
     villageIds: values.officerVillages?.map((location) => decodeId(location.id)),
   };
   return input;
-};
-
-export const toggleUserType = (user, type) => {
-  if (!user.userTypes) {
-    user.userTypes = [];
-  }
-
-  if (user.userTypes.includes(type)) {
-    user.userTypes = user.userTypes.filter((x) => x !== type);
-  } else {
-    user.userTypes.push(type);
-  }
-
-  return user;
 };
 
 export const toggleUserRoles = (edited, data, isValid, isEnabled, hasRole, onEditedChanged, roleIsSystem) => {
