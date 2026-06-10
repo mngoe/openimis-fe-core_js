@@ -116,13 +116,36 @@ export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
 
-// value is expected to be a number, not string
 export function getDecimalPlaces(value) {
   if (value == null || Number.isNaN(Number(value))) return 0;
 
-  const str = String(Number(value));
-  if (!str.includes('.')) return 0;
-  return str.split('.')[1]?.length || 0;
+  const str =
+    typeof value === "string" && value.includes(".") ? value.trim() : String(Number(value));
+  if (!str.includes(".")) return 0;
+  return str.split(".")[1]?.length || 0;
+}
+
+export function parseLocalizedNumber(raw, locale = "en") {
+  if (raw == null || raw === "") return NaN;
+
+  const parts = new Intl.NumberFormat(locale).formatToParts(1234567.89);
+  const groupSeparator = parts.find((part) => part.type === "group")?.value ?? "";
+  const decimalSeparator = parts.find((part) => part.type === "decimal")?.value ?? ".";
+
+  let normalized = String(raw).replace(/\s/g, "");
+  if (groupSeparator) {
+    normalized = normalized.split(groupSeparator).join("");
+  }
+  if (decimalSeparator !== ".") {
+    const lastDecimalIndex = normalized.lastIndexOf(decimalSeparator);
+    if (lastDecimalIndex !== -1) {
+      normalized =
+        normalized.slice(0, lastDecimalIndex) +
+        "." +
+        normalized.slice(lastDecimalIndex + decimalSeparator.length);
+    }
+  }
+  return parseFloat(normalized);
 }
 
 
