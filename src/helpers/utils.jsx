@@ -2,6 +2,7 @@ import { baseApiUrl, logout } from "../actions";
 import { SAML_LOGOUT_PATH } from "../constants";
 import GetIconComponent from "./icons"
 import React from "react";
+import { clearExpiredSession } from "./api";
 import { clearLocalStorage } from "./useLocalStorage";
 
 export const ensureArray = (maybeArray) => {
@@ -94,6 +95,55 @@ export function getTimeDifferenceInDaysFromToday(dateToCheck) {
   const currentDate = new Date();
   return getTimeDifferenceInDays(dateToCheck, currentDate);
 }
+
+export const getPublicUrl = () => {
+  const publicUrl = process.env.PUBLIC_URL || "";
+  if (!publicUrl || publicUrl === "/") {
+    return "";
+  }
+  return publicUrl.startsWith("/") ? publicUrl : `/${publicUrl}`;
+};
+
+const UNAUTHENTICATED_ROUTES = ["login", "forgot_password", "set_password", "logout"];
+
+export const isUnauthenticatedRoute = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const publicUrl = getPublicUrl();
+  const { pathname } = window.location;
+
+  return UNAUTHENTICATED_ROUTES.some((route) => {
+    const fullPath = `${publicUrl}/${route}`.replace(/\/{2,}/g, "/");
+    return pathname === fullPath || pathname.endsWith(`/${route}`);
+  });
+};
+
+export const redirectToLogin = async () => {
+  await clearExpiredSession();
+
+  if (isUnauthenticatedRoute()) {
+    return;
+  }
+
+  const publicUrl = getPublicUrl();
+  const loginPath = `${publicUrl}/login`.replace(/\/{2,}/g, "/");
+  window.location.replace(loginPath);
+};
+
+export const handleBootLogout = () => {
+  const publicUrl = getPublicUrl();
+  const logoutPath = `${publicUrl}/logout`.replace(/\/{2,}/g, "/") || "/logout";
+  const { pathname } = window.location;
+
+  if (pathname === logoutPath || pathname.endsWith("/logout")) {
+    redirectToLogin();
+    return true;
+  }
+
+  return false;
+};
 
 export const onLogout = async (dispatch) => {
   clearLocalStorage();

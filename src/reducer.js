@@ -95,6 +95,14 @@ function reducer(
         user: action.payload,
       };
     case "CORE_USERS_CURRENT_USER_ERR":
+      if (action.payload?.status === 401 || action.payload?.status === 403) {
+        return {
+          ...state,
+          user: null,
+          error: null,
+          authError: null,
+        };
+      }
       return {
         ...state,
         error: {

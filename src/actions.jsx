@@ -12,6 +12,8 @@ import {
 } from "./helpers/api";
 import * as Sentry from "@sentry/react";
 import { getLocalStorage, setLocalStorage } from "./helpers/useLocalStorage";
+import { isSessionError, clearExpiredSession, hasStoredAuthSession } from "./helpers/api";
+import { isUnauthenticatedRoute, redirectToLogin } from "./helpers/utils";
 
 const REQUESTED_WITH = "webapp";
 
@@ -86,10 +88,6 @@ export function journalize(mutation, meta) {
   };
 }
 
-function isCsrfError(error) {
-  return error?.message?.includes("CSRF token missing or incorrect.");
-}
-
 export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
   let req = type + "_REQ";
   let resp = type + "_RESP";
@@ -124,13 +122,14 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
         dispatch(coreAlert(formatServerError(response.payload)));
       }
 
-      const error = response?.payload?.errors?.[0];
-      if (error && isCsrfError(error)) {
-        await dispatch(logout());
+      const gqlErrors = response?.payload?.errors || [];
+      if (isSessionError(null, gqlErrors)) {
+        await clearExpiredSession();
+        dispatch({ type: "CORE_AUTH_LOGOUT" });
 
-        requestAnimationFrame(() => {
-          window.location.reload();
-        });
+        if (!isUnauthenticatedRoute()) {
+          await redirectToLogin();
+        }
 
         return;
       }
@@ -341,22 +340,19 @@ export function fetch(config) {
         });
       }
 
-      const norm = (m) => String(m || "").toLowerCase().replace(/['"]/g, "").trim();
-      const csrfError = gqlErrors.some((e) => {
-        const msg = norm(e?.message);
-        return msg === "csrftoken" 
-        || msg === "user not authorized for this operation" 
-        || msg === "unauthorized";
-      });
-
-      if (csrfError) {
-        dispatch(
-          coreConfirm(
-            "Session Expired",
-            "Your session has expired, You will be redirected to the login page.",
-            "csrf_logout"
-          )
-        );
+      if (isSessionError(status, gqlErrors)) {
+        if (isUnauthenticatedRoute()) {
+          clearExpiredSession();
+          dispatch({ type: "CORE_AUTH_LOGOUT" });
+        } else {
+          dispatch(
+            coreConfirm(
+              "Session Expired",
+              "Your session has expired, You will be redirected to the login page.",
+              "csrf_logout"
+            )
+          );
+        }
         return action;
       }
 
@@ -489,8 +485,33 @@ export function login(credentials) {
         return { loginStatus: "CORE_AUTH_ERR", message: error.message };
       }
     } else {
-      await dispatch(refreshAuthToken());
+      if (!hasStoredAuthSession()) {
+        dispatch({ type: "CORE_AUTH_LOGOUT" });
+        return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
+      }
+
+      const refreshResult = await dispatch(refreshAuthToken());
+      const refreshStatus = refreshResult?.payload?.response?.status;
+      const refreshErrors = refreshResult?.payload?.errors || refreshResult?.payload?.response?.errors || [];
+
+      if (refreshResult?.error || isSessionError(refreshStatus, refreshErrors)) {
+        await clearExpiredSession();
+        dispatch({ type: "CORE_AUTH_LOGOUT" });
+        return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
+      }
+
       const action = await dispatch(loadUser());
+      const loadUserStatus = action?.payload?.response?.status ?? action?.payload?.status;
+      const loadUserErrors = action?.payload?.errors || action?.payload?.response?.errors || [];
+
+      if (action?.error || action.type === "CORE_USERS_CURRENT_USER_ERR") {
+        if (isSessionError(loadUserStatus, loadUserErrors)) {
+          await clearExpiredSession();
+          dispatch({ type: "CORE_AUTH_LOGOUT" });
+          return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
+        }
+      }
+
       return {
         loginStatus: action.type,
         message: action?.payload?.response?.detail ?? "Error occurred while loading user.",
@@ -537,6 +558,11 @@ export function refreshAuthToken() {
 
 export function initialize() {
   return async (dispatch) => {
+    if (isUnauthenticatedRoute() || !hasStoredAuthSession()) {
+      dispatch({ type: "CORE_AUTH_LOGOUT" });
+      return dispatch({ type: "CORE_INITIALIZED" });
+    }
+
     await dispatch(login());
     return dispatch({ type: "CORE_INITIALIZED" });
   };

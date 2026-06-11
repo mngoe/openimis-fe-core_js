@@ -1,7 +1,8 @@
 import React from "react";
 import _ from "lodash-uuid";
 import { IconButton } from "@mui/material";
-import  GetIconComponent from "./icons"
+import GetIconComponent from "./icons";
+import { clearLocalStorage, getLocalStorage } from "./useLocalStorage";
 
 const SortIcon = GetIconComponent("UnfoldMore")
 const SortAscIcon = GetIconComponent("ExpandLess")
@@ -188,6 +189,83 @@ export function formatGraphQLError(payload) {
         detail: payload.errors.map((e) => e.message).join("; "),
       };
 }
+
+const SESSION_ERROR_MESSAGES = new Set([
+  "csrftoken",
+  "unauthorized",
+  "user not authorized for this operation",
+  "authentication credentials were not provided",
+  "csrf token missing or incorrect",
+  "error decoding signature",
+  "invalid token",
+  "not authenticated",
+]);
+
+export const normalizeGraphqlErrorMessage = (message) =>
+  String(message || "")
+    .toLowerCase()
+    .replace(/['"]/g, "")
+    .trim();
+
+export const hasStoredAuthSession = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  return Boolean(getLocalStorage("csrfToken"));
+};
+
+export const isSessionError = (status, gqlErrors = []) => {
+  if (status === 401 || status === 403) {
+    return true;
+  }
+
+  return gqlErrors.some((error) => {
+    const message = normalizeGraphqlErrorMessage(error?.message);
+    return (
+      SESSION_ERROR_MESSAGES.has(message) ||
+      message.includes("csrf token missing or incorrect") ||
+      message.includes("authentication credentials were not provided")
+    );
+  });
+};
+
+const LOGOUT_MUTATION = `
+  mutation {
+    deleteTokenCookie {
+      deleted
+    }
+    deleteRefreshTokenCookie {
+      deleted
+    }
+  }
+`;
+
+function getApiUrl() {
+  let baseApiUrl = process.env.REACT_APP_API_URL ?? "/api";
+  if (baseApiUrl.indexOf("/") !== 0) {
+    baseApiUrl = `/${baseApiUrl}`;
+  }
+  return baseApiUrl;
+}
+
+export const clearExpiredSession = async () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  clearLocalStorage();
+
+  try {
+    await fetch(`${getApiUrl()}/graphql`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ query: LOGOUT_MUTATION }),
+    });
+  } catch (error) {
+    console.warn("Failed to clear auth cookies", error);
+  }
+};
 
 export function openBlob(data, filename, mime) {
   var a = document.createElement("a");
