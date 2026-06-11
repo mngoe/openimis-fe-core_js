@@ -250,7 +250,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     ...theme.mixins.toolbar,
     color: theme.palette.secondary.main,
     textTransform: "none",
-    fontSize: theme.typography.title?.fontSize || 20,
+    fontSize: theme.typography.h6.fontSize,
     fontWeight: "bold",
     whiteSpace: "nowrap",
     display: "flex",
@@ -263,7 +263,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
   },
   "& .appVersions": {
     color: theme.palette.secondary.main,
-    fontSize: (theme.typography.title?.fontSize || 20) / 2,
+    fontSize: theme.typography.h6.fontSize / 2,
     verticalAlign: "text-bottom",
     marginLeft: theme.spacing(1),
     opacity: 0.8,

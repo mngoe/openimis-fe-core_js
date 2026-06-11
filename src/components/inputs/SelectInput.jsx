@@ -97,7 +97,6 @@ class SelectInput extends Component {
             <TextField
               select
               fullWidth
-              variant="outlined"
               required={required}
               disabled={disabled}
               label={withLabel ? labelText : undefined}

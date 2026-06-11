@@ -176,10 +176,14 @@ class openIMISDatePicker extends Component {
                 "disabledStateVisibilityBoost": this.disabledVisibilityBoost && readOnly,
               })}
               value={this.state.value}
-              InputLabelProps={{
-                className: "label",
+              label={!!label ? formatMessage(intl, module, label) : null}
+              slotProps={{
+                textField: {
+                  required,
+                  variant: "standard",
+                  InputLabelProps: { className: "label" },
+                },
               }}
-              label={!!label ? formatMessage(intl, module, label).concat(required ? " *" : "") : null}
               onChange={this.dateChange}
               disablePast={disablePast}
               />
