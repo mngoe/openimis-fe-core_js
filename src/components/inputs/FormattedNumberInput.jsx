@@ -127,6 +127,7 @@ class FormattedNumberInput extends Component {
       displayZero = false,
       displayNa = false,
       allowDecimals = true,
+      decimal,
       ...others
     } = this.props;
 
