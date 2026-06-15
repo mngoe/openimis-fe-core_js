@@ -23,7 +23,6 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 - `FataError`: page for non-recoverable backend access errors
 - `Help`: main menu entry for Help (link to manual)
 - `Logout`: main menu entry to logout
-- `KeepLegacyAlive`: component to be registered in core.Boot contribution to keep legacy openIMIS session alive while interacting with new openIMIS pages
 - `ErrorPage`: displays error messages with status, title, and optional logo. Includes navigation button to the homepage.
 - `PermissionCheck`: controls access to content based on user rights (403 error). Renders content if user has required rights, otherwise shows `ForbiddenPage`.
 - `ForbiddenPage`: shown when a user lacks permission to access a specific page or resource. Displays an access denied message.
@@ -180,7 +179,7 @@ Whenever the **individual** global schema changes (you add or remove a filter fi
 - `formatMessageWithValues`: provide the translation of a module-prefixed key, for messages with vairable parts
 - `formatAmount`: format an amount as a string
     with config
-    - `fe-core`, "thousandSeparator", "en"
+    - `fe-core`, "thousandSeparator", "fr"
     - `fe-core`, "numberOfDecimals", 2
     the config thousandSeparator set the locale use by Intl.NumberFormat (e.g. "en") if you don't want formatting, set default value ""
     
@@ -227,7 +226,6 @@ Monetary amount decimal places can be controlled using the global `fe-core.numbe
 
 ## Contributions
 
-- `core.Boot` - KeepLegacyAlive: contributing to own contribution point in order to register the component that pings the Legacy openIMIS application to prevent session timeout while in the new part.
 - `core.Router`: registering `roles`, `roles/role` routes in openIMIS client-side router
 - `admin.MainMenu`:
 
@@ -271,7 +269,6 @@ None
 - `datePicker`: the concrete date picker to publish as `core.DatePicker` component ("ad"= Gregorian DatePicker, "ne"= Nepali calendar date picker )
 - `useDynPermalinks`: use ?dyn=<Base64-URL> when opening in new tab (prevent sending client-side routes to server while) (Default: false)
 - `core.JournalDrawer.pollInterval`: poll interval (in ms) to check for mutation status once submitted (Default: 2000)
-- `core.KeepLegacyAlive.pollInterval`: poll interval (in ms) to send the ping to legacy openIMIS (to prevent session timeout). (Default: 300000 = 5')
 - `journalDrawer.pageSize`: page size when loading (historical) mutations (Default: `5`)
 - `AutoSuggestion.limitDisplay`: threshold to limit the number of items in the auto suggestions (adding 'more options...' message), default: 10
 - `AmountInput.currencyPosition`: position of the currency for the AmountInput. Choices are `start` and `end` (default: `start`)
