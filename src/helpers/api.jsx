@@ -4,9 +4,9 @@ import { IconButton } from "@mui/material";
 import GetIconComponent from "./icons";
 import { clearLocalStorage, getLocalStorage } from "./useLocalStorage";
 
-const SortIcon = GetIconComponent("UnfoldMore")
-const SortAscIcon = GetIconComponent("ExpandLess")
-const SortDescIcon = GetIconComponent("ExpandMore")
+const SortIcon = GetIconComponent("UnfoldMore");
+const SortAscIcon = GetIconComponent("ExpandLess");
+const SortDescIcon = GetIconComponent("ExpandMore");
 
 function _entityAndFilters(entity, filters) {
   return `${entity}${!!filters && filters.length ? `(${filters.join(",")})` : ""}`;
@@ -51,11 +51,11 @@ export function formatNodeQuery(entityGQLType, nodeId, projections = ["id"]) {
 query ${getOperationName("Get", "node")} {
   node (id: "${nodeId}") {
     ...on ${entityGQLType} {
-      ${projections.join(',')}
+      ${projections.join(",")}
     }
   }
 }
-`
+`;
 }
 
 export function formatPageQuery(entity, filters, projections) {
@@ -128,9 +128,8 @@ export function parseData(data) {
 export function dispatchMutationReq(state, action) {
   const meta = action.meta || {};
   // Sanitize common non-serializable values (e.g. Date objects from older call sites)
-  const requestedDateTime = meta.requestedDateTime instanceof Date
-    ? meta.requestedDateTime.toISOString()
-    : meta.requestedDateTime;
+  const requestedDateTime =
+    meta.requestedDateTime instanceof Date ? meta.requestedDateTime.toISOString() : meta.requestedDateTime;
   const cleanMeta = {
     ...meta,
     requestedDateTime,
@@ -226,6 +225,13 @@ export const isSessionError = (status, gqlErrors = []) => {
       message.includes("csrf token missing or incorrect") ||
       message.includes("authentication credentials were not provided")
     );
+  });
+};
+
+export const isImpersonationError = (gqlErrors = []) => {
+  return gqlErrors.some((error) => {
+    const message = normalizeGraphqlErrorMessage(error?.message);
+    return message.includes("invalid impersonation target");
   });
 };
 

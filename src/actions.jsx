@@ -12,7 +12,7 @@ import {
 } from "./helpers/api";
 import * as Sentry from "@sentry/react";
 import { getLocalStorage, setLocalStorage } from "./helpers/useLocalStorage";
-import { isSessionError, clearExpiredSession, hasStoredAuthSession } from "./helpers/api";
+import { isSessionError, clearExpiredSession, hasStoredAuthSession, isImpersonationError } from "./helpers/api";
 import { isUnauthenticatedRoute, redirectToLogin } from "./helpers/utils";
 
 const REQUESTED_WITH = "webapp";
@@ -123,7 +123,15 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
       }
 
       const gqlErrors = response?.payload?.errors || [];
+      if (isImpersonationError(gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
+        dispatch(coreAlert("Impersonation ended", "Invalid impersonation target. Impersonation has been stopped."));
+        dispatch(loadUser());
+        return response;
+      }
+
       if (isSessionError(null, gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
         await clearExpiredSession();
         dispatch({ type: "CORE_AUTH_LOGOUT" });
 
@@ -289,7 +297,15 @@ export function fetch(config) {
       const status = response?.status;
       const gqlErrors = payload?.errors || response?.errors || [];
 
+      if (isImpersonationError(gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
+        dispatch(coreAlert("Impersonation ended", "Invalid impersonation target. Impersonation has been stopped."));
+        dispatch(loadUser());
+        return action;
+      }
+
       if (isSessionError(status, gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
         if (isUnauthenticatedRoute()) {
           clearExpiredSession();
           dispatch({ type: "CORE_AUTH_LOGOUT" });
@@ -298,17 +314,20 @@ export function fetch(config) {
             coreConfirm(
               "Session Expired",
               "Your session has expired, You will be redirected to the login page.",
-              "csrf_logout"
-            )
+              "csrf_logout",
+            ),
           );
         }
         return action;
       }
     } catch (err) {
       // Synthesize an error action so the single post-try/catch reporting + return path handles it uniformly.
-      action = action || {
+      action = {
         error: true,
-        payload: { originalError: err },
+        payload: {
+          originalError: err,
+          message: err?.message || "Network or request failure",
+        },
       };
     }
 
@@ -319,7 +338,10 @@ export function fetch(config) {
     const status = response?.status;
     const statusText = response?.statusText;
     const gqlErrors = action?.payload?.errors || response?.errors || [];
-    const message = action?.payload?.message || action?.error?.message;
+    const message =
+      action?.payload?.message ||
+      action?.payload?.originalError?.message ||
+      (typeof action?.error === "object" ? action.error.message : undefined);
 
     if (action?.error) {
       let errorMessage = "";
@@ -334,7 +356,7 @@ export function fetch(config) {
       } else {
         errorMessage = "Unknown error during API call";
       }
-
+      console.error(errorMessage, { originalError: action?.payload?.originalError, payload: action?.payload });
       Sentry.captureException(new Error(errorMessage), {
         level: "error",
         tags: {
@@ -369,7 +391,6 @@ export function fetch(config) {
 
     return action || { error: true, payload: null };
   };
-
 }
 
 export function loadUser() {
@@ -430,6 +451,7 @@ export function login(credentials) {
       const refreshErrors = refreshResult?.payload?.errors || refreshResult?.payload?.response?.errors || [];
 
       if (refreshResult?.error || isSessionError(refreshStatus, refreshErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
         await clearExpiredSession();
         dispatch({ type: "CORE_AUTH_LOGOUT" });
         return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
@@ -441,6 +463,7 @@ export function login(credentials) {
 
       if (action?.error || action.type === "CORE_USERS_CURRENT_USER_ERR") {
         if (isSessionError(loadUserStatus, loadUserErrors)) {
+          dispatch({ type: "CORE_STOP_IMPERSONATION" });
           await clearExpiredSession();
           dispatch({ type: "CORE_AUTH_LOGOUT" });
           return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
@@ -756,9 +779,4 @@ export function stopImpersonation() {
 }
 
 // Re-export API helpers
-export {
-  formatPageQuery,
-  formatPageQueryWithCount,
-  formatMutation,
-  decodeId,
-};
+export { formatPageQuery, formatPageQueryWithCount, formatMutation, decodeId };
