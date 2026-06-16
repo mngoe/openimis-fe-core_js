@@ -22,31 +22,30 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   // get default entries
   const menuEntries = modulesManager.getMenuEntries();
   const unsortedMenuEntries = backendMenuConfigs.length > 0 ? backendMenuConfigs : menuEntries;
-  // Normalize and validate each menu config. Both module contributions
-  // and backend configs are expected to use { id, name, icon, submenus }
-  // shape (matching the backend's moduleConfiguration schema).
+  // Default contributionKey to id for all configs (backend/module); override if specified
   unsortedMenuEntries.forEach(config => {
     if (!config.contributionKey) {
-      config.contributionKey = config.id;  // e.g. "individual.MainMenu"
+      config.contributionKey = config.id;  // Use id as key to pull submenus, e.g., "individual.MainMenu"
     }
-    if (!config.submenus && !config.contributionKey) {
-      console.warn(`Menu ${config.id} has no submenus or valid contributionKey.`);
+    if (!config.entries && !config.contributionKey) {
+      console.warn(`Menu ${config.id} has no entries or valid contributionKey.`);
     }
-    config.name = getMenuText(config.name, intl);
+    config.text = getMenuText(config.text, intl)
+
   });
   // Sort by position (default 99 if missing; stable for duplicates)
   const sortedMenuConfigs = unsortedMenuEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
   const mainMenuVariant = "icon_text"
   // Get all menu entries for active menu detection
-  const activeMenuId = findActiveMenuId(sortedMenuConfigs, routes);
+  const activeMenuId = findActiveMenuId(sortedMenuConfigs);
 
   // Process each menu config into a MainMenuContribution component
-  const menuComponents = sortedMenuConfigs.filter(m => m.name !== undefined)
+  const menuComponents = sortedMenuConfigs.filter(m => m.text !== undefined )
     .map((config) => {
-      const filteredSubmenus = prepareMenuEntries(rights, intl, config.submenus, routes);
+      const filteredEntries = prepareMenuEntries(rights, intl, config.entries, routes);
 
       // Skip empty menus
-      if (!filteredSubmenus.length) return null;
+      if (!filteredEntries.length) return null;
 
       // Resolve icon
       const IconComponent = GetIconComponent(config.icon);
@@ -57,12 +56,12 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
           key={config.id}
           mainMenuVariant={mainMenuVariant}
           menuVariant={menuVariant}
-          header={config.name}
+          header={config.text}
           menuId={config.id}
           modulesManager={modulesManager}
           rights={rights}
           history={history}
-          entries={filteredSubmenus}
+          entries={filteredEntries}
           icon={IconComponent}
           isInitiallyOpen={menuVariant === "Drawer" && config.id === activeMenuId}
         />
@@ -73,20 +72,16 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   return menuComponents;
 }
 
-// Returns the id of the parent menu whose submenus include the entry matching
-// the current URL path. Used to auto-expand that menu on load (PR #282).
-// Backend submenus carry only an `id`; module-contributed submenus carry a
-// `route`. For backend ones we resolve the route through the routes map.
-const findActiveMenuId = (menuConfigs, routes) => {
+const findActiveMenuId = (menuConfigs) => {
+  const matchingEntry = menuConfigs.find(menuEntryMatchesLocationPath);
+
+  if (!matchingEntry) return null;
+
+  // Find which menu config contains this entry
   for (const menuConfig of menuConfigs) {
-    if (!menuConfig.submenus) continue;
-    const matched = menuConfig.submenus.find((submenu) => {
-      const path = submenu.route || routes[submenu.id]?.path;
-      if (!path) return false;
-      const normalized = path.startsWith("/") ? path : `/${path}`;
-      return menuEntryMatchesLocationPath({ route: normalized });
-    });
-    if (matched) return menuConfig.id;
+    if (menuConfig.entries?.some(entry => entry.id === matchingEntry.id)) {
+      return menuConfig.id;
+    }
   }
   return null;
 };

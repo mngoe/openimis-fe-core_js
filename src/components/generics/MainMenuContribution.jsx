@@ -46,32 +46,19 @@ const StyledMainMenu = styled("div")(({ theme }) => ({
     fontWeight: 500,
     color: theme.menu.drawer.textColor,
   },
-  "& .MuiAccordionSummary-root .MuiListItemIcon-root": {
+
+  "& .MuiListItem-root": {
+    color: theme.menu.drawer.textColor,
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.1),
+    },
+  },
+  "& .MuiListItemIcon-root": {
+    color: theme.menu.drawer.textColor,
     minWidth: 40,
   },
-
-  "& .MuiAccordionDetails-root": {
-    backgroundColor: theme.palette.background.paper,
-    "& .MuiListItem-root": {
-      color: theme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.primary.main, 0.08),
-      },
-      "&.Mui-selected, &.menuItemActive": {
-        backgroundColor: alpha(theme.palette.primary.main, 0.12),
-        "&:hover": {
-          backgroundColor: alpha(theme.palette.primary.main, 0.16),
-        },
-      },
-    },
-    "& .MuiListItemIcon-root": {
-      color: theme.palette.primary.main,
-      minWidth: 40,
-    },
-    "& .MuiListItemText-root .MuiTypography-root": {
-      color: theme.palette.primary.main,
-      fontWeight: 400,
-    },
+  "& .MuiListItemText-root .MuiTypography-root": {
+    color: theme.menu.drawer.textColor,
   },
   "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
     color: theme.menu.drawer.textColor,
@@ -112,20 +99,16 @@ const StyledMainMenu = styled("div")(({ theme }) => ({
   },
 }));
 
-// MUI v7 uses `.Mui-expanded` instead of v4's `&$expanded`; without this
-// rewrite the expanded-state overrides silently no-op and v7 defaults
-// (16px Accordion margin, 64px summary, 20px content margin) leak in.
 const Accordion = styled(MuiAccordion)({
   boxShadow: "none",
-  margin: 0,
   "&:not(:last-child)": {
     borderBottom: 0,
   },
   "&:before": {
     display: "none",
   },
-  "&.Mui-expanded": {
-    margin: 0,
+  "&$expanded": {
+    margin: "auto",
   },
 });
 
@@ -133,23 +116,23 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.secondary.main,
   minHeight: 56,
-  "&.Mui-expanded": {
+  "&$expanded": {
     minHeight: 56,
   },
   "& .MuiAccordionSummary-content": {
-    margin: 0,
-    padding: 0,
+    margin: "0",
+    padding: "0",
     alignItems: "center",
     justifyContent: "start",
-    color: theme.palette.secondary.main,
-    "&.Mui-expanded": {
-      margin: 0,
+    "&$expanded": {
+      margin: "0",
     },
+    color: theme.palette.secondary.main,
   },
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(1, 2, 2),
+  padding: theme.spacing(2),
   display: "block",
 }));
 
@@ -317,7 +300,6 @@ class MainMenuContribution extends Component {
                       to={entry.route}
                       onClick={this.toggleExpanded}
                       selected={menuEntryMatchesLocationPath(entry)}
-                      className={menuEntryMatchesLocationPath(entry) ? "menuItemActive" : undefined}
                     >
                       {entry.icon && <ListItemIcon>{typeof entry.icon === 'function' ? (() => { const Icon = entry.icon; return <Icon />; })() : entry.icon}</ListItemIcon>}
                       <ListItemText primary={entry.text} />
