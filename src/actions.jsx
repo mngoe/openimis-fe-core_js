@@ -283,62 +283,11 @@ export function fetch(config) {
         },
       });
 
-      const endpoint = config.endpoint;
+      // Session error detection uses a minimal extraction; full error reporting is consolidated below.
       const payload = action?.payload || {};
       const response = payload?.response;
       const status = response?.status;
-      const statusText = response?.statusText;
       const gqlErrors = payload?.errors || response?.errors || [];
-      const message = payload?.message || action?.error?.message;
-
-      if (action?.error) {
-        let errorMessage = "";
-
-        if (!response && !message) {
-          errorMessage = "Server not responding";
-        } else if (status) {
-          errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
-        } else if (gqlErrors?.length > 0) {
-          errorMessage = `GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`;
-        } else if (message) {
-          errorMessage = `Network or API Error: ${message}`;
-        } else {
-          errorMessage = "Unknown error during API call";
-        }
-
-        Sentry.captureException(new Error(errorMessage), {
-          level: "error",
-          tags: {
-            endpoint,
-            status: status || "no-status",
-            type: config.method || "unknown-method",
-          },
-          extra: {
-            endpoint,
-            status,
-            statusText,
-            body: config.body,
-            response: action.payload,
-          },
-        });
-      }
-
-      if (!action?.error && gqlErrors?.length > 0) {
-        const gqlMessage = gqlErrors.map(e => e.message).join("; ");
-
-        Sentry.captureException(new Error(`GraphQL Error: ${gqlMessage}`), {
-          level: "error",
-          tags: {
-            endpoint,
-            type: config.method || "unknown-method",
-          },
-          extra: {
-            endpoint,
-            errors: gqlErrors,
-            query: config.body,
-          },
-        });
-      }
 
       if (isSessionError(status, gqlErrors)) {
         if (isUnauthenticatedRoute()) {
@@ -355,42 +304,28 @@ export function fetch(config) {
         }
         return action;
       }
-
     } catch (err) {
-      const errorMessage = "Server not responding";
-
-      Sentry.captureException(new Error(errorMessage), {
-        level: "error",
-        tags: {
-          endpoint: config.endpoint,
-          type: config.method || "unknown-method",
-        },
-        extra: {
-          endpoint: config.endpoint,
-          body: config.body,
-          originalError: err,
-        },
-      });
-
-      // Ensure we have an action-like object for downstream code and return
+      // Synthesize an error action so the single post-try/catch reporting + return path handles it uniformly.
       action = action || {
         error: true,
-        payload: { message: errorMessage, originalError: err },
+        payload: { originalError: err },
       };
     }
+
+    // Consolidated single location for all Sentry error reporting (action?.error and standalone GQL errors).
+    // This runs for normal error responses and for exceptions synthesized in catch.
     const endpoint = config.endpoint;
     const response = action?.payload?.response;
     const status = response?.status;
     const statusText = response?.statusText;
-    const gqlErrors = response?.errors;
+    const gqlErrors = action?.payload?.errors || response?.errors || [];
     const message = action?.payload?.message || action?.error?.message;
 
     if (action?.error) {
       let errorMessage = "";
       if (!response && !message) {
         errorMessage = "Server not responding";
-      }
-      if (status) {
+      } else if (status) {
         errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
       } else if (gqlErrors?.length > 0) {
         errorMessage = `GraphQL Error: ${gqlErrors.map((e) => e.message).join("; ")}`;
@@ -417,7 +352,7 @@ export function fetch(config) {
       });
     }
 
-    if (!action?.error && gqlErrors && gqlErrors.length > 0) {
+    if (!action?.error && gqlErrors?.length > 0) {
       Sentry.captureException(new Error(`GraphQL Error: ${gqlErrors.map((e) => e.message).join("; ")}`), {
         level: "error",
         tags: {
