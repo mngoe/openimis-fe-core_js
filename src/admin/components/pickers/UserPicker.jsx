@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTheme, styled } from "@mui/material/styles";
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 import { withModulesManager, useDebounceCb, useTranslations } from "@openimis/fe-core";
 import { fetchUsers } from "../../actions";
 import { DEFAULT } from "../../constants";
+
+const EMPTY_FILTERS = [];
 
 const styles = (theme) => ({
   label: {
@@ -21,14 +22,16 @@ const UserPicker = (props) => {
     required = false,
     withLabel = true,
     healthFacility,
-    filters = [],
+    filters: filtersProp,
     value,
     label,
     filterOptions,
     filterSelectedOptions,
     placeholder,
     multiple = false,
+    searchOnInput = true,
   } = props;
+  const filters = filtersProp ?? EMPTY_FILTERS;
   const minCharLookup = modulesManager.getConf("fe-admin", "usersMinCharLookup", 2);
   const dispatch = useDispatch();
   const [searchString, setSearchString] = useState(null);
@@ -37,12 +40,10 @@ const UserPicker = (props) => {
   const users = useSelector((state) => state.admin.users.items);
   const isLoading = useSelector((state) => state.admin.users.isLoading);
 
-  const onInputChange = useDebounceCb(setSearchString, modulesManager.getConf("fe-admin", "debounceTime", 400));
-  // eslint-disable-next-line no-shadow
-  const handleChange = (__, value) => {
-    onChange(value);
-    if (!multiple) setOpen(false);
-  };
+  const debouncedSetSearchString = useDebounceCb(
+    setSearchString,
+    modulesManager.getConf("fe-admin", "debounceTime", 400),
+  );
 
   const formatSuggestion = (p) => {
     const renderLastNameFirst = modulesManager.getConf(
@@ -51,7 +52,9 @@ const UserPicker = (props) => {
       DEFAULT.RENDER_LAST_NAME_FIRST,
     );
 
-    if (!p) return "?";
+    if (!p || typeof p !== "object") {
+      return "";
+    }
     return [
       p.username,
       renderLastNameFirst ? p.iUser?.lastName : p.iUser?.otherNames,
@@ -61,23 +64,36 @@ const UserPicker = (props) => {
       .join(" ");
   };
 
-  useEffect(() => {
-    if (searchString?.length > minCharLookup) {
-      dispatch(
-        fetchUsers(
-          modulesManager,
-          [searchString && `str: "${searchString}"`, ...(filters ?? [])].filter(Boolean),
-          !healthFacility,
-        ),
-      );
-    }
-  }, [searchString]);
+  const [inputValue, setInputValue] = useState(() => formatSuggestion(value));
 
   useEffect(() => {
-    if (open) {
-      dispatch(fetchUsers(modulesManager, [`first: 10`, ...(filters ?? [])], !healthFacility));
+    if (!searchOnInput) {
+      setInputValue(formatSuggestion(value));
     }
-  }, [open]);
+  }, [value, searchOnInput]);
+
+  const handleChange = (event, selected) => {
+    setSearchString(null);
+    if (!searchOnInput) {
+      setInputValue(formatSuggestion(selected));
+    }
+    onChange?.(selected);
+    if (!multiple) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!searchOnInput || !searchString || searchString.length <= minCharLookup) {
+      return;
+    }
+    dispatch(fetchUsers(modulesManager, [`str: "${searchString}"`, ...filters].filter(Boolean), !healthFacility));
+  }, [searchString, searchOnInput, minCharLookup, dispatch, modulesManager, filters, healthFacility]);
+
+  const handleOpen = () => {
+    setOpen(true);
+    dispatch(fetchUsers(modulesManager, [`first: 10`, ...filters], !healthFacility));
+  };
 
   return (
     <Autocomplete
@@ -91,16 +107,30 @@ const UserPicker = (props) => {
       options={users}
       loading={isLoading}
       open={open}
-      onOpen={() => setOpen(true)}
+      onOpen={handleOpen}
       onClose={() => setOpen(false)}
-      autoComplete
       value={value}
       getOptionLabel={(option) => formatSuggestion(option)}
-      isOptionEqualToValue={(option, v) => option.id === v.id}
+      isOptionEqualToValue={(option, v) => option?.id === v?.id}
       onChange={handleChange}
       filterOptions={filterOptions}
       filterSelectedOptions={filterSelectedOptions}
-      onInputChange={(__, query) => onInputChange(query)}
+      {...(!searchOnInput && {
+        inputValue,
+        onInputChange: (event, newInputValue, reason) => {
+          if (reason === "clear") {
+            setInputValue("");
+          }
+        },
+      })}
+      {...(searchOnInput && {
+        onInputChange: (event, query, reason) => {
+          if (reason !== "input") {
+            return;
+          }
+          debouncedSetSearchString(query);
+        },
+      })}
       renderInput={(inputProps) => (
         <TextField
           {...inputProps}
