@@ -62,15 +62,24 @@ class openIMISDatePicker extends Component {
     this.setState((state, props) => ({ value: props.value ? fromISODateToDayjs(props.value) : null }));
   }
 
-  componentDidUpdate(prevState, prevProps, snapshot) {
-    if (prevState.value !== this.props.value) {
-      this.setState((state, props) => ({ value: props.value ? fromISODateToDayjs(props.value) : null }));
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: this.props.value ? fromISODateToDayjs(this.props.value) : null });
     }
   }
 
-  dateChange = (d) => {
+  dateChange = (d, context) => {
+    // MUI fires onChange with null while the user is still typing (e.g. partial year in DD-MM-YYYY).
+    // Ignore those intermediate invalid states so the field does not clear day/month sections.
+    if ((d && !d.isValid()) || (!d && context?.validationError)) {
+      return;
+    }
     const jsDate = d ? d.toDate() : null;
-    this.setState({ value: d }, () => (!!this.props.onChange ? this.props.onChange(toISODate(jsDate)) : null));
+    this.setState({ value: d }, () => {
+      if (this.props.onChange) {
+        this.props.onChange(toISODate(jsDate));
+      }
+    });
   };
 
   secondaryCalendarDateChange = (d) => {
