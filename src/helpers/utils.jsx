@@ -43,27 +43,27 @@ export function GetIconFromId(conf, routes, id) {
   return conf || routes[id]?.icon;
 }
 
-export function prepareMenuEntries(rights, intl, entries, routes) {
-  const rightsSet = new Set(rights.map(r => String(r)))
+export function prepareMenuEntries(rights, intl, submenus, routes) {
+  const rightsSet = new Set(rights.map(r => String(r)));
 
-  // Filter entries by rights and convert icon strings to components
-  const filteredEntries = entries
+  // Filter submenu entries by rights and convert icon strings to components.
+  const filteredSubmenus = (submenus || [])
     .filter((entry) => {
       const routeRef = entry.route || entry.id;
-      const entryRights = GetRightsFromId(entry.rights, routes, routeRef );
+      const entryRights = GetRightsFromId(entry.rights, routes, routeRef);
       return (routeRef !== undefined) && (!entryRights || entryRights.some(er => rightsSet.has(String(er))));
     })
     .map((entry) => ({
       ...entry,
       icon: GetIconComponent(GetIconFromId(entry.icon, routes, entry.route || entry.id)),
       text: getMenuText(GetTextFromId(entry.text, routes, entry.route || entry.id), intl),
-      route: "/" + GetRouteFromId(entry.route, routes, entry.id)
+      route: "/" + GetRouteFromId(entry.route, routes, entry.id),
     }));
 
   // Sort by position (default 99 if missing; stable for duplicates)
-  filteredEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
+  filteredSubmenus.sort((a, b) => (a.position || 99) - (b.position || 99));
 
-  return filteredEntries;
+  return filteredSubmenus;
 }
 
 

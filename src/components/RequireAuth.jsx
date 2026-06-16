@@ -197,9 +197,11 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     flexShrink: 0,
     backgroundColor: theme.menu.drawer.backgroundColor,
     color: theme.menu.drawer.textColor,
-    height: "100%",
-    position: "sticky",
-    top: "auto",
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: theme.zIndex.appBar + 1,
   },
 
   "& .drawerHeader": {
@@ -235,35 +237,20 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
     marginLeft: theme.menu.drawer.width,
   },
   "& main": {
-    paddingTop: theme.spacing(4),
-    paddingLeft: theme.spacing(3),
-    paddingRight: `calc(${theme.spacing(3)} + ${
-      typeof theme.jrnlDrawer?.close?.width === "number"
-        ? `${theme.jrnlDrawer.close.width}px`
-        : theme.jrnlDrawer?.close?.width || "73px"
-    })`,
     flexGrow: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    transition: theme.transitions.create("padding-right", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
     "& > *": {
       width: "100%",
       padding: "0 !important",
     },
-    [theme.breakpoints.down("md")]: {
-      paddingTop: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-    },
   },
   "& .appName": {
+    ...theme.mixins.toolbar,
     color: theme.palette.secondary.main,
     textTransform: "none",
-    fontSize: theme.typography.title?.fontSize || 20,
+    fontSize: theme.typography.h6.fontSize,
     fontWeight: "bold",
     whiteSpace: "nowrap",
     display: "flex",
@@ -276,7 +263,7 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
   },
   "& .appVersions": {
     color: theme.palette.secondary.main,
-    fontSize: (theme.typography.title?.fontSize || 20) / 2,
+    fontSize: theme.typography.h6.fontSize / 2,
     verticalAlign: "text-bottom",
     marginLeft: theme.spacing(1),
     opacity: 0.8,
@@ -293,9 +280,8 @@ const StyledRequireAuth = styled("div")(({ theme }) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
-    paddingTop: theme.spacing(4),
+    marginRight: theme.jrnlDrawer?.close?.width || 73,
+    padding: theme.spacing(3),
   },
   "& .jrnlContentShift": {
     position: "relative",

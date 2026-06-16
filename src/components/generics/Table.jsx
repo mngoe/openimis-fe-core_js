@@ -260,13 +260,13 @@ class Table extends Component {
       <StyledTable>
         <Box position="relative" overflow="auto">
           {header && (
-            <Grid container alignItems="center" justify="space-between" className="tableTitle">
+            <Grid container alignItems="center" justifyContent="space-between" className="tableTitle">
               {extendHeader ? (
                 <>
                   <Grid size={6}>
                     <Typography variant="h6">{header}</Typography>
                   </Grid>
-                  <Grid container direction="row" alignItems="center" justify="space-between" size={6}>
+                  <Grid container direction="row" alignItems="center" justifyContent="space-between" size={6}>
                     {extendHeader && extendHeader()}
                   </Grid>
                 </>

@@ -189,7 +189,7 @@ class RoleRightsPanel extends FormPanel {
                 </Paper>
               </Grid>
             </Grid>
-            <Grid container justify="space-between" alignItems="center">
+            <Grid container justifyContent="space-between" alignItems="center">
               <Grid size={6} className="item">
                 <Grid className="item">
                   <Grid className="listTitle">
@@ -220,7 +220,7 @@ class RoleRightsPanel extends FormPanel {
                               this.isFilterMatched(modulePermission.moduleName, permission.permsName),
                           )
                           .map((permission) => (
-                            <ListItem button divider>
+                            <ListItem divider>
                               <ListItemText
                                 className="listItemText"
                                 primary={this.rightLabel(modulePermission.moduleName, permission.permsName)}
@@ -269,7 +269,7 @@ class RoleRightsPanel extends FormPanel {
                               this.isFilterMatched(modulePermission.moduleName, permission.permsName),
                           )
                           .map((permission) => (
-                            <ListItem button divider>
+                            <ListItem divider>
                               <ListItemText
                                 className="listItemText"
                                 primary={this.rightLabel(modulePermission.moduleName, permission.permsName)}
