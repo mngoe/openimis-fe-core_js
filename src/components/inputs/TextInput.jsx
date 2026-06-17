@@ -7,12 +7,12 @@ import { formatMessage } from "../../helpers/i18n";
 import { DEFAULT } from "../../constants";
 import withModulesManager from "../../helpers/modules";
 
-const StyledTextInput = styled('div')(({ theme }) => ({
-  '& .label': {
+const StyledTextInput = styled("div")(({ theme }) => ({
+  "& .label": {
     color: theme.palette.primary.main,
   },
   // NOTE: This is used to hide the increment/decrement arrows from the number input
-  '& .numberInput': {
+  "& .numberInput": {
     "& input[type=number]": {
       MozAppearance: "textfield",
     },
@@ -25,16 +25,16 @@ const StyledTextInput = styled('div')(({ theme }) => ({
       margin: 0,
     },
   },
-  '& .disabledStateVisibilityBoost': {
+  "& .disabledStateVisibilityBoost": {
     "& .Mui-disabled": {
-      color: '#5E5B50',
+      color: "#5E5B50",
     },
     "& .MuiInput-underline:before": {
       borderBottom: `1px dotted #5E5B50`,
     },
     "& .MuiFormLabel-root.Mui-disabled": {
       color: "#181716",
-    }
+    },
   },
 }));
 

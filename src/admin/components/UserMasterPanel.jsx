@@ -6,8 +6,8 @@ import { useTheme, styled } from "@mui/material/styles";
 import { Grid, Divider, Typography, Button, InputAdornment, IconButton, Box } from "@mui/material";
 import GetIconComponent from "../../helpers/icons";
 
-const VisibilityIcon = GetIconComponent("Visibility")
-const VisibilityOffIcon = GetIconComponent("VisibilityOff")
+const VisibilityIcon = GetIconComponent("Visibility");
+const VisibilityOffIcon = GetIconComponent("VisibilityOff");
 
 import {
   withModulesManager,
@@ -18,7 +18,13 @@ import {
   passwordGenerator,
   validatePassword,
 } from "@openimis/fe-core";
-import { CLAIM_ADMIN_USER_TYPE, ENROLMENT_OFFICER_USER_TYPE, EMAIL_REGEX_PATTERN, DEFAULT, RIGHT_HEALTHFACILITIES } from "../constants";
+import {
+  CLAIM_ADMIN_USER_TYPE,
+  ENROLMENT_OFFICER_USER_TYPE,
+  EMAIL_REGEX_PATTERN,
+  DEFAULT,
+  RIGHT_HEALTHFACILITIES,
+} from "../constants";
 import {
   usernameValidationCheck,
   usernameValidationClear,
@@ -30,15 +36,14 @@ import {
   fetchPasswordPolicy,
 } from "../actions";
 
-
 const StyledGrid = styled(Grid)(({ theme }) => ({
-  '& .item': theme.paper?.item ?? {},
-  '& .sectionHeader': {
-    ...theme.paper?.item ?? {},
+  "& .item": theme.paper?.item ?? {},
+  "& .sectionHeader": {
+    ...(theme.paper?.item ?? {}),
     paddingBottom: 0,
   },
-  '& .sectionTitle': theme.typography?.title ?? {},
-  '& .passwordFeedback': {
+  "& .sectionTitle": theme.typography?.title ?? {},
+  "& .passwordFeedback": {
     // Add password feedback styles if needed
   },
 }));
@@ -135,7 +140,12 @@ const UserMasterPanel = (props) => {
     });
     const generatedPassword = passwordGenerator(passwordGeneratorOptions);
     IS_PASSWORD_SECURED = true;
-    onEditedChanged({ ...edited, password: generatedPassword, confirmPassword: generatedPassword, isPasswordValid: IS_PASSWORD_SECURED });
+    onEditedChanged({
+      ...edited,
+      password: generatedPassword,
+      confirmPassword: generatedPassword,
+      isPasswordValid: IS_PASSWORD_SECURED,
+    });
   };
 
   const renderLastNameField = (edited, readOnly) => (
@@ -203,58 +213,59 @@ const UserMasterPanel = (props) => {
         obligatoryUserFields?.email == "H" ||
         (edited.userTypes?.includes(ENROLMENT_OFFICER_USER_TYPE) && obligatoryEOFields?.email == "H")
       ) && (
-          <Grid size={4} className="item">
-            <ValidatedTextInput
-              itemQueryIdentifier="userEmail"
-              shouldValidate={shouldValidateEmail}
-              isValid={isUserEmailValid}
-              isValidating={isUserEmailValidating}
-              validationError={emailValidationError}
-              invalidValueFormat={isUserEmailFormatInvalid}
-              action={userEmailValidationCheck}
-              clearAction={userEmailValidationClear}
-              setValidAction={setUserEmailValid}
-              readOnly={readOnly}
-              module="admin"
-              label="user.email"
-              type="email"
-              codeTakenLabel="user.emailAlreadyTaken"
-              required={true}
-              value={edited?.email ?? ""}
-              onChange={(email) => handleEmailChange(email)}
-            />
-          </Grid>
-        )}
+        <Grid size={4} className="item">
+          <ValidatedTextInput
+            itemQueryIdentifier="userEmail"
+            shouldValidate={shouldValidateEmail}
+            isValid={isUserEmailValid}
+            isValidating={isUserEmailValidating}
+            validationError={emailValidationError}
+            invalidValueFormat={isUserEmailFormatInvalid}
+            action={userEmailValidationCheck}
+            clearAction={userEmailValidationClear}
+            setValidAction={setUserEmailValid}
+            readOnly={readOnly}
+            module="admin"
+            label="user.email"
+            type="email"
+            codeTakenLabel="user.emailAlreadyTaken"
+            required={true}
+            value={edited?.email ?? ""}
+            onChange={(email) => handleEmailChange(email)}
+          />
+        </Grid>
+      )}
       {!(
         obligatoryUserFields?.phone == "H" ||
         (edited.userTypes?.includes(ENROLMENT_OFFICER_USER_TYPE) && obligatoryEOFields?.phone == "H")
       ) && (
-          <Grid size={4} className="item">
-            <TextInput
-              module="admin"
-              type="phone"
-              label="user.phone"
-              required={
-                obligatoryUserFields?.phone == "M" ||
-                (edited.userTypes?.includes(ENROLMENT_OFFICER_USER_TYPE) && obligatoryEOFields?.phone == "M")
-              }
-              readOnly={readOnly}
-              value={edited?.phoneNumber ?? ""}
-              onChange={(phoneNumber) => onEditedChanged({ ...edited, phoneNumber })}
-            />
-          </Grid>
-        )}
-      {rights.includes(RIGHT_HEALTHFACILITIES) && (<Grid size={4} className="item">
-        <PublishedComponent
-          pubRef="location.HealthFacilityPicker"
-          value={edited?.healthFacility}
-          district={edited.districts}
-          module="admin"
-          readOnly={readOnly}
-          required={edited.userTypes.includes(CLAIM_ADMIN_USER_TYPE)}
-          onChange={(healthFacility) => onEditedChanged({ ...edited, healthFacility })}
-        />
-      </Grid>
+        <Grid size={4} className="item">
+          <TextInput
+            module="admin"
+            type="phone"
+            label="user.phone"
+            required={
+              obligatoryUserFields?.phone == "M" ||
+              (edited.userTypes?.includes(ENROLMENT_OFFICER_USER_TYPE) && obligatoryEOFields?.phone == "M")
+            }
+            readOnly={readOnly}
+            value={edited?.phoneNumber ?? ""}
+            onChange={(phoneNumber) => onEditedChanged({ ...edited, phoneNumber })}
+          />
+        </Grid>
+      )}
+      {rights.includes(RIGHT_HEALTHFACILITIES) && (
+        <Grid size={4} className="item">
+          <PublishedComponent
+            pubRef="location.HealthFacilityPicker"
+            value={edited?.healthFacility}
+            district={edited.districts}
+            module="admin"
+            readOnly={readOnly}
+            required={edited.userTypes.includes(CLAIM_ADMIN_USER_TYPE)}
+            onChange={(healthFacility) => onEditedChanged({ ...edited, healthFacility })}
+          />
+        </Grid>
       )}
       <Grid size={6} className="item">
         <PublishedComponent
