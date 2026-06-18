@@ -5,10 +5,9 @@ import { injectIntl } from "react-intl";
 import { useModulesManager } from "../helpers/modules";
 import { ErrorBoundary } from "@openimis/fe-core";
 import { useToast } from "../helpers/ToastContext";
-import { menuEntryMatchesLocationPath } from "../helpers/utils";
+import { menuEntryMatchesLocationPath, getMenuText, prepareMenuEntries, ensureArray } from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
 import GetIconComponent from "../helpers/icons";
-import { getMenuText, prepareMenuEntries } from "../helpers/utils";
 
 function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   // Get backend overrides
@@ -22,22 +21,23 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
     if (!config.contributionKey) {
       config.contributionKey = config.id; // Use id as key to pull submenus, e.g., "individual.MainMenu"
     }
-    if (!config.entries && !config.contributionKey) {
-      console.warn(`Menu ${config.id} has no entries or valid contributionKey.`);
+    if (!config.entries && !config.submenus && !config.contributionKey) {
+      console.warn(`Menu ${config.id} has no entries or submenus or valid contributionKey.`);
     }
     config.text = getMenuText(config.text, intl);
   });
   // Sort by position (default 99 if missing; stable for duplicates)
   const sortedMenuConfigs = unsortedMenuEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
   const mainMenuVariant = "icon_text";
-  // Get all menu entries for active menu detection
-  const activeMenuId = findActiveMenuId(sortedMenuConfigs);
+  // Detect which top-level menu should be auto-expanded in drawer (matches current route against leaves)
+  const activeMenuId = findActiveMenuId(sortedMenuConfigs, routes);
 
   // Process each menu config into a MainMenuContribution component
   const menuComponents = sortedMenuConfigs
     .filter((m) => m.text !== undefined)
     .map((config) => {
-      const filteredEntries = prepareMenuEntries(rights, intl, config.entries, routes);
+      const rawEntries = config.entries || config.submenus || [];
+      const filteredEntries = prepareMenuEntries(rights, intl, rawEntries, routes);
 
       // Skip empty menus
       if (!filteredEntries.length) return null;
@@ -66,14 +66,11 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   return menuComponents;
 }
 
-const findActiveMenuId = (menuConfigs) => {
-  const matchingEntry = menuConfigs.find(menuEntryMatchesLocationPath);
-
-  if (!matchingEntry) return null;
-
-  // Find which menu config contains this entry
+const findActiveMenuId = (menuConfigs, routes = null) => {
+  if (!Array.isArray(menuConfigs)) return null;
   for (const menuConfig of menuConfigs) {
-    if (menuConfig.entries?.some((entry) => entry.id === matchingEntry.id)) {
+    const rawLeaves = ensureArray(menuConfig.entries).concat(ensureArray(menuConfig.submenus));
+    if (rawLeaves.some((leaf) => menuEntryMatchesLocationPath(leaf, routes))) {
       return menuConfig.id;
     }
   }

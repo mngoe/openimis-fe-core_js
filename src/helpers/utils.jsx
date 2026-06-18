@@ -194,7 +194,19 @@ export function parseLocalizedNumber(raw, locale = "en") {
   return parseFloat(normalized);
 }
 
-export function menuEntryMatchesLocationPath(entry) {
-  const pathname = location.pathname;
-  return pathname === `/front${entry.route}` || pathname.startsWith(`/front${entry.route}/`);
+export function menuEntryMatchesLocationPath(entry, routes = null) {
+  if (typeof entry !== "object" || entry === null) return false;
+  const pathname = typeof window !== "undefined" && window.location ? window.location.pathname : "";
+  let route = entry.route;
+  if (!route && routes && entry.id) {
+    route = GetRouteFromId(null, routes, entry.id);
+  }
+  if (!route) return false;
+  if (!route.startsWith("/")) {
+    route = "/" + route;
+  }
+  const publicUrl = getPublicUrl();
+  const effective = `${publicUrl}${route}`.replace(/\/{2,}/g, "/");
+  const pathOnly = pathname.split(/[?#]/)[0];
+  return pathOnly === effective || pathOnly.startsWith(effective + "/");
 }
