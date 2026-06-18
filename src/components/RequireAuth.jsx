@@ -368,11 +368,12 @@ const RequireAuth = (props) => {
             </Contributions>
             {showImpersonationPicker && (
               <UserPicker
+                readOnly={Boolean(impersonatedUser)}
                 onChange={(user) => {
-                  if (user) {
-                    dispatch(impersonateUser(user));
-                  } else {
+                  if (!user) {
                     dispatch(stopImpersonation());
+                  } else if (!impersonatedUser) {
+                    dispatch(impersonateUser(user));
                   }
                 }}
                 value={impersonatedUser}
@@ -479,11 +480,12 @@ const RequireAuth = (props) => {
             />
             {showImpersonationPicker && (
               <UserPicker
+                readOnly={Boolean(impersonatedUser)}
                 onChange={(user) => {
-                  if (user) {
-                    dispatch(impersonateUser(user));
-                  } else {
+                  if (!user) {
                     dispatch(stopImpersonation());
+                  } else if (!impersonatedUser) {
+                    dispatch(impersonateUser(user));
                   }
                 }}
                 value={impersonatedUser}

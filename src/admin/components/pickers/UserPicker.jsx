@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 import { withModulesManager, useDebounceCb, useTranslations } from "@openimis/fe-core";
 import { fetchUsers } from "../../actions";
 import { DEFAULT } from "../../constants";
-
-const EMPTY_FILTERS = [];
 
 const styles = (theme) => ({
   label: {
@@ -31,7 +29,7 @@ const UserPicker = (props) => {
     multiple = false,
     searchOnInput = true,
   } = props;
-  const filters = filtersProp ?? EMPTY_FILTERS;
+  const filters = useMemo(() => filtersProp ?? [], [JSON.stringify(filtersProp)]);
   const minCharLookup = modulesManager.getConf("fe-admin", "usersMinCharLookup", 2);
   const dispatch = useDispatch();
   const [searchString, setSearchString] = useState(null);
@@ -84,13 +82,15 @@ const UserPicker = (props) => {
   };
 
   useEffect(() => {
+    if (readOnly) return;
     if (!searchOnInput || !searchString || searchString.length <= minCharLookup) {
       return;
     }
     dispatch(fetchUsers(modulesManager, [`str: "${searchString}"`, ...filters].filter(Boolean), !healthFacility));
-  }, [searchString, searchOnInput, minCharLookup, dispatch, modulesManager, filters, healthFacility]);
+  }, [searchString, searchOnInput, minCharLookup, dispatch, modulesManager, filters, healthFacility, readOnly]);
 
   const handleOpen = () => {
+    if (readOnly) return;
     setOpen(true);
     dispatch(fetchUsers(modulesManager, [`first: 10`, ...filters], !healthFacility));
   };
@@ -103,11 +103,10 @@ const UserPicker = (props) => {
       clearText={formatMessage("clearText")}
       openOnFocus
       multiple={multiple}
-      disabled={readOnly}
       options={users}
       loading={isLoading}
-      open={open}
-      onOpen={handleOpen}
+      open={readOnly ? false : open}
+      onOpen={readOnly ? undefined : handleOpen}
       onClose={() => setOpen(false)}
       value={value}
       getOptionLabel={(option) => formatSuggestion(option)}
@@ -128,7 +127,9 @@ const UserPicker = (props) => {
           if (reason !== "input") {
             return;
           }
-          debouncedSetSearchString(query);
+          if (!readOnly) {
+            debouncedSetSearchString(query);
+          }
         },
       })}
       renderInput={(inputProps) => (
@@ -137,6 +138,10 @@ const UserPicker = (props) => {
           required={required}
           label={withLabel && (label || formatMessage("label"))}
           placeholder={placeholder}
+          inputProps={{
+            ...inputProps.inputProps,
+            readOnly: readOnly,
+          }}
         />
       )}
     />
