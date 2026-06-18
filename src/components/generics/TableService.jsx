@@ -278,10 +278,11 @@ class Table extends Component {
 
                               <table style={{ marginTop: 10, width: "90%" }}>
                                 <tr>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[0]} /></TableCell>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[1]} /></TableCell>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[2]} /></TableCell>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[3]} /></TableCell>
+                                  {localSubServiceHeaders.map((header, index) => (
+                                    <TableCell key={index}>
+                                      <FormattedMessage module={module} id={header} />
+                                    </TableCell>
+                                  ))}
                                 </tr>
                                 {localsubServicesItemsFormattersReview &&
                                   localsubServicesItemsFormattersReview.map((s, sfidx) => {
@@ -340,10 +341,11 @@ class Table extends Component {
 
                               <table style={{ marginTop: 10, width: "90%" }}>
                                 <tr>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[0]} /></TableCell>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[1]} /></TableCell>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[2]} /></TableCell>
-                                  <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[3]} /></TableCell>
+                                  {localSubServiceHeaders.map((header, index) => (
+                                    <TableCell key={index}>
+                                      <FormattedMessage module={module} id={header} />
+                                    </TableCell>
+                                  ))}
                                 </tr>
                                 {localSubServicesItemsFormatters &&
                                   localSubServicesItemsFormatters.map((s, sfidx) => {
