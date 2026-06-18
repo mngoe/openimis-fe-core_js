@@ -44,16 +44,17 @@ const StyledMainMenu = styled("div")(({ theme }) => ({
   "& .drawerHeading": {
     fontSize: theme.menu.drawer.fontSize,
     fontWeight: 500,
-    color: theme.menu.drawer.textColor,
+    color: theme.palette.secondary.main,
   },
   "& .MuiAccordionSummary-root .MuiListItemIcon-root": {
+    color: "inherit",
     minWidth: 40,
   },
 
   "& .MuiAccordionDetails-root": {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.secondary.main,
     "& .MuiListItem-root": {
-      color: theme.palette.primary.main,
+      color: theme.palette.text.secondary,
       "&:hover": {
         backgroundColor: alpha(theme.palette.primary.main, 0.08),
       },
@@ -65,16 +66,15 @@ const StyledMainMenu = styled("div")(({ theme }) => ({
       },
     },
     "& .MuiListItemIcon-root": {
-      color: theme.palette.primary.main,
+      color: theme.palette.text.secondary,
       minWidth: 40,
     },
     "& .MuiListItemText-root .MuiTypography-root": {
-      color: theme.palette.primary.main,
-      fontWeight: 400,
+      color: theme.palette.text.secondary,
     },
   },
-  "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
-    color: theme.menu.drawer.textColor,
+  "& .MuiAccordionSummary-expandIconWrapper span": {
+    color: "inherit",
   },
   "& .drawerDivider": {
     // width: 100
@@ -93,6 +93,10 @@ const StyledMainMenu = styled("div")(({ theme }) => ({
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.1),
     },
+  },
+  "& .menuHeading .MuiListItemIcon-root": {
+    color: "inherit",
+    minWidth: 40,
   },
   "& .appBarMenuPaper": {
     borderTopLeftRadius: 0,
