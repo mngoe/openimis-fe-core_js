@@ -214,7 +214,7 @@ export const hasStoredAuthSession = () => {
 };
 
 export const isSessionError = (status, gqlErrors = []) => {
-  if (status === 401 || status === 403) {
+  if (status === 401) {
     return true;
   }
 
