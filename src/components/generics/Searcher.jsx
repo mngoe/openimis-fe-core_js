@@ -79,6 +79,7 @@ const StyledSearcher = styled("div")(({ theme }) => ({
   "& .paperHeaderMessage": {
     ...theme.paper?.message,
     backgroundColor: "transparent",
+    whiteSpace: "nowrap",
   },
   "& .paperHeaderAction": {
     ...theme.paper?.action,
@@ -106,6 +107,9 @@ const StyledSearcher = styled("div")(({ theme }) => ({
     overflow: "auto",
     display: "flex",
     flexDirection: "column",
+    "& button": {
+      whiteSpace: "nowrap",
+    },
   },
   "& .infoSection": {
     display: "flex",
