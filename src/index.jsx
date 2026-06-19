@@ -69,8 +69,8 @@ import AuthorityPicker from "./pickers/AuthorityPicker";
 import Helmet from "./helpers/Helmet";
 import GetIconComponent from "./helpers/icons";
 
-const AccountBox = GetIconComponent("AccountBox")
-const Person = GetIconComponent("Person")
+const AccountBox = GetIconComponent("AccountBox");
+const Person = GetIconComponent("Person");
 import Roles from "./pages/Roles";
 import Role from "./pages/Role";
 import reducer from "./reducer";
@@ -116,6 +116,9 @@ import {
   pageInfo,
   formatServerError,
   formatGraphQLError,
+  isSessionError,
+  isImpersonationError,
+  clearExpiredSession,
   formatMutation,
   dispatchMutationReq,
   dispatchMutationResp,
@@ -254,22 +257,29 @@ const DEFAULT_CONFIG = {
   ],
   "core.Boot": [RefreshAuthToken],
   "core.Router": [
-    { 
+    {
       path: ROUTE_ROLES,
       text: "core.roleManagement.label",
       id: "admin.roleManagement",
       component: Roles,
       rights: [RIGHT_ROLE_SEARCH],
-      icon: "AccountBox" 
+      icon: "AccountBox",
     },
     { path: ROUTE_ROLE + "/:role_uuid?", component: Role, rights: [RIGHT_ROLE_SEARCH], icon: "AccountBox" },
     // Admin routes
-    { path: ROUTE_ADMIN_USERS, text: "admin.menu.users", id: "admin.users", component: UsersPage, rights: [RIGHT_USERS], icon: "Person" },
+    {
+      path: ROUTE_ADMIN_USERS,
+      text: "admin.menu.users",
+      id: "admin.users",
+      component: UsersPage,
+      rights: [RIGHT_USERS],
+      icon: "Person",
+    },
     { path: ROUTE_ADMIN_USER_NEW, component: UserPage, rights: [RIGHT_USERS], icon: "Person" },
     { path: `${ROUTE_ADMIN_USER_OVERVIEW}/:user_id`, component: UserPage, rights: [RIGHT_USERS], icon: "Person" },
     { path: "logout", component: LogoutPage, exact: true },
   ],
-  "core.MainMenu": [{ name: "AdminMainMenu", id: "admin.MainMenu", text: "admin.mainMenu", icon: "LocationCity"}],
+  "core.MainMenu": [{ name: "AdminMainMenu", id: "admin.MainMenu", text: "admin.mainMenu", icon: "LocationCity" }],
   "fe-core.menus": [],
   "fe-core.menu_strategy": "default",
   "invoice.SubjectAndThirdpartyPicker": [
@@ -281,10 +291,10 @@ const DEFAULT_CONFIG = {
   ],
   "admin.MainMenu": [
     {
-      route:  ROUTE_ROLES,
+      route: ROUTE_ROLES,
     },
     {
-      route:  ROUTE_ADMIN_USERS,
+      route: ROUTE_ADMIN_USERS,
       withDivider: true,
     },
   ],
@@ -352,6 +362,9 @@ export {
   pageInfo,
   formatServerError,
   formatGraphQLError,
+  isSessionError,
+  isImpersonationError,
+  clearExpiredSession,
   formatMessage,
   formatMessageWithValues,
   formatDateFromISO,

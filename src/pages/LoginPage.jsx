@@ -49,10 +49,10 @@ const LoginPage = ({ logo }) => {
   const enablePublicPage = modulesManager.getConf("fe-core", "App.enablePublicPage", DEFAULT.ENABLE_PUBLIC_PAGE);
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
+    if (auth.isAuthenticated && auth.isInitialized) {
       history.push("/");
     }
-  }, []);
+  }, [auth.isAuthenticated, auth.isInitialized, history]);
 
   const handleLoginError = (errorMessage) => {
     setServerResponse({ loginStatus: "CORE_AUTH_ERR", message: errorMessage });

@@ -12,6 +12,8 @@ import {
 } from "./helpers/api";
 import * as Sentry from "@sentry/react";
 import { getLocalStorage, setLocalStorage } from "./helpers/useLocalStorage";
+import { isSessionError, clearExpiredSession, hasStoredAuthSession, isImpersonationError } from "./helpers/api";
+import { isUnauthenticatedRoute, redirectToLogin } from "./helpers/utils";
 
 const REQUESTED_WITH = "webapp";
 
@@ -81,13 +83,9 @@ export function resetCacheFilters(key) {
 
 export function journalize(mutation, meta) {
   return (dispatch) => {
-    const mut = { ...mutation, status: 0 };
-    dispatch({ type: "CORE_MUTATION_ADD", payload: mut, meta });
+    const toAdd = mutation ? { ...mutation, status: 0 } : { status: 0 };
+    dispatch({ type: "CORE_MUTATION_ADD", payload: toAdd, meta });
   };
-}
-
-function isCsrfError(error) {
-  return error?.message?.includes("CSRF token missing or incorrect.");
 }
 
 export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
@@ -120,17 +118,26 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
           ],
         }),
       );
-      if (response.error) {
+      if (response?.error) {
         dispatch(coreAlert(formatServerError(response.payload)));
       }
 
-      const error = response.payload?.errors?.[0];
-      if (error && isCsrfError(error)) {
-        await dispatch(logout());
+      const gqlErrors = response?.payload?.errors || [];
+      if (isImpersonationError(gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
+        dispatch(coreAlert("Impersonation ended", "Invalid impersonation target. Impersonation has been stopped."));
+        dispatch(loadUser());
+        return response;
+      }
 
-        requestAnimationFrame(() => {
-          window.location.reload();
-        });
+      if (isSessionError(null, gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
+        await clearExpiredSession();
+        dispatch({ type: "CORE_AUTH_LOGOUT" });
+
+        if (!isUnauthenticatedRoute()) {
+          await redirectToLogin();
+        }
 
         return;
       }
@@ -138,6 +145,7 @@ export function graphql(payload, type = "GRAPHQL_QUERY", params = {}) {
       return response;
     } catch (err) {
       console.error(err);
+      return { error: true, payload: { message: err?.message || "Unknown error" } };
     }
   };
 }
@@ -283,111 +291,106 @@ export function fetch(config) {
         },
       });
 
-      const endpoint = config.endpoint;
+      // Session error detection uses a minimal extraction; full error reporting is consolidated below.
       const payload = action?.payload || {};
       const response = payload?.response;
       const status = response?.status;
-      const statusText = response?.statusText;
       const gqlErrors = payload?.errors || response?.errors || [];
-      const message = payload?.message || action?.error?.message;
 
-      if (action.error) {
-        let errorMessage = "";
+      if (isImpersonationError(gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
+        dispatch(coreAlert("Impersonation ended", "Invalid impersonation target. Impersonation has been stopped."));
+        dispatch(loadUser());
+        return action;
+      }
 
-        if (!response && !message) {
-          errorMessage = "Server not responding";
-        } else if (status) {
-          errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
-        } else if (gqlErrors?.length > 0) {
-          errorMessage = `GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`;
-        } else if (message) {
-          errorMessage = `Network or API Error: ${message}`;
+      if (isSessionError(status, gqlErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
+        if (isUnauthenticatedRoute()) {
+          clearExpiredSession();
+          dispatch({ type: "CORE_AUTH_LOGOUT" });
         } else {
-          errorMessage = "Unknown error during API call";
-        }
-
-        Sentry.captureException(new Error(errorMessage), {
-          level: "error",
-          tags: {
-            endpoint,
-            status: status || "no-status",
-            type: config.method || "unknown-method",
-          },
-          extra: {
-            endpoint,
-            status,
-            statusText,
-            body: config.body,
-            response: action.payload,
-          },
-        });
-      }
-
-      if (!action.error && gqlErrors?.length > 0) {
-        const gqlMessage = gqlErrors.map(e => e.message).join("; ");
-
-        Sentry.captureException(new Error(`GraphQL Error: ${gqlMessage}`), {
-          level: "error",
-          tags: {
-            endpoint,
-            type: config.method || "unknown-method",
-          },
-          extra: {
-            endpoint,
-            errors: gqlErrors,
-            query: config.body,
-          },
-        });
-      }
-
-      const norm = (m) => String(m || "").toLowerCase().replace(/['"]/g, "").trim();
-      const csrfError = gqlErrors.some((e) => {
-        const msg = norm(e?.message);
-        return msg === "csrftoken" 
-        || msg === "user not authorized for this operation" 
-        || msg === "unauthorized";
-      });
-
-      if (csrfError) {
-        // Only treat this as a session-expired event if the user had a
-        // session to begin with. On an unauthenticated boot (e.g. landing
-        // on /front/login with empty storage) the backend may still reject
-        // bootstrap GraphQL queries as "unauthorized" — that's expected,
-        // not a session that just expired.
-        if (state.core?.user) {
           dispatch(
             coreConfirm(
               "Session Expired",
               "Your session has expired, You will be redirected to the login page.",
-              "csrf_logout"
-            )
+              "csrf_logout",
+            ),
           );
         }
         return action;
       }
-
     } catch (err) {
-      const errorMessage = "Server not responding";
+      // Synthesize an error action so the single post-try/catch reporting + return path handles it uniformly.
+      action = {
+        error: true,
+        payload: {
+          originalError: err,
+          message: err?.message || "Network or request failure",
+        },
+      };
+    }
 
+    // Consolidated single location for all Sentry error reporting (action?.error and standalone GQL errors).
+    // This runs for normal error responses and for exceptions synthesized in catch.
+    const endpoint = config.endpoint;
+    const response = action?.payload?.response;
+    const status = response?.status;
+    const statusText = response?.statusText;
+    const gqlErrors = action?.payload?.errors || response?.errors || [];
+    const message =
+      action?.payload?.message ||
+      action?.payload?.originalError?.message ||
+      (typeof action?.error === "object" ? action.error.message : undefined);
+
+    if (action?.error) {
+      let errorMessage = "";
+      if (!response && !message) {
+        errorMessage = "Server not responding";
+      } else if (status) {
+        errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
+      } else if (gqlErrors?.length > 0) {
+        errorMessage = `GraphQL Error: ${gqlErrors.map((e) => e.message).join("; ")}`;
+      } else if (message) {
+        errorMessage = `Network or API Error: ${message}`;
+      } else {
+        errorMessage = "Unknown error during API call";
+      }
+      console.error(errorMessage, { originalError: action?.payload?.originalError, payload: action?.payload });
       Sentry.captureException(new Error(errorMessage), {
         level: "error",
         tags: {
-          endpoint: config.endpoint,
+          endpoint,
+          status: status || "no-status",
           type: config.method || "unknown-method",
         },
         extra: {
-          endpoint: config.endpoint,
+          endpoint,
+          status,
+          statusText,
           body: config.body,
-          originalError: err,
+          response: action.payload,
         },
       });
-
-      throw err;
     }
 
-    return action;
-  };
+    if (!action?.error && gqlErrors?.length > 0) {
+      Sentry.captureException(new Error(`GraphQL Error: ${gqlErrors.map((e) => e.message).join("; ")}`), {
+        level: "error",
+        tags: {
+          endpoint,
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint,
+          errors: gqlErrors,
+          query: config.body,
+        },
+      });
+    }
 
+    return action || { error: true, payload: null };
+  };
 }
 
 export function loadUser() {
@@ -438,8 +441,35 @@ export function login(credentials) {
         return { loginStatus: "CORE_AUTH_ERR", message: error.message };
       }
     } else {
-      await dispatch(refreshAuthToken());
+      if (!hasStoredAuthSession()) {
+        dispatch({ type: "CORE_AUTH_LOGOUT" });
+        return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
+      }
+
+      const refreshResult = await dispatch(refreshAuthToken());
+      const refreshStatus = refreshResult?.payload?.response?.status;
+      const refreshErrors = refreshResult?.payload?.errors || refreshResult?.payload?.response?.errors || [];
+
+      if (refreshResult?.error || isSessionError(refreshStatus, refreshErrors)) {
+        dispatch({ type: "CORE_STOP_IMPERSONATION" });
+        await clearExpiredSession();
+        dispatch({ type: "CORE_AUTH_LOGOUT" });
+        return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
+      }
+
       const action = await dispatch(loadUser());
+      const loadUserStatus = action?.payload?.response?.status ?? action?.payload?.status;
+      const loadUserErrors = action?.payload?.errors || action?.payload?.response?.errors || [];
+
+      if (action?.error || action.type === "CORE_USERS_CURRENT_USER_ERR") {
+        if (isSessionError(loadUserStatus, loadUserErrors)) {
+          dispatch({ type: "CORE_STOP_IMPERSONATION" });
+          await clearExpiredSession();
+          dispatch({ type: "CORE_AUTH_LOGOUT" });
+          return { loginStatus: "CORE_AUTH_LOGOUT", message: "" };
+        }
+      }
+
       return {
         loginStatus: action.type,
         message: action?.payload?.response?.detail ?? "Error occurred while loading user.",
@@ -486,6 +516,11 @@ export function refreshAuthToken() {
 
 export function initialize() {
   return async (dispatch) => {
+    if (isUnauthenticatedRoute() || !hasStoredAuthSession()) {
+      dispatch({ type: "CORE_AUTH_LOGOUT" });
+      return dispatch({ type: "CORE_INITIALIZED" });
+    }
+
     await dispatch(login());
     return dispatch({ type: "CORE_INITIALIZED" });
   };
@@ -646,7 +681,7 @@ function formatRoleGQL(role) {
 
 export function createRole(role, clientMutationLabel) {
   let mutation = formatMutation("createRole", formatRoleGQL(role), clientMutationLabel);
-  var requestedDateTime = new Date();
+  var requestedDateTime = new Date().toISOString();
   return graphql(mutation.payload, ["CORE_ROLE_MUTATION_REQ", "CORE_CREATE_ROLE_RESP", "CORE_ROLE_MUTATION_ERR"], {
     clientMutationId: mutation.clientMutationId,
     clientMutationLabel,
@@ -656,7 +691,7 @@ export function createRole(role, clientMutationLabel) {
 
 export function updateRole(role, clientMutationLabel) {
   let mutation = formatMutation("updateRole", formatRoleGQL(role), clientMutationLabel);
-  var requestedDateTime = new Date();
+  var requestedDateTime = new Date().toISOString();
   return graphql(mutation.payload, ["CORE_ROLE_MUTATION_REQ", "CORE_UPDATE_ROLE_RESP", "CORE_ROLE_MUTATION_ERR"], {
     clientMutationId: mutation.clientMutationId,
     clientMutationLabel,
@@ -667,7 +702,7 @@ export function updateRole(role, clientMutationLabel) {
 export function deleteRole(role, clientMutationLabel, clientMutationDetails = null) {
   let roleUuids = `uuids: ["${role.uuid}"]`;
   let mutation = formatMutation("deleteRole", roleUuids, clientMutationLabel, clientMutationDetails);
-  var requestedDateTime = new Date();
+  var requestedDateTime = new Date().toISOString();
   return graphql(mutation.payload, ["CORE_ROLE_MUTATION_REQ", "CORE_DELETE_ROLE_RESP", "CORE_ROLE_MUTATION_ERR"], {
     clientMutationId: mutation.clientMutationId,
     clientMutationLabel,
@@ -719,7 +754,7 @@ export function toggleCurrentCalendarType(isSecondaryCalendarEnabled) {
 
 export function changeUserLanguage(language, clientMutationLabel) {
   const mutation = formatMutation("changeUserLanguage", `languageId: "${language}"`, clientMutationLabel);
-  const requestedDateTime = new Date();
+  const requestedDateTime = new Date().toISOString();
 
   return graphql(mutation.payload, ["CORE_MUTATION_REQ", "CHANGE_USER_LANGUAGE_RESP", "CORE_MUTATION_ERR"], {
     actionType: "CHANGE_USER_LANGUAGE_RESP",
@@ -744,9 +779,4 @@ export function stopImpersonation() {
 }
 
 // Re-export API helpers
-export {
-  formatPageQuery,
-  formatPageQueryWithCount,
-  formatMutation,
-  decodeId,
-};
+export { formatPageQuery, formatPageQueryWithCount, formatMutation, decodeId };

@@ -2,6 +2,7 @@ import { baseApiUrl, logout } from "../actions";
 import { SAML_LOGOUT_PATH } from "../constants";
 import GetIconComponent from "./icons"
 import React from "react";
+import { clearExpiredSession } from "./api";
 import { clearLocalStorage } from "./useLocalStorage";
 
 export const ensureArray = (maybeArray) => {
@@ -42,27 +43,27 @@ export function GetIconFromId(conf, routes, id) {
   return conf || routes[id]?.icon;
 }
 
-export function prepareMenuEntries(rights, intl, submenus, routes) {
-  const rightsSet = new Set(rights.map(r => String(r)));
+export function prepareMenuEntries(rights, intl, entries, routes) {
+  const rightsSet = new Set(rights.map(r => String(r)))
 
-  // Filter submenu entries by rights and convert icon strings to components.
-  const filteredSubmenus = (submenus || [])
+  // Filter entries by rights and convert icon strings to components
+  const filteredEntries = entries
     .filter((entry) => {
       const routeRef = entry.route || entry.id;
-      const entryRights = GetRightsFromId(entry.rights, routes, routeRef);
+      const entryRights = GetRightsFromId(entry.rights, routes, routeRef );
       return (routeRef !== undefined) && (!entryRights || entryRights.some(er => rightsSet.has(String(er))));
     })
     .map((entry) => ({
       ...entry,
       icon: GetIconComponent(GetIconFromId(entry.icon, routes, entry.route || entry.id)),
       text: getMenuText(GetTextFromId(entry.text, routes, entry.route || entry.id), intl),
-      route: "/" + GetRouteFromId(entry.route, routes, entry.id),
+      route: "/" + GetRouteFromId(entry.route, routes, entry.id)
     }));
 
   // Sort by position (default 99 if missing; stable for duplicates)
-  filteredSubmenus.sort((a, b) => (a.position || 99) - (b.position || 99));
+  filteredEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
 
-  return filteredSubmenus;
+  return filteredEntries;
 }
 
 
@@ -95,6 +96,55 @@ export function getTimeDifferenceInDaysFromToday(dateToCheck) {
   return getTimeDifferenceInDays(dateToCheck, currentDate);
 }
 
+export const getPublicUrl = () => {
+  const publicUrl = process.env.PUBLIC_URL || "";
+  if (!publicUrl || publicUrl === "/") {
+    return "";
+  }
+  return publicUrl.startsWith("/") ? publicUrl : `/${publicUrl}`;
+};
+
+const UNAUTHENTICATED_ROUTES = ["login", "forgot_password", "set_password", "logout"];
+
+export const isUnauthenticatedRoute = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const publicUrl = getPublicUrl();
+  const { pathname } = window.location;
+
+  return UNAUTHENTICATED_ROUTES.some((route) => {
+    const fullPath = `${publicUrl}/${route}`.replace(/\/{2,}/g, "/");
+    return pathname === fullPath || pathname.endsWith(`/${route}`);
+  });
+};
+
+export const redirectToLogin = async () => {
+  await clearExpiredSession();
+
+  if (isUnauthenticatedRoute()) {
+    return;
+  }
+
+  const publicUrl = getPublicUrl();
+  const loginPath = `${publicUrl}/login`.replace(/\/{2,}/g, "/");
+  window.location.replace(loginPath);
+};
+
+export const handleBootLogout = () => {
+  const publicUrl = getPublicUrl();
+  const logoutPath = `${publicUrl}/logout`.replace(/\/{2,}/g, "/") || "/logout";
+  const { pathname } = window.location;
+
+  if (pathname === logoutPath || pathname.endsWith("/logout")) {
+    redirectToLogin();
+    return true;
+  }
+
+  return false;
+};
+
 export const onLogout = async (dispatch) => {
   clearLocalStorage();
   await dispatch(logout());
@@ -116,20 +166,51 @@ export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
 
-// value is expected to be a number, not string
 export function getDecimalPlaces(value) {
   if (value == null || Number.isNaN(Number(value))) return 0;
 
-  const str = String(Number(value));
-  if (!str.includes('.')) return 0;
-  return str.split('.')[1]?.length || 0;
+  const str =
+    typeof value === "string" && value.includes(".") ? value.trim() : String(Number(value));
+  if (!str.includes(".")) return 0;
+  return str.split(".")[1]?.length || 0;
 }
 
+export function parseLocalizedNumber(raw, locale = "en") {
+  if (raw == null || raw === "") return NaN;
 
-export function menuEntryMatchesLocationPath(entry) {
-  const pathname = location.pathname
-  return (
-    pathname === `/front${entry.route}`
-    || pathname.startsWith(`/front${entry.route}/`)
-  )
+  const parts = new Intl.NumberFormat(locale).formatToParts(1234567.89);
+  const groupSeparator = parts.find((part) => part.type === "group")?.value ?? "";
+  const decimalSeparator = parts.find((part) => part.type === "decimal")?.value ?? ".";
+
+  let normalized = String(raw).replace(/\s/g, "");
+  if (groupSeparator) {
+    normalized = normalized.split(groupSeparator).join("");
+  }
+  if (decimalSeparator !== ".") {
+    const lastDecimalIndex = normalized.lastIndexOf(decimalSeparator);
+    if (lastDecimalIndex !== -1) {
+      normalized =
+        normalized.slice(0, lastDecimalIndex) +
+        "." +
+        normalized.slice(lastDecimalIndex + decimalSeparator.length);
+    }
+  }
+  return parseFloat(normalized);
+}
+
+export function menuEntryMatchesLocationPath(entry, routes = null) {
+  if (typeof entry !== "object" || entry === null) return false;
+  const pathname = typeof window !== "undefined" && window.location ? window.location.pathname : "";
+  let route = entry.route;
+  if (!route && routes && entry.id) {
+    route = GetRouteFromId(null, routes, entry.id);
+  }
+  if (!route) return false;
+  if (!route.startsWith("/")) {
+    route = "/" + route;
+  }
+  const publicUrl = getPublicUrl();
+  const effective = `${publicUrl}${route}`.replace(/\/{2,}/g, "/");
+  const pathOnly = pathname.split(/[?#]/)[0];
+  return pathOnly === effective || pathOnly.startsWith(effective + "/");
 }

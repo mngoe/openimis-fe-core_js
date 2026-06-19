@@ -220,7 +220,6 @@ class Table extends Component {
       selectWithCheckbox = false,
       withSelection = false,
     } = this.props;
-    const { ordinalNumberFrom } = this.state;
 
     let localHeaders = [...(headers || [])];
     let localPreHeaders = !!preHeaders ? [...preHeaders] : null;
@@ -329,7 +328,7 @@ class Table extends Component {
                           >
                             <Box>
                               {typeof h === "function" ? (
-                                <Box>{() => h(this.state, this.props)}</Box>
+                                <Box>{h(this.state, this.props)}</Box>
                               ) : (
                                 <FormattedMessage module={module} id={h} />
                               )}
@@ -420,10 +419,9 @@ class Table extends Component {
                     className="pager"
                     colSpan={localItemFormatters.length + (selectWithCheckbox ? 1 : 0)}
                     labelRowsPerPage={formatMessage(intl, "core", "rowsPerPage")}
-                    labelDisplayedRows={({ from, to, count }) => {
-                      if (this.state.ordinalNumberFrom !== from) this.setState({ ordinalNumberFrom: from });
-                      return `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`;
-                    }}
+                    labelDisplayedRows={({ from, to, count }) =>
+                      `${from}-${to} ${formatMessageWithValues(intl, "core", "ofPages")} ${count}`
+                    }
                     count={count}
                     page={page}
                     rowsPerPage={rowsPerPage}
