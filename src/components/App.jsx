@@ -28,6 +28,22 @@ import { ToastProvider } from "../helpers/ToastContext";
 import { PublicPageLanguageProvider } from "../helpers/PublicPageLanguageContext";
 import { getCookie } from "../helpers/cookies";
 
+// Downgrade formatjs MISSING_TRANSLATION errors to warnings instead of errors.
+// Defer logging so React does not append a component stack in development.
+const onIntlError = (err) => {
+  if (err.code === "MISSING_TRANSLATION") {
+    if (process.env.NODE_ENV !== "production") {
+      const id = err?.descriptor?.id ?? "unknown";
+      const locale = err?.descriptor?.locale ?? "en";
+      queueMicrotask(() => {
+        console.warn(`Missing translation "${id}" for locale "${locale}"`);
+      });
+    }
+    return;
+  }
+  console.error(err);
+};
+
 export const ROUTER_CONTRIBUTION_KEY = "core.Router";
 export const UNAUTHENTICATED_ROUTER_CONTRIBUTION_KEY = "core.UnauthenticatedRouter";
 export const APP_BOOT_CONTRIBUTION_KEY = "core.Boot";
@@ -147,7 +163,7 @@ const App = (props) => {
 
   if (error) {
     return (
-      <IntlProvider locale={locale || "en"} messages={allMessages}>
+      <IntlProvider locale={locale || "en"} messages={allMessages} onError={onIntlError}>
         <FatalErrorPage error={error} />
       </IntlProvider>
     );
@@ -160,7 +176,7 @@ const App = (props) => {
       <CssBaseline />
       <ModulesManagerProvider value={modulesManager}>
         <PublicPageLanguageProvider>
-          <IntlProvider locale={locale || "en"} messages={allMessages}>
+          <IntlProvider locale={locale || "en"} messages={allMessages} onError={onIntlError}>
             <ToastProvider>
               <AlertDialog />
               <ConfirmDialog confirm={confirm} onConfirm={clearConfirm} />

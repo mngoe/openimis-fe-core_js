@@ -11,7 +11,7 @@ import {
   useGraphqlQuery,
 } from "@openimis/fe-core";
 import { ENROLMENT_OFFICER_USER_TYPE, OFFICER_ROLE_IS_SYSTEM } from "../constants";
-import { toggleUserRoles, toggleSwitchButton } from "../utils";
+import { toggleUserRoles, toggleSwitchButton, setUserTypeEnabled } from "../utils";
 import EnrolmentVillagesPicker from "./EnrolmentVillagesPicker";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -33,7 +33,6 @@ const EnrolmentOfficerFormPanel = (props) => {
   const {
     isLoading,
     data,
-    error: graphqlError,
   } = useGraphqlQuery(
     `
       query UserRolesPicker ($system_id: Int) {
@@ -52,18 +51,17 @@ const EnrolmentOfficerFormPanel = (props) => {
   const isValid = !isLoading;
   useEffect(() => {
     toggleUserRoles(edited, data, isValid, isEnabled, hasOfficerRole, onEditedChanged, OFFICER_ROLE_IS_SYSTEM);
-  }, [isEnabled]);
+  }, [isEnabled, isValid]);
 
   useEffect(() => {
-    toggleSwitchButton(
-      edited,
-      hasOfficerRole,
-      hasOfficerUserType,
-      setIsEnabled,
-      onEditedChanged,
-      ENROLMENT_OFFICER_USER_TYPE,
-    );
-  }, [hasOfficerRole]);
+    toggleSwitchButton(edited, hasOfficerRole, hasOfficerUserType, setIsEnabled);
+  }, [hasOfficerRole, hasOfficerUserType]);
+
+  const handleToggle = () => {
+    const nextEnabled = !isEnabled;
+    setIsEnabled(nextEnabled);
+    onEditedChanged(setUserTypeEnabled(edited, ENROLMENT_OFFICER_USER_TYPE, nextEnabled));
+  };
 
   return (
     <StyledPaper>
@@ -75,7 +73,7 @@ const EnrolmentOfficerFormPanel = (props) => {
               color="secondary"
               disabled={readOnly}
               checked={isEnabled}
-              onChange={() => setIsEnabled(() => !isEnabled)}
+              onChange={handleToggle}
             />
           )}
         </Grid>

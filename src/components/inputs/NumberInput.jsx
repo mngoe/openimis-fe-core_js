@@ -77,6 +77,8 @@ class NumberInput extends Component {
       error,
       displayZero = false,
       displayNa = false,
+      decimal,
+      allowDecimals = true,
       ...others
     } = this.props;
     let inputProps = { ...this.props.inputProps, type: "number", onKeyPress: this.handleKeyPress };

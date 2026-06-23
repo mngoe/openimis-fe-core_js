@@ -4,7 +4,7 @@ import TextInput from "./TextInput";
 import { injectIntl } from "react-intl";
 import { formatMessage, formatMessageWithValues } from "../../helpers/i18n";
 import withModulesManager from "../../helpers/modules";
-import { getDecimalPlaces } from "../../helpers/utils";
+import { getDecimalPlaces, parseLocalizedNumber } from "../../helpers/utils";
 
 const StyledFormattedNumberInput = styled("div")(({ theme }) => ({}));
 
@@ -47,12 +47,13 @@ class FormattedNumberInput extends Component {
     }
   };  
 
+  parseRawValue = (raw) => parseLocalizedNumber(raw, this.props.thousandSeparator);
+
   handleChange = (val) => {
     const raw = val;
     this.setState({ rawValue: raw });
 
-    const normalized = raw.replace(/\s/g, "").replace(",", ".");
-    const value = parseFloat(normalized);
+    const value = this.parseRawValue(raw);
     this.props.onChange(isNaN(value) ? undefined : value);
   };
 
@@ -100,7 +101,7 @@ class FormattedNumberInput extends Component {
       return;
     }
 
-    const number = parseFloat(rawValue.replace(/\s/g, "").replace(",", "."));
+    const number = this.parseRawValue(rawValue);
     if (isNaN(number)) {
       this.setState({ rawValue: "" });
       return;
@@ -126,6 +127,7 @@ class FormattedNumberInput extends Component {
       displayZero = false,
       displayNa = false,
       allowDecimals = true,
+      decimal,
       ...others
     } = this.props;
 
@@ -137,7 +139,7 @@ class FormattedNumberInput extends Component {
 
     let err = error;
 
-    const numericValue = parseFloat(this.state.rawValue.replace(/\s/g, "").replace(",", "."));
+    const numericValue = this.parseRawValue(this.state.rawValue);
     if (min != null && numericValue < min) {
       err = formatMessageWithValues(intl, module, "validation.minValue", { value: numericValue, min });
     }

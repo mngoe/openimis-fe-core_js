@@ -5,15 +5,9 @@ import { injectIntl } from "react-intl";
 import { useModulesManager } from "../helpers/modules";
 import { ErrorBoundary } from "@openimis/fe-core";
 import { useToast } from "../helpers/ToastContext";
-import { menuEntryMatchesLocationPath} from "../helpers/utils";
+import { menuEntryMatchesLocationPath, getMenuText, prepareMenuEntries, ensureArray } from "../helpers/utils";
 import MainMenuContribution from "./generics/MainMenuContribution";
 import GetIconComponent from "../helpers/icons";
-import {getMenuText, prepareMenuEntries} from "../helpers/utils"
-
-
-
-
-
 
 function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   // Get backend overrides
@@ -22,31 +16,31 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   // get default entries
   const menuEntries = modulesManager.getMenuEntries();
   const unsortedMenuEntries = backendMenuConfigs.length > 0 ? backendMenuConfigs : menuEntries;
-  // Normalize and validate each menu config. Both module contributions
-  // and backend configs are expected to use { id, name, icon, submenus }
-  // shape (matching the backend's moduleConfiguration schema).
+  // Default contributionKey to id for all configs (backend/module); override if specified
   unsortedMenuEntries.forEach(config => {
     if (!config.contributionKey) {
-      config.contributionKey = config.id;  // e.g. "individual.MainMenu"
+      config.contributionKey = config.id;  // Use id as key to pull submenus, e.g., "individual.MainMenu"
     }
-    if (!config.submenus && !config.contributionKey) {
-      console.warn(`Menu ${config.id} has no submenus or valid contributionKey.`);
+    if (!config.entries && !config.submenus && !config.contributionKey) {
+      console.warn(`Menu ${config.id} has no entries or submenus or valid contributionKey.`);
     }
-    config.name = getMenuText(config.name, intl);
+    config.text = getMenuText(config.text, intl)
+
   });
   // Sort by position (default 99 if missing; stable for duplicates)
   const sortedMenuConfigs = unsortedMenuEntries.sort((a, b) => (a.position || 99) - (b.position || 99));
-  const mainMenuVariant = "icon_text"
-  // Get all menu entries for active menu detection
+  const mainMenuVariant = "icon_text";
+  // Detect which top-level menu should be auto-expanded in drawer (matches current route against leaves)
   const activeMenuId = findActiveMenuId(sortedMenuConfigs, routes);
 
   // Process each menu config into a MainMenuContribution component
-  const menuComponents = sortedMenuConfigs.filter(m => m.name !== undefined)
+  const menuComponents = sortedMenuConfigs.filter(m => m.text !== undefined )
     .map((config) => {
-      const filteredSubmenus = prepareMenuEntries(rights, intl, config.submenus, routes);
+      const rawEntries = config.entries || config.submenus || [];
+      const filteredEntries = prepareMenuEntries(rights, intl, rawEntries, routes);
 
       // Skip empty menus
-      if (!filteredSubmenus.length) return null;
+      if (!filteredEntries.length) return null;
 
       // Resolve icon
       const IconComponent = GetIconComponent(config.icon);
@@ -57,12 +51,12 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
           key={config.id}
           mainMenuVariant={mainMenuVariant}
           menuVariant={menuVariant}
-          header={config.name}
+          header={config.text}
           menuId={config.id}
           modulesManager={modulesManager}
           rights={rights}
           history={history}
-          entries={filteredSubmenus}
+          entries={filteredEntries}
           icon={IconComponent}
           isInitiallyOpen={menuVariant === "Drawer" && config.id === activeMenuId}
         />
@@ -73,20 +67,13 @@ function getMenus(modulesManager, key, rights, menuVariant, history, intl) {
   return menuComponents;
 }
 
-// Returns the id of the parent menu whose submenus include the entry matching
-// the current URL path. Used to auto-expand that menu on load (PR #282).
-// Backend submenus carry only an `id`; module-contributed submenus carry a
-// `route`. For backend ones we resolve the route through the routes map.
-const findActiveMenuId = (menuConfigs, routes) => {
+const findActiveMenuId = (menuConfigs, routes = null) => {
+  if (!Array.isArray(menuConfigs)) return null;
   for (const menuConfig of menuConfigs) {
-    if (!menuConfig.submenus) continue;
-    const matched = menuConfig.submenus.find((submenu) => {
-      const path = submenu.route || routes[submenu.id]?.path;
-      if (!path) return false;
-      const normalized = path.startsWith("/") ? path : `/${path}`;
-      return menuEntryMatchesLocationPath({ route: normalized });
-    });
-    if (matched) return menuConfig.id;
+    const rawLeaves = ensureArray(menuConfig.entries).concat(ensureArray(menuConfig.submenus));
+    if (rawLeaves.some((leaf) => menuEntryMatchesLocationPath(leaf, routes))) {
+      return menuConfig.id;
+    }
   }
   return null;
 };
