@@ -4,7 +4,7 @@ import { injectIntl } from "react-intl";
 import _ from "lodash";
 import GetIconComponent from "../../helpers/icons";
 
-const DeleteIcon = GetIconComponent("Delete")
+const DeleteIcon = GetIconComponent("Delete");
 import { styled, alpha } from "@mui/material/styles";
 import {
   Typography,
@@ -428,7 +428,6 @@ class Table extends Component {
                     rowsPerPageOptions={rowsPerPageOptions}
                     onRowsPerPageChange={(e) => onChangeRowsPerPage(e.target.value)}
                     onPageChange={onChangePage}
-
                   />
                 </TableRow>
               </TableFooter>

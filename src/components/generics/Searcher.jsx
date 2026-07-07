@@ -18,7 +18,7 @@ import {
 import { styled, alpha } from "@mui/material/styles";
 import GetIconComponent from "../../helpers/icons";
 
-const MoreHoriz = GetIconComponent("MoreHoriz")
+const MoreHoriz = GetIconComponent("MoreHoriz");
 
 import { cacheFilters, resetCacheFilters, saveCurrentPaginationPage } from "../../actions";
 import { DEFAULT, ENTER_KEY } from "../../constants";
@@ -153,7 +153,9 @@ class SelectionMenu extends Component {
     <Box display="flex" alignItems="center">
       {entries.map((i, idx) => (
         <Box key={`selectionsButtons-${idx}`} className="paperHeaderAction">
-          <Button color="inherit" onClick={(e) => this.action(i.action)}>{i.text}</Button>
+          <Button color="inherit" onClick={(e) => this.action(i.action)}>
+            {i.text}
+          </Button>
         </Box>
       ))}
       {this.props.exportable && (
@@ -526,11 +528,11 @@ class Searcher extends Component {
 
   handleEnter = (event) => {
     const activeName = document.activeElement.name;
-    if (event.key == ENTER_KEY && !!activeName && activeName != 'enquiryField'){
+    if (event.key == ENTER_KEY && !!activeName && activeName != "enquiryField") {
       let filters = { ...this.state.filters };
-      this.setState({ filters }, (e) => this.applyFilters())
+      this.setState({ filters }, (e) => this.applyFilters());
     }
-  }
+  };
 
   render() {
     const {
@@ -597,7 +599,6 @@ class Searcher extends Component {
     } = this.props;
     return (
       <StyledSearcher>
-
         {!!FilterPane && (
           <SearcherPane
             module={module}

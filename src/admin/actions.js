@@ -229,7 +229,13 @@ export function fetchUser(mm, userId, clientMutationId) {
               email
               districts: userdistrictSet { location { id name code uuid parent { id code uuid name }}}
             }
-            ${mm.getConf("fe-admin", "enableClaimAdminFields", false) ? `claimAdmin{ id hasLogin emailId phone dob lastName otherNames healthFacility ${mm.getProjection("location.HealthFacilityPicker.projection")} }` : ``}
+            ${
+              mm.getConf("fe-admin", "enableClaimAdminFields", false)
+                ? `claimAdmin{ id hasLogin emailId phone dob lastName otherNames healthFacility ${mm.getProjection(
+                    "location.HealthFacilityPicker.projection",
+                  )} }`
+                : ``
+            }
           }
         }
       }
