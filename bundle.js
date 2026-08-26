@@ -217,20 +217,25 @@ function withHistory(C) {
     }));
   };
 }
-function _historyPush(mm, history, route, asNewTab) {
+function _historyPush(mm, history, pathname, asNewTab) {
+  var search = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
+  var location = {
+    pathname: pathname,
+    search: search || ""
+  };
   if (asNewTab) {
     var hasDynLink = mm.getConf("fe-core", "useDynPermalinks", false);
-    var link = history.createHref({
-      pathname: route
-    });
+    var link = history.createHref(location);
     window.open(hasDynLink ? "/?dyn=".concat(btoa(link)) : link);
   } else {
-    history.push(route);
+    history.push(location);
   }
 }
 function historyPush(mm, history, route, params) {
   var newTab = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-  _historyPush(mm, history, "/".concat(mm.getRef(route)).concat(!!params ? "/" + params.join("/") : ""), newTab);
+  var search = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "";
+  var pathname = "/".concat(mm.getRef(route)).concat(params !== null && params !== void 0 && params.length ? "/" + params.join("/") : "");
+  _historyPush(mm, history, pathname, newTab, search);
 }
 
 var DEFAULT_DEBOUNCE_TIME = 500;
