@@ -4131,7 +4131,7 @@ var SelectInput = /*#__PURE__*/function (_Component) {
           name: name,
           id: "".concat(uuid__default["default"].uuid(), "-input")
         },
-        value: !!value ? JSON.stringify(value) : null,
+        value: value !== null && value !== undefined ? JSON.stringify(value) : null,
         onChange: this._onChange,
         IconComponent: this.renderIconComponent(),
         disabled: disabled,
