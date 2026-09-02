@@ -4131,7 +4131,7 @@ var SelectInput = /*#__PURE__*/function (_Component) {
           name: name,
           id: "".concat(uuid__default["default"].uuid(), "-input")
         },
-        value: !!value ? JSON.stringify(value) : null,
+        value: value !== null && value !== undefined ? JSON.stringify(value) : null,
         onChange: this._onChange,
         IconComponent: this.renderIconComponent(),
         disabled: disabled,
@@ -6183,6 +6183,7 @@ var Table$2 = /*#__PURE__*/function (_Component) {
         }, !!h && /*#__PURE__*/React__default["default"].createElement(core.Box, {
           style: {
             width: "100%",
+            whiteSpace: "nowrap",
             cursor: headerActions.length > idx && !!headerActions[idx][0] ? "pointer" : ""
           },
           onClick: headerActions.length > idx ? headerActions[idx][0] : null,
@@ -6220,6 +6221,9 @@ var Table$2 = /*#__PURE__*/function (_Component) {
           if (f === null) return null;
           return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
             colSpan: colSpans.length > fidx ? colSpans[fidx] : 1,
+            style: {
+              whiteSpace: "nowrap"
+            },
             className: clsx__default["default"](!!rowLocked && rowLocked(i) ? classes.tableLockedCell : null, !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null, !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null, !!rowSecondaryHighlighted && rowSecondaryHighlighted(i) ? classes.tableSecondaryHighlightedCell : null, !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null, aligns.length > fidx && classes[aligns[fidx]]),
             key: "v-".concat(iidx, "-").concat(fidx)
           }, f(i, iidx));
