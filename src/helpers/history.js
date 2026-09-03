@@ -12,8 +12,8 @@ export default function withHistory(C) {
   };
 }
 
-export function _historyPush(mm, history, pathname, asNewTab, search = "") {
-  const location = { pathname, search: search || "" };
+export function _historyPush(mm, history, pathname, asNewTab, search = "", state = undefined) {
+  const location = { pathname, search: search || "", state };
   if (asNewTab) {
     const hasDynLink = mm.getConf("fe-core", "useDynPermalinks", false);
     const link = history.createHref(location);
@@ -23,7 +23,7 @@ export function _historyPush(mm, history, pathname, asNewTab, search = "") {
   }
 }
 
-export function historyPush(mm, history, route, params, newTab = false, search = "") {
+export function historyPush(mm, history, route, params, newTab = false, search = "", state = undefined) {
   const pathname = `/${mm.getRef(route)}${params?.length ? "/" + params.join("/") : ""}`;
-  _historyPush(mm, history, pathname, newTab, search);
+  _historyPush(mm, history, pathname, newTab, search, state);
 }
