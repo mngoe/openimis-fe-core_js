@@ -219,9 +219,11 @@ function withHistory(C) {
 }
 function _historyPush(mm, history, pathname, asNewTab) {
   var search = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
+  var state = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : undefined;
   var location = {
     pathname: pathname,
-    search: search || ""
+    search: search || "",
+    state: state
   };
   if (asNewTab) {
     var hasDynLink = mm.getConf("fe-core", "useDynPermalinks", false);
@@ -234,8 +236,9 @@ function _historyPush(mm, history, pathname, asNewTab) {
 function historyPush(mm, history, route, params) {
   var newTab = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
   var search = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "";
+  var state = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : undefined;
   var pathname = "/".concat(mm.getRef(route)).concat(params !== null && params !== void 0 && params.length ? "/" + params.join("/") : "");
-  _historyPush(mm, history, pathname, newTab, search);
+  _historyPush(mm, history, pathname, newTab, search, state);
 }
 
 var DEFAULT_DEBOUNCE_TIME = 500;
