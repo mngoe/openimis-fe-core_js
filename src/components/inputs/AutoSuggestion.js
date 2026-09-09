@@ -17,6 +17,7 @@ const styles = (theme) => ({
   header: theme.table.title,
   label: {
     color: theme.palette.primary.main,
+    whiteSpace: "nowrap",
   },
   textField: {
     width: "100%",

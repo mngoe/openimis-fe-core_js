@@ -19,6 +19,7 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 const styles = (theme) => ({
   label: {
     color: theme.palette.primary.main,
+    whiteSpace: "nowrap",
   },
 });
 

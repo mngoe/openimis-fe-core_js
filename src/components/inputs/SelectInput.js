@@ -12,6 +12,7 @@ import TextInput from "./TextInput";
 const styles = (theme) => ({
   label: {
     color: theme.palette.primary.main,
+    whiteSpace: "nowrap",
   },
   formControl: {
     position: "relative",

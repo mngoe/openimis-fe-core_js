@@ -9,6 +9,7 @@ import { formatMessage, toISODate } from "../helpers/i18n";
 const styles = (theme) => ({
   label: {
     color: theme.palette.primary.main,
+    whiteSpace: "nowrap",
   },
 });
 

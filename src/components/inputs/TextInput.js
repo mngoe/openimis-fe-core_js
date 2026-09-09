@@ -7,6 +7,7 @@ import { formatMessage } from "../../helpers/i18n";
 const styles = (theme) => ({
   label: {
     color: theme.palette.primary.main,
+    whiteSpace: "nowrap",
   },
   // NOTE: This is used to hide the increment/decrement arrows from the number input
   numberInput: {

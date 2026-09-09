@@ -9,6 +9,7 @@ import { useModulesManager } from "../../helpers/modules";
 const styles = (theme) => ({
   label: {
     color: theme.palette.primary.main,
+    whiteSpace: "nowrap",
   },
 });
 
