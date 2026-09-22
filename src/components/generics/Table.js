@@ -273,6 +273,7 @@ class Table extends Component {
                         <Box
                           style={{
                             width: "100%",
+                            whiteSpace: "nowrap",
                             cursor: headerActions.length > idx && !!headerActions[idx][0] ? "pointer" : "",
                           }}
                           onClick={headerActions.length > idx ? headerActions[idx][0] : null}
