@@ -7,7 +7,7 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 - openIMIS core components (Application iteself, MainMenu, JournalDrawer,...)
 - openIMIS ModulesManager (loading, configuring and wiring all modules)
 - many Generic components to be (re)used in other (business-focused) openimis components
-- various helpers (building GraphQL queries,...)
+- various helpers (building GraphQL queries, checking user rights,...)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/openimis/openimis-fe-core_js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/openimis/openimis-fe-core_js/alerts/)
@@ -25,7 +25,8 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 - `Logout`: main menu entry to logout
 - `KeepLegacyAlive`: component to be registered in core.Boot contribution to keep legacy openIMIS session alive while interacting with new openIMIS pages
 - `ErrorPage`: displays error messages with status, title, and optional logo. Includes navigation button to the homepage.
-- `PermissionCheck`: controls access to content based on user rights (403 error). Renders content if user has required rights, otherwise shows `ForbiddenPage`.
+- `PermissionCheck`: controls access to a route based on user rights (403 error). Renders content if the user has any of the required rights - counting the rights they only hold where they are linked, a route being a navigation level gate - otherwise shows `ForbiddenPage`.
+- `LoadUserBusinessAccesses`: `core.Boot` component loading the UserBusinessAccess links of the current user (renders nothing)
 - `ForbiddenPage`: shown when a user lacks permission to access a specific page or resource. Displays an access denied message.
 - `NotFoundPage`: appears when a user visits a non-existent route (404 error). Informs the user that the page is unavailable and suggests navigation option.
 - `InternalServerErrorPage`: displays a message for a 500 Internal Server Error, informing users of a server-side issue in the application.
@@ -50,15 +51,41 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 - `SearcherActionButton`: represents an action button used within a search interface.
 - `Form`: generic form. Manage dirty state, displays add/save button,...
 - `Table`: generic table. Headers (with -sort-actions), rows, optional setting - showOrdinalNumber that will show column with ordinal number as first column, ...
+- `BusinessObjectPicker`: picks one object of a `<app_label>.<model>` type through whichever picker its module registered, so a generic screen naming objects by their content type needs no knowledge of them (cfr. the *business objects* helper)
 
 ## Helpers
 
 ### redux actions helpers
 
 - `journalize`: helper to trigger the `CORE_MUTATION_ADD` action (which register a mutation in the journal)
+- `fetchCurrentUserBusinessAccesses`: load the UserBusinessAccess links of the current user, what the UBA rights are granted through
 - `graphql`: helper to send the GraphQL queries (HTTP POST) and dispatch appropriate actions to redux
 - `coreAlert`: helper to open the alert modal pop (cfr. AlertDialog)
 - `coreConfirm`: helper to open the confirm modal pop (cfr. ConfirmDialog)
+
+### rights
+
+- `hasPerms`: does the user hold that right? The frontend counterpart of the backend `has_perms`
+- `hasPermsAnywhere`: does the user hold that right *somewhere*? The navigation level check (main menu, route guard)
+- `hasAnyPerms`, `hasAnyPermsInRange`: any of those rights / any right in a range
+- `hasBusinessAccess`: is the user linked to that business object, under the demanded credential (UBA link type)?
+- `hasUserLinkType`: does the user hold that credential anywhere? The replacement for "has the claim administrator / enrolment officer role"
+- `useUbaLinkTypes`, `ubaLinkTypeLabelKey`, `formatUbaLinkTypeLabel`: the credentials (UBA link types) of the backend registry, labelled for the current language - a deployment translates one by adding `core.uba.link_type.<code>` to its own file, the registry's label being the fallback
+- `useHasPerms`, `useHasPermsAnywhere`, `useHasBusinessAccess`, `useHasUserLinkType`, `useUserBusinessAccesses`, `useRights`, `useCurrentUser`: the reactive counterparts, for function components
+- `selectUserRights`: the `state.core.user.i_user.rights` selector, to be used in `mapStateToProps`
+
+  Note: no user has to be passed, it is read from the redux store. Rights come in two bags since the
+  User Business Access feature (globally granted vs. granted only on the objects the user is linked to),
+  which changes *which* check a call site needs: **[read `docs/rights.md`](docs/rights.md)** before using them.
+
+### business objects
+
+- `registerBusinessObject`: declare, for a Django `<app_label>.<model>` type, the published picker selecting one, the projection querying one and the translation key naming the type. A module may also contribute a `core.businessObject.<app_label>.<model>` ref instead of importing the registry
+- `getBusinessObject`, `getBusinessObjectModels`, `getBusinessObjectProjection`, `formatBusinessObjectLabel`, `businessObjectId`: read it back
+- `useBusinessObjects` / `useBusinessObject`: name stored `{ model, objectId }` references, one batched query using the relay `node` field and each type's projection
+- `formatBusinessObjectsQuery`, `parseBusinessObjectsResult`, `businessObjectNodeId`, `businessObjectReferenceKey`: the pure pieces of that resolution
+
+  Note: read by `BusinessObjectPicker` and by the user business accesses (UBA) screens, where an object is only known by its content type and id. Core seeds `location.healthfacility` and `location.location`.
 
 ### api
 
@@ -113,6 +140,8 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 ## Contributions
 
 - `core.Boot` - KeepLegacyAlive: contributing to own contribution point in order to register the component that pings the Legacy openIMIS application to prevent session timeout while in the new part.
+- `core.Boot` - LoadUserBusinessAccesses: loading the UBA links of the current user, needed by every right check scoped to a business object
+- `middlewares`: `authMiddleware` (dispatch `CORE_AUTH_ERR` on a 401) and `rightsMiddleware` (give the [rights helpers](docs/rights.md) access to the current user)
 - `core.Router`: registering `roles`, `roles/role` routes in openIMIS client-side router
 - `admin.MainMenu`:
 
@@ -139,6 +168,7 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 - `CORE_LANGUAGES_{REQ|RESP|ERR}`: retrieve available languages and their codes
 - `CORE_ROLE_{REQ|RESP|ERR}`: retrieve a single Role
 - `CORE_ROLERIGHTS_{REQ|RESP|ERR}`: retrieve rights/permissions of a single Role
+- `CORE_USER_BUSINESS_ACCESSES_{REQ|RESP|ERR}`: retrieve the UBA links of the current user
 - `CORE_CREATE_ROLE_RESP`: receive a result of create Role mutation
 - `CORE_UPDATE_ROLE_RESP`: receive a result of update Role mutation
 - `CORE_DUPLICATE_ROLE_RESP`: receive a result of duplicate Role mutation

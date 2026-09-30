@@ -120,13 +120,14 @@ class MainMenuContribution extends Component {
       e.stopPropagation();
       e.preventDefault();
     }
-    if(!!redirectToUrl && !hostname.includes("csureport") ){
-      window.location.href = redirectToUrl;
-      return;    }
+    if (!!redirectToUrl && redirectToUrl != null && !hostname.includes("csureport")) {
+      window.open(redirectToUrl, '_blank');
+      return;
+    }
     this.toggleExpanded(e);
     this.redirect(route);
   };
-  
+
   redirect(route) {
     const { modulesManager, history } = this.props;
     _historyPush(modulesManager, history, route);
@@ -157,10 +158,13 @@ class MainMenuContribution extends Component {
                   <MenuList>
                     {this.props.entries.map((entry, idx) => (
                       <div key={`${this.props.header}_${idx}_menuItem`}>
-                        <MenuItem onClick={(e) => this.handleMenuSelect(e, entry.route, entry.redirectToUrl)}  component="a"  href={`${process.env.PUBLIC_URL || ""}${entry.route}`} passHref>
+                        <MenuItem
+                          onClick={(e) => this.handleMenuSelect(e, entry.route, entry.redirectToUrl)}
+                          component="a"
+                          href={`${process.env.PUBLIC_URL || ""}${entry.route}`}
+                          passHref>
                           <ListItemIcon>{entry.icon}</ListItemIcon>
-                          <ListItemText primary={entry.text}/>
-                          
+                          <ListItemText primary={entry.text} />
                         </MenuItem>
                         {entry.withDivider && (
                           <Divider
@@ -199,7 +203,7 @@ class MainMenuContribution extends Component {
                   }}
                 >
                   <ListItemIcon>{entry.icon}</ListItemIcon>
-                  <ListItemText primary={entry.text}/>
+                  <ListItemText primary={entry.text} />
                 </ListItem>
                 {entry.withDivider && (
                   <Divider key={`${this.props.header}_${idx}_divider`} className={this.props.classes.drawerDivider} />
@@ -211,23 +215,20 @@ class MainMenuContribution extends Component {
       </Accordion>
     );
   };
-    
+
   render() {
     const { menuVariant } = this.props;
     const hostname = window.location.hostname;
-    
+
     // Condition pour afficher uniquement le menu "Outils" si le hostname est "localhost"
-    if (hostname.includes("csureport") ) {
-      // Filtrer pour ne conserver que le menu "Outils"
-      if (this.props.header === "Outils") {
+    if (hostname.includes("csureport")) {
+      // Filtrer pour ne conserver que le menu "Outils ou Tools"
+      if (this.props.header === "Outils" || this.props.header === "Tools") {
         return this.appBarMenu();
       } else {
         return null; // Ne pas afficher les autres menus
       }
     }
-
-  
-  
     if (menuVariant === "AppBar") {
       return this.appBarMenu();
     } else {

@@ -1,6 +1,22 @@
 import { useModulesManager } from "@openimis/fe-core";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  businessObjectReferenceKey,
+  formatBusinessObjectsQuery,
+  parseBusinessObjectsResult,
+} from "./business-objects";
+import {
+  getUserBusinessAccessesOf,
+  getUserRights,
+  hasAnyPerms,
+  hasAnyPermsInRange,
+  hasBusinessAccess,
+  hasPerms,
+  hasPermsAnywhere,
+  hasUserLinkType,
+  selectCurrentUser,
+} from "./rights";
 import {
   refreshAuthToken,
   login,
@@ -221,6 +237,102 @@ export const useUserQuery = () => {
     }
   `);
   return { user: data?.user, isLoading };
+};
+
+const NO_BUSINESS_OBJECT_QUERY = "query BusinessObjects { __typename }";
+
+/**
+ * Names the objects behind `references`, a list of `{ model, objectId }`: one batched
+ * query, an aliased relay `node` per reference with the projection its type registered
+ * in the business object registry. Returns `{ objects, isLoading, error }`, `objects`
+ * being keyed by `businessObjectReferenceKey(model, objectId)`.
+ *
+ * Meant for a screen holding stored references - the business accesses of a user, an
+ * audit trail - which know a content type and an id but not the object.
+ */
+export const useBusinessObjects = (references) => {
+  const modulesManager = useModulesManager();
+  const referencesKey = JSON.stringify(references ?? []);
+  const composed = useMemo(
+    () => formatBusinessObjectsQuery(references ?? [], modulesManager),
+    [referencesKey, modulesManager],
+  );
+  const { data, isLoading, error } = useGraphqlQuery(composed?.query ?? NO_BUSINESS_OBJECT_QUERY, undefined, {
+    skip: !composed,
+    keepStale: true,
+  });
+  const objects = useMemo(
+    () => (composed ? parseBusinessObjectsResult(data, composed.aliases) : {}),
+    [data, composed],
+  );
+  return { objects, isLoading: !!composed && isLoading, error };
+};
+
+/** One object of `model` named by its stored identifier, or null. */
+export const useBusinessObject = (model, objectId) => {
+  const references = model && objectId ? [{ model, objectId }] : [];
+  const { objects, isLoading, error } = useBusinessObjects(references);
+  return { object: objects[businessObjectReferenceKey(model, objectId)] ?? null, isLoading, error };
+};
+
+/*
+ * Rights: the reactive counterparts of the `helpers/rights.js` checks, re-rendering
+ * the component when the current user changes. See `docs/rights.md`.
+ */
+
+/** The current user, straight from the store. */
+export const useCurrentUser = () => useSelector(selectCurrentUser);
+
+/** The rights of the current user (the global bag), re-rendering when they change. */
+export const useRights = () => {
+  const user = useCurrentUser();
+  return useMemo(() => getUserRights(user), [user]);
+};
+
+/** Reactive `hasPerms`: does the current user hold every right of `perms` ? */
+export const useHasPerms = (perms, options = {}) => {
+  const user = useCurrentUser();
+  return hasPerms(perms, { user, ...options });
+};
+
+/** Reactive `hasPermsAnywhere`: the navigation level check. */
+export const useHasPermsAnywhere = (perms, options = {}) => {
+  const user = useCurrentUser();
+  return hasPermsAnywhere(perms, { user, ...options });
+};
+
+/** Reactive `hasAnyPerms`. */
+export const useHasAnyPerms = (perms, options = {}) => {
+  const user = useCurrentUser();
+  return hasAnyPerms(perms, { user, ...options });
+};
+
+/** The links the current user holds under `linkTypes`, all of them when none is given. */
+export const useUserBusinessAccesses = (linkTypes) => {
+  const user = useCurrentUser();
+  const demanded = JSON.stringify(linkTypes ?? null);
+  return useMemo(() => getUserBusinessAccessesOf(user, linkTypes), [user, demanded]);
+};
+
+/** Reactive `hasUserLinkType`: does the current user hold one of those credentials ? */
+export const useHasUserLinkType = (linkTypes) => {
+  const user = useCurrentUser();
+  return hasUserLinkType(user, linkTypes);
+};
+
+/**
+ * Reactive `hasBusinessAccess`: does the current user hold a link on that object,
+ * under one of the credentials the map demands ? Says nothing about the rights.
+ */
+export const useHasBusinessAccess = (accessRequirements, options = {}) => {
+  const user = useCurrentUser();
+  return hasBusinessAccess(accessRequirements, { user, ...options });
+};
+
+/** Reactive `hasAnyPermsInRange`. */
+export const useHasAnyPermsInRange = (from, to, options = {}) => {
+  const user = useCurrentUser();
+  return hasAnyPermsInRange(from, to, { user, ...options });
 };
 
 export const useBoolean = (defaultValue = false) => {

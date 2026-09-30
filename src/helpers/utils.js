@@ -11,18 +11,25 @@ export const ensureArray = (maybeArray) => {
   }
 };
 
+/**
+ * Split the role and its rights into what the Role page compares to detect a change.
+ * The rights of a role sit in two bags, told apart by `RoleRight.uba`: the global one
+ * and the one only granted through a UserBusinessAccess link (see `docs/rights.md`).
+ */
 export const prepareForComparison = (stateRole, propsRole, roleRights) => {
   const tempStateRole = { ...stateRole };
   delete tempStateRole.roleRights;
+  delete tempStateRole.ubaRoleRights;
 
   const tempPropsRole = { ...propsRole, isSystem: !!propsRole?.isSystem };
 
-  const tempRoleRights = roleRights?.map((right) => right?.rightId);
+  const rightIdsOfBag = (uba) => roleRights?.filter((right) => !!right?.uba === uba).map((right) => right?.rightId);
 
   return {
     stateRole: tempStateRole,
     propsRole: tempPropsRole,
-    convertedRoleRights: tempRoleRights || [],
+    convertedRoleRights: rightIdsOfBag(false) || [],
+    convertedUbaRoleRights: rightIdsOfBag(true) || [],
   };
 };
 
@@ -34,7 +41,6 @@ export function getTimeDifferenceInDays(_firstDate, _secondDate) {
 
   return timeInDays;
 }
-
 export function getTimeDifferenceInDaysFromToday(dateToCheck) {
   const currentDate = new Date();
   return getTimeDifferenceInDays(dateToCheck, currentDate);

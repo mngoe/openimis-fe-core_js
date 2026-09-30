@@ -33,6 +33,10 @@ function reducer(
     fetchedRole: false,
     role: null,
     errorRole: null,
+    fetchingUserBusinessAccesses: false,
+    fetchedUserBusinessAccesses: false,
+    userBusinessAccesses: [],
+    errorUserBusinessAccesses: null,
     fetchingRoleRights: false,
     fetchedRoleRights: false,
     roleRights: [],
@@ -251,6 +255,27 @@ function reducer(
         fetchingRole: false,
         errorRole: formatServerError(action.payload),
       };
+    case "CORE_USER_BUSINESS_ACCESSES_REQ":
+      return {
+        ...state,
+        fetchingUserBusinessAccesses: true,
+        fetchedUserBusinessAccesses: false,
+        errorUserBusinessAccesses: null,
+      };
+    case "CORE_USER_BUSINESS_ACCESSES_RESP":
+      return {
+        ...state,
+        fetchingUserBusinessAccesses: false,
+        fetchedUserBusinessAccesses: true,
+        userBusinessAccesses: parseData(action.payload.data.userBusinessAccess),
+        errorUserBusinessAccesses: formatGraphQLError(action.payload),
+      };
+    case "CORE_USER_BUSINESS_ACCESSES_ERR":
+      return {
+        ...state,
+        fetchingUserBusinessAccesses: false,
+        errorUserBusinessAccesses: formatServerError(action.payload),
+      };
     case "CORE_ROLERIGHTS_REQ":
       return {
         ...state,
@@ -403,6 +428,8 @@ function reducer(
         modulePermissions: [],
         role: null,
         roleRights: [],
+        userBusinessAccesses: [],
+        fetchedUserBusinessAccesses: false,
       };
     case "CORE_PAGINATION_PAGE":
       return {
