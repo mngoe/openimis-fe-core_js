@@ -6,6 +6,8 @@ function getComponents(modulesManager, key) {
 
   return contributions
     .map((contrib) => (typeof contrib === "string" ? modulesManager.getRef(contrib) : contrib))
+    // modules built against a recent fe-core contribute { name, component } descriptors
+    .map((contrib) => contrib?.component ?? contrib)
     .filter(Boolean);
 }
 

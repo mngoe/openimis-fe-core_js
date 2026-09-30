@@ -22,6 +22,7 @@ import { RIGHT_ROLE_SEARCH, RIGHT_ROLE_CREATE, RIGHT_ROLE_UPDATE, QUERY_STRING_D
 import { prepareForComparison } from "../helpers/utils";
 import RoleHeadPanel from "../components/RoleHeadPanel";
 import RoleRightsPanel from "../components/RoleRightsPanel";
+import RoleUbaRightsPanel from "../components/RoleUbaRightsPanel";
 
 const styles = (theme) => ({
   page: theme.page,
@@ -33,7 +34,10 @@ class Role extends Component {
     role: {
       isSystem: false,
       isBlocked: false,
+      // the two right bags of a role, told apart by `RoleRight.uba`: granted globally,
+      // and granted only on the objects the user is linked to (see `docs/rights.md`)
       roleRights: [],
+      ubaRoleRights: [],
     },
     reset: 0,
     isLocked: false,
@@ -63,6 +67,7 @@ class Role extends Component {
           isSystem: state.isDuplicate ? false : !!props.role.isSystem,
           isBlocked: state.isDuplicate ? false : !!props.role.isBlocked,
           roleRights: state.role.roleRights,
+          ubaRoleRights: state.role.ubaRoleRights,
         },
         reset: state.reset + 1,
         isSystemRole: state.isDuplicate ? false : !!props.role.isSystem,
@@ -71,7 +76,8 @@ class Role extends Component {
       this.setState((state, props) => ({
         role: {
           ...state.role,
-          roleRights: props.roleRights.map((right) => right["rightId"]),
+          roleRights: props.roleRights.filter((right) => !right["uba"]).map((right) => right["rightId"]),
+          ubaRoleRights: props.roleRights.filter((right) => !!right["uba"]).map((right) => right["rightId"]),
         },
       }));
     } else if (prevProps.submittingMutation && !this.props.submittingMutation) {
@@ -136,8 +142,8 @@ class Role extends Component {
   isRequiredFieldsEmpty = () => !(!!this.state.role && !!this.state.role.name);
 
   doesRoleChange = () => {
-    const { roleRights } = this.state.role;
-    const { stateRole, propsRole, convertedRoleRights } = prepareForComparison(
+    const { roleRights, ubaRoleRights } = this.state.role;
+    const { stateRole, propsRole, convertedRoleRights, convertedUbaRoleRights } = prepareForComparison(
       this.state.role,
       this.props.role,
       this.props.roleRights,
@@ -145,6 +151,7 @@ class Role extends Component {
 
     if (!_.isEqual(propsRole, stateRole)) return true;
     if (!_.isEqual(_.sortBy(convertedRoleRights), _.sortBy(roleRights))) return true;
+    if (!_.isEqual(_.sortBy(convertedUbaRoleRights), _.sortBy(ubaRoleRights))) return true;
 
     return false;
   };
@@ -179,7 +186,7 @@ class Role extends Component {
             save={this.save}
             onEditedChanged={this.onEditedChanged}
             HeadPanel={RoleHeadPanel}
-            Panels={[RoleRightsPanel]}
+            Panels={[RoleRightsPanel, RoleUbaRightsPanel]}
             isRequiredFieldsEmpty={this.isRequiredFieldsEmpty()}
             saveTooltip={formatMessage(
               intl,

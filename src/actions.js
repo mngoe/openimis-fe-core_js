@@ -21,7 +21,23 @@ const ROLE_FULL_PROJECTION = () => [
   "validityTo",
 ];
 
-const ROLERIGHT_FULL_PROJECTION = () => ["rightId"];
+// `uba` tells the two bags apart: false = granted globally, true = granted only on the
+// business objects the user holds a UserBusinessAccess link on
+// what a client needs of a link: the credential, the object it points at, and whether it
+// still counts. The backend scopes the query to the current user when they hold no right
+// to manage the links of others, so no filter is needed for the self case.
+const USER_BUSINESS_ACCESS_FULL_PROJECTION = () => [
+  "id",
+  "uuid",
+  "linkType",
+  "linkTypeLabel",
+  "businessObjectModel",
+  "objectId",
+  "objectUuid",
+  "active",
+];
+
+const ROLERIGHT_FULL_PROJECTION = () => ["rightId", "uba"];
 
 const LANGUAGE_FULL_PROJECTION = () => ["name", "code", "sortOrder"];
 
@@ -535,6 +551,20 @@ export function fetchRoleRights(params) {
   return graphql(payload, "CORE_ROLERIGHTS");
 }
 
+/**
+ * The UserBusinessAccess links of the current user: which credential they hold on which
+ * business object. They are what the UBA rights (`RoleRight.uba`) are granted through, so
+ * `hasPerms(right, { accessRequirements })` can only grant once they are loaded.
+ */
+export function fetchCurrentUserBusinessAccesses(userId) {
+  const filters = ["active: true"];
+  if (userId) {
+    filters.push(`user_Id: "${userId}"`);
+  }
+  const payload = formatPageQuery("userBusinessAccess", filters, USER_BUSINESS_ACCESS_FULL_PROJECTION());
+  return graphql(payload, "CORE_USER_BUSINESS_ACCESSES");
+}
+
 export function fetchModulesPermissions() {
   const payload = formatQuery("modulesPermissions", null, MODULEPERMISSION_FULL_PROJECTION());
   return graphql(payload, "CORE_MODULEPERMISSIONS");
@@ -553,6 +583,7 @@ function formatRoleGQL(role) {
         ${role.isSystem !== null ? `isSystem: ${role.isSystem}` : ""}
         ${role.isBlocked !== null ? `isBlocked: ${role.isBlocked}` : ""}
         ${!!role.roleRights ? `rightsId: [${role.roleRights.join(",")}]` : ""}
+        ${!!role.ubaRoleRights ? `ubaRightsId: [${role.ubaRoleRights.join(",")}]` : ""}
     `;
 }
 

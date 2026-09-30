@@ -1,6 +1,7 @@
 import React from "react";
 
 import ForbiddenPage from "./ForbiddenPage";
+import { hasAnyPerms } from "../helpers/rights";
 
 const PermissionCheck = ({ userRights, requiredRights, children, ...props }) => {
   const hasAccess = () => {
@@ -18,7 +19,9 @@ const PermissionCheck = ({ userRights, requiredRights, children, ...props }) => 
       return false;
     }
 
-    return requiredRights.some((right) => userRights?.includes(right));
+    // navigation level gate: a right the user only holds where they are linked opens the
+    // route too, the page being responsible for checking each action on its object
+    return hasAnyPerms(requiredRights, { rights: userRights, anywhere: true });
   };
 
   return hasAccess() ? children : <ForbiddenPage {...props} />;

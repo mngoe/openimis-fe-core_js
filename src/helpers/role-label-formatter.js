@@ -1,7 +1,7 @@
 const RIGHT_NAME_WORDS_SEPARATOR = "_";
 const RIGHT_NAME_OMITTED_WORDS = ["gql", "mutation", "perms"];
-const QUERY_STRING = "query";
-const SEARCH_STRING = "search";
+const QUERY_WORD = /\bQuery\b/g;
+const SEARCH_WORD = "Search";
 const WHITESPACE = " ";
 
 const capitalizeFirstLetter = (string) => {
@@ -11,16 +11,17 @@ const capitalizeFirstLetter = (string) => {
     .join(WHITESPACE);
 };
 
-export const formatRoleLabel = (moduleName = "", permName = "") => {
-  const rightNameWords = permName
+/** `gql_query_families_perms` -> `Search Families`. */
+export const formatRightLabel = (permName = "") =>
+  permName
     .split(RIGHT_NAME_WORDS_SEPARATOR)
-    .filter((word) => !RIGHT_NAME_OMITTED_WORDS.includes(word));
-
-  const rightNameLabel = rightNameWords
+    .filter((word) => word && !RIGHT_NAME_OMITTED_WORDS.includes(word))
     .map(capitalizeFirstLetter)
     .join(WHITESPACE)
-    .replace(QUERY_STRING, SEARCH_STRING);
-  const moduleNameLabel = moduleName.split(RIGHT_NAME_WORDS_SEPARATOR).map(capitalizeFirstLetter).join(WHITESPACE);
+    .replace(QUERY_WORD, SEARCH_WORD);
 
-  return `${moduleNameLabel} | ${rightNameLabel}`;
-};
+export const formatModuleLabel = (moduleName = "") =>
+  moduleName.split(RIGHT_NAME_WORDS_SEPARATOR).map(capitalizeFirstLetter).join(WHITESPACE);
+
+export const formatRoleLabel = (moduleName = "", permName = "") =>
+  `${formatModuleLabel(moduleName)} | ${formatRightLabel(permName)}`;

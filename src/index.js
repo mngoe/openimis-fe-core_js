@@ -54,6 +54,7 @@ import CustomFilterFieldStatusPicker from "./pickers/CustomFilterFieldStatusPick
 import CustomFilterTypeStatusPicker from "./pickers/CustomFilterTypeStatusPicker";
 import AdvancedFiltersDialog from "./components/dialogs/AdvancedFiltersDialog";
 import WarningBox from "./components/generics/WarningBox";
+import BusinessObjectPicker from "./components/generics/BusinessObjectPicker";
 import {
   baseApiUrl,
   apiHeaders,
@@ -67,6 +68,7 @@ import {
   fetchMutation,
   prepareMutation,
   fetchCustomFilter,
+  fetchCurrentUserBusinessAccesses,
   clearCurrentPaginationPage,
 } from "./actions";
 import {
@@ -111,6 +113,17 @@ import {
   useGraphqlMutation,
   useAuthentication,
   useUserQuery,
+  useCurrentUser,
+  useRights,
+  useHasPerms,
+  useHasPermsAnywhere,
+  useHasAnyPerms,
+  useHasAnyPermsInRange,
+  useHasBusinessAccess,
+  useBusinessObject,
+  useBusinessObjects,
+  useUserBusinessAccesses,
+  useHasUserLinkType,
 } from "./helpers/hooks";
 import withHistory, {
   historyPush,
@@ -126,8 +139,10 @@ import { createFieldsBasedOnJSON, renderInputComponent } from "./helpers/json-ha
 import withModulesManager, { useModulesManager } from "./helpers/modules";
 import { formatJsonField } from "./helpers/jsonExt";
 import { RIGHT_ROLE_SEARCH, CLEARED_STATE_FILTER } from "./constants";
-import { authMiddleware } from "./middlewares";
+import { hasPerms } from "./helpers/rights";
+import { authMiddleware, rightsMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
+import LoadUserBusinessAccesses from "./components/LoadUserBusinessAccesses";
 import UserActivityReport from "./reports/UserActivityReport";
 import RegistersStatusReport from "./reports/RegistersStatusReport";
 import SearcherActionButton from "./components/generics/SearcherActionButton";
@@ -175,7 +190,7 @@ const DEFAULT_CONFIG = {
       },
     },
   ],
-  "middlewares": [authMiddleware],
+  "middlewares": [authMiddleware, rightsMiddleware],
   "refs": [
     { key: "core.JournalDrawer.pollInterval", ref: 2000 },
     { key: "core.KeepLegacyAlive.pollInterval", ref: 300000 },
@@ -186,7 +201,7 @@ const DEFAULT_CONFIG = {
     { key: "core.AuthorityPicker", ref: AuthorityPicker },
     { key: "core.route.role", ref: ROUTE_ROLE },
   ],
-  "core.Boot": [KeepLegacyAlive, RefreshAuthToken],
+  "core.Boot": [KeepLegacyAlive, RefreshAuthToken, LoadUserBusinessAccesses],
   "core.Router": [
     { path: ROUTE_ROLES, component: Roles },
     { path: ROUTE_ROLE + "/:role_uuid?", component: Role },
@@ -196,7 +211,7 @@ const DEFAULT_CONFIG = {
       text: <FormattedMessage module="core" id="roleManagement.label" />,
       icon: <AccountBox />,
       route: "/" + ROUTE_ROLES,
-      filter: (rights) => rights.includes(RIGHT_ROLE_SEARCH),
+      filter: (rights) => hasPerms(RIGHT_ROLE_SEARCH, { rights }),
     },
   ],
 };
@@ -214,12 +229,16 @@ export function combine(...hocs) {
 }
 
 export * from "./helpers/utils";
+export * from "./helpers/rights";
+export * from "./helpers/business-objects";
+export * from "./helpers/uba-link-types";
 
 export {
   Helmet,
   baseApiUrl,
   AdvancedFiltersDialog,
   fetchCustomFilter,
+  fetchCurrentUserBusinessAccesses,
   apiHeaders,
   graphql,
   graphqlWithVariables,
@@ -281,6 +300,7 @@ export {
   FatalError,
   AlertForwarder,
   WarningBox,
+  BusinessObjectPicker,
   SelectInput,
   TextInput,
   ValidatedTextInput,
@@ -319,6 +339,17 @@ export {
   useGraphqlQuery,
   useGraphqlMutation,
   useUserQuery,
+  useCurrentUser,
+  useRights,
+  useHasPerms,
+  useHasPermsAnywhere,
+  useHasAnyPerms,
+  useHasAnyPermsInRange,
+  useHasBusinessAccess,
+  useBusinessObject,
+  useBusinessObjects,
+  useUserBusinessAccesses,
+  useHasUserLinkType,
   ConfirmDialog,
   useAuthentication,
   useBoolean,
