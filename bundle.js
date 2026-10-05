@@ -30,7 +30,6 @@ var _$1 = require('lodash');
 var SortIcon = require('@material-ui/icons/UnfoldMore');
 var SortAscIcon = require('@material-ui/icons/ExpandLess');
 var ExpandMoreIcon = require('@material-ui/icons/ExpandMore');
-var Sentry = require('@sentry/react');
 var moment = require('moment');
 var _toConsumableArray = require('@babel/runtime/helpers/toConsumableArray');
 var NepaliDate = require('nepali-date-converter');
@@ -126,7 +125,6 @@ var ___default = /*#__PURE__*/_interopDefaultLegacy(_$1);
 var SortIcon__default = /*#__PURE__*/_interopDefaultLegacy(SortIcon);
 var SortAscIcon__default = /*#__PURE__*/_interopDefaultLegacy(SortAscIcon);
 var ExpandMoreIcon__default = /*#__PURE__*/_interopDefaultLegacy(ExpandMoreIcon);
-var Sentry__namespace = /*#__PURE__*/_interopNamespace(Sentry);
 var moment__default = /*#__PURE__*/_interopDefaultLegacy(moment);
 var _toConsumableArray__default = /*#__PURE__*/_interopDefaultLegacy(_toConsumableArray);
 var NepaliDate__default = /*#__PURE__*/_interopDefaultLegacy(NepaliDate);
@@ -217,28 +215,20 @@ function withHistory(C) {
     }));
   };
 }
-function _historyPush(mm, history, pathname, asNewTab) {
-  var search = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
-  var state = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : undefined;
-  var location = {
-    pathname: pathname,
-    search: search || "",
-    state: state
-  };
+function _historyPush(mm, history, route, asNewTab) {
   if (asNewTab) {
     var hasDynLink = mm.getConf("fe-core", "useDynPermalinks", false);
-    var link = history.createHref(location);
+    var link = history.createHref({
+      pathname: route
+    });
     window.open(hasDynLink ? "/?dyn=".concat(btoa(link)) : link);
   } else {
-    history.push(location);
+    history.push(route);
   }
 }
 function historyPush(mm, history, route, params) {
   var newTab = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-  var search = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "";
-  var state = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : undefined;
-  var pathname = "/".concat(mm.getRef(route)).concat(params !== null && params !== void 0 && params.length ? "/" + params.join("/") : "");
-  _historyPush(mm, history, pathname, newTab, search, state);
+  _historyPush(mm, history, "/".concat(mm.getRef(route)).concat(!!params ? "/" + params.join("/") : ""), newTab);
 }
 
 var DEFAULT_DEBOUNCE_TIME = 500;
@@ -355,9 +345,7 @@ function formatPageQueryWithCount(entity, filters, projections) {
 }
 function formatGQLString(str) {
   if (!str) return str;
-  return str.replace(/[\"]/g, '\\"').replace(/[\\]/g, "\\\\").replace(/[\/]/g, "\\/").replace(/[\b]/g, "\\b").replace(/[\f]/g, "\\f").replace(/[\n]/g, "\\n").replace(/[\r]/g, "\\r").replace(/[\t]/g, "\\t").replace(/[^\x00-\x7F]/g, function (c) {
-    return "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0");
-  });
+  return str.replace(/[\"]/g, '\\"').replace(/[\\]/g, "\\\\").replace(/[\/]/g, "\\/").replace(/[\b]/g, "\\b").replace(/[\f]/g, "\\f").replace(/[\n]/g, "\\n").replace(/[\r]/g, "\\r").replace(/[\t]/g, "\\t");
 }
 function formatMutation(operationName, input, clientMutationLabel, clientMutationDetails) {
   var clientMutationId = uuid__default["default"].uuid();
@@ -559,12 +547,12 @@ function graphql(payload) {
   }
   return /*#__PURE__*/function () {
     var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(dispatch) {
-      var response, _t;
-      return _regeneratorRuntime__default["default"].wrap(function (_context) {
+      var response;
+      return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 1;
+            _context.next = 3;
             return dispatch(fetch$1({
               endpoint: "".concat(baseApiUrl, "/graphql"),
               method: "POST",
@@ -582,21 +570,21 @@ function graphql(payload) {
                 meta: params
               }]
             }));
-          case 1:
+          case 3:
             response = _context.sent;
             if (response.error) {
               dispatch(coreAlert(formatServerError(response.payload)));
             }
             return _context.abrupt("return", response);
-          case 2:
-            _context.prev = 2;
-            _t = _context["catch"](0);
-            console.error(_t);
-          case 3:
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](0);
+            console.error(_context.t0);
+          case 11:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[0, 2]]);
+      }, _callee, null, [[0, 8]]);
     }));
     return function (_x) {
       return _ref.apply(this, arguments);
@@ -621,10 +609,10 @@ function graphqlWithVariables(operation, variables) {
   return /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2(dispatch) {
       var response;
-      return _regeneratorRuntime__default["default"].wrap(function (_context2) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 1;
+            _context2.next = 2;
             return dispatch(fetch$1({
               endpoint: "".concat(baseApiUrl, "/graphql"),
               method: "POST",
@@ -644,10 +632,10 @@ function graphqlWithVariables(operation, variables) {
                 meta: params
               }]
             }));
-          case 1:
+          case 2:
             response = _context2.sent;
             return _context2.abrupt("return", response);
-          case 2:
+          case 4:
           case "end":
             return _context2.stop();
         }
@@ -677,7 +665,7 @@ function waitForMutation(clientMutationId) {
   return /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3(dispatch) {
       var attempts, res, _response$payload$dat, response;
-      return _regeneratorRuntime__default["default"].wrap(function (_context3) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             attempts = 0;
@@ -685,33 +673,33 @@ function waitForMutation(clientMutationId) {
             console.log("----- Wait For Mutation------");
             console.log(attempts);
             if (!res) {
-              _context3.next = 2;
+              _context3.next = 6;
               break;
             }
-            _context3.next = 2;
+            _context3.next = 6;
             return new Promise(function (resolve) {
               return setTimeout(resolve, 100 * attempts);
             });
-          case 2:
-            _context3.next = 3;
+          case 6:
+            _context3.next = 8;
             return dispatch(graphqlWithVariables("\n        query ($clientMutationId: String) {\n          mutationLogs (clientMutationId: $clientMutationId) {\n            edges {\n              node {\n                status\n                clientMutationId\n                jsonContent\n                error\n              }\n            }\n          }\n        }\n      ", {
               clientMutationId: clientMutationId
             }));
-          case 3:
+          case 8:
             response = _context3.sent;
             if (!response.error) {
-              _context3.next = 4;
+              _context3.next = 11;
               break;
             }
             return _context3.abrupt("return", null);
-          case 4:
+          case 11:
             res = (_response$payload$dat = response.payload.data.mutationLogs) === null || _response$payload$dat === void 0 || (_response$payload$dat = _response$payload$dat.edges[0]) === null || _response$payload$dat === void 0 ? void 0 : _response$payload$dat.node;
-          case 5:
+          case 12:
             if ((!res || res.status === 0) && attempts++ < 10) {
               _context3.next = 1;
               break;
             }
-          case 6:
+          case 13:
             console.log("----- Wait For Mutation While ------");
             console.log(!res);
             console.log(res.status === 0);
@@ -721,7 +709,7 @@ function waitForMutation(clientMutationId) {
               res.error = JSON.parse(res.error);
             }
             return _context3.abrupt("return", res);
-          case 7:
+          case 20:
           case "end":
             return _context3.stop();
         }
@@ -748,32 +736,32 @@ function graphqlMutation(mutation, variables) {
   return /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee4(dispatch) {
       var response, _response$payload, _response$payload2;
-      return _regeneratorRuntime__default["default"].wrap(function (_context4) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee4$(_context4) {
         while (1) switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.next = 1;
+            _context4.next = 2;
             return dispatch(graphqlWithVariables(mutation, variables, type, params, customHeaders));
-          case 1:
+          case 2:
             response = _context4.sent;
             console.log("graphQlMutation Return Async");
             if (!clientMutationId) {
-              _context4.next = 3;
+              _context4.next = 14;
               break;
             }
             console.log("Dispatch fetchMutation");
             dispatch(fetchMutation(clientMutationId));
             console.log(wait);
             if (!wait) {
-              _context4.next = 2;
+              _context4.next = 12;
               break;
             }
             return _context4.abrupt("return", dispatch(waitForMutation(clientMutationId)));
-          case 2:
+          case 12:
             console.log(response === null || response === void 0 || (_response$payload = response.payload) === null || _response$payload === void 0 ? void 0 : _response$payload.data);
             return _context4.abrupt("return", response === null || response === void 0 || (_response$payload2 = response.payload) === null || _response$payload2 === void 0 ? void 0 : _response$payload2.data);
-          case 3:
+          case 14:
             return _context4.abrupt("return", response);
-          case 4:
+          case 15:
           case "end":
             return _context4.stop();
         }
@@ -785,110 +773,21 @@ function graphqlMutation(mutation, variables) {
   }();
 }
 function fetch$1(config) {
-  var csrfToken = localStorage.getItem("csrfToken");
   return /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee5(dispatch) {
-      var _action, _action2, _action3;
-      var action, errorMessage, endpoint, response, status, statusText, gqlErrors, message, _errorMessage, _t2;
-      return _regeneratorRuntime__default["default"].wrap(function (_context5) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee5$(_context5) {
         while (1) switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
-            _context5.next = 1;
-            return dispatch(_defineProperty__default["default"]({}, reduxApiMiddleware.RSAA, _objectSpread$o(_objectSpread$o({}, config), {}, {
+            return _context5.abrupt("return", dispatch(_defineProperty__default["default"]({}, reduxApiMiddleware.RSAA, _objectSpread$o(_objectSpread$o({}, config), {}, {
               headers: _objectSpread$o({
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": csrfToken
+                "Content-Type": "application/json"
               }, config.headers)
-            })));
+            }))));
           case 1:
-            action = _context5.sent;
-            _context5.next = 3;
-            break;
-          case 2:
-            _context5.prev = 2;
-            _t2 = _context5["catch"](0);
-            errorMessage = "Server not responding";
-            Sentry__namespace.captureException(new Error(errorMessage), {
-              level: "error",
-              tags: {
-                endpoint: config.endpoint,
-                type: config.method || "unknown-method"
-              },
-              extra: {
-                endpoint: config.endpoint,
-                body: config.body,
-                originalError: _t2
-              }
-            });
-            return _context5.abrupt("return", {
-              error: true,
-              payload: {
-                message: errorMessage
-              }
-            });
-          case 3:
-            endpoint = config.endpoint;
-            response = (_action = action) === null || _action === void 0 || (_action = _action.payload) === null || _action === void 0 ? void 0 : _action.response;
-            status = response === null || response === void 0 ? void 0 : response.status;
-            statusText = response === null || response === void 0 ? void 0 : response.statusText;
-            gqlErrors = response === null || response === void 0 ? void 0 : response.errors;
-            message = ((_action2 = action) === null || _action2 === void 0 || (_action2 = _action2.payload) === null || _action2 === void 0 ? void 0 : _action2.message) || ((_action3 = action) === null || _action3 === void 0 || (_action3 = _action3.error) === null || _action3 === void 0 ? void 0 : _action3.message);
-            if (action.error) {
-              _errorMessage = "";
-              if (!response && !message) {
-                _errorMessage = "Server not responding";
-              }
-              if (status) {
-                _errorMessage = "HTTP ".concat(status, ": ").concat(statusText || "Unknown status");
-              } else if ((gqlErrors === null || gqlErrors === void 0 ? void 0 : gqlErrors.length) > 0) {
-                _errorMessage = "GraphQL Error: ".concat(gqlErrors.map(function (e) {
-                  return e.message;
-                }).join("; "));
-              } else if (message) {
-                _errorMessage = "Network or API Error: ".concat(message);
-              } else {
-                _errorMessage = "Unknown error during API call";
-              }
-              Sentry__namespace.captureException(new Error(_errorMessage), {
-                level: "error",
-                tags: {
-                  endpoint: endpoint,
-                  status: status || "no-status",
-                  type: config.method || "unknown-method"
-                },
-                extra: {
-                  endpoint: endpoint,
-                  status: status,
-                  statusText: statusText,
-                  body: config.body,
-                  response: action.payload
-                }
-              });
-            }
-            if (!action.error && gqlErrors && gqlErrors.length > 0) {
-              Sentry__namespace.captureException(new Error("GraphQL Error: ".concat(gqlErrors.map(function (e) {
-                return e.message;
-              }).join("; "))), {
-                level: "error",
-                tags: {
-                  endpoint: endpoint,
-                  type: config.method || "unknown-method"
-                },
-                extra: {
-                  endpoint: endpoint,
-                  errors: gqlErrors,
-                  query: config.body
-                }
-              });
-            }
-            return _context5.abrupt("return", action);
-          case 4:
           case "end":
             return _context5.stop();
         }
-      }, _callee5, null, [[0, 2]]);
+      }, _callee5);
     }));
     return function (_x5) {
       return _ref5.apply(this, arguments);
@@ -905,25 +804,25 @@ function loadUser() {
 function login(credentials) {
   return /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee6(dispatch) {
-      var mutation, csrfToken, _response$payload3, _action$payload$respo, _action$payload, response, errorMessage, action, _action4$payload$resp, _action4$payload, _action4, _t3;
-      return _regeneratorRuntime__default["default"].wrap(function (_context6) {
+      var mutation, csrfToken, _response$payload3, _action$payload$respo, _action$payload, response, errorMessage, action, _action$payload$respo2, _action$payload2, _action;
+      return _regeneratorRuntime__default["default"].wrap(function _callee6$(_context6) {
         while (1) switch (_context6.prev = _context6.next) {
           case 0:
             if (!credentials) {
-              _context6.next = 6;
+              _context6.next = 23;
               break;
             }
             mutation = "mutation authenticate($username: String!, $password: String!) {\n            tokenAuth(username: $username, password: $password) {\n              refreshExpiresIn\n            }\n          }";
             csrfToken = getCsrfToken();
-            _context6.prev = 1;
-            _context6.next = 2;
+            _context6.prev = 3;
+            _context6.next = 6;
             return dispatch(graphqlMutation(mutation, credentials, ["CORE_AUTH_LOGIN_REQ", "CORE_AUTH_LOGIN_RESP", "CORE_AUTH_ERR"], {}, false, {
               "X-CSRFToken": csrfToken
             }));
-          case 2:
+          case 6:
             response = _context6.sent;
             if (!(((_response$payload3 = response.payload) === null || _response$payload3 === void 0 || (_response$payload3 = _response$payload3.errors) === null || _response$payload3 === void 0 ? void 0 : _response$payload3.length) > 0)) {
-              _context6.next = 3;
+              _context6.next = 11;
               break;
             }
             errorMessage = response.payload.errors[0].message;
@@ -934,42 +833,45 @@ function login(credentials) {
               loginStatus: "CORE_AUTH_ERR",
               message: errorMessage
             });
-          case 3:
-            _context6.next = 4;
+          case 11:
+            _context6.next = 13;
             return dispatch(loadUser());
-          case 4:
+          case 13:
             action = _context6.sent;
             return _context6.abrupt("return", {
               loginStatus: action.type,
               message: (_action$payload$respo = action === null || action === void 0 || (_action$payload = action.payload) === null || _action$payload === void 0 || (_action$payload = _action$payload.response) === null || _action$payload === void 0 ? void 0 : _action$payload.detail) !== null && _action$payload$respo !== void 0 ? _action$payload$respo : ""
             });
-          case 5:
-            _context6.prev = 5;
-            _t3 = _context6["catch"](1);
+          case 17:
+            _context6.prev = 17;
+            _context6.t0 = _context6["catch"](3);
             dispatch(authError({
-              message: _t3.message
+              message: _context6.t0.message
             }));
             return _context6.abrupt("return", {
               loginStatus: "CORE_AUTH_ERR",
-              message: _t3.message
+              message: _context6.t0.message
             });
-          case 6:
-            _context6.next = 7;
+          case 21:
+            _context6.next = 29;
+            break;
+          case 23:
+            _context6.next = 25;
             return dispatch(refreshAuthToken());
-          case 7:
-            _context6.next = 8;
+          case 25:
+            _context6.next = 27;
             return dispatch(loadUser());
-          case 8:
-            _action4 = _context6.sent;
+          case 27:
+            _action = _context6.sent;
             return _context6.abrupt("return", {
-              loginStatus: _action4.type,
-              message: (_action4$payload$resp = _action4 === null || _action4 === void 0 || (_action4$payload = _action4.payload) === null || _action4$payload === void 0 || (_action4$payload = _action4$payload.response) === null || _action4$payload === void 0 ? void 0 : _action4$payload.detail) !== null && _action4$payload$resp !== void 0 ? _action4$payload$resp : "Error occurred while loading user."
+              loginStatus: _action.type,
+              message: (_action$payload$respo2 = _action === null || _action === void 0 || (_action$payload2 = _action.payload) === null || _action$payload2 === void 0 || (_action$payload2 = _action$payload2.response) === null || _action$payload2 === void 0 ? void 0 : _action$payload2.detail) !== null && _action$payload$respo2 !== void 0 ? _action$payload$respo2 : "Error occurred while loading user."
             });
-          case 9:
+          case 29:
           case "end":
             return _context6.stop();
         }
-      }, _callee6, null, [[1, 5]]);
+      }, _callee6, null, [[3, 17]]);
     }));
     return function (_x6) {
       return _ref6.apply(this, arguments);
@@ -985,16 +887,16 @@ function refreshAuthToken() {
 function initialize() {
   return /*#__PURE__*/function () {
     var _ref7 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee7(dispatch) {
-      return _regeneratorRuntime__default["default"].wrap(function (_context7) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee7$(_context7) {
         while (1) switch (_context7.prev = _context7.next) {
           case 0:
-            _context7.next = 1;
+            _context7.next = 2;
             return dispatch(login());
-          case 1:
+          case 2:
             return _context7.abrupt("return", dispatch({
               type: "CORE_INITIALIZED"
             }));
-          case 2:
+          case 3:
           case "end":
             return _context7.stop();
         }
@@ -1015,17 +917,17 @@ function logout() {
   return /*#__PURE__*/function () {
     var _ref8 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee8(dispatch, getState) {
       var mutation;
-      return _regeneratorRuntime__default["default"].wrap(function (_context8) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee8$(_context8) {
         while (1) switch (_context8.prev = _context8.next) {
           case 0:
             mutation = "\n      mutation logout {\n        deleteTokenCookie {\n          deleted\n        }\n        deleteRefreshTokenCookie {\n          deleted\n        }\n      }\n    ";
-            _context8.next = 1;
+            _context8.next = 3;
             return dispatch(graphqlMutation(mutation, {}));
-          case 1:
+          case 3:
             return _context8.abrupt("return", dispatch({
               type: "CORE_AUTH_LOGOUT"
             }));
-          case 2:
+          case 4:
           case "end":
             return _context8.stop();
         }
@@ -1231,13 +1133,13 @@ function getTimeDifferenceInDaysFromToday(dateToCheck) {
 }
 var onLogout = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(dispatch) {
-    return _regeneratorRuntime__default["default"].wrap(function (_context) {
+    return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           localStorage.clear();
-          _context.next = 1;
+          _context.next = 3;
           return dispatch(logout());
-        case 1:
+        case 3:
         case "end":
           return _context.stop();
       }
@@ -1370,20 +1272,20 @@ var LogoutButton = function LogoutButton() {
   var mPassLogout = modulesManager.getConf("fe-core", "LogoutButton.showMPassProvider", false);
   var onClick = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
-      return _regeneratorRuntime__default["default"].wrap(function (_context) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             if (!mPassLogout) {
-              _context.next = 1;
+              _context.next = 4;
               break;
             }
             redirectToSamlLogout(e);
-            _context.next = 2;
+            _context.next = 6;
             break;
-          case 1:
-            _context.next = 2;
+          case 4:
+            _context.next = 6;
             return redirectToImisLogout();
-          case 2:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -1395,14 +1297,14 @@ var LogoutButton = function LogoutButton() {
   }();
   var redirectToImisLogout = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2() {
-      return _regeneratorRuntime__default["default"].wrap(function (_context2) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 1;
+            _context2.next = 2;
             return onLogout(dispatch);
-          case 1:
-            history.push("/");
           case 2:
+            history.push("/");
+          case 3:
           case "end":
             return _context2.stop();
         }
@@ -1448,7 +1350,7 @@ var Help = function Help(_ref) {
 };
 var Help$1 = styles$w.withStyles(styles$v)(Help);
 
-var _excluded$e = ["children", "contributionKey", "reverse"];
+var _excluded$d = ["children", "contributionKey", "reverse"];
 function getComponents(modulesManager, key) {
   var contributions = modulesManager.getContribs(key);
   return contributions.map(function (contrib) {
@@ -1461,7 +1363,7 @@ var Contributions = function Contributions(_ref) {
     contributionKey = _ref.contributionKey,
     _ref$reverse = _ref.reverse,
     reverse = _ref$reverse === void 0 ? false : _ref$reverse,
-    delegated = _objectWithoutProperties__default["default"](_ref, _excluded$e);
+    delegated = _objectWithoutProperties__default["default"](_ref, _excluded$d);
   var modulesManager = useModulesManager();
   var components = React.useMemo(function () {
     var components = getComponents(modulesManager, contributionKey);
@@ -2066,8 +1968,8 @@ var useGraphqlQuery = function useGraphqlQuery(operation, variables) {
   }
   function _fetchQuery() {
     _fetchQuery = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee() {
-      var action, _t;
-      return _regeneratorRuntime__default["default"].wrap(function (_context) {
+      var action;
+      return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
@@ -2076,12 +1978,12 @@ var useGraphqlQuery = function useGraphqlQuery(operation, variables) {
               data: config.keepStale ? queryState.data : null,
               error: null
             });
-            _context.next = 1;
+            _context.next = 4;
             return dispatch(graphqlWithVariables(operation, variables, config.type, {
               operation: operation,
               variables: variables
             }));
-          case 1:
+          case 4:
             action = _context.sent;
             if (action.error) {
               setQueryState({
@@ -2096,21 +1998,21 @@ var useGraphqlQuery = function useGraphqlQuery(operation, variables) {
                 data: action.payload.data
               });
             }
-            _context.next = 3;
+            _context.next = 11;
             break;
-          case 2:
-            _context.prev = 2;
-            _t = _context["catch"](0);
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](0);
             setQueryState({
-              error: _t,
+              error: _context.t0,
               isLoading: false,
               data: null
             });
-          case 3:
+          case 11:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[0, 2]]);
+      }, _callee, null, [[0, 8]]);
     }));
     return _fetchQuery.apply(this, arguments);
   }
@@ -2140,9 +2042,9 @@ var useGraphqlMutation = function useGraphqlMutation(operation, config) {
       isLoading: false,
       error: null
     }),
-    _useState0 = _slicedToArray__default["default"](_useState9, 2),
-    state = _useState0[0],
-    setState = _useState0[1];
+    _useState10 = _slicedToArray__default["default"](_useState9, 2),
+    state = _useState10[0],
+    setState = _useState10[1];
   function mutate(input) {
     if (state.isLoading) {
       console.warn("A mutation is already in progress");
@@ -2154,31 +2056,31 @@ var useGraphqlMutation = function useGraphqlMutation(operation, config) {
     });
     return new Promise(/*#__PURE__*/function () {
       var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2(resolve, reject) {
-        var _result$error, variables, result, error, _t2;
-        return _regeneratorRuntime__default["default"].wrap(function (_context2) {
+        var _result$error, variables, result, error;
+        return _regeneratorRuntime__default["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               _context2.prev = 0;
               variables = {
                 input: input
               };
-              _context2.next = 1;
+              _context2.next = 4;
               return dispatch(graphqlMutation(operation, variables, config.type, {
                 operation: operation,
                 input: input
               }, config.wait));
-            case 1:
+            case 4:
               result = _context2.sent;
               // Handle graphql errors
               error = result === null || result === void 0 || (_result$error = result.error) === null || _result$error === void 0 ? void 0 : _result$error.map(function (err) {
                 return err.detail;
               }).join("; ");
               if (!error) {
-                _context2.next = 2;
+                _context2.next = 8;
                 break;
               }
               throw new Error(error);
-            case 2:
+            case 8:
               setState({
                 isLoading: false,
                 error: error
@@ -2188,25 +2090,25 @@ var useGraphqlMutation = function useGraphqlMutation(operation, config) {
               } else {
                 resolve(result);
               }
-              _context2.next = 4;
+              _context2.next = 16;
               break;
-            case 3:
-              _context2.prev = 3;
-              _t2 = _context2["catch"](0);
+            case 12:
+              _context2.prev = 12;
+              _context2.t0 = _context2["catch"](0);
               setState({
                 isLoading: false,
-                error: _t2
+                error: _context2.t0
               });
               if (config.onError) {
-                reject(config.onError(_t2));
+                reject(config.onError(_context2.t0));
               } else {
-                reject(_t2);
+                reject(_context2.t0);
               }
-            case 4:
+            case 16:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[0, 3]]);
+        }, _callee2, null, [[0, 12]]);
       }));
       return function (_x, _x2) {
         return _ref.apply(this, arguments);
@@ -2232,12 +2134,12 @@ var useAuthentication = function useAuthentication() {
   });
   var refresh = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3() {
-      return _regeneratorRuntime__default["default"].wrap(function (_context3) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.next = 1;
+            _context3.next = 2;
             return dispatch(refreshAuthToken());
-          case 1:
+          case 2:
           case "end":
             return _context3.stop();
         }
@@ -2276,10 +2178,10 @@ var useUserQuery = function useUserQuery() {
 };
 var useBoolean = function useBoolean() {
   var defaultValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  var _useState1 = React.useState(defaultValue),
-    _useState10 = _slicedToArray__default["default"](_useState1, 2),
-    bool = _useState10[0],
-    setBool = _useState10[1];
+  var _useState11 = React.useState(defaultValue),
+    _useState12 = _slicedToArray__default["default"](_useState11, 2),
+    bool = _useState12[0],
+    setBool = _useState12[1];
   var toggle = React.useCallback(function () {
     return setBool(!bool);
   }, [bool]);
@@ -2296,7 +2198,7 @@ var useBoolean = function useBoolean() {
   }];
 };
 
-var _excluded$d = ["children", "logo", "whiteLogo", "redirectTo", "isSecondaryCalendar", "setSecondaryCalendar", "onEconomicDialogOpen"];
+var _excluded$c = ["children", "logo", "whiteLogo", "redirectTo", "isSecondaryCalendar", "setSecondaryCalendar", "onEconomicDialogOpen"];
 function ownKeys$k(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$k(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$k(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$k(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
@@ -2462,7 +2364,7 @@ var RequireAuth = function RequireAuth(props) {
     isSecondaryCalendar = props.isSecondaryCalendar,
     setSecondaryCalendar = props.setSecondaryCalendar,
     onEconomicDialogOpen = props.onEconomicDialogOpen,
-    others = _objectWithoutProperties__default["default"](props, _excluded$d);
+    others = _objectWithoutProperties__default["default"](props, _excluded$c);
   var _useBoolean = useBoolean(),
     _useBoolean2 = _slicedToArray__default["default"](_useBoolean, 2),
     isOpen = _useBoolean2[0],
@@ -2770,7 +2672,7 @@ var ConfirmDialog = function ConfirmDialog(props) {
 };
 var ConfirmDialog$1 = styles$w.withTheme(styles$w.withStyles(styles$s)(reactIntl.injectIntl(ConfirmDialog)));
 
-var _excluded$c = ["intl", "classes", "module", "label", "readOnly", "error", "startAdornment", "endAdornment", "inputProps", "formatInput", "helperText"];
+var _excluded$b = ["intl", "classes", "module", "label", "readOnly", "error", "startAdornment", "endAdornment", "inputProps", "formatInput", "helperText"];
 function _callSuper$x(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$x() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct$x() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$x = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$r = function styles(theme) {
@@ -2869,7 +2771,7 @@ var TextInput = /*#__PURE__*/function (_Component) {
         inputProps = _this$props$inputProp === void 0 ? {} : _this$props$inputProp;
         _this$props.formatInput;
         var helperText = _this$props.helperText,
-        others = _objectWithoutProperties__default["default"](_this$props, _excluded$c);
+        others = _objectWithoutProperties__default["default"](_this$props, _excluded$b);
       return /*#__PURE__*/React__default["default"].createElement(core.TextField, _extends__default["default"]({}, others, {
         className: classes.numberInput,
         fullWidth: true,
@@ -2998,23 +2900,23 @@ var LoginPage = function LoginPage(_ref) {
   var onSubmit = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
       var _response$payload, response, loginStatus, message;
-      return _regeneratorRuntime__default["default"].wrap(function (_context) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             e.preventDefault();
             setAuthenticating(true);
-            _context.prev = 1;
-            _context.next = 2;
+            _context.prev = 2;
+            _context.next = 5;
             return auth.login(credentials);
-          case 2:
+          case 5:
             response = _context.sent;
             if (!((_response$payload = response.payload) !== null && _response$payload !== void 0 && (_response$payload = _response$payload.errors) !== null && _response$payload !== void 0 && _response$payload.length)) {
-              _context.next = 3;
+              _context.next = 9;
               break;
             }
             handleLoginError(response.payload.errors[0].message);
             return _context.abrupt("return");
-          case 3:
+          case 9:
             loginStatus = response.loginStatus, message = response.message;
             setServerResponse({
               loginStatus: loginStatus,
@@ -3025,17 +2927,17 @@ var LoginPage = function LoginPage(_ref) {
             } else {
               history.push("/");
             }
-            _context.next = 5;
+            _context.next = 17;
             break;
-          case 4:
-            _context.prev = 4;
-            _context["catch"](1);
+          case 14:
+            _context.prev = 14;
+            _context.t0 = _context["catch"](2);
             setAuthenticating(false);
-          case 5:
+          case 17:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[1, 4]]);
+      }, _callee, null, [[2, 14]]);
     }));
     return function onSubmit(_x) {
       return _ref2.apply(this, arguments);
@@ -3190,18 +3092,18 @@ var ForgotPasswordPage = function ForgotPasswordPage(props) {
     mutate = _useGraphqlMutation.mutate;
   var onSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
-      return _regeneratorRuntime__default["default"].wrap(function (_context) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             e.preventDefault();
-            _context.next = 1;
+            _context.next = 3;
             return mutate({
               username: username
             });
-          case 1:
-            _context.next = 2;
+          case 3:
+            _context.next = 5;
             return setDone(true);
-          case 2:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -3301,28 +3203,28 @@ var SetPasswordPage = function SetPasswordPage() {
   var onSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator__default["default"](/*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(e) {
       var result;
-      return _regeneratorRuntime__default["default"].wrap(function (_context) {
+      return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             e.preventDefault();
             if (!isValid) {
-              _context.next = 2;
+              _context.next = 6;
               break;
             }
-            _context.next = 1;
+            _context.next = 4;
             return mutate({
               username: credentials.username,
               token: credentials.token,
               newPassword: credentials.password
             });
-          case 1:
+          case 4:
             result = _context.sent;
             if (result !== null && result !== void 0 && result.setPassword.success) {
               history.push("/");
             } else {
               setError((result === null || result === void 0 ? void 0 : result.setPassword.error) || formatMessage("error"));
             }
-          case 2:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -3489,12 +3391,12 @@ var ForbiddenPage = function ForbiddenPage(props) {
   }, props));
 };
 
-var _excluded$b = ["userRights", "requiredRights", "children"];
+var _excluded$a = ["userRights", "requiredRights", "children"];
 var PermissionCheck = function PermissionCheck(_ref) {
   var userRights = _ref.userRights,
     requiredRights = _ref.requiredRights,
     children = _ref.children,
-    props = _objectWithoutProperties__default["default"](_ref, _excluded$b);
+    props = _objectWithoutProperties__default["default"](_ref, _excluded$a);
   var hasAccess = function hasAccess() {
     // NOTE: Currently, the route is accessible to all users if 'requiredRights' are not specified.
     // This default behavior is subject to change in future iterations.
@@ -3515,7 +3417,7 @@ var PermissionCheck = function PermissionCheck(_ref) {
   return hasAccess() ? children : /*#__PURE__*/React__default["default"].createElement(ForbiddenPage, props);
 };
 
-var _excluded$a = ["modulesManager", "id", "pubRef"];
+var _excluded$9 = ["modulesManager", "id", "pubRef"];
 function _callSuper$w(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$w() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct$w() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$w = function _isNativeReflectConstruct() { return !!t; })(); }
 var PublishedComponent = /*#__PURE__*/function (_Component) {
@@ -3533,7 +3435,7 @@ var PublishedComponent = /*#__PURE__*/function (_Component) {
         modulesManager = _this$props.modulesManager,
         id = _this$props.id,
         pubRef = _this$props.pubRef,
-        others = _objectWithoutProperties__default["default"](_this$props, _excluded$a);
+        others = _objectWithoutProperties__default["default"](_this$props, _excluded$9);
       var C = modulesManager.getRef(id || pubRef);
       return !!C ? /*#__PURE__*/React__default["default"].createElement(C, others) : null;
     }
@@ -3541,7 +3443,7 @@ var PublishedComponent = /*#__PURE__*/function (_Component) {
 }(React.Component);
 var PublishedComponent$1 = withModulesManager(PublishedComponent);
 
-var _excluded$9 = ["history", "classes", "error", "confirm", "user", "messages", "clearConfirm", "localesManager", "modulesManager", "basename", "toggleCurrentCalendarType", "rights"];
+var _excluded$8 = ["history", "classes", "error", "confirm", "user", "messages", "clearConfirm", "localesManager", "modulesManager", "basename", "toggleCurrentCalendarType", "rights"];
 function ownKeys$h(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$h(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$h(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$h(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var ROUTER_CONTRIBUTION_KEY = "core.Router";
@@ -3573,7 +3475,7 @@ var App = function App(props) {
     basename = _props$basename === void 0 ? process.env.PUBLIC_URL : _props$basename,
     toggleCurrentCalendarType = props.toggleCurrentCalendarType,
     rights = props.rights,
-    others = _objectWithoutProperties__default["default"](props, _excluded$9);
+    others = _objectWithoutProperties__default["default"](props, _excluded$8);
   var economicUnitConfig = modulesManager.getConf("fe-core", "App.economicUnitConfig", false);
   var _useState = React.useState(false),
     _useState2 = _slicedToArray__default["default"](_useState, 2),
@@ -4124,7 +4026,7 @@ var SelectInput = /*#__PURE__*/function (_Component) {
         required: required,
         fullWidth: true,
         className: classes.formControl
-      }, withLabel && /*#__PURE__*/React__default["default"].createElement(core.InputLabel, {
+      }, /*#__PURE__*/React__default["default"].createElement(core.InputLabel, {
         shrink: true,
         className: classes.label
       }, strLabel !== null && strLabel !== void 0 ? strLabel : /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
@@ -4136,7 +4038,7 @@ var SelectInput = /*#__PURE__*/function (_Component) {
           name: name,
           id: "".concat(uuid__default["default"].uuid(), "-input")
         },
-        value: value !== null && value !== undefined ? JSON.stringify(value) : null,
+        value: !!value ? JSON.stringify(value) : null,
         onChange: this._onChange,
         IconComponent: this.renderIconComponent(),
         disabled: disabled,
@@ -4802,7 +4704,7 @@ var FieldLabel = /*#__PURE__*/function (_Component) {
 }(React.Component);
 var FieldLabel$1 = reactIntl.injectIntl(styles$w.withTheme(styles$w.withStyles(styles$l)(FieldLabel)));
 
-var _excluded$8 = ["classes", "module", "back", "add", "addTooltip", "openDirty", "save", "canSave", "saveTooltip", "actions", "fab", "fabAction", "fabTooltip", "title", "titleParams", "HeadPanel", "headPanelContributionsKey", "Panels", "contributedPanelsKey", "additionalTooltips"];
+var _excluded$7 = ["classes", "module", "back", "add", "addTooltip", "openDirty", "save", "canSave", "saveTooltip", "actions", "fab", "fabAction", "fabTooltip", "title", "titleParams", "HeadPanel", "headPanelContributionsKey", "Panels", "contributedPanelsKey", "additionalTooltips"];
 function _callSuper$p(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$p() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct$p() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$p = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$k = function styles(theme) {
@@ -4908,7 +4810,7 @@ var Form = /*#__PURE__*/function (_Component) {
         contributedPanelsKey = _this$props2$contribu === void 0 ? null : _this$props2$contribu,
         _this$props2$addition = _this$props2.additionalTooltips,
         additionalTooltips = _this$props2$addition === void 0 ? null : _this$props2$addition,
-        others = _objectWithoutProperties__default["default"](_this$props2, _excluded$8);
+        others = _objectWithoutProperties__default["default"](_this$props2, _excluded$7);
       var defaultTooltips = [{
         condition: !this.state.dirty && !!add && !save,
         content: /*#__PURE__*/React__default["default"].createElement("span", null, /*#__PURE__*/React__default["default"].createElement(core.Fab, {
@@ -5435,7 +5337,7 @@ var TextAreaInput = /*#__PURE__*/function (_Component) {
   }]);
 }(React.Component);
 
-var _excluded$7 = ["intl", "module", "min", "max", "value", "error", "displayZero", "displayNa", "allowDecimals"];
+var _excluded$6 = ["intl", "module", "min", "max", "value", "error", "displayZero", "displayNa", "allowDecimals"];
 function ownKeys$e(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$e(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) { _defineProperty__default["default"](e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _callSuper$l(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$l() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
@@ -5503,7 +5405,7 @@ var NumberInput = /*#__PURE__*/function (_Component) {
         displayNa = _this$props$displayNa === void 0 ? false : _this$props$displayNa,
         _this$props$allowDeci2 = _this$props.allowDecimals,
         allowDecimals = _this$props$allowDeci2 === void 0 ? true : _this$props$allowDeci2,
-        others = _objectWithoutProperties__default["default"](_this$props, _excluded$7);
+        others = _objectWithoutProperties__default["default"](_this$props, _excluded$6);
       var inputProps = _objectSpread$e(_objectSpread$e({}, this.props.inputProps), {}, {
         type: "number",
         onKeyPress: this.handleKeyPress
@@ -5545,12 +5447,12 @@ var NumberInput = /*#__PURE__*/function (_Component) {
 }(React.Component);
 var NumberInput$1 = reactIntl.injectIntl(NumberInput);
 
-var _excluded$6 = ["intl", "inputMinValue"];
+var _excluded$5 = ["intl", "inputMinValue"];
 var AmountInput = function AmountInput(_ref) {
   var intl = _ref.intl,
     _ref$inputMinValue = _ref.inputMinValue,
     inputMinValue = _ref$inputMinValue === void 0 ? 0 : _ref$inputMinValue,
-    props = _objectWithoutProperties__default["default"](_ref, _excluded$6);
+    props = _objectWithoutProperties__default["default"](_ref, _excluded$5);
   var modulesManager = useModulesManager();
   var position = modulesManager.getConf("fe-core", "AmountInput.currencyPosition", "start");
   if (!["start", "end"].includes(position)) {
@@ -5565,7 +5467,7 @@ var AmountInput = function AmountInput(_ref) {
 };
 var AmountInput$1 = reactIntl.injectIntl(AmountInput);
 
-var _excluded$5 = ["classes", "onSelect"];
+var _excluded$4 = ["classes", "onSelect"];
 function _callSuper$k(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$k() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct$k() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$k = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$j = function styles(theme) {
@@ -5597,7 +5499,7 @@ var FakeInput = /*#__PURE__*/function (_Component) {
       var _this$props = this.props,
         classes = _this$props.classes;
         _this$props.onSelect;
-        var others = _objectWithoutProperties__default["default"](_this$props, _excluded$5);
+        var others = _objectWithoutProperties__default["default"](_this$props, _excluded$4);
       return /*#__PURE__*/React__default["default"].createElement(core.FormControl, null, /*#__PURE__*/React__default["default"].createElement(core.InputBase, _extends__default["default"]({
         className: classes.fakeInput,
         inputProps: {
@@ -5813,7 +5715,7 @@ var MainMenuContribution = /*#__PURE__*/function (_Component) {
       var hostname = window.location.hostname;
 
       // Condition pour afficher uniquement le menu "Outils" si le hostname est "localhost"
-      if (hostname.includes("csureport")) {
+      if (hostname.includes("localhost")) {
         // Filtrer pour ne conserver que le menu "Outils ou Tools"
         if (this.props.header === "Outils" || this.props.header === "Tools") {
           return this.appBarMenu();
@@ -6188,7 +6090,6 @@ var Table$2 = /*#__PURE__*/function (_Component) {
         }, !!h && /*#__PURE__*/React__default["default"].createElement(core.Box, {
           style: {
             width: "100%",
-            whiteSpace: "nowrap",
             cursor: headerActions.length > idx && !!headerActions[idx][0] ? "pointer" : ""
           },
           onClick: headerActions.length > idx ? headerActions[idx][0] : null,
@@ -6226,9 +6127,6 @@ var Table$2 = /*#__PURE__*/function (_Component) {
           if (f === null) return null;
           return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
             colSpan: colSpans.length > fidx ? colSpans[fidx] : 1,
-            style: {
-              whiteSpace: "nowrap"
-            },
             className: clsx__default["default"](!!rowLocked && rowLocked(i) ? classes.tableLockedCell : null, !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null, !!rowHighlightedAlt && rowHighlightedAlt(i) ? classes.tableHighlightedAltCell : null, !!rowSecondaryHighlighted && rowSecondaryHighlighted(i) ? classes.tableSecondaryHighlightedCell : null, !!rowDisabled && rowDisabled(i) ? classes.tableDisabledCell : null, aligns.length > fidx && classes[aligns[fidx]]),
             key: "v-".concat(iidx, "-").concat(fidx)
           }, f(i, iidx));
@@ -6533,18 +6431,22 @@ var Table$1 = /*#__PURE__*/function (_Component) {
               marginTop: 10,
               width: "90%"
             }
-          }, /*#__PURE__*/React__default["default"].createElement("tr", null, localSubServiceHeaders.map(function (header, index) {
-            return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
-              key: index
-            }, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-              module: module,
-              id: header
-            }));
-          })), localsubServicesItemsFormattersReview && localsubServicesItemsFormattersReview.map(function (s, sfidx) {
+          }, /*#__PURE__*/React__default["default"].createElement("tr", null, /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[0]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[1]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[2]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[3]
+          }))), localsubServicesItemsFormattersReview && localsubServicesItemsFormattersReview.map(function (s, sfidx) {
             return s(i, iidx);
           })));
         } else {
-          var cleanedHeaders = localHeaders.filter(Boolean);
           return /*#__PURE__*/React__default["default"].createElement(core.Box, {
             style: {
               width: "100%"
@@ -6553,14 +6455,19 @@ var Table$1 = /*#__PURE__*/function (_Component) {
             style: {
               width: "100%"
             }
-          }, items.length - iidx == items.length && /*#__PURE__*/React__default["default"].createElement("tr", null, cleanedHeaders.map(function (header, index) {
-            return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
-              key: index
-            }, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-              module: module,
-              id: header
-            }));
-          })), /*#__PURE__*/React__default["default"].createElement("tr", null, localItemFormatters && localItemFormatters.map(function (f, fidx) {
+          }, items.length - iidx == items.length && /*#__PURE__*/React__default["default"].createElement("tr", null, /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localHeaders[0]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localHeaders[1]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localHeaders[2]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localHeaders[3]
+          }))), /*#__PURE__*/React__default["default"].createElement("tr", null, localItemFormatters && localItemFormatters.map(function (f, fidx) {
             if (colSpans.length > fidx && !colSpans[fidx]) return null;
             return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
               colSpan: colSpans.length > fidx ? colSpans[fidx] : 1,
@@ -6572,14 +6479,19 @@ var Table$1 = /*#__PURE__*/function (_Component) {
               marginTop: 10,
               width: "90%"
             }
-          }, /*#__PURE__*/React__default["default"].createElement("tr", null, localSubServiceHeaders.map(function (header, index) {
-            return /*#__PURE__*/React__default["default"].createElement(core.TableCell, {
-              key: index
-            }, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
-              module: module,
-              id: header
-            }));
-          })), localSubServicesItemsFormatters && localSubServicesItemsFormatters.map(function (s, sfidx) {
+          }, /*#__PURE__*/React__default["default"].createElement("tr", null, /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[0]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[1]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[2]
+          })), /*#__PURE__*/React__default["default"].createElement(core.TableCell, null, /*#__PURE__*/React__default["default"].createElement(FormattedMessage$1, {
+            module: module,
+            id: localSubServiceHeaders[3]
+          }))), localSubServicesItemsFormatters && localSubServicesItemsFormatters.map(function (s, sfidx) {
             return s(i, iidx);
           })));
         }
@@ -7672,9 +7584,7 @@ var SearcherPane = /*#__PURE__*/function (_Component) {
     _this = _callSuper$d(this, SearcherPane, [props]);
     _defineProperty__default["default"](_this, "handleKeyDown", function (event) {
       if (event.key === ENTER_KEY) {
-        if (!event.target.value) {
-          _this.debouncedRefresh();
-        }
+        _this.debouncedRefresh();
       }
     });
     var _this$props = _this.props,
@@ -8098,8 +8008,7 @@ var Searcher = /*#__PURE__*/function (_Component3) {
       }
     });
     _defineProperty__default["default"](_this2, "handleEnter", function (event) {
-      var activeName = document.activeElement.name;
-      if (event.key === ENTER_KEY && !!activeName && activeName != 'enquiryField') {
+      if (event.key == "Enter") {
         var filters = _objectSpread$8({}, _this2.state.filters);
         _this2.setState({
           filters: filters
@@ -8237,7 +8146,6 @@ var Searcher = /*#__PURE__*/function (_Component3) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this3 = this;
-      document.addEventListener("keypress", this.handleEnter);
       var cacheKey = this._getCacheKey();
       var filters = this.props.filtersCache[cacheKey] || this.props.defaultFilters || {};
       this.setState(function (state, props) {
@@ -8707,7 +8615,7 @@ var nepali_np = {
   meridiems: [["AM", "am"], ["PM", "pm"]]
 };
 
-var _excluded$4 = ["intl", "classes", "disablePast", "module", "label", "readOnly", "required", "fullWidth", "format", "reset", "isSecondaryCalendarEnabled", "modulesManager", "minDate", "maxDate"];
+var _excluded$3 = ["intl", "classes", "disablePast", "module", "label", "readOnly", "required", "fullWidth", "format", "reset", "isSecondaryCalendarEnabled", "modulesManager", "minDate", "maxDate"];
 function _callSuper$b(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$b() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct$b() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$b = function _isNativeReflectConstruct() { return !!t; })(); }
 var styles$7 = function styles(theme) {
@@ -8826,7 +8734,7 @@ var openIMISDatePicker = /*#__PURE__*/function (_Component) {
         modulesManager = _this$props2.modulesManager,
         minDate = _this$props2.minDate,
         maxDate = _this$props2.maxDate,
-        otherProps = _objectWithoutProperties__default["default"](_this$props2, _excluded$4);
+        otherProps = _objectWithoutProperties__default["default"](_this$props2, _excluded$3);
       if (isSecondaryCalendarEnabled) {
         var secondCalendarFormatting = modulesManager.getConf("fe-core", "secondCalendarFormatting", format);
         var secondCalendarType = modulesManager.getConf("fe-core", "secondCalendarType", "nepali");
@@ -9196,9 +9104,7 @@ var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
         _this$props$readOnly = _this$props.readOnly,
         readOnly = _this$props$readOnly === void 0 ? false : _this$props$readOnly,
         _this$props$required = _this$props.required,
-        required = _this$props$required === void 0 ? false : _this$props$required,
-        _this$props$onlyConst = _this$props.onlyConstants,
-        onlyConstants = _this$props$onlyConst === void 0 ? false : _this$props$onlyConst;
+        required = _this$props$required === void 0 ? false : _this$props$required;
       var value = this.state.value;
       if (!withNull && value === null && !!!constants) return null;
       var options = withNull ? [{
@@ -9210,7 +9116,7 @@ var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
       }).map(function (v) {
         return {
           value: v,
-          label: onlyConstants ? v : _this2._formatValue(v)
+          label: _this2._formatValue(v)
         };
       })));
       return /*#__PURE__*/React__default["default"].createElement(SelectInput$1, {
@@ -9229,7 +9135,6 @@ var ConstantBasedPicker = /*#__PURE__*/function (_Component) {
 }(React.Component);
 var ConstantBasedPicker$1 = reactIntl.injectIntl(ConstantBasedPicker);
 
-var _excluded$3 = ["intl", "name", "value", "module", "label", "nullLabel", "onChange", "readOnly", "min", "max", "required", "withNull"];
 function _callSuper$8(t, o, e) { return o = _getPrototypeOf__default["default"](o), _possibleConstructorReturn__default["default"](t, _isNativeReflectConstruct$8() ? Reflect.construct(o, e || [], _getPrototypeOf__default["default"](t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct$8() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$8 = function _isNativeReflectConstruct() { return !!t; })(); }
 var YearPicker = /*#__PURE__*/function (_Component) {
@@ -9255,8 +9160,7 @@ var YearPicker = /*#__PURE__*/function (_Component) {
         max = _this$props.max,
         required = _this$props.required,
         _this$props$withNull = _this$props.withNull,
-        withNull = _this$props$withNull === void 0 ? true : _this$props$withNull,
-        others = _objectWithoutProperties__default["default"](_this$props, _excluded$3);
+        withNull = _this$props$withNull === void 0 ? true : _this$props$withNull;
       var options = withNull ? [{
         value: null,
         label: formatMessage(intl, module, nullLabel)
@@ -9267,7 +9171,7 @@ var YearPicker = /*#__PURE__*/function (_Component) {
           label: v
         };
       })));
-      return /*#__PURE__*/React__default["default"].createElement(SelectInput$1, _extends__default["default"]({
+      return /*#__PURE__*/React__default["default"].createElement(SelectInput$1, {
         module: module,
         label: label,
         options: options,
@@ -9276,7 +9180,7 @@ var YearPicker = /*#__PURE__*/function (_Component) {
         value: value,
         required: required,
         onChange: onChange
-      }, others));
+      });
     }
   }]);
 }(React.Component);
