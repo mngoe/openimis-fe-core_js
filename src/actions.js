@@ -252,6 +252,7 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
 import * as Sentry from "@sentry/react";
 
 export function fetch(config) {
+  const csrfToken = localStorage.getItem("csrfToken");
 
   return async (dispatch) => {
     let action;
@@ -262,6 +263,8 @@ export function fetch(config) {
           ...config,
           headers: {
             "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": csrfToken,
             ...config.headers,
           },
         },
