@@ -19,14 +19,15 @@ class YearPicker extends Component {
       max,
       required,
       withNull = true,
+      ...others
     } = this.props;
     const options = withNull
       ? [
-          {
-            value: null,
-            label: formatMessage(intl, module, nullLabel),
-          },
-        ]
+        {
+          value: null,
+          label: formatMessage(intl, module, nullLabel),
+        },
+      ]
       : [];
     options.push(
       ..._.range(min, max).map((v) => ({
@@ -35,7 +36,16 @@ class YearPicker extends Component {
       }))
     );
     return (
-      <SelectInput module={module} label={label} options={options} readOnly={readOnly} name={name} value={value} required={required} onChange={onChange} />
+      <SelectInput
+        module={module}
+        label={label}
+        options={options}
+        readOnly={readOnly}
+        name={name} value={value}
+        required={required}
+        onChange={onChange}
+        {...others}
+      />
     );
   }
 }

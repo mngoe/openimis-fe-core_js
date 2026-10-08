@@ -28,7 +28,7 @@ import Contributions from "./Contributions";
 import FormattedMessage from "./FormattedMessage";
 import ProgressOrError from "./ProgressOrError";
 import Table from "./Table";
-import { CLEARED_STATE_FILTER } from "../../constants";
+import { CLEARED_STATE_FILTER, ENTER_KEY } from "../../constants";
 import ExportColumnsDialog from "../dialogs/ExportColumnsDialog";
 
 const styles = (theme) => ({
@@ -173,7 +173,7 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2 || (this.props.exportable && entries.length>=1)) {
+    if (entries.length > 2 || (this.props.exportable && entries.length >= 1)) {
       return this.renderMenu(entries, actionsContributionKey);
     } else {
       return this.renderButtons(entries, actionsContributionKey);
@@ -199,6 +199,7 @@ class Searcher extends Component {
   };
 
   componentDidMount() {
+    document.addEventListener("keypress", this.handleEnter);
     const cacheKey = this._getCacheKey();
     var filters = this.props.filtersCache[cacheKey] || this.props.defaultFilters || {};
     this.setState(
@@ -269,17 +270,21 @@ class Searcher extends Component {
         filters[filter.id] = { value: filter.value, filter: filter.filter };
       }
     });
-    if(this.props.canFetch == false ){
-    this.setState({ filters });
+    if (this.props.canFetch == false) {
+      this.setState({ filters });
     }
-    else if(this.props.canFetch == undefined || this.state.canFetch == true ){
+    else if (this.props.canFetch == undefined || this.state.canFetch == true) {
       this.setState({ filters }, (e) => this.applyFilters())
     }
 
+    if (this.props.onChangeFilters) {
+      this.props.onChangeFilters(filters); // Pass updated filters to parent
+    }
   };
 
-  handleEnter = (event) =>{
-    if (event.key == "Enter"){
+  handleEnter = (event) => {
+    const activeName = document.activeElement.name;
+    if (event.key == ENTER_KEY && !!activeName && activeName != 'enquiryField') {
       let filters = { ...this.state.filters };
       this.setState({ filters }, (e) => this.applyFilters())
     }
@@ -393,13 +398,13 @@ class Searcher extends Component {
       return this.props.sorts(filters).map((s) =>
         !!s
           ? [
-              () =>
-                this.setState(
-                  (state, props) => ({ orderBy: sort(state.orderBy, s[0], s[1]) }),
-                  (e) => this.props.fetch(this.filtersToQueryParams())
-                ),
-              () => formatSorter(this.state.orderBy, s[0], s[1]),
-            ]
+            () =>
+              this.setState(
+                (state, props) => ({ orderBy: sort(state.orderBy, s[0], s[1]) }),
+                (e) => this.props.fetch(this.filtersToQueryParams())
+              ),
+            () => formatSorter(this.state.orderBy, s[0], s[1]),
+          ]
           : [null, () => null]
       );
     }

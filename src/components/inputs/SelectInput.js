@@ -79,16 +79,16 @@ class SelectInput extends Component {
       <Fragment>
         {!readOnly && (
           <FormControl required={required} fullWidth className={classes.formControl}>
-            <InputLabel shrink={true} className={classes.label}>
+            {withLabel && <InputLabel shrink={true} className={classes.label}>
               {strLabel ?? <FormattedMessage module={module} id={label} />}
-            </InputLabel>
+            </InputLabel>}
             <Select
               readOnly={readOnly}
               inputProps={{
                 name: name,
                 id: `${_.uuid()}-input`,
               }}
-              value={!!value ? JSON.stringify(value) : null}
+              value={value !== null && value !== undefined ? JSON.stringify(value) : null}
               onChange={this._onChange}
               IconComponent={this.renderIconComponent()}
               disabled={disabled}

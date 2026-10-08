@@ -78,7 +78,8 @@ export function formatGQLString(str) {
     .replace(/[\f]/g, "\\f")
     .replace(/[\n]/g, "\\n")
     .replace(/[\r]/g, "\\r")
-    .replace(/[\t]/g, "\\t");
+    .replace(/[\t]/g, "\\t")
+    .replace(/[^\x00-\x7F]/g, (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
 }
 
 export function formatMutation(operationName, input, clientMutationLabel, clientMutationDetails) {

@@ -273,13 +273,13 @@ class Table extends Component {
                         (
                           localItemFormatters[0](i, iidx).props.children.props.value.packagetype != undefined &&
                           localItemFormatters[0](i, iidx).props.children.props.value.packagetype !== "S" && (
-
                             <table style={{ marginTop: 10, width: "90%" }}>
                               <tr>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[0]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[1]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[2]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[3]} /></TableCell>
+                                {localSubServiceHeaders.map((header, index) => (
+                                  <TableCell key={index}>
+                                    <FormattedMessage module={module} id={header} />
+                                  </TableCell>
+                                ))}
                               </tr>
                               {localsubServicesItemsFormattersReview &&
                                 localsubServicesItemsFormattersReview.map((s, sfidx) => {
@@ -295,15 +295,17 @@ class Table extends Component {
                     </Box>
                   )
                 } else {
+                  const cleanedHeaders = localHeaders.filter(Boolean);
                   return (
                     <Box style={{ width: "100%" }}>
                       <table style={{ width: "100%" }}>
                         {(items.length - iidx) == items.length && (
                           <tr>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[0]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[1]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[2]} /></TableCell>
-                            <TableCell><FormattedMessage module={module} id={localHeaders[3]} /></TableCell>
+                            {cleanedHeaders.map((header, index) => (
+                              <TableCell key={index}>
+                                <FormattedMessage module={module} id={header} />
+                              </TableCell>
+                            ))}
                           </tr>
                         )}
                         <tr>
@@ -333,13 +335,13 @@ class Table extends Component {
                         (
                           localItemFormatters[0](i, iidx).props.children.props.value.packagetype != undefined &&
                           localItemFormatters[0](i, iidx).props.children.props.value.packagetype !== "S" && (
-
                             <table style={{ marginTop: 10, width: "90%" }}>
                               <tr>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[0]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[1]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[2]} /></TableCell>
-                                <TableCell><FormattedMessage module={module} id={localSubServiceHeaders[3]} /></TableCell>
+                                {localSubServiceHeaders.map((header, index) => (
+                                  <TableCell key={index}>
+                                    <FormattedMessage module={module} id={header} />
+                                  </TableCell>
+                                ))}
                               </tr>
                               {localSubServicesItemsFormatters &&
                                 localSubServicesItemsFormatters.map((s, sfidx) => {

@@ -34,7 +34,6 @@ export function getTimeDifferenceInDays(_firstDate, _secondDate) {
 
   return timeInDays;
 }
-
 export function getTimeDifferenceInDaysFromToday(dateToCheck) {
   const currentDate = new Date();
   return getTimeDifferenceInDays(dateToCheck, currentDate);

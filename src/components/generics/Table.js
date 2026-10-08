@@ -273,6 +273,7 @@ class Table extends Component {
                         <Box
                           style={{
                             width: "100%",
+                            whiteSpace: "nowrap",
                             cursor: headerActions.length > idx && !!headerActions[idx][0] ? "pointer" : "",
                           }}
                           onClick={headerActions.length > idx ? headerActions[idx][0] : null}
@@ -345,6 +346,7 @@ class Table extends Component {
                       return (
                         <TableCell
                           colSpan={colSpans.length > fidx ? colSpans[fidx] : 1}
+                          style={{ whiteSpace: "nowrap" }}
                           className={clsx(
                             !!rowLocked && rowLocked(i) ? classes.tableLockedCell : null,
                             !!rowHighlighted && rowHighlighted(i) ? classes.tableHighlightedCell : null,

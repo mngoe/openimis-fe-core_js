@@ -175,10 +175,13 @@ export function prepareMutation(operation, input, params = {}) {
 }
 
 export function waitForMutation(clientMutationId) {
+  console.log("----- Wait For Mutation Full ------");
   return async (dispatch) => {
     let attempts = 0;
     let res;
     do {
+      console.log("----- Wait For Mutation------");
+      console.log(attempts);
       if (res) {
         await new Promise((resolve) => setTimeout(resolve, 100 * attempts));
       }
@@ -205,7 +208,13 @@ export function waitForMutation(clientMutationId) {
         return null;
       }
       res = response.payload.data.mutationLogs?.edges[0]?.node;
+      
     } while ((!res || res.status === 0) && attempts++ < 10);
+    console.log("----- Wait For Mutation While ------");
+    console.log(!res);
+    console.log(res.status === 0);
+    console.log(!res || res.status === 0);
+    console.log(attempts);
     if (res && res.status === 1 && res.error) {
       res.error = JSON.parse(res.error);
     }
@@ -219,13 +228,20 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
     clientMutationId = uuid.uuid();
     variables.input.clientMutationId = clientMutationId;
   }
+  console.log("graphQlMutation");
+  console.log("Mutation :")
+  console.log(mutation);
   return async (dispatch) => {
     const response = await dispatch(graphqlWithVariables(mutation, variables, type, params, customHeaders));
+    console.log("graphQlMutation Return Async");
     if (clientMutationId) {
+      console.log("Dispatch fetchMutation");
       dispatch(fetchMutation(clientMutationId));
+      console.log(wait);
       if (wait) {
         return dispatch(waitForMutation(clientMutationId));
       } else {
+        console.log(response?.payload?.data);
         return response?.payload?.data;
       }
     }
@@ -233,17 +249,98 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
   };
 }
 
+import * as Sentry from "@sentry/react";
+
 export function fetch(config) {
+
   return async (dispatch) => {
-    return dispatch({
-      [RSAA]: {
-        ...config,
-        headers: {
-          "Content-Type": "application/json",
-          ...config.headers,
+    let action;
+
+    try {
+      action = await dispatch({
+        [RSAA]: {
+          ...config,
+          headers: {
+            "Content-Type": "application/json",
+            ...config.headers,
+          },
         },
-      },
-    });
+      });
+    } catch (err) {
+      const errorMessage = "Server not responding";
+      Sentry.captureException(new Error(errorMessage), {
+        level: "error",
+        tags: {
+          endpoint: config.endpoint,
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint: config.endpoint,
+          body: config.body,
+          originalError: err,
+        },
+      });
+      return {
+        error: true,
+        payload: { message: errorMessage },
+      };
+    }
+
+    const endpoint = config.endpoint;
+    const response = action?.payload?.response;
+    const status = response?.status;
+    const statusText = response?.statusText;
+    const gqlErrors = response?.errors;
+    const message = action?.payload?.message || action?.error?.message;
+    
+    if (action.error) {
+      let errorMessage = "";
+      if (!response && !message) {
+        errorMessage = "Server not responding";
+      }
+      if (status) {
+        errorMessage = `HTTP ${status}: ${statusText || "Unknown status"}`;
+      } else if (gqlErrors?.length > 0) {
+        errorMessage = `GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`;
+      } else if (message) {
+        errorMessage = `Network or API Error: ${message}`;
+      } else {
+        errorMessage = "Unknown error during API call";
+      }
+
+      Sentry.captureException(new Error(errorMessage), {
+        level: "error",
+        tags: {
+          endpoint,
+          status: status || "no-status",
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint,
+          status,
+          statusText,
+          body: config.body,
+          response: action.payload,
+        },
+      });
+    }
+
+    if (!action.error && gqlErrors && gqlErrors.length > 0) {
+      Sentry.captureException(new Error(`GraphQL Error: ${gqlErrors.map(e => e.message).join("; ")}`), {
+        level: "error",
+        tags: {
+          endpoint,
+          type: config.method || "unknown-method",
+        },
+        extra: {
+          endpoint,
+          errors: gqlErrors,
+          query: config.body,
+        },
+      });
+    }
+
+    return action;
   };
 }
 
@@ -336,6 +433,7 @@ export function logout() {
 }
 
 export function fetchMutation(clientMutationId) {
+  console.log("fetchMutation", clientMutationId);
   const payload = formatPageQuery(
     "mutationLogs",
     [`clientMutationId: "${clientMutationId}"`],
@@ -347,14 +445,15 @@ export function fetchMutation(clientMutationId) {
       "clientMutationLabel",
       "clientMutationDetails",
       "requestDateTime",
-      // "jsonExt",
-      //"autogeneratedCode"
+      "jsonExt",
+      "autogeneratedCode"
     ],
   );
   return graphql(payload, "CORE_MUTATION");
 }
 
 export function fetchHistoricalMutations(pageSize, afterCursor) {
+  console.log("fetchHistoricalMutations", pageSize, afterCursor);
   let filters = [`first: ${pageSize}`];
   if (!!afterCursor) {
     filters.push(`after: "${afterCursor}"`);
@@ -368,7 +467,7 @@ export function fetchHistoricalMutations(pageSize, afterCursor) {
     "clientMutationLabel",
     "clientMutationDetails",
     "requestDateTime",
-    // "jsonExt",
+    "jsonExt",
   ]);
   return graphql(payload, "CORE_HISTORICAL_MUTATIONS");
 }
