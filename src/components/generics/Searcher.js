@@ -284,7 +284,7 @@ class Searcher extends Component {
 
   handleEnter = (event) => {
     const activeName = document.activeElement.name;
-    if (event.key == ENTER_KEY && !!activeName && activeName != 'enquiryField') {
+    if (event.key === ENTER_KEY && !!activeName && activeName != 'enquiryField') {
       let filters = { ...this.state.filters };
       this.setState({ filters }, (e) => this.applyFilters())
     }
