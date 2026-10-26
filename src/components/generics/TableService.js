@@ -144,7 +144,6 @@ class Table extends Component {
       header,
       preHeaders,
       headers,
-      columnWidths = [],
       aligns = [],
       headerSpans = [],
       headerActions = [],
@@ -173,7 +172,6 @@ class Table extends Component {
       subServiceHeaders
     } = this.props;
     let localHeaders = [...(headers || [])];
-    let localColumnWidths = [...(columnWidths || [])];
     let localSubServiceHeaders = [...(subServiceHeaders || [])];
     let localPreHeaders = !!preHeaders ? [...preHeaders] : null;
     let localItemFormatters = [...itemFormatters];
@@ -188,7 +186,6 @@ class Table extends Component {
         if (!!headerSpans && headerSpans.length > i) headerSpans.splice(i, 1);
         if (!!headerActions && headerActions.length > i) headerActions.splice(i, 1);
         if (!!colSpans && colSpans.length > i) colSpans.splice(i, 1);
-        if (localColumnWidths.length > i) localColumnWidths.splice(i, 1);
         localHeaders.splice(i, 1);
         localItemFormatters.splice(i, 1);
       }
@@ -241,18 +238,11 @@ class Table extends Component {
                   return (
                     <Box style={{ width: "100%" }}>
                       <table style={{ width: "100%" }}>
-                        {localColumnWidths.length > 0 && (
-                          <colgroup>
-                            {localColumnWidths.map((width, widthIndex) => (
-                              <col key={`col-${widthIndex}`} style={{ width }} />
-                            ))}
-                          </colgroup>
-                        )}
                         {(items.length - iidx) == items.length && (
                           <tr>
                             {localHeaders.map((header, headerIndex) => (
                               <TableCell key={`header-${headerIndex}`}>
-                                <FormattedMessage module={module} id={header} />
+                                {!!header && <FormattedMessage module={module} id={header} />}
                               </TableCell>
                             ))}
                           </tr>
@@ -309,18 +299,11 @@ class Table extends Component {
                   return (
                     <Box style={{ width: "100%" }}>
                       <table style={{ width: "100%" }}>
-                        {localColumnWidths.length > 0 && (
-                          <colgroup>
-                            {localColumnWidths.map((width, widthIndex) => (
-                              <col key={`col-${widthIndex}`} style={{ width }} />
-                            ))}
-                          </colgroup>
-                        )}
                         {(items.length - iidx) == items.length && (
                           <tr>
                             {localHeaders.map((header, headerIndex) => (
                               <TableCell key={`header-${headerIndex}`}>
-                                <FormattedMessage module={module} id={header} />
+                                {!!header && <FormattedMessage module={module} id={header} />}
                               </TableCell>
                             ))}
                           </tr>

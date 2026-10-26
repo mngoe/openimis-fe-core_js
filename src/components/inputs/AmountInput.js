@@ -4,7 +4,7 @@ import { InputAdornment } from "@material-ui/core";
 import NumberInput from "./NumberInput";
 import { useModulesManager } from "../../helpers/modules";
 
-const AmountInput = ({ intl, inputMinValue = 0, showCurrency = true, ...props }) => {
+const AmountInput = ({ intl, inputMinValue = 0, ...props }) => {
   const modulesManager = useModulesManager();
   const position = modulesManager.getConf("fe-core", "AmountInput.currencyPosition", "start");
 
@@ -13,14 +13,11 @@ const AmountInput = ({ intl, inputMinValue = 0, showCurrency = true, ...props })
   }
 
   const extraProps = {
+    [`${position}Adornment`]: (
+      <InputAdornment position={position}>{intl.formatMessage({ id: "currency" })}</InputAdornment>
+    ),
     min: inputMinValue,
   };
-
-  if (showCurrency) {
-    extraProps[`${position}Adornment`] = (
-      <InputAdornment position={position}>{intl.formatMessage({ id: "currency" })}</InputAdornment>
-    );
-  }
 
   return <NumberInput {...props} {...extraProps} />;
 };
