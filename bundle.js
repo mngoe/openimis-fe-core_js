@@ -355,7 +355,7 @@ function formatPageQueryWithCount(entity, filters, projections) {
 }
 function formatGQLString(str) {
   if (!str) return str;
-  return str.replace(/[\"]/g, '\\"').replace(/[\\]/g, "\\\\").replace(/[\/]/g, "\\/").replace(/[\b]/g, "\\b").replace(/[\f]/g, "\\f").replace(/[\n]/g, "\\n").replace(/[\r]/g, "\\r").replace(/[\t]/g, "\\t").replace(/[^\x00-\x7F]/g, function (c) {
+  return str.replace(/[\\]/g, "\\\\").replace(/[\"]/g, '\\"').replace(/[\/]/g, "\\/").replace(/[\b]/g, "\\b").replace(/[\f]/g, "\\f").replace(/[\n]/g, "\\n").replace(/[\r]/g, "\\r").replace(/[\t]/g, "\\t").replace(/[^\x00-\x7F]/g, function (c) {
     return "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0");
   });
 }
