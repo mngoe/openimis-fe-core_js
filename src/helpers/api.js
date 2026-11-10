@@ -71,8 +71,8 @@ export function formatPageQueryWithCount(entity, filters, projections) {
 export function formatGQLString(str) {
   if (!str) return str;
   return str
-    .replace(/[\"]/g, '\\"')
     .replace(/[\\]/g, "\\\\")
+    .replace(/[\"]/g, '\\"')
     .replace(/[\/]/g, "\\/")
     .replace(/[\b]/g, "\\b")
     .replace(/[\f]/g, "\\f")
